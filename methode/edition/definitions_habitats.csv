@@ -1,0 +1,192 @@
+code;definition
+VB.1;Emprise au sol des constructions : bâtiments, annexes, ouvrages couverts. Surface scellée, sans sol vivant ni végétation, quelle que soit l'occupation de la toiture (une toiture végétalisée se saisit en plus, en VB.11 à VB.13).
+VB.2;Surfaces revêtues d'un matériau étanche à l'air et à l'eau, hors bâtiments : voiries, stationnements, cours et dallages posés sur mortier ou à joints étanches, aires techniques.
+VB.3;Surfaces minérales perméables sans végétation prévue : stabilisés, graviers, sables compactés, pavés ou dalles à joints sablés posés sur lit drainant, cheminements à liant hydraulique.
+VB.4;Surfaces stabilisées perméables conçues pour porter une végétation durable sous une faible fréquentation : dalles alvéolées engazonnées, pavés à joints engazonnés, mélange terre-pierre engazonné.
+VB.5;Pelouses à forte fréquentation ou tondues ras et souvent : gazons d'agrément, aires de jeux et terrains de sport engazonnés, accotements tondus. Flore pauvre, dominée par quelques graminées semées.
+VB.6;Plantations ornementales de vivaces, d'arbustes ou de couvre-sols, entretenues : massifs, bordures, talus plantés. Espèces souvent horticoles ou exotiques, structure végétale simple.
+VB.7;Jardins privatifs ou communs associés à l'habitat : mosaïque de pelouse, de massifs, d'arbustes et parfois d'arbres, entretenue par les occupants.
+VB.8;Végétation herbacée spontanée d'anciens terrains bâtis, industriels ou ferroviaires, en mosaïque avec du sol nu, des gravats et des communautés pionnières. Peut abriter une flore et une faune remarquables quand la mosaïque est variée.
+VB.9;Friche colonisée par les ligneux (plus de 50 % de couvert d'arbustes ou de jeunes arbres), sur sol remanié et souvent enrichi.
+VB.10;Sol mis à nu par un chantier, un terrassement ou une démolition, sans couvert végétal établi.
+VB.11;Toiture végétalisée à faible épaisseur de substrat (moins de 15 cm), le plus souvent plantée d'orpins, de mousses et de graminées basses, sans arrosage.
+VB.12;Toiture végétalisée de 15 à 30 cm de substrat, ou toiture dite biodiverse : substrat d'épaisseur variée, semis de plantes sauvages, éléments d'habitat (tas de sable, pierres, bois).
+VB.13;Toiture ou dalle aménagée en jardin, à plus de 30 cm de substrat, portant pelouses, vivaces, arbustes, parfois petits arbres, généralement arrosée.
+VB.15;Façade couverte de plantes grimpantes enracinées dans le sol, avec ou sans support.
+VB.16;Mur végétalisé par des modules, bacs ou nappes de culture fixés à la façade, alimentés par un système d'irrigation.
+VB.18a;Arbre isolé, alignement ou groupe d'arbres d'essences indigènes, hors boisement, en milieu urbain. Surface : houppier projeté.
+VB.18b;Arbre isolé, alignement ou groupe d'arbres d'essences non indigènes, hors boisement, en milieu urbain. Surface : houppier projeté.
+VB.19;Ouvrage végétalisé de gestion des eaux pluviales à ciel ouvert : noue, jardin de pluie, bassin paysager, alimenté par le ruissellement et généralement temporairement en eau.
+VB.20;Mare ou petit plan d'eau créé, à berges en pente douce et sans revêtement étanche visible, alimenté par la nappe, le ruissellement ou la pluie.
+VB.21;Bassin d'agrément, fontaine, miroir d'eau ou plan d'eau dont l'eau est traitée, recyclée ou chlorée, ou dont les berges sont maçonnées.
+VB.22;Potager, jardin partagé ou jardin familial cultivé, avec ses allées, abris et bordures.
+VB.23;Plantations en bacs, jardinières ou caissons posés sur un sol revêtu, sans continuité avec le sol en place.
+VB.24;Bassin de rétention ou d'infiltration des eaux pluviales sans aménagement paysager, sec ou en eau, à berges talutées ou maçonnées.
+VB.25;Plate-forme ferroviaire en service ou non, ballast et abords immédiats.
+VB.26;Prairie gérée par fauche tardive en milieu urbain ou périurbain, semée ou spontanée, à flore moyennement riche, sans fertilisation.
+C1.1;Plans d'eau pauvres en nutriments (azote, phosphore), le plus souvent acides (pH 4 à 6), y compris les eaux calcaires oligotrophes non polluées où se développent des characées. Les herbiers de Callitriche, de potamots et d'isoètes y sont souvent clairsemés. Les eaux tourbeuses dystrophes relèvent de C1.4.
+C1.2;Lacs et mares aux eaux assez riches en nutriments et en bases dissoutes (pH souvent 6 à 7). Beaucoup de lacs et d'étangs de plaine non pollués sont naturellement mésotrophes et portent des herbiers denses, qui disparaissent quand l'eau se pollue.
+C1.3;Lacs et mares aux eaux grises ou vert-bleu plus ou moins troubles, très riches en nutriments et en bases (pH le plus souvent supérieur à 7). Une eutrophie modérée permet des herbiers denses, qui disparaissent si la charge en nutriments augmente encore.
+C1.4;Lacs et mares aux eaux acides riches en humus, souvent teintées de brun (pH souvent 3 à 5).
+C1.5;Lacs, étangs et mares saumâtres, salés ou hypersalés éloignés du littoral, avec leur plancton et leur faune pélagique.
+C1.6;Plans d'eau douce, ou parties de plans d'eau, qui s'assèchent périodiquement, avec leurs communautés animales et algales. Les végétations de la phase sèche relèvent de C3.5 à C3.7.
+C2.1;Sources et résurgences, avec les communautés animales et végétales liées à leur microclimat et à leur régime hydrique particuliers. Les sources noyées dans une végétation de bas-marais relèvent de D2.2 ou D4.1.
+C2.2;Cours d'eau permanents à courant rapide et turbulent : ruisseaux, torrents, cascades, rapides, sur fond de roches, de pierres ou de graviers. Les îlots et bancs exondés relèvent de C3.
+C2.3;Cours d'eau permanents à courant lent ou laminaire, sur fond de sable ou de vase. Les îlots et bancs exondés relèvent de C3.
+C2.4;Parties des cours d'eau soumises à la marée, en amont de l'estuaire.
+C2.5;Cours d'eau qui cessent de couler une partie de l'année, laissant un lit sec ou des vasques. La phase sèche relève de C3.5 à C3.7.
+C2.6;Eau courante qui ne suit pas un lit mais suinte sur les rochers.
+C3.1;Végétations de bordure des lacs, rivières et ruisseaux, de composition mélangée.
+C3.2;Ceintures de grands hélophytes au bord des plans d'eau et des cours d'eau, pauvres en espèces et souvent dominées par une seule : laîches, marisque, prêle des eaux, glycérie aquatique, roseau, sagittaire, scirpes, rubaniers, massettes. Les roselières terrestres sans eau libre relèvent de D5.
+C3.3;Ceintures méditerranéennes de grandes cannes (canne de Provence, canne de Ravenne) le long des cours d'eau et des plans d'eau permanents ou temporaires.
+C3.4;Végétations amphibies pauvres en espèces et à croissance lente : gazons d'isoètes des rives oligotrophes, cressonnières des ruisseaux, gazons méditerranéens de petits scirpes.
+C3.5;Rives et fonds exondés vaseux, sableux ou graveleux des lacs et des rivières, à couvert modéré de plantes annuelles (bidents, souchets, renouées) développées pendant l'exondation, et de vivaces tolérant une immersion temporaire.
+C3.6;Bancs de sable, de graviers et de vase dans ou au bord des rivières, graviers des torrents, fonds vaseux de rivières et de lacs asséchés, y compris salés.
+C3.7;Rochers, dalles et blocs exondés périodiquement au bord des rivières et des lacs et dans la zone de marnage des retenues.
+C3.8;Abords de vasques sous les cascades, aspergés en permanence par les embruns d'eau douce.
+D1.1;Tourbières bombées très pauvres en nutriments et très acides, alimentées seulement par la pluie, dont la tourbe est faite surtout de sphaignes. Leur surface associe buttes, gouilles et végétations de sphaignes, de linaigrette engainante, de canneberge, d'andromède et de rossolis. Elles abritent une faune spécialisée (libellules, papillons, araignées) et des espèces rares aux populations fragmentées.
+D1.2;Tourbières ombrotrophes formées sur terrain plat ou en pente faible sous climat océanique très pluvieux, à surface de buttes et de gouilles dominées par les sphaignes, la narthécie, la molinie, la linaigrette et la callune.
+D2.1;Tourbières topogènes alimentées par les eaux de ruissellement du bassin versant, le plus souvent en complexes de bas-marais acides, de tourbières de transition et de gouilles.
+D2.2;Tourbières, suintements et sources végétalisées à eau modérément acide, où la nappe affleure en permanence. Végétation dominée par de petites laîches (laîche blanchâtre, laîche étoilée, laîche noire, linaigrette à feuilles étroites), des mousses brunes ou des sphaignes.
+D2.3;Zones humides incomplètement atterries, à végétation turfigène sur eau acide : radeaux flottants et tremblants à trèfle d'eau, comaret, laîche à long rhizome, laîche des bourbiers, rhynchospore blanc.
+D4.1;Zones humides et sources à alimentation riche en bases, souvent calcaire, saturées en eau une partie de l'année ou en permanence. Végétation de petites ou grandes graminoïdes (laîches, choin, molinie) ou de hautes herbes, souvent avec un tapis de mousses brunes ; dépôts de tuf dans les sources pétrifiantes. Habitats riches en espèces spécialisées, parmi les plus menacés d'Europe.
+D4.2;Communautés pionnières rares des substrats calcaires détrempés d'eau froide, en bordure des sources et des torrents glaciaires des étages alpin et subalpin ou sur les sables des rivières froides, à laîche bicolore, kobrésie, jonc arctique, petites massettes.
+D5.1;Peuplements atterris de grands hélophytes (roseau, scirpes, massettes, prêles), pauvres en espèces et souvent dominés par une seule, sur sol gorgé d'eau.
+D5.2;Peuplements atterris de grandes laîches, de marisque ou de souchets, pauvres en espèces, sur sol gorgé d'eau.
+D5.3;Peuplements de grands joncs envahissant des marais surpâturés ou piétinés, ou des bas-marais et tourbières eutrophisés.
+D6.1;Prés salés et peuplements de salicornes des bassins salés de l'intérieur des terres, communautés rares et très menacées.
+D6.2;Peuplements atterris de grands hélophytes tolérants au sel, roseau notamment.
+E1.1;Végétation ouverte et thermophile des sables et des débris rocheux, formée surtout d'annuelles et de plantes grasses, sur sols calcaires ou siliceux.
+E1.2;Pelouses vivaces, souvent pauvres en nutriments et riches en espèces, des sols calcaires et basiques (pelouses des Festuco-Brometea).
+E1.3;Pelouses xérophiles méso- et thermoméditerranéennes, le plus souvent ouvertes, à graminées courtes et riches en annuelles, sur substrats basiques souvent calcaires.
+E1.4;Formations méditerranéennes dominées par de grandes graminées, entre lesquelles poussent des annuelles ou des chaméphytes, sur sols siliceux ou basiques.
+E1.5;Pelouses vivaces ouvertes riches en chaméphytes de l'étage des chênaies thermophiles, maintenues par un pâturage et une fauche extensifs.
+E1.6;Pelouses d'annuelles (bromes, égilopes, avoines, vulpies, crucifères, légumineuses) des sols légèrement enrichis en nitrates, pionnières des sols nus, des bords de route et des espaces interstitiels des cultures.
+E1.7;Pelouses vivaces fermées, sèches à mésophiles, des sols acides des régions atlantiques et subatlantiques, à nard, fétuques, agrostide capillaire, danthonie, flouve, canche flexueuse, arnica, potentille tormentille.
+E1.8;Pelouses vivaces des sols acides de l'étage supraméditerranéen, et pelouses siliceuses méditerranéennes riches en annuelles sur sols superficiels.
+E1.9;Pelouses ouvertes, souvent riches en annuelles, des sols bruts non calcaires, notamment des dunes continentales et des sables fixés.
+E1.A;Terrains sableux ouverts à annuelles printanières de la région méditerranéenne, et pelouses vivaces ouvertes des sols siliceux squelettiques de l'étage supraméditerranéen.
+E1.B;Pelouses rases et sèches, souvent riches en lichens et mousses, des sols riches en métaux lourds (zinc, plomb), à espèces et écotypes adaptés (Violetalia calaminariae).
+E1.C;Terres sèches à moins de 10 % d'arbustes, dominées par des plantes non appétentes (asphodèles, chardons, férules, phlomis), issues le plus souvent du surpâturage des garrigues.
+E1.D;Pelouses xériques qui ne sont actuellement ni fauchées ni pâturées.
+E1.E;Végétations basses d'annuelles des lieux secs, chauds et piétinés.
+E2.1;Pâtures mésotrophes régulièrement pâturées et fertilisées, sur sols bien drainés, à ray-grass, crételle, pâturins, fétuques, trèfle rampant, pâquerette, renoncules.
+E2.2;Prairies de fauche mésotrophes de basse et moyenne altitude, fertilisées et bien drainées, à fromental, avoine dorée, cerfeuil sauvage, berce, carotte, knautie, marguerite, géranium des prés.
+E2.3;Prairies de fauche mésotrophes à eutrophes, souvent riches en espèces, des étages montagnard et subalpin.
+E2.6;Prairies permanentes fortement fertilisées ou réensemencées, parfois désherbées sélectivement, à flore et faune très appauvries, utilisées pour le pâturage, la protection des sols, l'agrément ou les loisirs, terrains de sport compris.
+E2.7;Prairies mésiques qui ne sont actuellement ni fauchées ni pâturées.
+E2.8;Végétations basses d'annuelles des lieux mésophiles piétinés, à sagines, spergulaire rouge, jonc des crapauds, pâturin couché.
+E3.1;Prairies humides méditerranéennes de hautes graminées et de joncs, à scirpe-jonc, agrostide stolonifère, molinie, choin noirâtre, orchidées des prairies humides.
+E3.2;Prairies très rases des sols compacts imperméables ou des marnes, humides une grande partie de l'année et desséchées en été, de la région méditerranéenne.
+E3.4;Prairies humides et prairies inondables eutrophes ou mésotrophes, dominées par des graminées, des joncs ou le scirpe des bois.
+E3.5;Prairies des sols humides pauvres en nutriments, souvent tourbeux : prairies acides à molinie et prairies humides basses à jonc rude, nard et scirpe cespiteux.
+E4.1;Zones végétalisées où la neige persiste tard dans la saison, dominées par des mousses, des hépatiques, des lichens, des graminoïdes et de petites herbes.
+E4.2;Sommets, crêtes et pentes exposés des montagnes, dominés par les mousses et les lichens.
+E4.3;Pelouses alpines et subalpines des roches cristallines, des substrats pauvres en calcaire ou des sols décalcifiés, à jonc trifide, arméries, gentianes, benoîte des montagnes, phytéume hémisphérique.
+E4.4;Pelouses alpines et subalpines des sols riches en bases des hautes montagnes, à dryade, gentianes, alchémilles, anthyllide, aster des Alpes, hélianthèmes.
+E4.5;Pâtures enrichies des étages subalpin et alpin inférieur. Les prairies de fauche enrichies relèvent de E2.3.
+E5.1;Peuplements d'herbacées qui se développent sur des terrains urbains ou agricoles abandonnés, des terrains remis en état, les réseaux de transport ou les sites de dépôt de déchets.
+E5.2;Ourlets herbacés et arbustifs thermophiles et résistants à la sécheresse, formant une ceinture entre les pelouses et le manteau forestier, côté ensoleillé, sur sols pauvres.
+E5.3;Formations étendues et souvent fermées dominées par la fougère aigle.
+E5.4;Végétations de hautes herbes et de fougères, souvent dominantes le long des cours d'eau, dans les prairies humides et à l'ombre des lisières forestières (mégaphorbiaies).
+E5.5;Mégaphorbiaies luxuriantes des sols profonds et humides des étages montagnard à alpin, surtout subalpin, à laitue des Alpes, cirses, géranium des bois, aconits, adénostyles, vérâtre, trolle.
+E6.1;Terres salées végétalisées des régions côtières méditerranéennes et des bords de bassins salés, souvent dominées par les statices ou le sparte, à sols temporairement imprégnés d'eau salée et très secs en été.
+E7.1;Grandes étendues de prairies parsemées d'arbres plantés à larges espacements, des régions atlantiques, souvent closes et pâturées.
+E7.2;Prairies parsemées d'arbres plantés à larges espacements, à l'est de la zone atlantique.
+E7.3;Paysage du sud-ouest de la péninsule Ibérique où cultures, pâtures et maquis sont ombragés par un couvert plus ou moins ouvert de chênes indigènes (chêne-liège, chêne vert, chêne tauzin).
+F2.1;Fourrés de saules nains, rarement plus hauts que 1,5 m, des combes à neige des montagnes.
+F2.2;Formations naines ou prostrées des étages alpin et subalpin, dominées par des éricacées, la dryade, des genévriers nains ou des genêts.
+F2.3;Fourrés subalpins d'aulnes, de bouleaux, de saules et de rosacées (amélanchier, sorbiers, ronces), de moins de 5 m, souvent accompagnés de hautes herbes.
+F2.4;Fourrés de conifères nains ou tordus proches de la limite des arbres, à couvert souvent incomplet (pin couché notamment).
+F3.1;Fourrés de recolonisation ou de dégradation, surtout caducifoliés, d'affinités atlantiques à subcontinentales : buis, noisetier, genêt à balais, genévrier, prunellier, ronces, ajonc d'Europe.
+F3.2;Fourrés de recolonisation ou de dégradation, surtout caducifoliés, des étages subméditerranéen et supraméditerranéen.
+F4.1;Landes humides à éricacées des zones atlantiques et subatlantiques, sur sols tourbeux ou semi-tourbeux engorgés une partie de l'année.
+F4.2;Landes des sols siliceux et podzoliques rarement ou jamais engorgés, sous climat atlantique ou subatlantique humide, des plaines et basses montagnes.
+F5.1;Végétation sempervirente sclérophylle ou laurifoliée à couvert arborescent plus ou moins dense et à strate arbustive épaisse, issue le plus souvent de la dégradation ou de la reconstitution des forêts sempervirentes.
+F5.2;Végétation arbustive sempervirente sclérophylle à couvert plus ou moins fermé, dominée par des espèces qui ne deviennent pas de grands arbres : arbousier, bruyères arborescentes, genévrier oxycèdre, filaires dans le haut maquis, cistes, bruyères, genêts et lavandes dans le maquis bas.
+F5.3;Fourrés mêlant arbustes sclérophylles sempervirents et caducifoliés, à la périphérie de l'aire des maquis, issus de la dégradation des chênaies thermophiles.
+F5.4;Fourrés de genêt d'Espagne des régions méditerranéennes et subméditerranéennes.
+F5.5;Formations arbustives de l'étage thermoméditerranéen, à lentisque, myrte, filaires, euphorbe arborescente, calicotome.
+F6.1;Formations arbustives souvent basses, surtout sur sols calcaires, de l'étage mésoméditerranéen occidental (garrigues).
+F6.6;Formations arbustives basses d'affinité méditerranéenne de l'étage supraméditerranéen, issues de la dégradation des chênaies thermophiles ou sempervirentes.
+F6.8;Formations arbustives halophiles des sols secs des régions méditerranéennes peu arrosées.
+F7.1;Landes épineuses, surtout des falaises littorales, de la Méditerranée occidentale.
+F7.2;Landes épineuses, surtout littorales, de la Méditerranée centrale.
+F7.4;Landes en coussinets, souvent épineux, des hautes montagnes sèches méditerranéennes, primaires ou issues du pâturage.
+F9.1;Fourrés riverains de saules à larges feuilles, d'aulnes, de saules à feuilles étroites de moins de 5 m, d'argousier ou de tamarin d'Allemagne.
+F9.2;Bois bas et fourrés de saules arbustifs colonisant les bas-marais, les plaines inondables marécageuses et les bords d'étangs, avec bourdaine, nerprun, aulne ou bouleau pubescent.
+F9.3;Galeries et fourrés de tamaris, de laurier-rose et de gattilier des cours d'eau permanents ou temporaires de l'étage thermoméditerranéen.
+FA.1;Haies plantées d'espèces non indigènes dans la région, exotiques ou européennes hors de leur aire naturelle.
+FA.2;Haies d'espèces indigènes plantées en haie et taillées régulièrement.
+FA.3;Haies composées surtout d'espèces indigènes, avec en moyenne au moins cinq espèces ligneuses indigènes par 25 m, ronce et grimpantes non comptées.
+FA.4;Haies composées surtout d'espèces indigènes, non taillées régulièrement, avec en moyenne moins de cinq espèces ligneuses par 25 m.
+FB.1;Plantations d'arbustes récoltés entiers, pépinières d'arbustes comprises.
+FB.2;Plantations d'arbustes récoltés pour leurs feuilles ou leurs rameaux, oseraies comprises.
+FB.3;Plantations d'arbres nains, d'arbustes, d'espaliers ou de grimpantes ligneuses autres que la vigne, cultivés pour leurs fruits ou leurs fleurs (groseilliers, framboisiers).
+FB.4;Vignobles.
+G1.1;Forêts riveraines à une ou quelques essences dominantes, aulnes, bouleaux, peupliers ou saules, dont les saulaies arborescentes à saules à feuilles étroites.
+G1.2;Forêts riveraines mêlées, parfois très structurées et riches en espèces, des plaines inondables et des galeries le long des rivières, à érables, frênes, ormes, chênes, peupliers et saules.
+G1.3;Forêts alluviales et galeries méditerranéennes, à frênes, platanes, peupliers, saules, ormes.
+G1.4;Forêts marécageuses de feuillus hors tourbe acide : aulnaies, peupleraies et chênaies marécageuses.
+G1.5;Boisements de feuillus sur tourbe acide humide, dominés par le bouleau pubescent ou plus rarement l'aulne glutineux, à sphaignes abondantes au sol.
+G1.6;Forêts dominées par le hêtre. Les forêts mixtes hêtre-sapin ou hêtre-sapin-épicéa de montagne relèvent de G4.6.
+G1.7;Forêts et bois des climats subméditerranéens et de l'étage supraméditerranéen, dominés par des chênes caducifoliés ou semi-caducifoliés thermophiles (chêne pubescent notamment), le châtaignier, le charme-houblon.
+G1.8;Forêts de chêne pédonculé ou de chêne sessile sur sols acides, à canche flexueuse, myrtille, fougère aigle, chèvrefeuille, houlque molle.
+G1.9;Forêts et bois dominés par les bouleaux, le tremble ou le sorbier des oiseleurs, hors forêts marécageuses, tourbeuses et riveraines.
+G1.A;Bois, le plus souvent mélangés, des sols riches à moyennement riches : érables, charme, frênes, chênes, tilleuls, ormes.
+G1.B;Aulnaies non riveraines et non marécageuses.
+G1.C;Plantations de feuillus caducifoliés pour la production de bois, d'espèces exotiques, d'espèces indigènes hors de leur aire ou en peuplements nettement artificiels, souvent monospécifiques (peupleraies notamment).
+G1.D;Peuplements d'arbres cultivés pour leurs fruits ou leurs fleurs, formant un couvert permanent à maturité. Les vergers anciens et extensifs abritent une flore et une faune riches.
+G2.1;Bois dominés par des chênes sempervirents arborescents : chêne vert, chêne-liège, chêne kermès.
+G2.2;Forêts sempervirentes laurifoliées ou mixtes des zones tempérées chaudes humides et des enclaves humides de la région méditerranéenne.
+G2.4;Bois thermoméditerranéens dominés par l'olivier sauvage, le caroubier, le lentisque ou le myrte, à couvert assez haut et fermé.
+G2.6;Bois dominés par le houx arborescent, notamment en Corse et en faciès des hêtraies et chênaies acidiphiles.
+G2.8;Plantations de feuillus sempervirents pour la production de bois, exotiques ou hors de leur aire, souvent monospécifiques (eucalyptus notamment).
+G2.9;Vergers et bosquets sempervirents, surtout oliveraies et agrumes.
+G3.1;Bois dominés par les sapins ou les épicéas.
+G3.2;Forêts subalpines dominées par le mélèze ou le pin cembro, en peuplements purs ou mélangés.
+G3.3;Forêts surtout subalpines dominées par le pin à crochets, ouvertes, à strate arbustive très développée.
+G3.4;Forêts de pin sylvestre des zones némorale et méditerranéenne.
+G3.5;Forêts dominées par des pins du groupe du pin noir (pin de Salzmann compris).
+G3.7;Forêts de pins thermophiles méditerranéens et thermo-atlantiques (pin d'Alep, pin maritime, pin pignon), souvent stades de succession des chênaies sempervirentes, plantations anciennes dans leur aire comprises.
+G3.9;Bois dominés par le cyprès, les genévriers arborescents ou l'if.
+G3.E;Bois de pins ou d'épicéas, parfois mêlés de bouleau pubescent, colonisant les tourbières et les bas-marais.
+G3.F;Plantations de conifères exotiques, ou européens hors de leur aire, ou indigènes en peuplements nettement artificiels, souvent monospécifiques (douglas notamment).
+G4.1;Forêts marécageuses de feuillus associées à des conifères des tourbières.
+G4.6;Forêts où le hêtre partage la canopée avec le sapin ou l'épicéa, caractéristiques de l'étage montagnard.
+G4.8;Forêts mixtes non riveraines, sans pins notables, associant hêtre, bouleaux, tremble ou sorbier à des sapins ou épicéas.
+G4.9;Forêts mixtes non riveraines, sans pins notables, associant les essences des boisements mésotrophes (chênes, charme, frênes, érables, tilleuls) à des cupressacées ou à l'if.
+G4.B;Forêts mêlant pins thermophiles méditerranéens et chênes caducifoliés thermophiles ou autres essences méridionales.
+G4.C;Forêts subméditerranéennes et supraméditerranéennes où les chênes caducifoliés thermophiles partagent la canopée avec le pin sylvestre, le pin noir ou d'autres pins thermophiles.
+G4.D;Forêts mêlant chênes sempervirents et pin noir.
+G4.E;Forêts mêlant chênes sempervirents et pins méditerranéens autres que le pin noir.
+G4.F;Plantations mixtes de conifères et de feuillus dont au moins une essence est exotique ou hors de son aire, ou plantations indigènes en peuplements nettement artificiels.
+G5.1;Lignes plus ou moins continues d'arbres pouvant dépasser 5 m de haut, au milieu de prairies, de cultures ou le long des routes, servant d'abri ou d'ombrage.
+G5.2;Plantations et petits bois de feuillus caducifoliés de moins d'environ 0,5 ha, gérés intensivement.
+G5.3;Plantations et petits bois de feuillus sempervirents de moins d'environ 0,5 ha, gérés intensivement.
+G5.4;Plantations et petits bois de conifères de moins d'environ 0,5 ha, gérés intensivement.
+G5.5;Plantations et petits bois mixtes de moins d'environ 0,5 ha, à 25 à 75 % de conifères.
+G5.6;Premiers stades de reconstitution ou de colonisation forestière, formés surtout de jeunes arbres d'essences de futaie de moins de 5 m, jeunes plantations indigènes comprises.
+G5.7;Taillis simples, jeunes plantations de moins de 5 m, cultures d'arbres nains ou d'arbustes récoltés entiers (taillis à courte rotation, sapins de Noël, pépinières).
+G5.8;Terrains récemment déboisés par coupe rase ou incendie, avec leur végétation de recolonisation tant qu'elle n'est pas dominée par un couvert arboré.
+H2.3;Éboulis siliceux d'altitude et des stations fraîches des montagnes tempérées.
+H2.4;Éboulis calcaires et calcschisteux d'altitude et des stations fraîches des montagnes tempérées, instables, à végétation clairsemée.
+H2.5;Éboulis siliceux des expositions chaudes des montagnes, des collines et des plaines méditerranéennes, et localement des stations chaudes de moyenne Europe.
+H2.6;Éboulis calcaires et calcschisteux des expositions chaudes des montagnes, des collines et des plaines méditerranéennes, et localement des stations chaudes de moyenne Europe.
+H3.1;Falaises continentales sèches non calcaires, colonisées par des associations végétales spécialisées en montagne et en région méditerranéenne.
+H3.2;Falaises continentales sèches calcaires, colonisées par des associations végétales spécialisées en montagne et en région méditerranéenne.
+H3.4;Rochers très humides, ruisselants, verticaux ou en surplomb, des collines, des montagnes et des plaines méditerranéennes.
+H3.5;Surfaces rocheuses plus ou moins planes mises à nu par l'érosion, nues ou colonisées par des mousses, des algues ou des lichens, lapiaz compris, avec des plantes vasculaires dans les fissures.
+H3.6;Rochers et affleurements siliceux colonisés par des communautés pionnières de joubarbes et d'orpins, avec lichens et mousses, aux étages montagnard et alpin.
+H5.2;Moraines glaciaires libérées de leur glace et pas encore revégétalisées.
+H5.3;Accumulations de sable, de blocs, de pierres, de galets ou de graviers d'origine naturelle, nues, couvertes de lichens ou de mousses ou colonisées par des herbes et arbustes épars (dunes continentales, moraines, chaos de blocs). Un sol nu de chantier relève de VB.10.
+H5.4;Humus brut non végétalisé, non issu d'un incendie.
+H5.5;Sol brûlé encore dépourvu de plantes vasculaires. Les bois récemment brûlés relèvent de G5.8.
+H5.6;Sol nu résultant du piétinement par l'homme ou les animaux.
+I1.1;Céréales et autres cultures sur de grandes surfaces continues de paysages d'openfield.
+I1.2;Cultures intensives de légumes, de fleurs ou de petits fruits, souvent en bandes alternées, jardins ouvriers et maraîchage compris.
+I1.3;Cultures, surtout céréalières, conduites de façon traditionnelle et extensive, abritant une flore messicole riche et menacée (nielle, bleuet, miroir de Vénus, adonis, pieds-d'alouette, coquelicots).
+I1.4;Champs inondés ou inondables cultivés en riz, qui peuvent servir d'habitat de substitution à des oiseaux d'eau quand ils sont peu traités.
+I1.5;Champs abandonnés ou en repos et autres espaces interstitiels sur sol remanié, colonisés par des plantes pionnières, introduites ou nitrophiles.
+I2.1;Grands jardins et parcs d'agrément, à végétation souvent introduite ou horticole mais pouvant compter de nombreuses espèces indigènes et une faune variée quand l'entretien est extensif.
+I2.3;Massifs et potagers de jardins abandonnés, rapidement colonisés par des plantes spontanées.
