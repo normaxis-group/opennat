@@ -129,7 +129,7 @@ def index_conventions(conv_utilisees):
     familles = {'H': 'habitats', 'S': 'sols', 'E': 'contexte, eau et seuils',
                 'C': 'connectivité', 'N': 'nuisances', 'T': 'temps',
                 'G': 'biodiversité grise', 'I': 'incertitude', 'B': 'Bnat',
-                'P': 'attestation au permis de construire'}
+                'P': 'attestation au permis de construire', 'R': 'relevés'}
     lignes = []
     for b in blocs:
         num, reste = b.split('\n', 1)

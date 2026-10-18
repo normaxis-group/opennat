@@ -57,4 +57,4 @@ Types : primaire = valeur lue telle quelle dans la source ; transposition = vale
 | C-T5 | 1 |
 | C-T6 | 1 |
 
-Conventions de `conventions.md` sans ligne de données (elles portent sur l'algorithme) : C-B1, C-G1, C-H4, C-I1, C-I2, C-P1, C-S2, C-T3, C-T7.
+Conventions de `conventions.md` sans ligne de données (elles portent sur l'algorithme) : C-B1, C-G1, C-H4, C-I1, C-I2, C-P1, C-R1, C-R2, C-R3, C-R4, C-S2, C-T3, C-T7.

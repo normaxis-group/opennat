@@ -2,7 +2,7 @@
 
 Une convention est une règle ou une valeur que OpenNAT fixe parce qu'aucune source ne la donne telle quelle. Chacune est numérotée, citée dans le texte de la méthode et dans la colonne `convention` des tables de `donnees/`, et soumise au Biodiversity Standard Council avec la méthode. Toutes sont « proposées, en attente de validation ».
 
-Familles : H habitats, S sols, E contexte, eau et seuils, C connectivité, N nuisances, T temps, G biodiversité grise, I incertitude, B Bnat, P attestation au permis de construire.
+Familles : H habitats, S sols, E contexte, eau et seuils, C connectivité, N nuisances, T temps, G biodiversité grise, R relevés, I incertitude, B Bnat, P attestation au permis de construire.
 
 Les conventions jouent le rôle des fiches d'application de la méthode Th-BCE : elles disent comment appliquer la méthode là où les sources se taisent. Le registre suit les trois catégories du registre des lectures d'OpenBCE : source muette (aucune source ne traite le point), convention de transposition (une source traite le point dans un autre cadre et la valeur est transposée), valeur de secours (une valeur est posée faute de mieux, avec une plage large).
 
@@ -38,7 +38,7 @@ La valeur d'un m² ne peut dépasser 1,15 m²HE, quel que soit le produit des fa
 
 ### C-H8
 Catégorie : convention de transposition.
-Les critères anglais renvoient aux espèces de l'annexe 9 du Wildlife and Countryside Act 1981. OpenNAT leur substitue les espèces exotiques envahissantes préoccupantes pour l'Union (règlement (UE) n° 1143/2014) et la liste nationale française des espèces végétales exotiques envahissantes.
+Les critères anglais renvoient aux espèces de l'annexe 9 du Wildlife and Countryside Act 1981 et, pour la grille urbaine, aux autres espèces nuisibles à la faune indigène « selon le jugement professionnel ». OpenNAT leur substitue : les espèces exotiques envahissantes préoccupantes pour l'Union (règlement (UE) n° 1143/2014 et règlements d'exécution qui fixent la liste, reproduite en partie 6), la liste nationale française, et les espèces que les listes régionales des conservatoires botaniques nationaux classent envahissantes avérées. Une espèce absente de la liste de l'Union, comme la renouée du Japon, compte dès qu'une liste régionale la classe envahissante avérée.
 
 ## Sols
 
@@ -171,6 +171,24 @@ L'occupation des sols des usines (acier, verre, plastiques, isolants minéraux, 
 ### C-G8
 Catégorie : convention de transposition.
 Les indicateurs de pollution du RSEE (acidification 106, eutrophisation 107 à 109, écotoxicité pour l'eau douce 116) sont repris tels quels et affichés à part, en unités de l'annexe II, faute de conversion sourcée vers la MSA.
+
+## Relevés
+
+### C-R1
+Catégorie : valeur de secours.
+Les critères floristiques se relèvent pendant la période où les espèces caractéristiques sont identifiables : en plaine, d'avril à juillet pour les prairies et pelouses, de mai à septembre pour les zones humides et mégaphorbiaies. Un relevé hors période répond « non » aux critères floristiques, sauf preuve contraire.
+
+### C-R2
+Catégorie : valeur de secours.
+Les couverts et les nombres d'espèces par m² s'estiment sur au moins 5 quadrats de 1 m² par hectare, répartis sur un transect en W, et au moins 3 par unité de moins d'un hectare.
+
+### C-R3
+Catégorie : valeur de secours.
+Les indicateurs de la grille des boisements se notent sur placettes de 10 m de rayon, au moins une par hectare et au moins trois par unité.
+
+### C-R4
+Catégorie : valeur de secours.
+Les jardins privatifs d'une même opération se relèvent par échantillon d'au moins un jardin sur cinq ; les haies, par tronçons homogènes de 100 m au plus.
 
 ## Incertitude
 
