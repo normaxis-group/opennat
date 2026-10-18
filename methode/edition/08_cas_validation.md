@@ -32,11 +32,19 @@ Le carnet a d'abord été contrôlé sur l'exemple de l'annexe C de la partie 1,
 
 **État initial (fiches A06 à A25)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| I1 | VB.2 | sol pleine terre | 2 400 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
-| I2 | VB.1 | sol pleine terre | 300 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
-| I3 | VB.8 | sol pleine terre | 300 | S08 | 1 | 1 | 0,5 | 0,25 | 0,625 | 1 | 0,35 | 1 | 1 | 32,81 |
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | VB.2 | sol pleine terre | 2 400 | S01 |
+| I2 | VB.1 | sol pleine terre | 300 | S01 |
+| I3 | VB.8 | sol pleine terre | 300 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| I2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| I3 | 1 | 1 | 0,5 | 0,25 | 0,625 | 1 | 0,35 | 1 | 1 | 32,81 |
 
 Taches de l'état initial (fiches A17 à A19) :
 
@@ -48,18 +56,33 @@ Valeur du site sans projet V_0 = 32,81 m²HE ; I_0 = 1 640,6 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) | Statut | d (an) | D |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | VB.1 | sol pleine terre | 900 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P2 | VB.2 | sol pleine terre | 300 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P3 | VB.3 | sol pleine terre | 200 | S02 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 33,34 | créée | 0 | 1 |
-| P4 | VB.6 | sol pleine terre | 300 | S08 | 1 | 1 | 0,375 | 0,6667 | 0,8333 | 1 | 0,5306 | 1 | 1 | 49,74 | créée | 1 | 1 |
-| P5 | VB.26 | sol pleine terre | 600 | S08 | 1 | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,5306 | 1 | 1 | 182,38 | créée | 5 | 1 |
-| P6 | VB.7 | sol pleine terre | 400 | S08 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,5306 | 1 | 1 | 81,05 | créée | 1 | 1 |
-| P7 | VB.19 | eau | 200 | S11 | 0,6 | 1 | 0,5417 | 0,8 | 0,9 | 1 | 0,5306 | 1 | 1 | 51,73 | créée | 3 | 1 |
-| P8 | FA.3 | lineaire | 100 | S08 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,5306 | 1 | 1 | 30,95 | créée | 5 | 1 |
-| P9 | VB.18a | arbre | 977 |  |  | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,5306 | 1 | 1 | 269,98 | créée | 27 | 1 |
-| P10 | VB.11 | hors sol toiture | 600 | S04 | 0,5 | 1 | 0,2639 | 0,6667 | 0,8333 | 1 | 0,3887 | 1 | 1 | 51,29 | créée | 1 | 1 |
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.1 | sol pleine terre | 900 | S01 | créée | 0 | 1 |
+| P2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| P3 | VB.3 | sol pleine terre | 200 | S02 | créée | 0 | 1 |
+| P4 | VB.6 | sol pleine terre | 300 | S08 | créée | 1 | 1 |
+| P5 | VB.26 | sol pleine terre | 600 | S08 | créée | 5 | 1 |
+| P6 | VB.7 | sol pleine terre | 400 | S08 | créée | 1 | 1 |
+| P7 | VB.19 | eau | 200 | S11 | créée | 3 | 1 |
+| P8 | FA.3 | lineaire | 100 | S08 | créée | 5 | 1 |
+| P9 | VB.18a | arbre | 977 |  | créée | 27 | 1 |
+| P10 | VB.11 | hors sol toiture | 600 | S04 | créée | 1 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| P2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| P3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 33,34 |
+| P4 | 1 | 1 | 0,375 | 0,6667 | 0,8333 | 1 | 0,5306 | 1 | 1 | 49,74 |
+| P5 | 1 | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,5306 | 1 | 1 | 182,38 |
+| P6 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,5306 | 1 | 1 | 81,05 |
+| P7 | 0,6 | 1 | 0,5417 | 0,8 | 0,9 | 1 | 0,5306 | 1 | 1 | 51,73 |
+| P8 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,5306 | 1 | 1 | 30,95 |
+| P9 |  | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,5306 | 1 | 1 | 269,98 |
+| P10 | 0,5 | 1 | 0,2639 | 0,6667 | 0,8333 | 1 | 0,3887 | 1 | 1 | 51,29 |
 
 Taches de l'état projet :
 
@@ -123,10 +146,17 @@ Taches de l'état projet :
 
 **État initial (fiches A06 à A25)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| I1 | E2.2 | sol pleine terre | 9 700 | S08 | 1 | 1 | 0,8333 | 0,8333 | 0,9167 | 1 | 1,0571 | 1 | 1 | 7 832,3 |
-| I2 | FA.3 | lineaire | 300 | S08 | 1 | 1 | 0,7917 | 0,8 | 0,9 | 1 | 1,0571 | 1 | 1 | 225,96 |
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | E2.2 | sol pleine terre | 9 700 | S08 |
+| I2 | FA.3 | lineaire | 300 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 1 | 1 | 0,8333 | 0,8333 | 0,9167 | 1 | 1,0571 | 1 | 1 | 7 832,3 |
+| I2 | 1 | 1 | 0,7917 | 0,8 | 0,9 | 1 | 1,0571 | 1 | 1 | 225,96 |
 
 Taches de l'état initial (fiches A17 à A19) :
 
@@ -138,13 +168,23 @@ Valeur du site sans projet V_0 = 8 058,26 m²HE ; I_0 = 402 913,1 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) | Statut | d (an) | D |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | VB.1 | sol pleine terre | 3 000 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P2 | VB.2 | sol pleine terre | 2 000 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P3 | VB.7 | sol pleine terre | 4 000 | S08 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,6817 | 1 | 1 | 1 041,44 | créée | 1 | 1 |
-| P4 | VB.5 | sol pleine terre | 700 | S08 | 1 | 1 | 0,3333 | 0,4286 | 0,7143 | 1 | 0,6817 | 1 | 1 | 113,61 | créée | 1 | 1 |
-| P5 | FA.3 | lineaire | 300 | S08 | 1 | 1 | 0,7917 | 0,8 | 0,9 | 1 | 0,6817 | 1 | 1 | 145,72 | conservée | 0 | 1 |
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.1 | sol pleine terre | 3 000 | S01 | créée | 0 | 1 |
+| P2 | VB.2 | sol pleine terre | 2 000 | S01 | créée | 0 | 1 |
+| P3 | VB.7 | sol pleine terre | 4 000 | S08 | créée | 1 | 1 |
+| P4 | VB.5 | sol pleine terre | 700 | S08 | créée | 1 | 1 |
+| P5 | FA.3 | lineaire | 300 | S08 | conservée | 0 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| P2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| P3 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,6817 | 1 | 1 | 1 041,44 |
+| P4 | 1 | 1 | 0,3333 | 0,4286 | 0,7143 | 1 | 0,6817 | 1 | 1 | 113,61 |
+| P5 | 1 | 1 | 0,7917 | 0,8 | 0,9 | 1 | 0,6817 | 1 | 1 | 145,72 |
 
 Taches de l'état projet :
 
@@ -207,11 +247,19 @@ Taches de l'état projet :
 
 **État initial (fiches A06 à A25)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| I1 | VB.2 | sol pleine terre | 3 600 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
-| I2 | VB.5 | sol pleine terre | 400 | S08 | 1 | 1 | 0,3333 | 0,1429 | 0,5714 | 1 | 0,3555 | 1 | 1 | 27,09 |
-| I3 | VB.18b | arbre | 326 |  |  | 1 | 0,4583 | 0,3333 | 0,6667 | 1 | 0,3555 | 1 | 1 | 35,41 |
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | VB.2 | sol pleine terre | 3 600 | S01 |
+| I2 | VB.5 | sol pleine terre | 400 | S08 |
+| I3 | VB.18b | arbre | 326 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| I2 | 1 | 1 | 0,3333 | 0,1429 | 0,5714 | 1 | 0,3555 | 1 | 1 | 27,09 |
+| I3 |  | 1 | 0,4583 | 0,3333 | 0,6667 | 1 | 0,3555 | 1 | 1 | 35,41 |
 
 Taches de l'état initial (fiches A17 à A19) :
 
@@ -223,14 +271,25 @@ Valeur du site sans projet V_0 = 62,5 m²HE ; I_0 = 3 125 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) | Statut | d (an) | D |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | VB.1 | sol pleine terre | 2 400 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P2 | VB.3 | sol pleine terre | 400 | S02 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 66,68 | créée | 0 | 1 |
-| P3 | VB.6 | sol sur dalle | 800 | S06 | 0,7 | 0,7 | 0,375 | 0,6667 | 0,8333 | 1 | 0,4755 | 1 | 1 | 83,22 | créée | 1 | 1 |
-| P4 | VB.5 | sol sur dalle | 400 | S05 | 0,6 | 0,6 | 0,3333 | 0,4286 | 0,7143 | 1 | 0,4755 | 1 | 1 | 27,17 | créée | 1 | 1 |
-| P5 | VB.13 | hors sol toiture | 1 200 | S06 | 0,7 | 1 | 0,2639 | 1 | 1 | 1 | 0,4528 | 1 | 1 | 143,38 | créée | 5 | 1 |
-| P6 | VB.15 | hors sol facade | 300 | S09 | 0,4 | 1 | 0,2639 | 0,6667 | 0,8333 | 1 | 0,4755 | 1 | 1 | 31,37 | créée | 3 | 0,67 |
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.1 | sol pleine terre | 2 400 | S01 | créée | 0 | 1 |
+| P2 | VB.3 | sol pleine terre | 400 | S02 | créée | 0 | 1 |
+| P3 | VB.6 | sol sur dalle | 800 | S06 | créée | 1 | 1 |
+| P4 | VB.5 | sol sur dalle | 400 | S05 | créée | 1 | 1 |
+| P5 | VB.13 | hors sol toiture | 1 200 | S06 | créée | 5 | 1 |
+| P6 | VB.15 | hors sol facade | 300 | S09 | créée | 3 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| P2 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 66,68 |
+| P3 | 0,7 | 0,7 | 0,375 | 0,6667 | 0,8333 | 1 | 0,4755 | 1 | 1 | 83,22 |
+| P4 | 0,6 | 0,6 | 0,3333 | 0,4286 | 0,7143 | 1 | 0,4755 | 1 | 1 | 27,17 |
+| P5 | 0,7 | 1 | 0,2639 | 1 | 1 | 1 | 0,4528 | 1 | 1 | 143,38 |
+| P6 | 0,4 | 1 | 0,2639 | 0,6667 | 0,8333 | 1 | 0,4755 | 1 | 1 | 31,37 |
 
 Taches de l'état projet :
 
@@ -294,11 +353,19 @@ Taches de l'état projet :
 
 **État initial (fiches A06 à A25)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| I1 | VB.1 | sol pleine terre | 900 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
-| I2 | VB.2 | sol pleine terre | 400 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
-| I3 | VB.7 | sol pleine terre | 200 | S08 | 1 | 1 | 0,4583 | 0,3333 | 0,6667 | 1 | 0,35 | 1 | 1 | 21,39 |
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | VB.1 | sol pleine terre | 900 | S01 |
+| I2 | VB.2 | sol pleine terre | 400 | S01 |
+| I3 | VB.7 | sol pleine terre | 200 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| I2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| I3 | 1 | 1 | 0,4583 | 0,3333 | 0,6667 | 1 | 0,35 | 1 | 1 | 21,39 |
 
 Taches de l'état initial (fiches A17 à A19) :
 
@@ -310,12 +377,21 @@ Valeur du site sans projet V_0 = 21,39 m²HE ; I_0 = 1 069,4 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) | Statut | d (an) | D |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | VB.1 | sol pleine terre | 900 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 | conservée | 0 | 1 |
-| P2 | VB.3 | sol pleine terre | 150 | S02 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 25 | créée | 0 | 1 |
-| P3 | VB.7 | sol pleine terre | 250 | S08 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,3649 | 1 | 1 | 34,84 | créée | 1 | 1 |
-| P4 | VB.7 | sol pleine terre | 200 | S08 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,3649 | 1 | 1 | 27,87 | améliorée | 2 | 1 |
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.1 | sol pleine terre | 900 | S01 | conservée | 0 | 1 |
+| P2 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| P3 | VB.7 | sol pleine terre | 250 | S08 | créée | 1 | 1 |
+| P4 | VB.7 | sol pleine terre | 200 | S08 | améliorée | 2 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| P2 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 25 |
+| P3 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,3649 | 1 | 1 | 34,84 |
+| P4 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,3649 | 1 | 1 | 27,87 |
 
 Taches de l'état projet :
 
@@ -378,10 +454,17 @@ Taches de l'état projet :
 
 **État initial (fiches A06 à A25)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| I1 | E2.2 | sol pleine terre | 9 700 | S08 | 1 | 1 | 0,8333 | 0,8333 | 0,9167 | 1,15 | 1,0571 | 1 | 1 | 9 007,15 |
-| I2 | FA.3 | lineaire | 300 | S08 | 1 | 1 | 0,7917 | 0,8 | 0,9 | 1,15 | 1,0571 | 1 | 1 | 259,85 |
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | E2.2 | sol pleine terre | 9 700 | S08 |
+| I2 | FA.3 | lineaire | 300 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 1 | 1 | 0,8333 | 0,8333 | 0,9167 | 1,15 | 1,0571 | 1 | 1 | 9 007,15 |
+| I2 | 1 | 1 | 0,7917 | 0,8 | 0,9 | 1,15 | 1,0571 | 1 | 1 | 259,85 |
 
 Taches de l'état initial (fiches A17 à A19) :
 
@@ -393,13 +476,23 @@ Valeur du site sans projet V_0 = 9 267 m²HE ; I_0 = 463 350,1 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) | Statut | d (an) | D |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | VB.1 | sol pleine terre | 3 000 | S01 | 0 | 1 | 0 |  | 1 | 1,15 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P2 | VB.2 | sol pleine terre | 2 000 | S01 | 0 | 1 | 0 |  | 1 | 1,15 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P3 | VB.7 | sol pleine terre | 4 000 | S08 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1,15 | 0,6817 | 1 | 1 | 1 197,66 | créée | 1 | 1 |
-| P4 | VB.5 | sol pleine terre | 700 | S08 | 1 | 1 | 0,3333 | 0,4286 | 0,7143 | 1,15 | 0,6817 | 1 | 1 | 130,65 | créée | 1 | 1 |
-| P5 | FA.3 | lineaire | 300 | S08 | 1 | 1 | 0,7917 | 0,8 | 0,9 | 1,15 | 0,6817 | 1 | 1 | 167,58 | conservée | 0 | 1 |
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.1 | sol pleine terre | 3 000 | S01 | créée | 0 | 1 |
+| P2 | VB.2 | sol pleine terre | 2 000 | S01 | créée | 0 | 1 |
+| P3 | VB.7 | sol pleine terre | 4 000 | S08 | créée | 1 | 1 |
+| P4 | VB.5 | sol pleine terre | 700 | S08 | créée | 1 | 1 |
+| P5 | FA.3 | lineaire | 300 | S08 | conservée | 0 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0 | 1 | 0 |  | 1 | 1,15 | 1 | 1 | 1 | 0 |
+| P2 | 0 | 1 | 0 |  | 1 | 1,15 | 1 | 1 | 1 | 0 |
+| P3 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1,15 | 0,6817 | 1 | 1 | 1 197,66 |
+| P4 | 1 | 1 | 0,3333 | 0,4286 | 0,7143 | 1,15 | 0,6817 | 1 | 1 | 130,65 |
+| P5 | 1 | 1 | 0,7917 | 0,8 | 0,9 | 1,15 | 0,6817 | 1 | 1 | 167,58 |
 
 Taches de l'état projet :
 
@@ -462,9 +555,15 @@ Taches de l'état projet :
 
 **État initial (fiches A06 à A25)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| I1 | I1.1 | sol pleine terre | 5 000 | S08 | 1 | 1 | 0,25 |  | 1 | 1 | 1 | 1 | 1 | 1 250 |
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | I1.1 | sol pleine terre | 5 000 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 1 | 1 | 0,25 |  | 1 | 1 | 1 | 1 | 1 | 1 250 |
 
 Taches de l'état initial (fiches A17 à A19) :
 
@@ -474,13 +573,23 @@ Valeur du site sans projet V_0 = 1 250 m²HE ; I_0 = 62 500 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) | Statut | d (an) | D |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | VB.20 | eau | 300 | S11 | 0,6 | 1 | 0,625 | 0,7778 | 0,8889 | 1 | 0,6725 | 1 | 1 | 112,08 | créée | 3 | 1 |
-| P2 | FA.3 | lineaire | 600 | S08 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,6725 | 1 | 1 | 235,39 | créée | 5 | 1 |
-| P3 | VB.26 | sol pleine terre | 3 000 | S08 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 1 050,79 | créée | 5 | 1 |
-| P4 | G1.A | sol pleine terre | 800 | S08 | 1 | 1 | 0,8333 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 373,6 | créée | 32 | 0,33 |
-| P5 | VB.3 | sol pleine terre | 300 | S02 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 50,01 | créée | 0 | 1 |
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.20 | eau | 300 | S11 | créée | 3 | 1 |
+| P2 | FA.3 | lineaire | 600 | S08 | créée | 5 | 1 |
+| P3 | VB.26 | sol pleine terre | 3 000 | S08 | créée | 5 | 1 |
+| P4 | G1.A | sol pleine terre | 800 | S08 | créée | 32 | 0,33 |
+| P5 | VB.3 | sol pleine terre | 300 | S02 | créée | 0 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0,6 | 1 | 0,625 | 0,7778 | 0,8889 | 1 | 0,6725 | 1 | 1 | 112,08 |
+| P2 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,6725 | 1 | 1 | 235,39 |
+| P3 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 1 050,79 |
+| P4 | 1 | 1 | 0,8333 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 373,6 |
+| P5 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 50,01 |
 
 Taches de l'état projet :
 
@@ -543,9 +652,15 @@ Taches de l'état projet :
 
 **État initial (fiches A06 à A25)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| I1 | E2.6 | sol pleine terre | 3 000 | S08 | 1 | 1 | 0,3333 | 0,5714 | 0,7857 | 1 | 0,5539 | 1 | 1 | 435,14 |
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | E2.6 | sol pleine terre | 3 000 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 1 | 1 | 0,3333 | 0,5714 | 0,7857 | 1 | 0,5539 | 1 | 1 | 435,14 |
 
 Taches de l'état initial (fiches A17 à A19) :
 
@@ -557,11 +672,19 @@ Valeur du site sans projet V_0 = 435,14 m²HE ; I_0 = 21 757 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) | Statut | d (an) | D |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | VB.1 | sol pleine terre | 1 000 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P2 | VB.2 | sol pleine terre | 600 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P3 | VB.7 | sol pleine terre | 1 400 | S08 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4684 | 1 | 1 | 250,43 | créée | 1 | 1 |
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.1 | sol pleine terre | 1 000 | S01 | créée | 0 | 1 |
+| P2 | VB.2 | sol pleine terre | 600 | S01 | créée | 0 | 1 |
+| P3 | VB.7 | sol pleine terre | 1 400 | S08 | créée | 1 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| P2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| P3 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4684 | 1 | 1 | 250,43 |
 
 Taches de l'état projet :
 
@@ -624,9 +747,15 @@ Taches de l'état projet :
 
 **État initial (fiches A06 à A25)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| I1 | E2.6 | sol pleine terre | 3 000 | S08 | 1 | 1 | 0,3333 | 0,5714 | 0,7857 | 1 | 0,5539 | 1 | 1 | 435,14 |
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | E2.6 | sol pleine terre | 3 000 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 1 | 1 | 0,3333 | 0,5714 | 0,7857 | 1 | 0,5539 | 1 | 1 | 435,14 |
 
 Taches de l'état initial (fiches A17 à A19) :
 
@@ -638,11 +767,19 @@ Valeur du site sans projet V_0 = 435,14 m²HE ; I_0 = 21 757 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) | Statut | d (an) | D |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | VB.1 | sol pleine terre | 1 000 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P2 | VB.2 | sol pleine terre | 600 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P3 | VB.7 | sol pleine terre | 1 400 | S08 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4684 | 1 | 1 | 250,43 | créée | 1 | 1 |
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.1 | sol pleine terre | 1 000 | S01 | créée | 0 | 1 |
+| P2 | VB.2 | sol pleine terre | 600 | S01 | créée | 0 | 1 |
+| P3 | VB.7 | sol pleine terre | 1 400 | S08 | créée | 1 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| P2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| P3 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4684 | 1 | 1 | 250,43 |
 
 Taches de l'état projet :
 
@@ -705,9 +842,15 @@ Taches de l'état projet :
 
 **État initial (fiches A06 à A25)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| I1 | E2.6 | sol pleine terre | 3 000 | S08 | 1 | 1 | 0,3333 | 0,5714 | 0,7857 | 1 | 0,5539 | 1 | 1 | 435,14 |
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | E2.6 | sol pleine terre | 3 000 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 1 | 1 | 0,3333 | 0,5714 | 0,7857 | 1 | 0,5539 | 1 | 1 | 435,14 |
 
 Taches de l'état initial (fiches A17 à A19) :
 
@@ -719,11 +862,19 @@ Valeur du site sans projet V_0 = 435,14 m²HE ; I_0 = 21 757 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) | Statut | d (an) | D |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | VB.1 | sol pleine terre | 1 000 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P2 | VB.2 | sol pleine terre | 600 | S01 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 | créée | 0 | 1 |
-| P3 | VB.7 | sol pleine terre | 1 400 | S08 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4684 | 1 | 1 | 250,43 | créée | 1 | 1 |
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.1 | sol pleine terre | 1 000 | S01 | créée | 0 | 1 |
+| P2 | VB.2 | sol pleine terre | 600 | S01 | créée | 0 | 1 |
+| P3 | VB.7 | sol pleine terre | 1 400 | S08 | créée | 1 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| P2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| P3 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4684 | 1 | 1 | 250,43 |
 
 Taches de l'état projet :
 
@@ -786,9 +937,15 @@ Taches de l'état projet :
 
 **État initial (fiches A06 à A25)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| I1 | I1.1 | sol pleine terre | 5 000 | S08 | 1 | 1 | 0,25 |  | 1 | 1 | 1 | 1 | 1 | 1 250 |
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | I1.1 | sol pleine terre | 5 000 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 1 | 1 | 0,25 |  | 1 | 1 | 1 | 1 | 1 | 1 250 |
 
 Taches de l'état initial (fiches A17 à A19) :
 
@@ -798,13 +955,23 @@ Valeur du site sans projet V_0 = 1 250 m²HE ; I_0 = 62 500 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) | Statut | d (an) | D |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | VB.20 | eau | 300 | S11 | 0,6 | 1 | 0,625 | 0,7778 | 0,8889 | 1 | 0,6725 | 1 | 1 | 112,08 | créée | 3 | 1 |
-| P2 | FA.3 | lineaire | 600 | S08 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,6725 | 1 | 1 | 235,39 | créée | 5 | 1 |
-| P3 | VB.26 | sol pleine terre | 3 000 | S08 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 1 050,79 | créée | 5 | 1 |
-| P4 | G1.A | sol pleine terre | 800 | S08 | 1 | 1 | 0,8333 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 373,6 | créée | 32 | 0,33 |
-| P5 | VB.3 | sol pleine terre | 300 | S02 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 50,01 | créée | 0 | 1 |
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.20 | eau | 300 | S11 | créée | 3 | 1 |
+| P2 | FA.3 | lineaire | 600 | S08 | créée | 5 | 1 |
+| P3 | VB.26 | sol pleine terre | 3 000 | S08 | créée | 5 | 1 |
+| P4 | G1.A | sol pleine terre | 800 | S08 | créée | 32 | 0,33 |
+| P5 | VB.3 | sol pleine terre | 300 | S02 | créée | 0 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0,6 | 1 | 0,625 | 0,7778 | 0,8889 | 1 | 0,6725 | 1 | 1 | 112,08 |
+| P2 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,6725 | 1 | 1 | 235,39 |
+| P3 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 1 050,79 |
+| P4 | 1 | 1 | 0,8333 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 373,6 |
+| P5 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 50,01 |
 
 Taches de l'état projet :
 
@@ -867,9 +1034,15 @@ Taches de l'état projet :
 
 **État initial (fiches A06 à A25)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| I1 | I1.1 | sol pleine terre | 5 000 | S08 | 1 | 1 | 0,25 |  | 1 | 1 | 1 | 1 | 1 | 1 250 |
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | I1.1 | sol pleine terre | 5 000 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 1 | 1 | 0,25 |  | 1 | 1 | 1 | 1 | 1 | 1 250 |
 
 Taches de l'état initial (fiches A17 à A19) :
 
@@ -879,13 +1052,23 @@ Valeur du site sans projet V_0 = 1 250 m²HE ; I_0 = 62 500 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) | Statut | d (an) | D |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | VB.20 | eau | 300 | S11 | 0,6 | 1 | 0,625 | 0,7778 | 0,8889 | 1 | 0,6725 | 1 | 1 | 112,08 | créée | 3 | 1 |
-| P2 | FA.3 | lineaire | 600 | S08 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,6725 | 1 | 1 | 235,39 | créée | 5 | 1 |
-| P3 | VB.26 | sol pleine terre | 3 000 | S08 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 1 050,79 | créée | 5 | 1 |
-| P4 | G1.A | sol pleine terre | 800 | S08 | 1 | 1 | 0,8333 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 373,6 | créée | 32 | 0,33 |
-| P5 | VB.3 | sol pleine terre | 300 | S02 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 50,01 | créée | 0 | 1 |
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.20 | eau | 300 | S11 | créée | 3 | 1 |
+| P2 | FA.3 | lineaire | 600 | S08 | créée | 5 | 1 |
+| P3 | VB.26 | sol pleine terre | 3 000 | S08 | créée | 5 | 1 |
+| P4 | G1.A | sol pleine terre | 800 | S08 | créée | 32 | 0,33 |
+| P5 | VB.3 | sol pleine terre | 300 | S02 | créée | 0 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0,6 | 1 | 0,625 | 0,7778 | 0,8889 | 1 | 0,6725 | 1 | 1 | 112,08 |
+| P2 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,6725 | 1 | 1 | 235,39 |
+| P3 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 1 050,79 |
+| P4 | 1 | 1 | 0,8333 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 373,6 |
+| P5 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 50,01 |
 
 Taches de l'état projet :
 
@@ -948,9 +1131,15 @@ Taches de l'état projet :
 
 **État initial (fiches A06 à A25)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| I1 | I1.1 | sol pleine terre | 5 000 | S08 | 1 | 1 | 0,25 |  | 1 | 1 | 1 | 1 | 1 | 1 250 |
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | I1.1 | sol pleine terre | 5 000 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 1 | 1 | 0,25 |  | 1 | 1 | 1 | 1 | 1 | 1 250 |
 
 Taches de l'état initial (fiches A17 à A19) :
 
@@ -960,13 +1149,23 @@ Valeur du site sans projet V_0 = 1 250 m²HE ; I_0 = 62 500 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
-| Unité | Type | Position | A (m²) | Nature | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) | Statut | d (an) | D |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | VB.20 | eau | 300 | S11 | 0,6 | 1 | 0,625 | 0,7778 | 0,8889 | 1 | 0,6725 | 1 | 1 | 112,08 | créée | 3,8 | 1 |
-| P2 | FA.3 | lineaire | 600 | S08 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,6725 | 1 | 1 | 235,39 | créée | 6,2 | 1 |
-| P3 | VB.26 | sol pleine terre | 3 000 | S08 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 1 050,79 | créée | 6,2 | 1 |
-| P4 | G1.A | sol pleine terre | 800 | S08 | 1 | 1 | 0,8333 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 373,6 | créée | 40 | 0,33 |
-| P5 | VB.3 | sol pleine terre | 300 | S02 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 50,01 | créée | 0 | 1 |
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.20 | eau | 300 | S11 | créée | 3,8 | 1 |
+| P2 | FA.3 | lineaire | 600 | S08 | créée | 6,2 | 1 |
+| P3 | VB.26 | sol pleine terre | 3 000 | S08 | créée | 6,2 | 1 |
+| P4 | G1.A | sol pleine terre | 800 | S08 | créée | 40 | 0,33 |
+| P5 | VB.3 | sol pleine terre | 300 | S02 | créée | 0 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0,6 | 1 | 0,625 | 0,7778 | 0,8889 | 1 | 0,6725 | 1 | 1 | 112,08 |
+| P2 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,6725 | 1 | 1 | 235,39 |
+| P3 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 1 050,79 |
+| P4 | 1 | 1 | 0,8333 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 373,6 |
+| P5 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 1 | 1 | 1 | 50,01 |
 
 Taches de l'état projet :
 

@@ -17,20 +17,21 @@ def n(x, d=2):
 
 
 def table_unites(unites, projet=False):
-    ent = ['Unité', 'Type', 'Position', 'A (m²)', 'Nature', 'c', 'f_sol', 'v', 'S', 'f', 'm', 'k_C', 'k_N',
-           'k_E', 'V (m²HE)']
+    """Deux tableaux : identification de l'unité, puis facteurs de calcul."""
+    ent1 = ['Unité', 'Type', 'Position', 'A (m²)', 'Nature']
     if projet:
-        ent += ['Statut', 'd (an)', 'D']
-    lignes = []
+        ent1 += ['Statut', 'd (an)', 'D']
+    l1, l2 = [], []
     for u in unites:
-        l = [u['id'], u['code'], u['position'].replace('_', ' '), n(u['surface'], 0), u['nature'] or '',
-             n(u['c']), n(u['f_sol']), n(u['v'], 4), n(u['S'], 4), n(u['f'], 4), n(u['m']), n(u['kC'], 4),
-             n(u['kN'], 3), n(u['kE']), n(u['V'], 2)]
+        l = [u['id'], u['code'], u['position'].replace('_', ' '), n(u['surface'], 0), u['nature'] or '']
         if projet:
             l += [u.get('statut', 'creee').replace('creee', 'créée').replace('conservee', 'conservée')
                   .replace('amelioree', 'améliorée'), n(u.get('d'), 1), n(u.get('D'))]
-        lignes.append(l)
-    return tableau(ent, lignes)
+        l1.append(l)
+        l2.append([u['id'], n(u['c']), n(u['f_sol']), n(u['v'], 4), n(u['S'], 4), n(u['f'], 4), n(u['m']),
+                   n(u['kC'], 4), n(u['kN'], 3), n(u['kE']), n(u['V'], 2)])
+    return (tableau(ent1, l1) + '\n\nFacteurs de calcul :\n\n' +
+            tableau(['Unité', 'c', 'f_sol', 'v', 'S', 'f', 'm', 'k_C', 'k_N', 'k_E', 'V (m²HE)'], l2))
 
 
 def table_taches(kc):
