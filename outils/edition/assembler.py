@@ -35,7 +35,8 @@ def lire(chemin):
 
 
 def main():
-    for script in ('partie2_donnees.py', 'partie4_habitats.py', 'partie7_rsnat.py', 'partie8_cas.py'):
+    for script in ('partie2_donnees.py', 'partie4_habitats.py', 'partie5_exemples.py', 'partie7_rsnat.py',
+                   'partie8_cas.py'):
         subprocess.run([sys.executable, '-X', 'utf8', os.path.join(ICI, script)], check=True, cwd=ICI)
     v1 = lire(os.path.join(RACINE, 'methode', 'OpenNAT_v1.md'))
     partie1 = decaler(v1, 1, depuis='## 1. Objet')
@@ -63,19 +64,19 @@ L'édition complète suit le plan de l'annexe III de l'arrêté du 4 août 2021 
 |---|---|
 | 1 | Texte de la méthode : objet, définitions, principes, données d'entrée, algorithme, modules, indicateurs, incertitude, seuils, récapitulatif, exemple complet |
 | 2 | Données conventionnelles : nomenclature et toutes les valeurs des tables, avec leur source |
-| 3 | Fiches algorithmes A01 à A42, au format des fiches de la méthode Th-BCE |
-| 4 | Fiches habitats H001 à H191 |
-| 5 | Fiches d'application F01 à F25 |
+| 3 | Fiches algorithmes A01 à A42, au format des fiches de la méthode Th-BCE, avec leur pseudo-code et un second cas élémentaire |
+| 4 | Fiches habitats H001 à H191, avec les listes complètes de correspondances et d'espèces |
+| 5 | Fiches d'application F01 à F25 et leurs exemples chiffrés |
 | 6 | Protocoles de relevé des grilles d'état et liste des espèces exotiques envahissantes |
 | 7 | Récapitulatif standardisé RSNat : schéma, dictionnaire des données, exemple |
-| 8 | Cas de validation |
+| 8 | Cas de validation : les huit cas du cahier des charges et trente et un cas complémentaires |
 | 9 | Conventions |
 | 10 | Bibliographie |
 """
     morceaux = [tete, '## Partie 1. Texte de la méthode\n', partie1]
     for nom in ('02_donnees_conventionnelles.md', '03a_fiches_algorithmes.md', '03b_fiches_algorithmes.md',
-                '03c_fiches_algorithmes.md', '03d_fiches_algorithmes.md', '04_fiches_habitats.md',
-                '05_fiches_application.md', '06_protocoles.md', '07_rsnat.md', '08_cas_validation.md'):
+                '03c_fiches_algorithmes.md', '03d_fiches_algorithmes.md', '03e_pseudo_code.md', '04_fiches_habitats.md',
+                '05_fiches_application.md', '05b_exemples_application.md', '06_protocoles.md', '07_rsnat.md', '08_cas_validation.md'):
         morceaux.append(lire(os.path.join(EDITION, nom)))
     morceaux += [conventions, biblio]
     texte = '\n\n'.join(m.strip() for m in morceaux) + '\n'

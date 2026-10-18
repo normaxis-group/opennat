@@ -156,6 +156,48 @@ def main():
     uk = sorted({n['uk_habitat'] for n in nomen})
     out.append(tableau(['Ligne de la métrique', 'Types OpenNAT qui y renvoient'],
                        [[u, ', '.join(n['code_vinat'] for n in nomen if n['uk_habitat'] == u)] for u in uk]))
+    # liste allemande complète et onglets anglais complets
+    out += ['### 2.12 Annexe 2 de la BKompV, liste complète', '',
+            "Liste complète des types de biotopes de l'annexe 2 de la BKompV et de leur valeur sur 24, dans l'ordre "
+            "du texte (extraction du 18/10/2026). Les intitulés de rubrique, sans valeur, structurent la liste. "
+            "Les types appelés par la nomenclature OpenNAT sont repris en 2.11.", '']
+    lignes = []
+    with open(os.path.join(SOURCES, 'biotopwert_de', 'bkompv_anlage2.csv'), encoding='utf-8') as f:
+        for code, libelle, val in csv.reader(f):
+            if code == 'Code':
+                continue
+            lignes.append([code.strip(), libelle, val, nombre(int(val) / 24) if val.strip().isdigit() else ''])
+    out.append(tableau(['Code', 'Biotoptyp', 'Valeur sur 24', 'Valeur sur 1'], lignes))
+    ext = os.path.join(SOURCES, 'uk_metric', 'extraits')
+
+    def onglet(nom, colonnes, entetes, filtre=lambda r: True, debut=2):
+        rows = []
+        with open(os.path.join(ext, nom + '.csv'), encoding='utf-8') as f:
+            for i, r in enumerate(csv.reader(f)):
+                if i < debut or not filtre(r):
+                    continue
+                rows.append([r[c] if c < len(r) else '' for c in colonnes])
+        return tableau(entetes, rows)
+
+    out += ['', '### 2.13 Métrique statutaire anglaise, onglets utilisés', '',
+            "Reproduction des colonnes utilisées des onglets G-1, G-4 et G-5 du tableur statutaire 1.0.4 "
+            "(Defra et Natural England, Open Government Licence v3.0). « Not Possible » signifie que la création ou "
+            "l'amélioration n'est pas admise par la métrique pour cette classe d'état.", '',
+            '#### Onglet G-1, habitats, distinctivité et difficultés', '',
+            onglet('G-1 All Habitats', (2, 11, 12, 14, 15, 16, 17),
+                   ['Habitat', 'Distinctivité', 'Score', 'Difficulté de création', 'Multiplicateur',
+                    "Difficulté d'amélioration", 'Multiplicateur'], lambda r: bool(r[2])), '',
+            '#### Onglet G-4, délais de création par condition visée (années)', '',
+            onglet('G-4 Temporal multipliers', (6, 7, 8, 9, 10, 11, 12),
+                   ['Habitat', 'Bon', 'Assez bon', 'Moyen', 'Assez mauvais', 'Mauvais', 'Sans état'],
+                   lambda r: len(r) > 7 and bool(r[6]) and r[6] != 'Habitat Description', 3), '',
+            "#### Onglet G-4, multiplicateur temporel par année (option d'actualisation, convention C-T5)", '',
+            onglet('G-4 Temporal multipliers', (1, 2, 3), ['Année', "% de l'unité d'origine", 'Multiplicateur'],
+                   lambda r: len(r) > 3 and r[1] not in ('', 'Year', 'Temporal multipliers'), 3), '',
+            "#### Onglet G-5, délais d'amélioration (années)", '',
+            onglet('G-5 Enhancement Temporal', (3, 16, 18, 23),
+                   ['Habitat', 'Mauvais vers moyen', 'Mauvais vers bon', 'Moyen vers bon'],
+                   lambda r: len(r) > 23 and bool(r[3]), 3), '']
     print(ecrire('02_donnees_conventionnelles.md', '\n'.join(out)))
 
 
