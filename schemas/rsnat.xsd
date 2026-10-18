@@ -124,6 +124,65 @@
       <xs:enumeration value="sans_etat"/>
     </xs:restriction>
   </xs:simpleType>
+  <xs:simpleType name="zone_climatique">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="H1a"/>
+      <xs:enumeration value="H1b"/>
+      <xs:enumeration value="H1c"/>
+      <xs:enumeration value="H2a"/>
+      <xs:enumeration value="H2b"/>
+      <xs:enumeration value="H2c"/>
+      <xs:enumeration value="H2d"/>
+      <xs:enumeration value="H3"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="texture">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="sable"/>
+      <xs:enumeration value="sable_limoneux"/>
+      <xs:enumeration value="limon_sableux"/>
+      <xs:enumeration value="limon"/>
+      <xs:enumeration value="limon_silteux"/>
+      <xs:enumeration value="silt"/>
+      <xs:enumeration value="limon_argilo_silteux"/>
+      <xs:enumeration value="argile_silteuse"/>
+      <xs:enumeration value="argile"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="fond_mare">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="etanche"/>
+      <xs:enumeration value="argile"/>
+      <xs:enumeration value="naturel"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="regime_gestion">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="plan"/>
+      <xs:enumeration value="courante"/>
+      <xs:enumeration value="abandon"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="niveau_rechauffement">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="2_0"/>
+      <xs:enumeration value="2_7"/>
+      <xs:enumeration value="4_0"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="groupe_hydrique">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="gazon"/>
+      <xs:enumeration value="prairie"/>
+      <xs:enumeration value="xerophile"/>
+      <xs:enumeration value="arbustif"/>
+      <xs:enumeration value="arbore"/>
+      <xs:enumeration value="conifere"/>
+      <xs:enumeration value="toiture_extensive"/>
+      <xs:enumeration value="humide_pluie"/>
+      <xs:enumeration value="mare"/>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:element name="RSNat">
     <xs:annotation>
       <xs:documentation>Récapitulatif standardisé de l'étude nature OpenNAT</xs:documentation>
@@ -195,6 +254,51 @@
                     <xs:element name="zone_biogeographique" type="zone">
                       <xs:annotation>
                         <xs:documentation>Zone biogéographique (fiche A02)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="departement" minOccurs="0" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>Département du site</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="altitude" minOccurs="0" type="xs:decimal">
+                      <xs:annotation>
+                        <xs:documentation>Altitude du site (fiche A43) (m)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="zone_climatique" type="zone_climatique">
+                      <xs:annotation>
+                        <xs:documentation>Zone climatique RE2020 (fiche A43)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="texture_sol" minOccurs="0" type="texture">
+                      <xs:annotation>
+                        <xs:documentation>Texture du sol du site (fiche A48)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="profondeur_sol" minOccurs="0" type="xs:decimal">
+                      <xs:annotation>
+                        <xs:documentation>Profondeur de sol du site (fiche A48) (m)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="annee_debut_chantier" type="xs:integer">
+                      <xs:annotation>
+                        <xs:documentation>Année de début du chantier (fiche A58)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="mois_debut_chantier" type="xs:integer">
+                      <xs:annotation>
+                        <xs:documentation>Mois de début du chantier, 1 à 12 (fiche A58)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="mois_destruction" minOccurs="0" type="xs:integer">
+                      <xs:annotation>
+                        <xs:documentation>Mois des défrichements, abattages et comblements (fiche A57)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="plan_gestion_annees" minOccurs="0" type="xs:integer">
+                      <xs:annotation>
+                        <xs:documentation>Durée du plan de gestion écologique (fiche A55) (an)</xs:documentation>
                       </xs:annotation>
                     </xs:element>
                     <xs:element name="typologie" type="typologie">
@@ -491,12 +595,96 @@
                                 </xs:element>
                                 <xs:element name="eclairage" minOccurs="0" type="eclairage">
                                   <xs:annotation>
-                                    <xs:documentation>Classe d'éclairage (fiche A20)</xs:documentation>
+                                    <xs:documentation>Raccourci d'éclairage L0, L1 ou L2 (fiche A53-2)</xs:documentation>
                                   </xs:annotation>
+                                </xs:element>
+                                <xs:element name="Eclairage_Horaire" minOccurs="0">
+                                  <xs:annotation>
+                                    <xs:documentation>Éclairage déclaré heure par heure (fiches A51 à A53)</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="extinction" minOccurs="0" type="xs:integer">
+                                        <xs:annotation>
+                                          <xs:documentation>Heure d'extinction, absente si allumé toute la nuit (heure légale)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="rallumage" minOccurs="0" type="xs:integer">
+                                        <xs:annotation>
+                                          <xs:documentation>Heure de rallumage du matin (heure légale)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="temperature_couleur" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Température de couleur (K)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="part_detection" minOccurs="0" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Part de temps allumé sous détection de présence</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
                                 </xs:element>
                                 <xs:element name="distance_lumiere" minOccurs="0" type="xs:decimal">
                                   <xs:annotation>
                                     <xs:documentation>Distance au point lumineux le plus proche (m)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="arrose" minOccurs="0" type="xs:boolean">
+                                  <xs:annotation>
+                                    <xs:documentation>Arrosage automatique (fiche A49)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="texture_sol" minOccurs="0" type="texture">
+                                  <xs:annotation>
+                                    <xs:documentation>Texture du sol de l'unité, si elle diffère de celle du site (fiche A48)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="profondeur_sol" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Profondeur de sol de l'unité (fiche A48) (m)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="bassin_versant_impermeable" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Surface imperméable raccordée (fiche A49) (m²)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="bassin_versant_permeable" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Surface perméable raccordée (fiche A49) (m²)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="profondeur_mare" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Profondeur maximale d'une mare (fiche A49) (m)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="fond_mare" minOccurs="0" type="fond_mare">
+                                  <xs:annotation>
+                                    <xs:documentation>Nature du fond d'une mare (fiche A49)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="gites" minOccurs="0" type="xs:boolean">
+                                  <xs:annotation>
+                                    <xs:documentation>Gîtes de chiroptères (fiche A57)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="regime_gestion" minOccurs="0" type="regime_gestion">
+                                  <xs:annotation>
+                                    <xs:documentation>Régime imposé dès la livraison (fiche A55)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="regime_apres_plan" minOccurs="0" type="regime_gestion">
+                                  <xs:annotation>
+                                    <xs:documentation>Régime après le plan de gestion (fiche A55)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="plan_gestion_annees" minOccurs="0" type="xs:integer">
+                                  <xs:annotation>
+                                    <xs:documentation>Durée du plan de gestion propre à l'unité (fiche A55) (an)</xs:documentation>
                                   </xs:annotation>
                                 </xs:element>
                                 <xs:element name="niveau_sonore" minOccurs="0" type="xs:decimal">
@@ -701,12 +889,96 @@
                                       </xs:element>
                                       <xs:element name="eclairage" minOccurs="0" type="eclairage">
                                         <xs:annotation>
-                                          <xs:documentation>Classe d'éclairage (fiche A20)</xs:documentation>
+                                          <xs:documentation>Raccourci d'éclairage L0, L1 ou L2 (fiche A53-2)</xs:documentation>
                                         </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="Eclairage_Horaire" minOccurs="0">
+                                        <xs:annotation>
+                                          <xs:documentation>Éclairage déclaré heure par heure (fiches A51 à A53)</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="extinction" minOccurs="0" type="xs:integer">
+                                              <xs:annotation>
+                                                <xs:documentation>Heure d'extinction, absente si allumé toute la nuit (heure légale)</xs:documentation>
+                                              </xs:annotation>
+                                            </xs:element>
+                                            <xs:element name="rallumage" minOccurs="0" type="xs:integer">
+                                              <xs:annotation>
+                                                <xs:documentation>Heure de rallumage du matin (heure légale)</xs:documentation>
+                                              </xs:annotation>
+                                            </xs:element>
+                                            <xs:element name="temperature_couleur" type="xs:decimal">
+                                              <xs:annotation>
+                                                <xs:documentation>Température de couleur (K)</xs:documentation>
+                                              </xs:annotation>
+                                            </xs:element>
+                                            <xs:element name="part_detection" minOccurs="0" type="xs:decimal">
+                                              <xs:annotation>
+                                                <xs:documentation>Part de temps allumé sous détection de présence</xs:documentation>
+                                              </xs:annotation>
+                                            </xs:element>
+                                          </xs:sequence>
+                                        </xs:complexType>
                                       </xs:element>
                                       <xs:element name="distance_lumiere" minOccurs="0" type="xs:decimal">
                                         <xs:annotation>
                                           <xs:documentation>Distance au point lumineux le plus proche (m)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="arrose" minOccurs="0" type="xs:boolean">
+                                        <xs:annotation>
+                                          <xs:documentation>Arrosage automatique (fiche A49)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="texture_sol" minOccurs="0" type="texture">
+                                        <xs:annotation>
+                                          <xs:documentation>Texture du sol de l'unité, si elle diffère de celle du site (fiche A48)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="profondeur_sol" minOccurs="0" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Profondeur de sol de l'unité (fiche A48) (m)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="bassin_versant_impermeable" minOccurs="0" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Surface imperméable raccordée (fiche A49) (m²)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="bassin_versant_permeable" minOccurs="0" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Surface perméable raccordée (fiche A49) (m²)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="profondeur_mare" minOccurs="0" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Profondeur maximale d'une mare (fiche A49) (m)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="fond_mare" minOccurs="0" type="fond_mare">
+                                        <xs:annotation>
+                                          <xs:documentation>Nature du fond d'une mare (fiche A49)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="gites" minOccurs="0" type="xs:boolean">
+                                        <xs:annotation>
+                                          <xs:documentation>Gîtes de chiroptères (fiche A57)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="regime_gestion" minOccurs="0" type="regime_gestion">
+                                        <xs:annotation>
+                                          <xs:documentation>Régime imposé dès la livraison (fiche A55)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="regime_apres_plan" minOccurs="0" type="regime_gestion">
+                                        <xs:annotation>
+                                          <xs:documentation>Régime après le plan de gestion (fiche A55)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="plan_gestion_annees" minOccurs="0" type="xs:integer">
+                                        <xs:annotation>
+                                          <xs:documentation>Durée du plan de gestion propre à l'unité (fiche A55) (an)</xs:documentation>
                                         </xs:annotation>
                                       </xs:element>
                                       <xs:element name="niveau_sonore" minOccurs="0" type="xs:decimal">
@@ -1080,6 +1352,16 @@
                                     <xs:documentation>k_C,u</xs:documentation>
                                   </xs:annotation>
                                 </xs:element>
+                                <xs:element name="facteur_eclairage" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>k_lum,u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="fraction_nuit_eclairee" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>x_nuit,u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
                                 <xs:element name="facteur_nuisances" type="xs:decimal">
                                   <xs:annotation>
                                     <xs:documentation>k_N,u</xs:documentation>
@@ -1108,6 +1390,70 @@
                                 <xs:element name="difficulte" minOccurs="0" type="xs:decimal">
                                   <xs:annotation>
                                     <xs:documentation>D_u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="groupe_hydrique" minOccurs="0" type="groupe_hydrique">
+                                  <xs:annotation>
+                                    <xs:documentation>g_u (fiche A47)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="reserve_utile" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>RU_u (fiche A48) (mm)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="Bilan_Hydrique" minOccurs="0" maxOccurs="3">
+                                  <xs:annotation>
+                                    <xs:documentation>Bilan d'un niveau de réchauffement (fiches A49, A50)</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="niveau" type="niveau_rechauffement">
+                                        <xs:annotation>
+                                          <xs:documentation>Année type</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="indice_stress" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>IS_u,n (jours-équivalents)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="indice_stress_reference" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>IS_ref,g (jours-équivalents)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="facteur_hydrique" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>k_W,u,n</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="arrosage" minOccurs="0" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Volume d'arrosage annuel (mm)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="assec_printemps" minOccurs="0" type="xs:boolean">
+                                        <xs:annotation>
+                                          <xs:documentation>Mare à sec entre mars et juin</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="mois_depart_maturation" minOccurs="0" type="xs:integer">
+                                  <xs:annotation>
+                                    <xs:documentation>Rang du mois de départ (fiche A58)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="facteurs_hydriques" minOccurs="0" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>50 valeurs annuelles k_W,u(t)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="facteurs_gestion" minOccurs="0" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>50 valeurs annuelles f_g,u(t)</xs:documentation>
                                   </xs:annotation>
                                 </xs:element>
                                 <xs:element name="trajectoire" minOccurs="0" type="xs:string">
@@ -1160,6 +1506,31 @@
                           <xs:element name="dette_maturite" type="xs:decimal">
                             <xs:annotation>
                               <xs:documentation>DM (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="supplement_destruction" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>ΔI_ch (fiche A57) (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="arrosage_annuel" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Volume d'arrosage annuel moyen de la période (fiche A49) (m³)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="rang_plantation" minOccurs="0" type="xs:integer">
+                            <xs:annotation>
+                              <xs:documentation>m_pl (fiche A58)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="annees_periode" minOccurs="0" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>Première et dernière années civiles de la période (fiche A46)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="trajectoire_reference" minOccurs="0" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>50 valeurs annuelles de l'état initial sous le même climat (m²HE)</xs:documentation>
                             </xs:annotation>
                           </xs:element>
                           <xs:element name="trajectoire_site" type="xs:string">

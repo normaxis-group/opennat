@@ -3,6 +3,7 @@
 """Partie 2 de l'édition complète : données conventionnelles, imprimées depuis donnees/."""
 import csv
 import os
+import sys
 from collections import OrderedDict
 
 from commun import DON, SOURCES, TYPES, ecrire, lire, nombre, tableau
@@ -20,6 +21,18 @@ TABLES = OrderedDict([
     ('seuils.csv', ('Seuils proposés', 'Seuils de Bnat, de la pleine terre et de Cnat, en attente de validation '
                     'du Biodiversity Standard Council.')),
     ('etat_criteres.csv', ('Grilles d\'état', 'Critères et règles des onze grilles d\'état (module H).')),
+    ('climat.csv', ('Stations climatiques de référence', 'Stations de référence des huit zones climatiques, '
+                    'normales mensuelles de pluie 1991-2020 sur lesquelles les années types sont recalées, ETP '
+                    'Penman de contrôle (module W, fiches A43 à A45).')),
+    ('hydrique.csv', ('Bilan hydrique', 'Textures et réserves utiles, substrats, groupes hydriques, saison de '
+                      'végétation, stress hydrique, arrosage, mares (module W, fiches A47 à A50).')),
+    ('eclairage.csv', ('Éclairage horaire', 'Saison d\'activité des chiroptères, nuit, distances, facteur '
+                       'spectral (module N, fiches A51 à A53).')),
+    ('succession.csv', ('Maturation, gestion et succession', 'Courbe de Chapman-Richards, couples exploité et '
+                        'abandonné de la BKompV, délais de succession (module T, fiches A54 à A56).')),
+    ('chantier.csv', ('Calendrier du chantier', 'Sensibilité mensuelle des oiseaux nicheurs, des chiroptères et '
+                      'des amphibiens, saison de plantation, année de début par défaut (module T, fiches A57 et '
+                      'A58).')),
 ])
 
 PARAM = {
@@ -133,8 +146,33 @@ def main():
                                  r['justification']] for r in lignes if r['cle'] != '*']))
             out.append('')
 
+    # années types horaires : synthèse mensuelle
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    import climat  # noqa: E402
+    k = i + 1
+    out += [f'### 2.{k} Années types horaires : synthèse mensuelle', '',
+            'Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures : France +2 °C (2030), '
+            '+2,7 °C (2050) et +4 °C (2100), tirées des fichiers climatiques prospectifs de l\'ADEME, de '
+            'Météo-France, du CSTB et de la DHUP (juin 2025, Licence Ouverte 2.0) et réduites dans '
+            '`donnees/climat/` aux variables utilisées. Le tableau de chaque station donne, mois par mois, la '
+            'température moyenne, la pluie après recalage sur la normale 1991-2020 (fiche A45) et '
+            'l\'évapotranspiration de référence calculée par la fiche A44, à l\'altitude de la station.', '']
+    noms = {'2_0': '+2 °C', '2_7': '+2,7 °C', '4_0': '+4 °C'}
+    mois = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.']
+    for zone, (station, lat, lon, alt) in climat.STATIONS.items():
+        rows = []
+        for niv in climat.NIVEAUX:
+            an = climat.annee(zone, niv)
+            for nom_g, cle, fonc in (('T (°C)', 't', lambda v: sum(v) / len(v)), ('Pluie (mm)', 'rr', sum),
+                                     ('ET0 (mm)', 'et0', sum)):
+                vals = [fonc([h[cle] for h in an if h['mois'] == m]) for m in range(1, 13)]
+                tot = fonc([h[cle] for h in an])
+                rows.append([noms[niv], nom_g] + [nombre(round(v, 1)) for v in vals] + [nombre(round(tot, 1))])
+        out += [f'#### Zone {zone}, station de {station.capitalize()} ({nombre(alt)} m)', '',
+                tableau(['Niveau', 'Grandeur'] + mois + ['Année'], rows), '']
+    k += 1
     # extraits des sources
-    out += ['### 2.11 Extraits des sources primaires utilisés', '',
+    out += [f'### 2.{k} Extraits des sources primaires utilisés', '',
             'Les deux tableaux suivants reproduisent les lignes des sources primaires effectivement appelées par '
             'la nomenclature : la liste allemande des valeurs de biotopes (texte réglementaire libre de droits) et '
             'les lignes de la métrique anglaise (Open Government Licence v3.0).', '',
@@ -157,10 +195,10 @@ def main():
     out.append(tableau(['Ligne de la métrique', 'Types OpenNAT qui y renvoient'],
                        [[u, ', '.join(n['code_vinat'] for n in nomen if n['uk_habitat'] == u)] for u in uk]))
     # liste allemande complète et onglets anglais complets
-    out += ['### 2.12 Annexe 2 de la BKompV, liste complète', '',
+    out += [f'### 2.{k + 1} Annexe 2 de la BKompV, liste complète', '',
             "Liste complète des types de biotopes de l'annexe 2 de la BKompV et de leur valeur sur 24, dans l'ordre "
             "du texte (extraction du 18/10/2026). Les intitulés de rubrique, sans valeur, structurent la liste. "
-            "Les types appelés par la nomenclature OpenNAT sont repris en 2.11.", '']
+            "Les types appelés par la nomenclature OpenNAT sont repris plus haut.", '']
     lignes = []
     with open(os.path.join(SOURCES, 'biotopwert_de', 'bkompv_anlage2.csv'), encoding='utf-8') as f:
         for code, libelle, val in csv.reader(f):
@@ -179,7 +217,7 @@ def main():
                 rows.append([r[c] if c < len(r) else '' for c in colonnes])
         return tableau(entetes, rows)
 
-    out += ['', '### 2.13 Métrique statutaire anglaise, onglets utilisés', '',
+    out += ['', f'### 2.{k + 2} Métrique statutaire anglaise, onglets utilisés', '',
             "Reproduction des colonnes utilisées des onglets G-1, G-4 et G-5 du tableur statutaire 1.0.4 "
             "(Defra et Natural England, Open Government Licence v3.0). « Not Possible » signifie que la création ou "
             "l'amélioration n'est pas admise par la métrique pour cette classe d'état.", '',

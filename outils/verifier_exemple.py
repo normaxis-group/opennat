@@ -2,12 +2,14 @@
 # Copyright (C) 2026 NORMATYS
 """Vérification arithmétique de l'exemple de l'annexe C de la méthode OpenNAT.
 
-Ce script n'est pas le moteur (lot 2). Il refait, équation par équation, le calcul que
-l'annexe C déroule à la main, en lisant les coefficients dans donnees/, pour que les
-nombres imprimés dans le texte de la méthode soient exacts. Il imprime chaque résultat
-intermédiaire dans l'ordre de l'annexe.
+Ce script n'est pas le moteur (lot 2). Il refait, équation par équation, les parties de
+l'annexe C qui se calculent à la main (C.1 à C.3, C.6 à C.8), en lisant les coefficients dans
+donnees/, sans importer le carnet de référence. Le facteur d'éclairage horaire est recompté
+ici heure par heure dans le fichier climatique. La trajectoire dynamique (C.4 et C.5 : pas
+mensuel, bilan hydrique, gestion) est calculée par outils/carnet_reference.py.
 """
 import csv
+import gzip
 import os
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,9 +21,9 @@ def table(nom):
                 for r in csv.DictReader(f, delimiter=';')}
 
 
-H, SOL, CTX, CON, NUI, MAT = (table(n) for n in ('habitats.csv', 'sols.csv', 'contexte.csv',
-                                                  'connectivite.csv', 'nuisances.csv',
-                                                  'materiaux.csv'))
+H, SOL, CTX, CON, NUI, MAT, ECL = (table(n) for n in ('habitats.csv', 'sols.csv', 'contexte.csv',
+                                                       'connectivite.csv', 'nuisances.csv',
+                                                       'materiaux.csv', 'eclairage.csv'))
 N = int(CTX[('*', 'periode_reference')])
 S_P = 2000.0
 
@@ -64,13 +66,25 @@ for nom, a, v, s, f, k in ini:
     v0 += vu
     print(f'{nom:30} A={a:6.0f} v={v:.4f} S={s if s is None else round(s, 3)} f={f:.4f} '
           f'VH={vh:8.2f} kC={k:.4f} V={vu:8.2f}')
-print(f'V0 site = {v0:.2f} m²HE, I0 = {N} x V0 = {N * v0:.1f} m²HE·an')
+print(f'V0 site = {v0:.2f} m²HE')
 
 print('\n== État projet, modules H, C, N')
 kt2, kt3 = k_taille(850), k_taille(500)
 kt4 = k_taille(150)
 print(f'k_taille(850 m²) = {kt2:.4f}   k_taille(500 m²) = {kt3:.4f}   k_taille(150 m²) = {kt4:.4f}')
-klum = NUI[('lumiere_conforme', 'facteur_lumiere')]
+# facteur d'éclairage horaire (équations L1 à L3) : éclairage conforme éteint à 1 h, 3 000 K, au pied
+nuit = allume = 0
+with gzip.open(os.path.join(RACINE, 'donnees', 'climat', 'tracc_2_0.csv.gz'), 'rt', encoding='utf-8') as fc:
+    for r in csv.DictReader(fc, delimiter=';'):
+        mois = int(r['mois'])
+        if r['station'] != 'TRAPPES' or not 4 <= mois <= 10 or float(r['hs']) > 0:
+            continue
+        nuit += 1
+        h = (int(r['heure_utc']) + 2) % 24                             # heure légale d'été
+        allume += h >= 12 or h < 1
+x_nuit = allume / nuit
+klum = 1 - ECL[('*', 'perte_maximale')] * x_nuit * ECL[('k3000', 'facteur_spectral')]
+print(f'heures de nuit avril-octobre = {nuit}, allumées = {allume}, x_nuit = {x_nuit:.4f}, k_lum = {klum:.4f}')
 pro = []
 #            nom, A, v, S, f, kC, kN, statut, délai, difficulté
 pro.append(('U1-3 VB.3 stabilisé', 150, H[('VB.3', 'valeur_intrinseque')], None, 1.0, kt4, 1.0,
@@ -98,32 +112,6 @@ for nom, a, v, s, f, kc, kn, statut, d, D in pro:
     print(f'{nom:30} A={a:5.0f} v={v:.4f} S={s if s is None else round(s, 3)} f={f:.4f} '
           f'kC={kc:.4f} kN={kn:.2f} V={vu:8.2f} statut={statut} d={d:g} D={D:g}')
 
-print('\n== Module T')
-d_ch = 1.5
-traj = []
-for t in range(1, N + 1):
-    phi = min(1.0, max(0.0, d_ch - (t - 1)))                          # équation T1
-    tau = t - d_ch                                                     # années depuis la fin du chantier
-    tot = 0.0
-    for nom, (vu, statut, d, D) in cible.items():
-        if statut == 'conserve':
-            tot += vu                                                  # équation T2, protection prévue
-        else:
-            g = 0.0 if tau <= 0 else (1.0 if d == 0 else min(1.0, tau / d))   # équation T3
-            tot += D * vu * g
-    traj.append(tot)
-for t in (1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 20, 30, 50):
-    print(f'année {t:2d} : V1 = {traj[t - 1]:8.2f}')
-i1, i1_30 = sum(traj), sum(traj[:30])
-print(f'I1 = {i1:.1f}   I1(30 ans) = {i1_30:.1f}')
-v_cible = sum(D * vu for vu, statut, d, D in cible.values())
-dette = sum(v_cible - x for x in traj)
-print(f'valeur projet à maturité = {v_cible:.2f}, dette de maturité = {dette:.1f}')
-cnat = N * v0 - i1                                                     # équation A1
-print(f'Cnat = {N * v0:.1f} - {i1:.1f} = {cnat:.1f} m²HE·an, Cnat moyen = {cnat / N:.2f} m²HE')
-print(f'Cnat(30 ans) = {30 * v0 - i1_30:.1f}')
-print(f'Cnat relatif = {cnat / (N * v0):.3f}')
-
 print('\n== Module G')
 cf = MAT[('climat', 'facteur_caracterisation')]
 cf_calc = (MAT[('climat', 'surface_terres_emergees_hors_glaces')]
@@ -145,8 +133,6 @@ inat_carr = m_gran * MAT[('carriere', 'occupation_par_tonne')] * (1 - MAT[('carr
 print(f'Inat granulats = {inat_carr:.1f}')
 inat = inat_clim + inat_bois + inat_carr
 print(f'Inat = {inat:.1f} m²HE·an, par m² de Sref = {inat / sref:.2f}')
-snat = -(cnat + inat)
-print(f'Snat = {snat:.1f} m²HE·an')
 
 print('\n== Bnat')
 c = {k[0]: v for k, v in SOL.items()}

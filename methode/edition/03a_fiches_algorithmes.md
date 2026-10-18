@@ -20,13 +20,16 @@ Les fiches sont appelées dans l'ordre suivant, qui est celui du chapitre 6 de l
 | 3 | A06 à A08 | Module S, sol |
 | 4 | A09 à A16 | Module H, habitats |
 | 5 | A17 à A19 | Module C, connectivité |
-| 6 | A20 à A22 | Module N, nuisances |
+| 6 | A20 à A22, A51 à A53 | Module N, nuisances, et éclairage horaire |
 | 7 | A23 à A25 | Module E, eau, et valeur à maturité |
-| 8 | A26 à A31 | Module T, temps |
-| 9 | A32 à A36 | Module G, biodiversité grise |
-| 10 | A37, A38 | Agrégation (E3), Bnat |
-| 11 | A39 | Incertitude (E4) |
-| 12 | A40 à A42 | Conformité (E5), variantes, journal des calculs |
+| 8 | A43 à A50 | Module W, climat et bilan hydrique horaire |
+| 9 | A26 à A31, A54 à A58 | Module T, temps, maturation, gestion et calendrier mensuel |
+| 10 | A32 à A36 | Module G, biodiversité grise |
+| 11 | A37, A38 | Agrégation (E3), Bnat |
+| 12 | A39 | Incertitude (E4) |
+| 13 | A40 à A42 | Conformité (E5), variantes, journal des calculs |
+
+Les fiches A43 à A58, ajoutées avec les modules dynamiques, sont regroupées à la section 3.13 ; leur pseudo-code les suit.
 
 ### 3.1 Généralités et contexte
 

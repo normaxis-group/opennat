@@ -232,7 +232,7 @@ La note technique des fichiers prospectifs indique que leurs cumuls de pluie son
 
 ### C-W4
 Catégorie : valeur de secours.
-La réserve utile d'un sol en pleine terre se calcule avec les teneurs en eau à la capacité au champ et au point de flétrissement du tableau 19 de la FAO-56 (milieu de plage) pour la classe de texture déclarée par le bureau d'études, et avec la profondeur explorée par les racines, bornée par la profondeur de sol. À défaut de déclaration, le sol est un limon d'un mètre.
+La réserve utile d'un sol en pleine terre se calcule avec les teneurs en eau à la capacité au champ et au point de flétrissement du tableau 19 de la FAO-56 (milieu de plage) pour la classe de texture déclarée par le bureau d'études, et avec la profondeur d'enracinement, bornée par la profondeur de sol. À défaut de déclaration, le sol est un limon d'un mètre.
 
 ### C-W5
 Catégorie : valeur de secours.
@@ -292,7 +292,7 @@ Le facteur spectral croît avec la température de couleur : 0,5 en ambre (1 800
 
 ### C-M1
 Catégorie : convention de transposition.
-La maturation d'un milieu créé suit une courbe de Chapman-Richards (Richards, 1959 ; Pienaar et Turnbull, 1973) ramenée à 1 au délai de maturité d de la métrique anglaise : g(tau) = [(1 - e^(-3 tau / d)) / (1 - e^(-3))]^c. L'exposant c vaut 1 pour un milieu herbacé (courbe concave : une prairie semée donne vite l'essentiel de sa valeur), 2 pour un milieu arbustif, 3 pour un milieu arboré (courbe en S : un boisement planté vaut peu les premières années). Cette courbe remplace la droite de la première rédaction ; le délai et la difficulté restent ceux de la métrique anglaise.
+La maturation d'un milieu créé suit une courbe de Chapman-Richards (Richards, 1959 ; Pienaar et Turnbull, 1973) ramenée à 1 au délai de maturité d de la métrique anglaise : g(tau) = [(1 - e^(-3 tau / d)) / (1 - e^(-3))]^c. L'exposant c vaut 1 pour un milieu herbacé (courbe concave : une prairie semée donne vite la plus grande part de sa valeur), 2 pour un milieu arbustif, 3 pour un milieu arboré (courbe en S : un boisement planté vaut peu les premières années). Cette courbe remplace la droite de la première rédaction ; le délai et la difficulté restent ceux de la métrique anglaise.
 
 ### C-M2
 Catégorie : convention de transposition.

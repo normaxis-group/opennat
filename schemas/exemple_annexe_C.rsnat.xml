@@ -9,6 +9,14 @@
       <identifiant>EX-ANNEXE-C</identifiant>
       <nom>Résidence sur friche urbaine</nom>
       <zone_biogeographique>continentale</zone_biogeographique>
+      <departement>78</departement>
+      <zone_climatique>H1a</zone_climatique>
+      <texture_sol>limon</texture_sol>
+      <profondeur_sol>1.0</profondeur_sol>
+      <annee_debut_chantier>2027</annee_debut_chantier>
+      <mois_debut_chantier>9</mois_debut_chantier>
+      <mois_destruction>9</mois_destruction>
+      <plan_gestion_annees>10</plan_gestion_annees>
       <typologie>logement</typologie>
       <date_etude>2026-10-18</date_etude>
     </Projet>
@@ -288,12 +296,17 @@
       <Unite_Resultat_Collection/>
       <Site>
         <valeur_initiale>270.4</valeur_initiale>
-        <i0>13519.3</i0>
-        <i1>12051.0</i1>
-        <i0_30>8111.6</i0_30>
-        <i1_30>6886.5</i1_30>
-        <dette_maturite>860.2</dette_maturite>
-        <trajectoire_site>24.0 72.6 126.4 154.6 182.9 211.1 228.5 235.1 241.7 248.3 254.9 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2</trajectoire_site>
+        <i0>13277.1</i0>
+        <i1>10059.9</i1>
+        <i0_30>8048.2</i0_30>
+        <i1_30>6060.0</i1_30>
+        <dette_maturite>673.1</dette_maturite>
+        <supplement_destruction>0</supplement_destruction>
+        <arrosage_annuel>0.0</arrosage_annuel>
+        <rang_plantation>17</rang_plantation>
+        <annees_periode>2027 2076</annees_periode>
+        <trajectoire_reference>270.4 270.4 270.4 270.4 270.2 270.0 269.9 269.7 269.5 269.4 269.2 269.0 268.8 268.7 268.5 268.3 268.2 268.0 267.8 267.7 267.5 267.3 267.1 267.0 266.6 266.3 266.0 265.6 265.3 265.0 264.6 264.3 264.0 263.6 263.3 263.0 262.6 262.3 261.9 261.6 261.3 260.9 260.6 260.3 259.9 259.6 259.3 258.9 258.6 258.3</trajectoire_reference>
+        <trajectoire_site>24.0 68.2 156.5 195.2 219.1 234.1 242.6 246.1 248.4 250.1 251.4 252.0 205.2 205.1 205.0 204.8 204.7 204.6 204.5 204.3 204.2 204.1 203.9 203.8 203.6 203.3 203.1 202.9 202.7 202.4 202.2 202.0 201.7 201.5 201.3 201.0 200.8 200.6 200.3 200.1 199.9 199.6 199.4 199.2 199.0 198.7 198.5 198.3 198.0 197.8</trajectoire_site>
         <pleine_terre>0.425</pleine_terre>
         <pleine_terre_initiale>0.7</pleine_terre_initiale>
         <impermeable_initial>600</impermeable_initial>
@@ -307,15 +320,15 @@
         <inat_carrieres>1539.0</inat_carrieres>
       </Materiaux>
       <Indicateurs>
-        <cnat>1468.3</cnat>
-        <cnat_moyen>29.4</cnat_moyen>
-        <cnat_relatif>0.109</cnat_relatif>
-        <cnat_30>1225.1</cnat_30>
+        <cnat>3217.2</cnat>
+        <cnat_moyen>64.3</cnat_moyen>
+        <cnat_relatif>0.242</cnat_relatif>
+        <cnat_30>1988.1</cnat_30>
         <inat>141842.9</inat>
-        <snat>-143311.2</snat>
+        <snat>-145060.0</snat>
         <bnat>59.0</bnat>
         <cbs>0.59</cbs>
-        <cnat_par_m2_parcelle>0.734</cnat_par_m2_parcelle>
+        <cnat_par_m2_parcelle>1.609</cnat_par_m2_parcelle>
         <inat_par_m2_sref>101.3</inat_par_m2_sref>
       </Indicateurs>
       <Conformite>

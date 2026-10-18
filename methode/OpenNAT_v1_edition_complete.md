@@ -3,7 +3,7 @@
 Méthode conventionnelle de calcul de la consommation de nature d'une opération de construction ou d'aménagement, et de la biodiversité grise de ses matériaux.
 
 Éditeur : NORMATYS. Application dans la certification Effinature : IRICE. Moteur de calcul libre : le moteur OpenNAT, qui porte le nom de la méthode.
-Version 1, édition complète du 18 octobre 2026. Projet soumis à la validation du Biodiversity Standard Council : la méthode, ses conventions et ses seuils ne sont pas opposables tant que le conseil ne les a pas validés.
+Version 1, édition complète du 18 octobre 2026, avec les modules dynamiques : climat horaire et trajectoire de réchauffement de référence, bilan hydrique horaire, éclairage horaire, maturation et gestion, calendrier du chantier au pas mensuel. Projet soumis à la validation du Biodiversity Standard Council : la méthode, ses conventions et ses seuils ne sont pas opposables tant que le conseil ne les a pas validés.
 Texte et tables de données sous licence CC BY 4.0, chaque valeur portant la licence de sa source. Moteur sous licence AGPL-3.0-or-later.
 
 ## Organisation de l'édition complète
@@ -12,14 +12,14 @@ L'édition complète suit le plan de l'annexe III de l'arrêté du 4 août 2021 
 
 | Partie | Contenu |
 |---|---|
-| 1 | Texte de la méthode : objet, définitions, principes, données d'entrée, algorithme, modules, indicateurs, incertitude, seuils, récapitulatif, exemple complet |
-| 2 | Données conventionnelles : nomenclature et toutes les valeurs des tables, avec leur source |
-| 3 | Fiches algorithmes A01 à A42, au format des fiches de la méthode Th-BCE, avec leur pseudo-code et un second cas élémentaire |
+| 1 | Texte de la méthode : objet, définitions, principes, données d'entrée, algorithme, modules (dont le bilan hydrique), indicateurs, incertitude, seuils, récapitulatif, exemple complet |
+| 2 | Données conventionnelles : nomenclature et toutes les valeurs des tables, avec leur source, et synthèse mensuelle des années types horaires des huit zones climatiques |
+| 3 | Fiches algorithmes A01 à A58, au format des fiches de la méthode Th-BCE, avec leur pseudo-code et un second cas élémentaire ; les fiches A43 à A58 décrivent les modules dynamiques |
 | 4 | Fiches habitats H001 à H191, avec les listes complètes de correspondances et d'espèces |
-| 5 | Fiches d'application F01 à F25 et leurs exemples chiffrés |
+| 5 | Fiches d'application F01 à F30 et leurs exemples chiffrés |
 | 6 | Protocoles de relevé des grilles d'état et liste des espèces exotiques envahissantes |
 | 7 | Récapitulatif standardisé RSNat : schéma, dictionnaire des données, exemple |
-| 8 | Cas de validation : les huit cas du cahier des charges et trente et un cas complémentaires |
+| 8 | Cas de validation : les huit cas du cahier des charges, trente et un cas complémentaires et vingt-neuf cas dynamiques |
 | 9 | Conventions |
 | 10 | Bibliographie |
 
@@ -82,9 +82,17 @@ Dette de maturité : valeur, en m²HE·an, que les habitats créés n'apportent 
 | m_u | Multiplicateur de situation dans la trame verte et bleue | sans unité |
 | k_C,u | Facteur de connectivité de la tache de u | sans unité |
 | k_N,u | Facteur de nuisances de u | sans unité |
-| k_E,u | Facteur hydrique de u | sans unité |
+| k_E,u | Facteur d'alimentation en eau de u | sans unité |
+| k_L,u | Facteur d'éclairage de u, partie de k_N,u | sans unité |
 | V_u | Valeur de l'unité à maturité | m²HE |
 | V_u(t) | Valeur de l'unité l'année t | m²HE |
+| k_W,u(t) | Facteur hydrique de u l'année t | sans unité, 0,5 à 1 |
+| f_g,u(t) | Facteur de gestion de u l'année t | sans unité |
+| g_u(τ) | Part de maturité atteinte τ ans après la plantation | sans unité, 0 à 1 |
+| ET0 | Évapotranspiration de référence horaire | mm |
+| RU_u | Réserve utile en eau du sol ou du substrat de u | mm |
+| IS_u | Indice de stress hydrique de Granier | jours-équivalents |
+| ΔI_ch | Supplément de Cnat pour destruction en période sensible | m²HE·an |
 | d_u | Délai de maturité | an |
 | D_u | Difficulté de création ou d'amélioration | sans unité |
 | d_ch | Durée du chantier | an |
@@ -107,7 +115,9 @@ La valeur d'une unité est le produit de sa surface, de la valeur intrinsèque d
 
 #### 3.2 Temps
 
-Le site se simule année par année sur 50 ans. Les habitats détruits disparaissent au début du chantier. Les habitats créés partent de zéro à la fin du chantier et gagnent leur valeur cible en un délai propre à chaque type, multipliée par la probabilité de réussite (difficulté) de la métrique anglaise. Les valeurs annuelles s'additionnent sans actualisation (convention C-T5) : la lenteur de la maturation est comptée en m²HE·an perdus.
+Le site se simule mois par mois sur 50 ans, à partir du premier mois du chantier ; les valeurs mensuelles se moyennent par année. Les habitats détruits disparaissent au début du chantier, et leur destruction pendant la nidification, l'hibernation des chiroptères ou la reproduction des amphibiens coûte une année de leur valeur. Les habitats créés partent de zéro au premier mois favorable aux plantations et gagnent leur valeur cible selon une courbe de croissance propre à leur forme (herbacée, arbustive, arborée), en un délai propre à chaque type, multipliée par la probabilité de réussite (difficulté) de la métrique anglaise. Chaque année, la valeur est réduite par le stress hydrique que le climat de l'année impose à l'unité, calculé heure par heure sur des années types qui suivent la trajectoire de réchauffement de référence (TRACC), et par la gestion : au-delà du plan de gestion écologique déclaré, une prairie tondue comme une pelouse perd la moitié de sa valeur. Les valeurs annuelles s'additionnent sans actualisation (convention C-T5) : la lenteur de la maturation est comptée en m²HE·an perdus.
+
+Comme le calcul de la RE2020, qui simule le bâtiment heure par heure sur une année météorologique type, OpenNAT simule chaque unité végétalisée heure par heure sur trois années types (France +2 °C, +2,7 °C et +4 °C), soit 26 280 pas de bilan hydrique par unité, puis 600 pas mensuels de trajectoire.
 
 #### 3.3 Frontières du système
 
@@ -136,12 +146,13 @@ Les données d'entrée suivent la logique de la RE2020 : un projet, ses bâtimen
 | Surface de la parcelle S_p | `entree_projet/parcelle/surface_parcelle` | Fermeture des surfaces, Bnat, ratios |
 | Surface végétalisée déclarée | `entree_projet/parcelle/surface_veg` | Contrôle de cohérence avec les unités saisies |
 | Surface imperméabilisée déclarée | `entree_projet/parcelle/surface_imper` | Contrôle de cohérence |
-| Surface arrosée | `entree_projet/parcelle/surface_arrosee` | Indicateur complémentaire |
+| Surface arrosée | `entree_projet/parcelle/surface_arrosee` | Contrôle de cohérence avec les unités déclarées arrosées (fiche A49) |
 | Emprise au sol du bâtiment | `entree_projet/batiment/emprise_au_sol` | Choix du seuil de Bnat (emprise en % de S_p) |
 | Durée du chantier | `entree_projet/batiment/duree_chantier` (mois) | d_ch = durée / 12 |
 | Surface de référence S_ref | `entree_projet/batiment/sref` | Inat par m² |
 | Usage des zones, nombre de logements | `entree_projet/batiment/zone/usage`, `nb_logement` | Typologie, seuils |
 | Adresse, commune, coordonnées | `Datas_Comp`, `adresse`, `latitude`, `longitude` | Zone biogéographique, contexte large |
+| Département et altitude du site | RSET, `Simu/Departement` et `Simu/Altitude` | Zone climatique RE2020 du département, station de référence du climat, correction d'altitude (fiche A43) |
 | Émissions de gaz à effet de serre par phase | `sortie_projet/batiment/contributeur/{composant, chantier}/indicateurs_acv_collection`, indicateur 101, phases A1-A3, A4-A5, B, C, D | Inat climat (équation G2) |
 | Indicateurs de pollution | mêmes collections, indicateurs 106 à 109 et 116 | Indicateurs complémentaires |
 
@@ -164,7 +175,12 @@ Pour l'état initial et pour l'état projet :
 | Critères d'état | réponse oui ou non à chaque critère de la grille du type (ou note de 1 à 3 pour un boisement) | tous non |
 | Situation | réservoir, corridor, hors trame | hors trame |
 | Tache | identifiant de tache | une tache par unité |
-| Éclairage | L0, L1, L2 | L0 |
+| Éclairage | aucun ; ou heure d'extinction et de rallumage (heure légale), température de couleur (K), distance au luminaire le plus proche (m), part de temps allumé sous détection de présence ; L1 et L2 restent admis comme raccourcis (fiche A53) | aucun |
+| Arrosage automatique | oui ou non | non |
+| Texture et profondeur de sol | classe de texture (tableau 19 de la FAO-56), m | celles du site |
+| Bassins versants raccordés (mare, noue, jardin de pluie) | m² imperméables, m² perméables | 0 |
+| Profondeur et fond d'une mare | m ; étanche, argileux, naturel | 0,8 m, argileux |
+| Gîtes de chiroptères (arbre, bâti) | oui ou non | non, sauf arbre de stade âgé |
 | Niveau sonore | dB(A) | aucun effet |
 | Exposition aux vitrages | oui ou non | non |
 | Alimentation en eau (positions eau) | naturelle, artificielle | naturelle |
@@ -178,6 +194,7 @@ Pour l'état projet seulement :
 | Protection en chantier (conservée) | oui ou non | non |
 | Critères d'état visés (créée, améliorée) | comme ci-dessus | aucun |
 | Renouvellements | années de réfection | aucun |
+| Régime après le plan de gestion | gestion courante, abandon | gestion courante |
 
 #### 4.3 Données de contexte
 
@@ -190,6 +207,11 @@ Pour l'état projet seulement :
 | Connexion de chaque tache | contiguë à un espace naturel d'au moins 1 ha ou à la trame, à moins de 200 m, isolée | isolée |
 | Clôture de chaque tache | perméable, étanche, sans clôture | sans clôture |
 | Surface dont l'eau de pluie est infiltrée en surface | m² | 0 |
+| Zone climatique RE2020 | H1a à H3 | celle du département du RSEE |
+| Texture et profondeur du sol du site | classe de texture, m | limon, 1 m |
+| Année et mois de début du chantier | année, mois | janvier 2027 |
+| Mois de destruction des milieux (défrichement, abattage, comblement) | mois | premier mois du chantier |
+| Durée du plan de gestion écologique | années depuis la livraison | 0 |
 
 Les données de contexte large (trame verte et bleue, réservoirs, corridors, espaces naturels voisins, zonages) se lisent dans les couches publiques : SRADDET et SRCE, documents d'urbanisme, couches de l'IGN et de l'INPN. L'outil de saisie peut les préremplir à partir de l'adresse ; l'écologue les valide.
 
@@ -226,6 +248,10 @@ Le même multiplicateur s'applique à l'état initial et à l'état projet.
 
 La typologie et la part d'emprise du bâti (emprise / S_p) choisissent le seuil de Bnat (chapitre 10).
 
+#### 5.4 Zone climatique et climat futur
+
+La zone climatique est celle de la RE2020 (H1a à H3), lue dans le département du RSEE. Elle choisit la station de référence des fichiers climatiques prospectifs de l'ADEME et de Météo-France (convention C-W1). Les fichiers météorologiques de la RE2020 ne sont pas utilisés : le ministère en réserve l'usage au calcul réglementaire. Chaque année civile de la période reçoit le niveau de réchauffement de la TRACC (+2 °C en 2030, +2,7 °C en 2050, +4 °C en 2100, convention C-W13) : un projet dont le chantier commence en 2027 est calculé jusqu'en 2076, à +3,4 °C la dernière année.
+
 ---
 
 ### 6. Algorithme général
@@ -239,15 +265,16 @@ Le calcul enchaîne cinq étapes et sept modules, dans un ordre fixe. Chaque ét
 | 3 | S Sol | unités, `sols.csv` | c_u, f_sol,u, pleine terre, imperméabilisation |
 | 4 | H Habitats | unités, `habitats.csv`, `etat_criteres.csv` | v_u, S_u, f_u, V^H_u |
 | 5 | C Connectivité | taches, contexte, `connectivite.csv` | k_C par tache |
-| 6 | N Nuisances | unités, `nuisances.csv` | k_N,u |
+| 6 | N Nuisances | unités, climat, `nuisances.csv`, `eclairage.csv` | k_L,u (heures éclairées de nuit), k_N,u |
 | 7 | E Eau | unités, `eau.csv` | k_E,u, part infiltrée |
-| 8 | T Temps | sorties 3 à 7, statuts, chantier | V_u(t), I_0, I_1, dette de maturité |
-| 9 | G Biodiversité grise | RSEE, matériaux, `materiaux.csv` | Inat par phase et par poste |
-| 10 | E3 Agrégation | sorties 3 à 9 | Cnat, Inat, Snat, Bnat, indicateurs complémentaires |
-| 11 | E4 Incertitude | toutes les tables | intervalle à 90 %, paramètres influents |
-| 12 | E5 Conformité | indicateurs, `seuils.csv` | niveaux atteints, attestations |
+| 8 | W Bilan hydrique et climat | unités, climat horaire, `climat.csv`, `hydrique.csv` | ET0 horaire, réserve utile, indice de stress, k_W,u par niveau de réchauffement, arrosage |
+| 9 | T Temps | sorties 3 à 8, statuts, calendrier du chantier, gestion, `succession.csv`, `chantier.csv` | V_u(t) au pas mensuel, I_0, I_1, dette de maturité, ΔI_ch |
+| 10 | G Biodiversité grise | RSEE, matériaux, `materiaux.csv` | Inat par phase et par poste |
+| 11 | E3 Agrégation | sorties 3 à 10 | Cnat, Inat, Snat, Bnat, indicateurs complémentaires |
+| 12 | E4 Incertitude | toutes les tables | intervalle à 90 %, paramètres influents |
+| 13 | E5 Conformité | indicateurs, `seuils.csv` | niveaux atteints, attestations |
 
-Le module T est le plus long : il simule chaque unité sur 50 ans. L'étape E4 refait toute la chaîne au moins 1 000 fois. Un calcul complet peut durer plusieurs minutes.
+Les modules W et T sont les plus longs : le bilan hydrique simule chaque unité végétalisée heure par heure sur trois années types, la trajectoire mois par mois sur 50 ans. L'étape E4 refait toute la chaîne au moins 1 000 fois. Un calcul complet peut durer plusieurs minutes.
 
 ---
 
@@ -333,7 +360,13 @@ Paramètres : `nuisances.csv`.
 
 (N1) k_N,u = k_lum,u x k_bruit,u x k_vit,u
 
-k_lum,u = 1 (L0), 0,9 (L1) ou 0,75 (L2) (convention C-N1). k_bruit,u = 0,7 si le niveau sonore dépasse 47 dB(A) en milieu ouvert ou 42 dB(A) en milieu boisé, 1 sinon (convention C-N2). k_vit,u = 0,95 si u est à moins de 15 m d'une façade exposant plus de 10 m² de vitrage non traité, 1 sinon (convention C-N3).
+Le facteur d'éclairage se calcule heure par heure (fiches A51 à A53, conventions C-L1 à C-L4) :
+
+(N2) x_nuit,u = part des heures de nuit d'avril à octobre (soleil sous l'horizon à la station de référence) pendant lesquelles l'éclairage qui atteint u est allumé, multipliée par la part de temps allumé sous détection de présence ;
+
+(N3) k_lum,u = 1 - 0,25 x x_nuit,u x s(T_c) x g(d_u), où s est le facteur spectral de la température de couleur T_c (0,5 en ambre, 0,9 à 3 000 K, 1 à 4 000 K) et g le facteur de distance au luminaire le plus proche (1 jusqu'à 10 m, 0 au-delà de 50 m, linéaire entre les deux).
+
+Un éclairage froid allumé toute la nuit au pied de l'unité donne 0,75 ; un éclairage conforme à l'arrêté du 27 décembre 2018, de 3 000 K, éteint à 1 h, donne 0,916 à Trappes. k_bruit,u = 0,7 si le niveau sonore dépasse 47 dB(A) en milieu ouvert ou 42 dB(A) en milieu boisé, 1 sinon (convention C-N2). k_vit,u = 0,95 si u est à moins de 15 m d'une façade exposant plus de 10 m² de vitrage non traité, 1 sinon (convention C-N3).
 
 #### 7.7 Module E : eau
 
@@ -348,30 +381,55 @@ Valeur à maturité d'une unité :
 
 (H5) V_u = min(1,15 x A_u ; V^H_u x k_C,u x k_N,u x k_E,u) (convention C-H7)
 
-#### 7.8 Module T : temps
+#### 7.8 Module W : bilan hydrique et climat
 
-Objet : trajectoire annuelle de chaque unité sur 50 ans.
-Paramètres : `habitats.csv` (délais, difficultés), `contexte.csv`.
+Objet : stress hydrique de chaque unité végétalisée, heure par heure, sous le climat de chaque année de la période.
+Paramètres : `climat.csv`, `donnees/climat/` (années types horaires), `hydrique.csv`.
 
-(T1) Part de l'année t occupée par le chantier : phi_t = min(1 ; max(0 ; d_ch - (t - 1))), t = 1 à 50.
+(W1) Climat horaire : année type de la station de référence de la zone climatique au niveau de réchauffement n (+2 ; +2,7 ; +4 °C), température corrigée de l'altitude du site, pluies recalées mois par mois sur la normale 1991-2020 de la station (conventions C-W1, C-W3).
 
-(T2) Unité conservée : V_u(t) = V_u x (1 - r x phi_t), avec r = 0 si une protection en chantier est prévue, 0,25 sinon (convention C-T4).
+(W2) ET0 horaire : équation 53 de la FAO-56, gazon de référence (convention C-W2).
 
-(T3) Unité créée : V_u(t) = D_u x V_u x g(t), avec g(t) = 0 si t <= d_ch, 1 si d_u = 0, min(1 ; (t - d_ch) / d_u) sinon.
+(W3) Réserve utile : RU_u = 1 000 x (θ_cc - θ_pf) x min(Z_r ; profondeur de sol) en pleine terre ; RU_u = 10 x épaisseur (cm) x 0,20 pour un substrat (conventions C-W4, C-W5).
+
+(W4) Bilan horaire : D_u(h) = D_u(h - 1) - P(h) x (1 + apport_u) + K_s x K_c x ET0(h), borné entre 0 et RU_u, avec K_s = REW / (1 - p) quand la réserve extractible relative REW = 1 - D_u / RU_u passe sous 1 - p (équation 84 de la FAO-56), K_c et p du groupe hydrique de u (conventions C-W6, C-W7). Une unité arrosée est rechargée la nuit quand REW passe sous 0,5 (C-W10).
+
+(W5) Indice de stress : IS_u = somme, sur les heures de la saison de végétation, de max(0 ; (0,4 - REW) / 0,4) / 24 (Granier et al., 1999, convention C-W8).
+
+(W6) Facteur hydrique du niveau n : k_W,u,n = max(0,5 ; 1 - β_g x (IS_u,n - IS_ref,g - 5) / 100), où IS_ref,g est l'indice du même groupe sur un limon d'un mètre, sans arrosage, à +2 °C dans la zone (convention C-W9). Une mare à sec entre mars et juin vaut k_W = 0,5 (C-W11, C-W12).
+
+(W7) Facteur de l'année t : k_W,u(t) = interpolation linéaire des k_W,u,n selon le niveau de réchauffement de l'année civile (C-W13).
+
+Sorties : RU_u, IS_u et k_W,u par niveau, k_W,u(t), volume d'arrosage annuel.
+
+#### 7.9 Module T : temps
+
+Objet : trajectoire de chaque unité sur 50 ans, au pas mensuel.
+Paramètres : `habitats.csv` (délais, difficultés), `contexte.csv`, `succession.csv`, `chantier.csv`.
+
+(T1) Mois m de la période (m = 1 au premier mois du chantier, m = 600 au dernier) : phi_m = 1 si m <= durée du chantier en mois, 0 sinon. Rang de plantation m_pl : premier mois de novembre à mars au plus tôt deux mois avant la fin du chantier ; un milieu sans délai de maturité part à la fin du chantier (conventions C-K2, C-K3).
+
+(T2) Unité conservée : V_u(m) = V_u x (1 - r x phi_m), avec r = 0 si une protection en chantier est prévue, 0,25 sinon (convention C-T4).
+
+(T3) Unité créée : V_u(m) = D_u x V_u x g_u(τ), avec τ = (m - m_pl) / 12 et g_u(τ) = [(1 - e^(-3 τ / d_u)) / (1 - e^(-3))]^c pour τ > 0, plafonnée à 1, c valant 1, 2 ou 3 selon que le milieu est herbacé, arbustif ou arboré (convention C-M1).
 
 d_u est le délai de maturité du type pour la classe d'état visée (C-T1, C-T2), multiplié par le multiplicateur de zone (C-E2) ; pour un type sans évaluation d'état dans la métrique anglaise, le délai « sans état » ; pour un type minéral, 0 (C-T3). D_u est la difficulté de création (C-T7).
 
 (T4) Unité améliorée : V_u(t) = V_u,0 + (D_u x V_u - V_u,0) x g(t) si D_u x V_u > V_u,0, et V_u,0 sinon, où V_u,0 est la valeur à l'état initial de l'unité liée, D_u la difficulté d'amélioration et d_u le délai d'amélioration de la classe d'état initiale à la classe visée (mauvais vers moyen, mauvais vers bon, moyen vers bon), lu dans l'onglet G-5 de la métrique anglaise (`habitats.csv`, paramètres `delai_amelioration_*`).
 
-(T5) Renouvellement prévu l'année R : V_u(t) = 0 de R à R + 1 (convention C-T6), puis maturation selon (T3) depuis R + 1.
+(T5) Renouvellement prévu l'année R : V_u = 0 pendant l'année qui suit R (convention C-T6), puis maturation selon (T3).
 
-(T6) Valeurs intégrées : I_0 = N x somme des V_u de l'état initial ; I_1 = somme, pour t de 1 à N, des V_u(t) de l'état projet. Les mêmes sommes sur 30 ans donnent les sorties complémentaires.
+(T6) Valeur annuelle : V_u(t) = [moyenne des V_u(m) des douze mois de l'année t] x k_W,u(t) x f_g,u(t). Le facteur de gestion vaut 1 pendant le plan de gestion déclaré ; ensuite, en gestion courante, une prairie prend la valeur d'une pelouse tondue (VB.5) et une haie celle de son stade jeune ; en cas d'abandon, un milieu herbacé prend la valeur de sa variante abandonnée de la BKompV après deux ans, puis celle d'une friche arbustive après quinze ans (conventions C-M2, C-M3).
 
-(T7) Dette de maturité : somme, pour t de 1 à N, des (D_u x V_u - V_u(t)) des unités créées et améliorées.
+(T7) Valeurs intégrées : I_0 = somme, pour t de 1 à N, des V_u x k_W,u(t) de l'état initial, qui subit le même climat ; I_1 = somme, pour t de 1 à N, des V_u(t) de l'état projet. Les mêmes sommes sur 30 ans donnent les sorties complémentaires.
 
-Sorties : trajectoire de chaque unité (50 valeurs), trajectoire du site, I_0, I_1, dette de maturité.
+(T8) Dette de maturité : somme, pour t de 1 à N, des (D_u x V_u - moyenne annuelle des V_u(m)) des unités créées et améliorées, avant facteurs hydrique et de gestion.
 
-#### 7.9 Module G : biodiversité grise
+(T9) Destruction en période sensible : ΔI_ch = somme, sur les unités initiales détruites, de V_u x s(mois de destruction) x 1 an, s étant la sensibilité la plus forte des groupes de faune de l'unité (oiseaux nicheurs, chiroptères, amphibiens) au mois de destruction (convention C-K1).
+
+Sorties : trajectoire de chaque unité (50 valeurs), trajectoire du site, I_0, I_1, dette de maturité, ΔI_ch.
+
+#### 7.10 Module G : biodiversité grise
 
 Objet : perte de nature causée par les matériaux et le chantier.
 Paramètres : `materiaux.csv`.
@@ -398,7 +456,7 @@ Sorties : Inat par phase, par poste (climat, bois, carrières), et, quand le RSE
 
 ### 8. Agrégation et indicateurs
 
-(A1) Cnat = I_0 - I_1 (m²HE·an). Cnat positif : le site perd de la nature ; négatif : il en gagne. Cnat moyen = Cnat / N (m²HE).
+(A1) Cnat = I_0 - I_1 + ΔI_ch (m²HE·an). Cnat positif : le site perd de la nature ; négatif : il en gagne. Cnat moyen = Cnat / N (m²HE).
 
 (A2) Snat = -(Cnat + Inat)
 
@@ -408,7 +466,7 @@ Bnat se calcule sur les seules données du plan masse : natures de surface, épa
 
 (A4) Ratios : Cnat / S_p (m²HE·an par m² de parcelle), Inat / S_ref (m²HE·an par m² de S_ref), Cnat relatif = Cnat / I_0.
 
-Indicateurs complémentaires : Cnat et Snat sur 30 ans, dette de maturité, taux de pleine terre, imperméabilisation nette créée, part des eaux pluviales infiltrées, part de surfaces éclairées, surface vitrée exposée non traitée, part d'essences indigènes plantées (déclarée), indicateurs de pollution.
+Indicateurs complémentaires : Cnat et Snat sur 30 ans, dette de maturité, supplément pour destruction en période sensible, volume d'arrosage annuel moyen (m³), facteur hydrique moyen de chaque unité, taux de pleine terre, imperméabilisation nette créée, part des eaux pluviales infiltrées, part de surfaces éclairées, surface vitrée exposée non traitée, part d'essences indigènes plantées (déclarée), indicateurs de pollution.
 
 ---
 
@@ -466,7 +524,7 @@ Un fichier XML, validé par un schéma XSD publié avec la méthode, et sa copie
 #### 11.2 Contenu de `Sortie_Projet`
 
 - Par étape et par module : les sorties listées au chapitre 7.
-- Par unité : v_u, S_u, f_u, c_u, k_C,u, k_N,u, k_E,u, V_u, trajectoire sur 50 ans.
+- Par unité : v_u, S_u, f_u, c_u, k_C,u, k_L,u, k_N,u, k_E,u, V_u, réserve utile, indice de stress et facteur hydrique par niveau de réchauffement, mois de départ de la maturation, facteur de gestion, trajectoire sur 50 ans.
 - Pour le site : I_0, I_1, Cnat, Cnat moyen, Cnat sur 30 ans, dette de maturité, PT, Bnat.
 - Pour les matériaux : Inat par phase et par poste, indicateurs de pollution.
 - Incertitude : centiles 5 et 95 de chaque indicateur, cinq paramètres les plus influents.
@@ -504,9 +562,15 @@ Les tables sont dans `donnees/`, une ligne par valeur, avec les colonnes `cle`, 
 | `connectivite.csv` | effet de taille, connectivité, clôtures | |
 | `nuisances.csv` | lumière, bruit, vitrages | |
 | `eau.csv` | alimentation des milieux en eau | |
+| `climat.csv` | stations de référence, normales de pluie 1991-2020, ETP Penman de contrôle | `outils/construire_climat.py`, depuis les données mensuelles de Météo-France |
+| `climat/` | années types horaires France +2, +2,7 et +4 °C des huit stations | réduction des fichiers prospectifs de l'ADEME et de Météo-France (Licence Ouverte 2.0) |
+| `hydrique.csv` | textures, substrats, groupes hydriques, stress, arrosage, mares | `outils/construire_dynamique.py`, depuis la FAO-56 et Granier et al. (1999) |
+| `eclairage.csv` | saison des chiroptères, distances, facteur spectral | `outils/construire_dynamique.py` |
+| `succession.csv` | courbe de maturation, abandon, gestion courante | `outils/construire_dynamique.py`, depuis la BKompV |
+| `chantier.csv` | sensibilité mensuelle de la faune, saison de plantation | `outils/construire_dynamique.py` |
 | `materiaux.csv` | facteur climat, bois, carrières, pollution | |
 | `seuils.csv` | seuils proposés | |
-| `conventions.csv` | index des 47 conventions | généré depuis `methode/conventions.md` |
+| `conventions.csv` | index des 70 conventions | généré depuis `methode/conventions.md` |
 
 #### Annexe B : correspondances de nomenclatures (détail en parties 2 et 4)
 
@@ -516,7 +580,7 @@ Les types EUNIS du groupe J (bâti, réseaux, décharges) se saisissent par le t
 
 #### Annexe C : exemple de calcul complet
 
-Opération : résidence de logements collectifs sur une friche urbaine, zone continentale, hors trame verte et bleue, sans éclairage ni bruit au-dessus des seuils à l'état initial. Parcelle de 2 000 m². Chantier de 18 mois (d_ch = 1,5 an). Les nombres ont été vérifiés par `outils/verifier_exemple.py`, indépendant du moteur.
+Opération : résidence de logements collectifs sur une friche urbaine, zone continentale, hors trame verte et bleue, sans éclairage ni bruit au-dessus des seuils à l'état initial. Parcelle de 2 000 m², dans les Yvelines : zone climatique H1a, station de référence de Trappes. Sol limoneux d'un mètre. Chantier de 18 mois commencé en septembre 2027 (défrichement en septembre), livré en février 2029. Plan de gestion écologique de dix ans. Les nombres des sections C.1 à C.3 et C.6 à C.8 ont été vérifiés par `outils/verifier_exemple.py`, indépendant du moteur ; ceux des sections C.4 et C.5, qui demandent le bilan hydrique horaire, par le carnet de référence `outils/carnet_reference.py`.
 
 **C.1 Étape E2, fermeture.** État initial : 1 200 + 600 + 200 = 2 000 m². État projet : 700 + 300 + 150 + 450 + 320 + 80 = 2 000 m². Écart nul (équation 2).
 
@@ -534,7 +598,7 @@ f_sol = 1 (pleine terre), m = 1 (hors trame), k_N = k_E = 1.
 Tache unique : friche herbacée et arbustive, A = 1 200 + 200 = 1 400 m² (les houppiers surplombent et ne s'ajoutent pas, équation C1). k_taille = (1 400 / 44 000)^0,22 = 0,4684 (C2), au-dessus du plancher 0,35. Connexion faible (1), pas de clôture (1) : k_C = 0,4684 (C3).
 
 V_u (équation H5) : U0-1 = 450,00 x 0,4684 = 210,77 ; U0-3 = 70,00 x 0,4684 = 32,79 ; U0-4 = 57,29 x 0,4684 = 26,83 ; U0-2 = 0.
-Valeur du site sans projet : 270,39 m²HE. I_0 = 50 x 270,39 = 13 519,3 m²HE·an (T6).
+Valeur du site sans projet : 270,39 m²HE. Sans le climat, I_0 vaudrait 50 x 270,39 = 13 519,3 m²HE·an ; sous le climat de la période, il vaut 13 277,1 m²HE·an (section C.5, équation T7).
 
 **C.3 État projet, modules S, H, C et N.**
 
@@ -555,25 +619,41 @@ Valeurs à maturité, équation H5 :
 |---|---|---|---|---|---|---|
 | U1-1, U1-2 | 0 | | 1 | 1 | 1 | 0 |
 | U1-3 | 0,1667 | | 1 | 0,35 | 1 | 8,75 |
-| U1-4 | 0,6250 | 0,6667 | 0,8333 | 0,4197 | 0,9 (L1) | 88,53 |
+| U1-4 | 0,6250 | 0,6667 | 0,8333 | 0,4197 | 0,9160 | 90,10 |
 | U1-5 | 0,4583 | 0,6667 | 0,8333 | 0,4197 | 1 | 51,29 |
 | U1-6 | 0,6667 | 0,75 | 0,875 | 0,4197 | 1 | 19,59 |
 | U1-7 | 0,6250 | 0,8333 | 0,9167 | 0,4197 | 1 | 24,04 |
 | U1-8 | 0,5278 | 1 | 1 | 0,3734 | 1 | 98,55 |
 
-Taches : prairie, jardins et haie, contiguës : 450 + 320 + 80 = 850 m², k_taille = (850 / 44 000)^0,22 = 0,4197 ; toiture isolée : 500 m², k_taille = 0,3734 ; cheminements stabilisés isolés : 150 m², k_taille au plancher de 0,35. La prairie est éclairée par l'éclairage du stationnement, conforme à l'arrêté de 2018 et éteint la nuit : k_lum = 0,9.
+Taches : prairie, jardins et haie, contiguës : 450 + 320 + 80 = 850 m², k_taille = (850 / 44 000)^0,22 = 0,4197 ; toiture isolée : 500 m², k_taille = 0,3734 ; cheminements stabilisés isolés : 150 m², k_taille au plancher de 0,35. La prairie est au pied de l'éclairage du stationnement, conforme à l'arrêté de 2018 : 3 000 K, extinction à 1 h. D'avril à octobre, l'année type de Trappes compte 2 157 heures de nuit, dont 805 avant 1 h : x_nuit = 0,3732 (N2) ; k_lum = 1 - 0,25 x 0,3732 x 0,9 x 1 = 0,9160 (N3).
 
-Exemple de ligne : prairie, V_u = 450 x 0,6250 x 0,8333 x 1 x 1 x 0,4197 x 0,9 = 88,53 m²HE.
+Exemple de ligne : prairie, V_u = 450 x 0,6250 x 0,8333 x 1 x 1 x 0,4197 x 0,9160 = 90,10 m²HE.
 
-**C.4 Module T.** phi_1 = 1, phi_2 = 0,5, phi_t = 0 ensuite (T1). Les arbres protégés gardent 24,04 chaque année (T2). Les unités créées démarrent à t > 1,5 (T3) ; par exemple, la prairie vaut 88,53 x (2 - 1,5) / 5 = 8,85 l'année 2, puis 26,56 l'année 3, et atteint 88,53 l'année 7 ; la toiture vaut 0,67 x 98,55 x 0,05 = 3,30 l'année 2 et atteint 0,67 x 98,55 = 66,03 l'année 12.
+**C.4 Module W.** Années types de Trappes, recalées sur la normale de pluie 1991-2020 (685 mm par an). ET0 annuelle : 666 mm à +2 °C, 693 mm à +2,7 °C, 776 mm à +4 °C (W2). Sur un limon (θ_cc = 0,25 ; θ_pf = 0,12), la réserve utile vaut 130 mm pour les groupes prairie et arboré (profondeur de sol d'un mètre) et 117 mm pour la haie (Z_r = 0,9 m) ; la toiture de 15 cm a 30 mm (W3).
 
-| Année | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 10 | 11 | 12 à 50 |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 24,0 | 72,6 | 126,4 | 154,6 | 182,9 | 211,1 | 228,5 | 235,1 | 248,3 | 254,9 | 258,2 |
+| Unité | Groupe | RU (mm) | IS à +2 °C | IS à +2,7 °C | IS à +4 °C | IS_ref | k_W à +2 °C | à +2,7 °C | à +4 °C |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 friche herbacée, U1-4 prairie, U1-5 jardins | prairie | 130 | 2,1 | 11,2 | 26,2 | 2,1 | 1 | 0,9838 | 0,9240 |
+| U0-3 friche arbustive, U1-6 haie | arbustif | 117 | 33,3 | 37,4 | 47,7 | 33,3 | 1 | 1 | 0,9433 |
+| U0-4, U1-7 arbres | arboré | 130 | 45,8 | 48,9 | 61,4 | 45,8 | 1 | 1 | 0,9154 |
+| U1-8 toiture de 15 cm | prairie | 30 | 31,6 | 35,3 | 45,7 | 2,1 | 0,9021 | 0,8875 | 0,8457 |
 
-I_1 = 12 051,0 m²HE·an. Valeur à maturité : 258,22 m²HE. Dette de maturité (T7) : 860,2 m²HE·an.
+Exemple de ligne : toiture à +2 °C, k_W = 1 - 0,4 x (31,6 - 2,1 - 5) / 100 = 0,9021 (W6). La toiture subit, dès le climat actuel, le stress que lui impose son substrat mince ; les unités en pleine terre ne le subissent qu'avec le réchauffement. La période va de 2027 à 2076 ; l'année 2040 est à +2,35 °C (moitié +2 °C, moitié +2,7 °C), 2076 à +3,38 °C (0,48 x +2,7 °C et 0,52 x +4 °C) (W7). En 2076, la prairie a k_W = 0,9527 et la toiture 0,8657.
 
-**C.5 Agrégation du site.** Cnat = 13 519,3 - 12 051,0 = 1 468,3 m²HE·an (A1), soit 10,9 % de I_0 et 29,4 m²HE en moyenne annuelle. Sur 30 ans : 1 225,1 m²HE·an. Même à maturité, le site projet (258,22 m²HE) vaut moins que le site initial (270,39) ; les années de chantier et de maturation creusent l'écart. Le niveau 1 (Cnat <= 0) n'est pas atteint.
+**C.5 Module T.** Le chantier occupe les mois 1 à 18 (septembre 2027 à février 2029). Le premier mois favorable aux plantations au plus tôt deux mois avant la fin du chantier est janvier 2029, mois 17 : la prairie, les jardins, la haie et la toiture commencent à mûrir le 1er janvier 2029 ; les cheminements stabilisés, sans délai, sont livrés à la fin du chantier (T1). Le défrichement de septembre est hors des périodes sensibles : ΔI_ch = 0 (T9). Les arbres protégés gardent 24,04 chaque année (T2).
+
+Maturation (T3) : la prairie (herbacée, d = 5 ans, c = 1) atteint 82 % de sa valeur à mi-délai, la haie (arbustive, c = 2) 67 %, quand la droite de la première rédaction en donnait 50 %. Moyennes annuelles de la prairie avant facteurs : 12,40 l'année 2, 48,21 l'année 3, 69,24 l'année 4, 87,12 l'année 6, 90,10 à partir de l'année 8.
+
+Gestion (T6) : le plan de dix ans court jusqu'en février 2039. À partir de l'année 13, la prairie passe en gestion courante et prend la valeur d'une pelouse tondue : f_g = 0,3333 / 0,6250 = 0,5333 ; la haie, taillée chaque année, garde la valeur de son stade jeune : f_g = 0,5 / 0,6667 = 0,75. Les jardins et la toiture ne changent pas.
+
+| Année | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 10 | 12 | 13 | 20 | 30 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24,0 | 68,2 | 156,5 | 195,2 | 219,1 | 234,1 | 242,6 | 246,1 | 250,1 | 252,0 | 205,2 | 204,3 | 202,4 | 197,8 |
+| V_0(t) x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,4 | 270,2 | 270,0 | 269,9 | 269,7 | 269,4 | 269,0 | 268,8 | 267,7 | 265,0 | 258,3 |
+
+I_0 = 13 277,1 m²HE·an (T7) : la friche initiale subit elle aussi le réchauffement. I_1 = 10 059,9 m²HE·an. Dette de maturité (T8) : 673,1 m²HE·an.
+
+**C.5 bis Agrégation du site.** Cnat = 13 277,1 - 10 059,9 + 0 = 3 217,2 m²HE·an (A1), soit 24,2 % de I_0 et 64,3 m²HE en moyenne annuelle. Sur 30 ans : 1 988,1 m²HE·an. Le niveau 1 (Cnat <= 0) n'est pas atteint.
 
 **C.6 Module G.** Données du RSEE : S_ref = 1 400 m² ; indicateur 101 des contributeurs composants et chantier : A1-A3 350, A4-A5 120, B 400, C 55, D -40 kg CO2 éq. par m².
 Somme des GES_p x a_p = (350 + 120) x 50 + 400 x 25 + 55 x 0 + (-40) x 0 = 33 500 kg·an par m².
@@ -582,11 +662,11 @@ Bois : 30 m³, régime non justifié, donc coupe rase (MSA 0,50) : occupation = 
 Granulats : 1 800 t ; Inat_carrières = 1 800 x 0,9 x 0,95 = 1 539 m²HE·an (G5).
 Inat = 84 748 + 55 556 + 1 539 = 141 843 m²HE·an, soit 101,3 m²HE·an par m² de S_ref.
 
-**C.7 Solde.** Snat = -(1 468,3 + 141 843) = -143 311 m²HE·an.
+**C.7 Solde.** Snat = -(3 217,2 + 141 843) = -145 060 m²HE·an.
 
 **C.8 Bnat.** Bâtiment et voirie : 1 000 m² x 0 ; cheminements : 150 x 0,2 = 30 ; pleine terre : 850 x 1 = 850 ; toiture de 15 cm (S05) : 500 x 0,6 = 300. Bnat = 100 x 1 180 / 2 000 = 59,0 (A3). Emprise 700 / 2 000 = 35 %, seuil 45 : atteint. Pleine terre 850 / 2 000 = 42,5 %, seuil 15 % : atteint.
 
-**C.9 Lecture.** L'attestation au permis porte Bnat = 59,0 (seuil 45) et une pleine terre de 42,5 % (seuil 15 %) : le plan masse est conforme. À l'achèvement, le site reste en perte nette (11 % de sa valeur intégrée) : la friche herbacée initiale, même dégradée par une espèce envahissante, valait plus que les aménagements une fois mûrs. La biodiversité grise pèse près de 100 fois la perte du site et dix fois la valeur intégrée du site entier : 60 % par le climat, 39 % par le bois d'origine non justifiée. Justifier une coupe sélective (MSA 0,70) ramènerait Inat_bois de 55 556 à 33 333 m²HE·an.
+**C.9 Lecture.** L'attestation au permis porte Bnat = 59,0 (seuil 45) et une pleine terre de 42,5 % (seuil 15 %) : le plan masse est conforme. À l'achèvement, le site reste en perte nette (24 % de sa valeur intégrée) : la friche herbacée initiale, même dégradée par une espèce envahissante, valait plus que les aménagements une fois mûrs. La perte tient d'abord à la gestion : un plan de gestion écologique couvrant les cinquante ans ramènerait Cnat à 1 476 m²HE·an, un plan de trente ans à 2 292, l'absence de plan la porterait à 3 644 (cas D20 à D22 de la partie 8). Le substrat de la toiture vient ensuite : à 30 cm, Cnat baisse de 93 m²HE·an ; à 8 cm, il monte de 298. Un défrichement en mai, en pleine nidification, ajouterait 243,6 m²HE·an (cas D01). La biodiversité grise pèse près de 100 fois la perte du site et dix fois la valeur intégrée du site entier : 60 % par le climat, 39 % par le bois d'origine non justifiée. Justifier une coupe sélective (MSA 0,70) ramènerait Inat_bois de 55 556 à 33 333 m²HE·an.
 
 ## Partie 2. Données conventionnelles
 
@@ -4416,7 +4496,449 @@ Le libellé de chaque critère est dans la colonne « justification » de la tab
 | EB1 | seuil bon | Score total minimal du bon état |
 | EB1 | seuil moyen | Score total minimal de l'état moyen |
 
-### 2.11 Extraits des sources primaires utilisés
+### 2.11 Stations climatiques de référence (`climat.csv`)
+
+Stations de référence des huit zones climatiques, normales mensuelles de pluie 1991-2020 sur lesquelles les années types sont recalées, ETP Penman de contrôle (module W, fiches A43 à A45).
+
+| Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
+|---|---|---|---|---|---|---|---|
+| H1a | station latitude | 48,7743 | degré | 48,7743 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station TRAPPES |
+| H1a | station longitude | 2,0098 | degré | 2,0098 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station TRAPPES |
+| H1a | station altitude | 167 | m | 167 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station TRAPPES |
+| H1a | pluie normale m01 | 56,2 | mm/mois | 28,1 à 84,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m02 | 48,9 | mm/mois | 24,4 à 73,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m03 | 50,1 | mm/mois | 25,1 à 75,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m04 | 49,9 | mm/mois | 25 à 74,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m05 | 66 | mm/mois | 33 à 99 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m06 | 57 | mm/mois | 28,5 à 85,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m07 | 56,2 | mm/mois | 28,1 à 84,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m08 | 56,1 | mm/mois | 28 à 84,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m09 | 49,8 | mm/mois | 24,9 à 74,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m10 | 61,8 | mm/mois | 30,9 à 92,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m11 | 61,2 | mm/mois | 30,6 à 91,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m12 | 72 | mm/mois | 36 à 108 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | etp penman normale | 772 | mm/an | 695 à 849 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H1b | station latitude | 48,6878 | degré | 48,6878 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station NANCY |
+| H1b | station longitude | 6,2215 | degré | 6,2215 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station NANCY |
+| H1b | station altitude | 212 | m | 212 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station NANCY |
+| H1b | pluie normale m01 | 64,4 | mm/mois | 32,2 à 96,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m02 | 54,8 | mm/mois | 27,4 à 82,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m03 | 54,1 | mm/mois | 27,1 à 81,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m04 | 44,3 | mm/mois | 22,2 à 66,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m05 | 67,9 | mm/mois | 33,9 à 101,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m06 | 56 | mm/mois | 28 à 83,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m07 | 63 | mm/mois | 31,5 à 94,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m08 | 67,2 | mm/mois | 33,6 à 100,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m09 | 61,1 | mm/mois | 30,6 à 91,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m10 | 66,5 | mm/mois | 33,3 à 99,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m11 | 68,9 | mm/mois | 34,5 à 103,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m12 | 78,1 | mm/mois | 39 à 117,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | etp penman normale | 819 | mm/an | 737 à 901 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H1c | station latitude | 46,2945 | degré | 46,2945 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station MACON |
+| H1c | station longitude | 4,7943 | degré | 4,7943 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station MACON |
+| H1c | station altitude | 219 | m | 219 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station MACON |
+| H1c | pluie normale m01 | 58,1 | mm/mois | 29,1 à 87,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m02 | 48,9 | mm/mois | 24,4 à 73,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m03 | 49,1 | mm/mois | 24,6 à 73,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m04 | 65,5 | mm/mois | 32,8 à 98,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m05 | 75,7 | mm/mois | 37,9 à 113,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m06 | 69,8 | mm/mois | 34,9 à 104,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m07 | 72,2 | mm/mois | 36,1 à 108,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m08 | 72,6 | mm/mois | 36,3 à 108,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m09 | 71,1 | mm/mois | 35,5 à 106,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m10 | 91,1 | mm/mois | 45,5 à 136,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m11 | 92,8 | mm/mois | 46,4 à 139,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m12 | 66,8 | mm/mois | 33,4 à 100,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | etp penman normale | 895 | mm/an | 805 à 984 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H2a | station latitude | 48,0688 | degré | 48,0688 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station RENNES |
+| H2a | station longitude | -1,764 | degré | -1,764 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station RENNES |
+| H2a | station altitude | 36 | m | 36 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station RENNES |
+| H2a | pluie normale m01 | 66,6 | mm/mois | 33,3 à 100 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m02 | 51,6 | mm/mois | 25,8 à 77,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m03 | 48,9 | mm/mois | 24,4 à 73,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m04 | 51,2 | mm/mois | 25,6 à 76,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m05 | 58,1 | mm/mois | 29 à 87,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m06 | 50,9 | mm/mois | 25,4 à 76,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m07 | 44 | mm/mois | 22 à 66 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m08 | 43,5 | mm/mois | 21,7 à 65,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m09 | 56,6 | mm/mois | 28,3 à 85 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m10 | 73,1 | mm/mois | 36,5 à 109,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m11 | 73,2 | mm/mois | 36,6 à 109,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m12 | 73,3 | mm/mois | 36,6 à 109,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | etp penman normale | 839 | mm/an | 755 à 922 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H2b | station latitude | 47,4445 | degré | 47,4445 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station TOURS |
+| H2b | station longitude | 0,7273 | degré | 0,7273 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station TOURS |
+| H2b | station altitude | 108 | m | 108 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station TOURS |
+| H2b | pluie normale m01 | 63 | mm/mois | 31,5 à 94,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m02 | 52,4 | mm/mois | 26,2 à 78,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m03 | 48,7 | mm/mois | 24,3 à 73 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m04 | 53 | mm/mois | 26,5 à 79,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m05 | 57,7 | mm/mois | 28,8 à 86,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m06 | 53,2 | mm/mois | 26,6 à 79,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m07 | 46,6 | mm/mois | 23,3 à 69,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m08 | 44 | mm/mois | 22 à 66 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m09 | 51,8 | mm/mois | 25,9 à 77,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m10 | 66 | mm/mois | 33 à 98,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m11 | 69,3 | mm/mois | 34,7 à 104 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m12 | 72,1 | mm/mois | 36 à 108,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | etp penman normale | 901 | mm/an | 811 à 991 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H2c | station latitude | 44,1721 | degré | 44,1721 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station AGEN |
+| H2c | station longitude | 0,5946 | degré | 0,5946 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station AGEN |
+| H2c | station altitude | 58 | m | 58 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station AGEN |
+| H2c | pluie normale m01 | 59,6 | mm/mois | 29,8 à 89,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m02 | 44,2 | mm/mois | 22,1 à 66,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m03 | 49 | mm/mois | 24,5 à 73,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m04 | 70 | mm/mois | 35 à 104,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m05 | 73,3 | mm/mois | 36,6 à 109,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m06 | 62,2 | mm/mois | 31,1 à 93,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m07 | 49,4 | mm/mois | 24,7 à 74,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m08 | 50,4 | mm/mois | 25,2 à 75,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m09 | 60,6 | mm/mois | 30,3 à 90,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m10 | 58,7 | mm/mois | 29,4 à 88,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m11 | 70,1 | mm/mois | 35 à 105,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m12 | 60,7 | mm/mois | 30,4 à 91,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | etp penman normale | 940 | mm/an | 846 à 1 034 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H2d | station latitude | 44,0836 | degré | 44,0836 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station CARPENTRAS |
+| H2d | station longitude | 5,216 | degré | 5,216 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station CARPENTRAS |
+| H2d | station altitude | 98 | m | 98 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station CARPENTRAS |
+| H2d | pluie normale m01 | 46,3 | mm/mois | 23,2 à 69,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m02 | 34,2 | mm/mois | 17,1 à 51,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m03 | 43,2 | mm/mois | 21,6 à 64,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m04 | 61,1 | mm/mois | 30,5 à 91,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m05 | 55,6 | mm/mois | 27,8 à 83,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m06 | 41,7 | mm/mois | 20,9 à 62,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m07 | 25,7 | mm/mois | 12,9 à 38,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m08 | 40,6 | mm/mois | 20,3 à 60,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m09 | 98,7 | mm/mois | 49,3 à 148 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m10 | 87,6 | mm/mois | 43,8 à 131,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m11 | 90,8 | mm/mois | 45,4 à 136,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m12 | 41,9 | mm/mois | 20,9 à 62,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | etp penman normale | 1 140 | mm/an | 1 026 à 1 254 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H3 | station latitude | 43,4376 | degré | 43,4376 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station MARIGNANE |
+| H3 | station longitude | 5,216 | degré | 5,216 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station MARIGNANE |
+| H3 | station altitude | 9 | m | 9 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station MARIGNANE |
+| H3 | pluie normale m01 | 47,1 | mm/mois | 23,6 à 70,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m02 | 29,8 | mm/mois | 14,9 à 44,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m03 | 29,5 | mm/mois | 14,7 à 44,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m04 | 51,6 | mm/mois | 25,8 à 77,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m05 | 37,7 | mm/mois | 18,8 à 56,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m06 | 27,9 | mm/mois | 13,9 à 41,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m07 | 11,1 | mm/mois | 5,6 à 16,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (29 années valides) |
+| H3 | pluie normale m08 | 25,8 | mm/mois | 12,9 à 38,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m09 | 82 | mm/mois | 41 à 123 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m10 | 73,3 | mm/mois | 36,7 à 110 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m11 | 75,9 | mm/mois | 37,9 à 113,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m12 | 40,9 | mm/mois | 20,5 à 61,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | etp penman normale | 1 377 | mm/an | 1 239 à 1 515 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+
+### 2.12 Bilan hydrique (`hydrique.csv`)
+
+Textures et réserves utiles, substrats, groupes hydriques, saison de végétation, stress hydrique, arrosage, mares (module W, fiches A47 à A50).
+
+| Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
+|---|---|---|---|---|---|---|---|
+| sable | theta capacite champ | 0,12 | m³/m³ | 0,07 à 0,17 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Sand », milieu de la plage |
+| sable | theta point fletrissement | 0,045 | m³/m³ | 0,02 à 0,07 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Sand », milieu de la plage |
+| sable_limoneux | theta capacite champ | 0,15 | m³/m³ | 0,11 à 0,19 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Loamy sand », milieu de la plage |
+| sable_limoneux | theta point fletrissement | 0,065 | m³/m³ | 0,03 à 0,1 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Loamy sand », milieu de la plage |
+| limon_sableux | theta capacite champ | 0,23 | m³/m³ | 0,18 à 0,28 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Sandy loam », milieu de la plage |
+| limon_sableux | theta point fletrissement | 0,11 | m³/m³ | 0,06 à 0,16 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Sandy loam », milieu de la plage |
+| limon | theta capacite champ | 0,25 | m³/m³ | 0,2 à 0,3 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Loam », milieu de la plage |
+| limon | theta point fletrissement | 0,12 | m³/m³ | 0,07 à 0,17 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Loam », milieu de la plage |
+| limon_silteux | theta capacite champ | 0,29 | m³/m³ | 0,22 à 0,36 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silt loam », milieu de la plage |
+| limon_silteux | theta point fletrissement | 0,15 | m³/m³ | 0,09 à 0,21 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silt loam », milieu de la plage |
+| silt | theta capacite champ | 0,32 | m³/m³ | 0,28 à 0,36 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silt », milieu de la plage |
+| silt | theta point fletrissement | 0,17 | m³/m³ | 0,12 à 0,22 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silt », milieu de la plage |
+| limon_argilo_silteux | theta capacite champ | 0,335 | m³/m³ | 0,3 à 0,37 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silt clay loam », milieu de la plage |
+| limon_argilo_silteux | theta point fletrissement | 0,205 | m³/m³ | 0,17 à 0,24 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silt clay loam », milieu de la plage |
+| argile_silteuse | theta capacite champ | 0,36 | m³/m³ | 0,3 à 0,42 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silty clay », milieu de la plage |
+| argile_silteuse | theta point fletrissement | 0,23 | m³/m³ | 0,17 à 0,29 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silty clay », milieu de la plage |
+| argile | theta capacite champ | 0,36 | m³/m³ | 0,32 à 0,4 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Clay », milieu de la plage |
+| argile | theta point fletrissement | 0,22 | m³/m³ | 0,2 à 0,24 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Clay », milieu de la plage |
+| * | profondeur sol defaut | 1 | m | 0,5 à 1,5 | convention | C-W4 | OpenNAT, valeur de secours |
+| substrat | reserve volumique | 0,2 | m³/m³ | 0,12 à 0,3 | convention | C-W5 | OpenNAT, valeur de secours pour les substrats de toiture et de dalle |
+| gazon | kc saison | 0,95 | sans unité | 0,81 à 1,09 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Turf grass, cool season » (Kc ini 0,90, Kc mi 0,95) ; tableau 22 « Turf grass, cool season » (Zr 0,5 à 1,0 m, p 0,40) |
+| gazon | kc hors saison | 0,9 | sans unité | 0,72 à 1,08 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Turf grass, cool season » (Kc ini 0,90, Kc mi 0,95) ; tableau 22 « Turf grass, cool season » (Zr 0,5 à 1,0 m, p 0,40) |
+| gazon | profondeur racinaire | 0,75 | m | 0,5 à 1 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Turf grass, cool season » (Kc ini 0,90, Kc mi 0,95) ; tableau 22 « Turf grass, cool season » (Zr 0,5 à 1,0 m, p 0,40) |
+| gazon | fraction p | 0,4 | fraction | 0,3 à 0,5 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Turf grass, cool season » (Kc ini 0,90, Kc mi 0,95) ; tableau 22 « Turf grass, cool season » (Zr 0,5 à 1,0 m, p 0,40) |
+| prairie | kc saison | 0,75 | sans unité | 0,64 à 0,86 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Grazing pasture, extensive grazing » (Kc ini 0,30, Kc mi 0,75) ; tableau 22 « Grazing pasture, extensive » (Zr 0,5 à 1,5 m, p 0,60) |
+| prairie | kc hors saison | 0,3 | sans unité | 0,24 à 0,36 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Grazing pasture, extensive grazing » (Kc ini 0,30, Kc mi 0,75) ; tableau 22 « Grazing pasture, extensive » (Zr 0,5 à 1,5 m, p 0,60) |
+| prairie | profondeur racinaire | 1 | m | 0,67 à 1,33 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Grazing pasture, extensive grazing » (Kc ini 0,30, Kc mi 0,75) ; tableau 22 « Grazing pasture, extensive » (Zr 0,5 à 1,5 m, p 0,60) |
+| prairie | fraction p | 0,6 | fraction | 0,5 à 0,7 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Grazing pasture, extensive grazing » (Kc ini 0,30, Kc mi 0,75) ; tableau 22 « Grazing pasture, extensive » (Zr 0,5 à 1,5 m, p 0,60) |
+| xerophile | kc saison | 0,75 | sans unité | 0,64 à 0,86 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, mêmes valeurs que le groupe prairie (tableaux 12 et 22, « Grazing pasture, extensive ») |
+| xerophile | kc hors saison | 0,3 | sans unité | 0,24 à 0,36 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, mêmes valeurs que le groupe prairie (tableaux 12 et 22, « Grazing pasture, extensive ») |
+| xerophile | profondeur racinaire | 1 | m | 0,67 à 1,33 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, mêmes valeurs que le groupe prairie (tableaux 12 et 22, « Grazing pasture, extensive ») |
+| xerophile | fraction p | 0,6 | fraction | 0,5 à 0,7 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, mêmes valeurs que le groupe prairie (tableaux 12 et 22, « Grazing pasture, extensive ») |
+| arbustif | kc saison | 1,05 | sans unité | 0,89 à 1,21 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Berries (bushes) » (Kc ini 0,30, Kc mi 1,05) ; tableau 22 « Berries (bushes) » (Zr 0,6 à 1,2 m, p 0,50) |
+| arbustif | kc hors saison | 0,3 | sans unité | 0,24 à 0,36 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Berries (bushes) » (Kc ini 0,30, Kc mi 1,05) ; tableau 22 « Berries (bushes) » (Zr 0,6 à 1,2 m, p 0,50) |
+| arbustif | profondeur racinaire | 0,9 | m | 0,6 à 1,2 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Berries (bushes) » (Kc ini 0,30, Kc mi 1,05) ; tableau 22 « Berries (bushes) » (Zr 0,6 à 1,2 m, p 0,50) |
+| arbustif | fraction p | 0,5 | fraction | 0,4 à 0,6 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Berries (bushes) » (Kc ini 0,30, Kc mi 1,05) ; tableau 22 « Berries (bushes) » (Zr 0,6 à 1,2 m, p 0,50) |
+| arbore | kc saison | 1,2 | sans unité | 1,02 à 1,3 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Apples, Cherries, Pears, active ground cover, killing frost » (Kc ini 0,50, Kc mi 1,20) ; tableau 22 « Apples, cherries, pears » (Zr 1,0 à 2,0 m, p 0,50) |
+| arbore | kc hors saison | 0,5 | sans unité | 0,4 à 0,6 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Apples, Cherries, Pears, active ground cover, killing frost » (Kc ini 0,50, Kc mi 1,20) ; tableau 22 « Apples, cherries, pears » (Zr 1,0 à 2,0 m, p 0,50) |
+| arbore | profondeur racinaire | 1,5 | m | 1,01 à 2 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Apples, Cherries, Pears, active ground cover, killing frost » (Kc ini 0,50, Kc mi 1,20) ; tableau 22 « Apples, cherries, pears » (Zr 1,0 à 2,0 m, p 0,50) |
+| arbore | fraction p | 0,5 | fraction | 0,4 à 0,6 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Apples, Cherries, Pears, active ground cover, killing frost » (Kc ini 0,50, Kc mi 1,20) ; tableau 22 « Apples, cherries, pears » (Zr 1,0 à 2,0 m, p 0,50) |
+| conifere | kc saison | 1 | sans unité | 0,85 à 1,15 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Conifer Trees » (Kc 1,00) ; tableau 22 « Conifer trees » (Zr 1,0 à 1,5 m, p 0,70) |
+| conifere | kc hors saison | 1 | sans unité | 0,8 à 1,2 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Conifer Trees » (Kc 1,00) ; tableau 22 « Conifer trees » (Zr 1,0 à 1,5 m, p 0,70) |
+| conifere | profondeur racinaire | 1,25 | m | 0,84 à 1,66 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Conifer Trees » (Kc 1,00) ; tableau 22 « Conifer trees » (Zr 1,0 à 1,5 m, p 0,70) |
+| conifere | fraction p | 0,7 | fraction | 0,6 à 0,8 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Conifer Trees » (Kc 1,00) ; tableau 22 « Conifer trees » (Zr 1,0 à 1,5 m, p 0,70) |
+| humide_pluie | kc saison | 1,2 | sans unité | 1,02 à 1,3 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Reed Swamp, moist soil » (Kc ini 0,90, Kc mi 1,20) ; profondeur et fraction p fixées par convention |
+| humide_pluie | kc hors saison | 0,9 | sans unité | 0,72 à 1,08 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Reed Swamp, moist soil » (Kc ini 0,90, Kc mi 1,20) ; profondeur et fraction p fixées par convention |
+| humide_pluie | profondeur racinaire | 0,5 | m | 0,34 à 0,67 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Reed Swamp, moist soil » (Kc ini 0,90, Kc mi 1,20) ; profondeur et fraction p fixées par convention |
+| humide_pluie | fraction p | 0,3 | fraction | 0,2 à 0,4 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Reed Swamp, moist soil » (Kc ini 0,90, Kc mi 1,20) ; profondeur et fraction p fixées par convention |
+| mare | kc saison | 1,05 | sans unité | 0,89 à 1,21 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Open Water, < 2 m depth » (Kc 1,05) |
+| mare | kc hors saison | 1,05 | sans unité | 0,84 à 1,26 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Open Water, < 2 m depth » (Kc 1,05) |
+| toiture_extensive | kc saison | 0,5 | sans unité | 0,3 à 0,8 | convention | C-W6 | OpenNAT, valeur de secours |
+| toiture_extensive | kc hors saison | 0,3 | sans unité | 0,2 à 0,5 | convention | C-W6 | OpenNAT, valeur de secours |
+| toiture_extensive | profondeur racinaire | 0,15 | m | 0,1 à 0,15 | convention | C-W6 | OpenNAT, bornée par l'épaisseur du substrat |
+| toiture_extensive | fraction p | 0,6 | fraction | 0,5 à 0,7 | convention | C-W6 | OpenNAT, valeur de secours |
+| * | seuil rew stress | 0,4 | fraction | 0,3 à 0,5 | transposée | C-W8 | Granier A., Bréda N., Biron P., Villette S. (1999), A lumped water balance model to evaluate duration and intensity of drought constraints in forest stands, Ecological Modelling 116, seuil de réserve extractible relative sous lequel la transpiration est réduite (REW < 0,4) et indice de stress IS = somme de (0,4 - REW) / 0,4 |
+| * | seuil saison temperature | 5 | °C | 5 | transposée | C-W7 | ETCCDI, indices climatiques extrêmes, indice GSL (durée de la saison de croissance) : température moyenne quotidienne supérieure à 5 °C |
+| * | seuil saison jours | 6 | jours | 6 | transposée | C-W7 | ETCCDI, indices climatiques extrêmes, indice GSL : six jours consécutifs |
+| * | tolerance stress | 5 | jours-équivalents | 0 à 15 | convention | C-W9 | OpenNAT, valeur de secours |
+| gazon | sensibilite stress | 0,5 | par 100 jours-équivalents | 0,25 à 0,75 | convention | C-W9 | OpenNAT, valeur de secours |
+| prairie | sensibilite stress | 0,4 | par 100 jours-équivalents | 0,2 à 0,6 | convention | C-W9 | OpenNAT, valeur de secours |
+| xerophile | sensibilite stress | 0,3 | par 100 jours-équivalents | 0,15 à 0,45 | convention | C-W9 | OpenNAT, valeur de secours |
+| arbustif | sensibilite stress | 0,6 | par 100 jours-équivalents | 0,3 à 0,9 | convention | C-W9 | OpenNAT, valeur de secours |
+| arbore | sensibilite stress | 0,8 | par 100 jours-équivalents | 0,4 à 1,2 | convention | C-W9 | OpenNAT, valeur de secours |
+| conifere | sensibilite stress | 0,8 | par 100 jours-équivalents | 0,4 à 1,2 | convention | C-W9 | OpenNAT, valeur de secours |
+| toiture_extensive | sensibilite stress | 0,3 | par 100 jours-équivalents | 0,15 à 0,45 | convention | C-W9 | OpenNAT, valeur de secours |
+| humide_pluie | sensibilite stress | 1 | par 100 jours-équivalents | 0,5 à 1,5 | convention | C-W9 | OpenNAT, valeur de secours |
+| * | facteur hydrique minimum | 0,5 | sans unité | 0,3 à 0,7 | convention | C-W9 | OpenNAT, valeur de secours |
+| * | seuil rew arrosage | 0,5 | fraction | 0,4 à 0,6 | convention | C-W10 | OpenNAT, valeur de secours |
+| * | profondeur mare defaut | 0,8 | m | 0,5 à 1,2 | convention | C-W11 | OpenNAT, valeur de secours |
+| fond_etanche | infiltration | 0 | mm/jour | 0 à 0,2 | convention | C-W11 | OpenNAT, valeur de secours |
+| fond_argile | infiltration | 0,3 | mm/jour | 0,1 à 1 | convention | C-W11 | OpenNAT, valeur de secours |
+| fond_naturel | infiltration | 1 | mm/jour | 0,5 à 5 | convention | C-W11 | OpenNAT, valeur de secours |
+| * | coefficient ruissellement | 0,9 | fraction | 0,8 à 1 | convention | C-W11 | OpenNAT, valeur de secours |
+| * | coefficient ruissellement permeable | 0,1 | fraction | 0,05 à 0,3 | convention | C-W11 | OpenNAT, valeur de secours |
+| * | facteur assec precoce | 0,5 | sans unité | 0,3 à 0,8 | convention | C-W12 | OpenNAT, valeur de secours |
+
+### 2.13 Éclairage horaire (`eclairage.csv`)
+
+Saison d'activité des chiroptères, nuit, distances, facteur spectral (module N, fiches A51 à A53).
+
+| Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
+|---|---|---|---|---|---|---|---|
+| * | distance effet plein | 10 | m | 0 à 25 | transposée | C-L3 | Azam C., Le Viol I., Bas Y., Zissis G., Vernet A., Julien J.-F., Kerbiriou C. (2018), Evidence for distance and illuminance thresholds in the effects of artificial lighting on bat activity, Landscape and Urban Planning 175, résumé : effet d'attraction limité à 10 m pour Pipistrellus et Nyctalus |
+| * | distance effet nul | 50 | m | 25 à 100 | primaire | C-L3 | Azam C., Le Viol I., Bas Y., Zissis G., Vernet A., Julien J.-F., Kerbiriou C. (2018), Evidence for distance and illuminance thresholds in the effects of artificial lighting on bat activity, Landscape and Urban Planning 175, résumé : évitement jusqu'à 25 m (Myotis) et 50 m (Eptesicus serotinus) ; recommandation de 50 m entre luminaires et corridors |
+| * | perte maximale | 0,25 | fraction | 0,15 à 0,4 | convention | C-L1 | OpenNAT, calage sur le facteur L2 de nuisances.csv (0,75) |
+| * | saison chiropteres debut | 4 | mois | 3 à 4 | convention | C-L2 | OpenNAT, valeur de secours |
+| * | saison chiropteres fin | 10 | mois | 10 à 11 | convention | C-L2 | OpenNAT, valeur de secours |
+| * | hauteur soleil nuit | 0 | degré | -6 à 0 | convention | C-L2 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), variable Hs (hauteur angulaire du soleil) de l'année type |
+| ambre | temperature couleur | 1 800 | K | 1 800 | primaire | C-L4 | Arrêté du 27 décembre 2018 relatif à la prévention, à la réduction et à la limitation des nuisances lumineuses, articles 3 et 4 : plafonds de 3 000 K, 2 700 K et 2 400 K selon les sites |
+| ambre | facteur spectral | 0,5 | sans unité | 0,4 à 0,7 | convention | C-L4 | Longcore T. et al. (2018), Rapid assessment of lamp spectrum to quantify ecological effects of light at night, Journal of Experimental Zoology A 329, résumé : les sources riches en bleu (2 200 K et plus) ont plus d'effets que les LED ambre filtrées |
+| k2200 | temperature couleur | 2 200 | K | 2 200 | primaire | C-L4 | Arrêté du 27 décembre 2018 relatif à la prévention, à la réduction et à la limitation des nuisances lumineuses, articles 3 et 4 : plafonds de 3 000 K, 2 700 K et 2 400 K selon les sites |
+| k2200 | facteur spectral | 0,6 | sans unité | 0,5 à 0,8 | convention | C-L4 | Longcore T. et al. (2018), Rapid assessment of lamp spectrum to quantify ecological effects of light at night, Journal of Experimental Zoology A 329, résumé : les sources riches en bleu (2 200 K et plus) ont plus d'effets que les LED ambre filtrées |
+| k2400 | temperature couleur | 2 400 | K | 2 400 | primaire | C-L4 | Arrêté du 27 décembre 2018 relatif à la prévention, à la réduction et à la limitation des nuisances lumineuses, articles 3 et 4 : plafonds de 3 000 K, 2 700 K et 2 400 K selon les sites |
+| k2400 | facteur spectral | 0,7 | sans unité | 0,6 à 0,85 | convention | C-L4 | Longcore T. et al. (2018), Rapid assessment of lamp spectrum to quantify ecological effects of light at night, Journal of Experimental Zoology A 329, résumé : les sources riches en bleu (2 200 K et plus) ont plus d'effets que les LED ambre filtrées |
+| k2700 | temperature couleur | 2 700 | K | 2 700 | primaire | C-L4 | Arrêté du 27 décembre 2018 relatif à la prévention, à la réduction et à la limitation des nuisances lumineuses, articles 3 et 4 : plafonds de 3 000 K, 2 700 K et 2 400 K selon les sites |
+| k2700 | facteur spectral | 0,8 | sans unité | 0,7 à 0,9 | convention | C-L4 | Longcore T. et al. (2018), Rapid assessment of lamp spectrum to quantify ecological effects of light at night, Journal of Experimental Zoology A 329, résumé : les sources riches en bleu (2 200 K et plus) ont plus d'effets que les LED ambre filtrées |
+| k3000 | temperature couleur | 3 000 | K | 3 000 | primaire | C-L4 | Arrêté du 27 décembre 2018 relatif à la prévention, à la réduction et à la limitation des nuisances lumineuses, articles 3 et 4 : plafonds de 3 000 K, 2 700 K et 2 400 K selon les sites |
+| k3000 | facteur spectral | 0,9 | sans unité | 0,8 à 1 | convention | C-L4 | Longcore T. et al. (2018), Rapid assessment of lamp spectrum to quantify ecological effects of light at night, Journal of Experimental Zoology A 329, résumé : les sources riches en bleu (2 200 K et plus) ont plus d'effets que les LED ambre filtrées |
+| k4000 | temperature couleur | 4 000 | K | 4 000 | primaire | C-L4 | Arrêté du 27 décembre 2018 relatif à la prévention, à la réduction et à la limitation des nuisances lumineuses, articles 3 et 4 : plafonds de 3 000 K, 2 700 K et 2 400 K selon les sites |
+| k4000 | facteur spectral | 1 | sans unité | 1 | convention | C-L4 | Longcore T. et al. (2018), Rapid assessment of lamp spectrum to quantify ecological effects of light at night, Journal of Experimental Zoology A 329, résumé : les sources riches en bleu (2 200 K et plus) ont plus d'effets que les LED ambre filtrées |
+
+### 2.14 Maturation, gestion et succession (`succession.csv`)
+
+Courbe de Chapman-Richards, couples exploité et abandonné de la BKompV, délais de succession (module T, fiches A54 à A56).
+
+| Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
+|---|---|---|---|---|---|---|---|
+| * | produit k d | 3 | sans unité | 2 à 4 | convention | C-M1 | Richards F. J. (1959), A flexible growth function for empirical use, Journal of Experimental Botany 10, fonction de croissance de Chapman-Richards |
+| herbacee | exposant forme | 1 | sans unité | 1 à 1,5 | convention | C-M1 | Pienaar L. V., Turnbull K. J. (1973), The Chapman-Richards generalization of Von Bertalanffy's growth model, Forest Science 19, exposant de forme de la fonction de Chapman-Richards |
+| arbustive | exposant forme | 2 | sans unité | 1,5 à 2,5 | convention | C-M1 | Pienaar L. V., Turnbull K. J. (1973), The Chapman-Richards generalization of Von Bertalanffy's growth model, Forest Science 19, exposant de forme de la fonction de Chapman-Richards |
+| arboree | exposant forme | 3 | sans unité | 2,5 à 4 | convention | C-M1 | Pienaar L. V., Turnbull K. J. (1973), The Chapman-Richards generalization of Von Bertalanffy's growth model, Forest Science 19, exposant de forme de la fonction de Chapman-Richards |
+| 34.02a>34.02b | rapport abandon | 0,81 | sans unité | 0,81 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.02a (21) exploité, 34.02b (17) abandonné |
+| 34.03.01a>34.03.03 | rapport abandon | 0,864 | sans unité | 0,864 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.03.01a (22) exploité, 34.03.03 (19) abandonné |
+| 34.04.03.01a>34.04.03.03 | rapport abandon | 0,762 | sans unité | 0,762 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.04.03.01a (21) exploité, 34.04.03.03 (16) abandonné |
+| 34.06.01a>34.06.01b | rapport abandon | 0,857 | sans unité | 0,857 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.06.01a (21) exploité, 34.06.01b (18) abandonné |
+| 34.06.02a>34.06.02b | rapport abandon | 0,864 | sans unité | 0,864 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.06.02a (22) exploité, 34.06.02b (19) abandonné |
+| 34.07a.01>34.07a.03 | rapport abandon | 0,8 | sans unité | 0,8 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.07a.01 (20) exploité, 34.07a.03 (16) abandonné |
+| 34.07b.01>34.07b.03 | rapport abandon | 0,733 | sans unité | 0,733 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.07b.01 (15) exploité, 34.07b.03 (11) abandonné |
+| 35.02.01a>35.02.01.03 | rapport abandon | 0,87 | sans unité | 0,87 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 35.02.01a (23) exploité, 35.02.01.03 (20) abandonné |
+| 35.02.02a>35.02.02.03 | rapport abandon | 0,913 | sans unité | 0,913 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 35.02.02a (23) exploité, 35.02.02.03 (21) abandonné |
+| 35.02.03a.01>35.02.03a.02 | rapport abandon | 0,8 | sans unité | 0,8 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 35.02.03a.01 (20) exploité, 35.02.03a.02 (16) abandonné |
+| 35.02.05.01>35.02.05.01a | rapport abandon | 0,889 | sans unité | 0,889 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 35.02.05.01 (18) exploité, 35.02.05.01a (16) abandonné |
+| * | rapport abandon moyen | 0,833 | sans unité | 0,733 à 0,913 | transposée | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), moyenne des onze couples ci-dessus |
+| * | delai friche herbacee | 2 | an | 1 à 3 | convention | C-M2 | OpenNAT, valeur de secours |
+| * | delai embroussaillement | 15 | an | 10 à 30 | convention | C-M2 | OpenNAT, valeur de secours |
+| * | score friche embroussaillee | 0,75 | fraction | 0,65 à 0,85 | convention | C-M2 | OpenNAT, valeur de secours |
+
+### 2.15 Calendrier du chantier (`chantier.csv`)
+
+Sensibilité mensuelle des oiseaux nicheurs, des chiroptères et des amphibiens, saison de plantation, année de début par défaut (module T, fiches A57 et A58).
+
+| Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
+|---|---|---|---|---|---|---|---|
+| oiseaux | sensibilite m01 | 0 | fraction | 0 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m02 | 0 | fraction | 0 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m03 | 0,5 | fraction | 0,5 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m04 | 1 | fraction | 1 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m05 | 1 | fraction | 1 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m06 | 1 | fraction | 1 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m07 | 1 | fraction | 1 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m08 | 0,5 | fraction | 0,5 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m09 | 0 | fraction | 0 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m10 | 0 | fraction | 0 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m11 | 0 | fraction | 0 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m12 | 0 | fraction | 0 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| chiropteres | sensibilite m01 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m02 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m03 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m04 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m05 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m06 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m07 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m08 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m09 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m10 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m11 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m12 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| amphibiens | sensibilite m01 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m02 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m03 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m04 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m05 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m06 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m07 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m08 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m09 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m10 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m11 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m12 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| * | perte destruction sensible | 1 | an | 0,5 à 2 | convention | C-K1 | OpenNAT, valeur de secours |
+| plantation | mois favorable m01 | 1 | booléen | 1 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m02 | 1 | booléen | 1 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m03 | 1 | booléen | 1 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m04 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m05 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m06 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m07 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m08 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m09 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m10 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m11 | 1 | booléen | 1 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m12 | 1 | booléen | 1 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| * | avance plantation | 2 | mois | 0 à 4 | convention | C-K2 | OpenNAT, valeur de secours |
+| * | annee debut defaut | 2 027 | année | 2 027 à 2 030 | convention | C-K3 | OpenNAT, valeur de secours |
+
+### 2.16 Années types horaires : synthèse mensuelle
+
+Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures : France +2 °C (2030), +2,7 °C (2050) et +4 °C (2100), tirées des fichiers climatiques prospectifs de l'ADEME, de Météo-France, du CSTB et de la DHUP (juin 2025, Licence Ouverte 2.0) et réduites dans `donnees/climat/` aux variables utilisées. Le tableau de chaque station donne, mois par mois, la température moyenne, la pluie après recalage sur la normale 1991-2020 (fiche A45) et l'évapotranspiration de référence calculée par la fiche A44, à l'altitude de la station.
+
+#### Zone H1a, station de Trappes (167 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 6,9 | 3 | 8,8 | 9,2 | 13,4 | 17,8 | 19,5 | 18,7 | 16 | 12,8 | 8,9 | 5,5 | 11,8 |
+| +2 °C | Pluie (mm) | 56,2 | 48,9 | 50,1 | 49,9 | 66 | 57 | 56,2 | 56,1 | 49,8 | 61,8 | 61,2 | 72 | 685,2 |
+| +2 °C | ET0 (mm) | 14,7 | 21,2 | 46,2 | 55,5 | 90,5 | 101,6 | 109,7 | 96,9 | 66,3 | 35,8 | 15,2 | 12,8 | 666,4 |
+| +2,7 °C | T (°C) | 6,9 | 3 | 8,8 | 9,2 | 13,8 | 17,2 | 20,4 | 20,8 | 17,8 | 12,8 | 8,9 | 5,5 | 12,1 |
+| +2,7 °C | Pluie (mm) | 56,2 | 48,9 | 50,1 | 49,9 | 66 | 57 | 56,2 | 56,1 | 49,8 | 61,8 | 61,2 | 72 | 685,2 |
+| +2,7 °C | ET0 (mm) | 14,7 | 21,2 | 46,2 | 55,5 | 95,8 | 102,7 | 126,2 | 100,2 | 66,2 | 35,8 | 15,2 | 12,8 | 692,5 |
+| +4 °C | T (°C) | 6,9 | 6,8 | 8,8 | 12,9 | 18,6 | 20,8 | 24,3 | 20,8 | 20,2 | 14,7 | 10,6 | 8,7 | 14,5 |
+| +4 °C | Pluie (mm) | 56,2 | 48,9 | 50,1 | 49,9 | 66 | 57 | 56,2 | 56,1 | 49,8 | 61,8 | 61,2 | 72 | 685,2 |
+| +4 °C | ET0 (mm) | 14,8 | 22,8 | 46,1 | 70,6 | 106,4 | 132,7 | 137 | 100,2 | 78 | 38,4 | 14,2 | 14,9 | 776,2 |
+
+#### Zone H1b, station de Nancy (212 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 3,2 | 4,4 | 7,9 | 12,7 | 14,6 | 17,3 | 20,4 | 20,9 | 15,7 | 13,4 | 6,8 | 5,7 | 12 |
+| +2 °C | Pluie (mm) | 64,4 | 54,8 | 54,1 | 44,3 | 67,9 | 56 | 63 | 67,2 | 61,1 | 66,5 | 68,9 | 78,1 | 746,3 |
+| +2 °C | ET0 (mm) | 16 | 20,3 | 43,5 | 73,7 | 101,9 | 113,7 | 124,3 | 100,7 | 68,2 | 36,8 | 17,5 | 13,1 | 729,8 |
+| +2,7 °C | T (°C) | 3,2 | 4,4 | 7,9 | 12,7 | 14,6 | 20,9 | 22,7 | 20,9 | 15,7 | 13,4 | 8,5 | 4,4 | 12,5 |
+| +2,7 °C | Pluie (mm) | 64,4 | 54,8 | 54,1 | 44,3 | 67,9 | 56 | 63 | 67,2 | 61,1 | 66,5 | 68,9 | 78,1 | 746,3 |
+| +2,7 °C | ET0 (mm) | 16 | 20,3 | 43,5 | 73,7 | 101,9 | 123 | 133,4 | 100,7 | 68,2 | 36,8 | 16 | 14 | 747,6 |
+| +4 °C | T (°C) | 6,6 | 6,2 | 7,9 | 12,7 | 17,1 | 21 | 22,7 | 24,4 | 19,5 | 13,4 | 8,1 | 4,4 | 13,7 |
+| +4 °C | Pluie (mm) | 64,4 | 54,8 | 54,1 | 44,3 | 67,9 | 56 | 63 | 67,2 | 61,1 | 66,5 | 68,9 | 78,1 | 746,3 |
+| +4 °C | ET0 (mm) | 17,3 | 28,2 | 43,5 | 73,7 | 104,4 | 123 | 133,4 | 118,8 | 82 | 36,8 | 17,9 | 14 | 793 |
+
+#### Zone H1c, station de Macon (219 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 7 | 7,1 | 9,6 | 13,5 | 15,6 | 23,1 | 23,2 | 22,2 | 18,7 | 13,7 | 8,6 | 4,8 | 14 |
+| +2 °C | Pluie (mm) | 58,1 | 48,9 | 49,1 | 65,5 | 75,7 | 69,8 | 72,2 | 72,6 | 71,1 | 91,1 | 92,8 | 66,8 | 833,7 |
+| +2 °C | ET0 (mm) | 18,6 | 30,4 | 55,9 | 81,7 | 111,7 | 150,1 | 150,8 | 124,6 | 88,7 | 42,3 | 19,1 | 13 | 886,8 |
+| +2,7 °C | T (°C) | 7 | 7,1 | 9,6 | 13,5 | 15,6 | 22,3 | 25,4 | 21,6 | 18,7 | 14,1 | 8,7 | 5,4 | 14,1 |
+| +2,7 °C | Pluie (mm) | 58,1 | 48,9 | 49,1 | 65,5 | 75,7 | 69,8 | 72,2 | 72,6 | 71,1 | 91,1 | 92,8 | 66,8 | 833,7 |
+| +2,7 °C | ET0 (mm) | 18,6 | 30,4 | 55,9 | 81,7 | 111,7 | 153,7 | 158,1 | 109,6 | 88,6 | 43,1 | 20,3 | 10,3 | 882 |
+| +4 °C | T (°C) | 7 | 7,1 | 9,6 | 13,6 | 18,3 | 22,8 | 25,5 | 23,6 | 20,1 | 14,1 | 10,5 | 5,2 | 14,8 |
+| +4 °C | Pluie (mm) | 58,1 | 48,9 | 49,1 | 65,5 | 75,7 | 69,8 | 72,2 | 72,6 | 71,1 | 91,1 | 92,8 | 66,8 | 833,7 |
+| +4 °C | ET0 (mm) | 18,6 | 30,4 | 55,9 | 80,5 | 121,1 | 152,4 | 158,1 | 129,5 | 81,5 | 43,1 | 20 | 14,2 | 905,3 |
+
+#### Zone H2a, station de Rennes (36 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 7,3 | 8,8 | 9,7 | 13,4 | 14,4 | 17,7 | 18,7 | 20,9 | 18,3 | 15,5 | 11,3 | 7,5 | 13,6 |
+| +2 °C | Pluie (mm) | 66,6 | 51,6 | 48,9 | 51,2 | 58,1 | 50,9 | 44 | 43,5 | 56,6 | 73,1 | 73,2 | 73,3 | 691 |
+| +2 °C | ET0 (mm) | 18,6 | 31 | 54,2 | 73,7 | 93,8 | 115,3 | 107,4 | 96,6 | 82 | 42,9 | 20,2 | 14,6 | 750,4 |
+| +2,7 °C | T (°C) | 8,6 | 8,8 | 9,7 | 13,4 | 15,4 | 17,7 | 23,3 | 21,9 | 18,8 | 15,5 | 11,3 | 7,5 | 14,4 |
+| +2,7 °C | Pluie (mm) | 66,6 | 51,6 | 48,9 | 51,2 | 58,1 | 50,9 | 44 | 43,5 | 56,6 | 73,1 | 73,2 | 73,3 | 691 |
+| +2,7 °C | ET0 (mm) | 20,1 | 31 | 54,2 | 73,7 | 93,5 | 115,2 | 137,3 | 111,7 | 69,8 | 42,9 | 20,2 | 14,6 | 784,3 |
+| +4 °C | T (°C) | 7,3 | 8,8 | 9,7 | 13,2 | 15,4 | 20,2 | 24,3 | 22 | 20,4 | 15,7 | 11,3 | 7,5 | 14,7 |
+| +4 °C | Pluie (mm) | 66,6 | 51,6 | 48,9 | 51,2 | 58,1 | 50,9 | 44 | 43,5 | 56,6 | 73,1 | 73,2 | 73,3 | 691 |
+| +4 °C | ET0 (mm) | 18,6 | 31 | 54,2 | 73,1 | 109,5 | 124,9 | 143,6 | 111,7 | 98,5 | 45,4 | 20,2 | 14,6 | 845,3 |
+
+#### Zone H2b, station de Tours (108 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 6,6 | 5,7 | 9,3 | 12,8 | 15,8 | 21,3 | 22,8 | 21 | 17,8 | 14,5 | 9,6 | 6,5 | 13,7 |
+| +2 °C | Pluie (mm) | 63 | 52,4 | 48,7 | 53 | 57,7 | 53,2 | 46,6 | 44 | 51,8 | 66 | 69,3 | 72,1 | 677,8 |
+| +2 °C | ET0 (mm) | 21,1 | 25 | 55,2 | 73,2 | 99 | 131,5 | 152,4 | 118,7 | 87,6 | 43,6 | 19,6 | 15,1 | 842 |
+| +2,7 °C | T (°C) | 6,5 | 9,2 | 9,3 | 12,8 | 15,8 | 21,3 | 22,8 | 22,7 | 17,8 | 14,5 | 9,6 | 6,5 | 14,1 |
+| +2,7 °C | Pluie (mm) | 63 | 52,4 | 48,7 | 53 | 57,7 | 53,2 | 46,6 | 44 | 51,8 | 66 | 69,3 | 72,1 | 677,8 |
+| +2,7 °C | ET0 (mm) | 16,7 | 33,1 | 55,3 | 73,2 | 99 | 131,5 | 152,4 | 132,3 | 87,7 | 43,6 | 20 | 15 | 859,8 |
+| +4 °C | T (°C) | 6,5 | 9,4 | 9,3 | 12,8 | 18,9 | 21,3 | 24,3 | 23,2 | 20,1 | 14,5 | 11,6 | 7,5 | 15 |
+| +4 °C | Pluie (mm) | 63 | 52,4 | 48,7 | 53 | 57,7 | 53,2 | 46,6 | 44 | 51,8 | 66 | 69,3 | 72,1 | 677,8 |
+| +4 °C | ET0 (mm) | 21,1 | 30,6 | 55,3 | 73,2 | 127,3 | 131,4 | 154,7 | 140,6 | 103,4 | 43,6 | 23 | 17,2 | 921,4 |
+
+#### Zone H2c, station de Agen (58 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 7,2 | 8,3 | 10,9 | 14 | 16,7 | 20,6 | 22,4 | 23,2 | 20,9 | 15,7 | 9,3 | 7,7 | 14,8 |
+| +2 °C | Pluie (mm) | 59,6 | 44,2 | 49 | 70 | 73,3 | 62,2 | 49,4 | 50,4 | 60,6 | 58,7 | 70,1 | 60,7 | 708,2 |
+| +2 °C | ET0 (mm) | 21 | 36,9 | 60,9 | 77,3 | 117,7 | 139,6 | 143,4 | 125,7 | 92,1 | 46,7 | 22,7 | 16,4 | 900,4 |
+| +2,7 °C | T (°C) | 7,2 | 8,3 | 10,9 | 14 | 16,7 | 20,6 | 22,4 | 23,2 | 20,9 | 15,8 | 11,9 | 7,7 | 15 |
+| +2,7 °C | Pluie (mm) | 59,6 | 44,2 | 49 | 70 | 73,3 | 62,2 | 49,4 | 50,4 | 60,6 | 58,7 | 70,1 | 60,7 | 708,2 |
+| +2,7 °C | ET0 (mm) | 21 | 36,9 | 60,9 | 77,3 | 117,7 | 139,6 | 143,4 | 125,7 | 92,1 | 49,4 | 22 | 16,4 | 902,3 |
+| +4 °C | T (°C) | 8,8 | 8,3 | 10,7 | 14 | 21 | 23,3 | 26,5 | 23,2 | 21,8 | 16,4 | 11,9 | 7,7 | 16,2 |
+| +4 °C | Pluie (mm) | 59,6 | 44,2 | 49 | 70 | 73,3 | 62,2 | 49,4 | 50,4 | 60,6 | 58,7 | 70,1 | 60,7 | 708,2 |
+| +4 °C | ET0 (mm) | 19,5 | 37,9 | 67,7 | 77,3 | 121,5 | 151,6 | 159,6 | 125,7 | 94,8 | 53,7 | 22 | 16,4 | 947,7 |
+
+#### Zone H2d, station de Carpentras (98 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 7,1 | 7,6 | 11,1 | 15,5 | 19,3 | 23,9 | 24,5 | 25,4 | 22,3 | 16 | 10,7 | 6,1 | 15,8 |
+| +2 °C | Pluie (mm) | 46,3 | 34,2 | 43,2 | 61,1 | 55,6 | 41,7 | 25,7 | 40,6 | 98,7 | 87,6 | 90,8 | 41,9 | 667,4 |
+| +2 °C | ET0 (mm) | 31 | 44,1 | 71,7 | 100,6 | 143,3 | 177,5 | 180,8 | 159,2 | 110,5 | 58,8 | 32,1 | 26,6 | 1 136,2 |
+| +2,7 °C | T (°C) | 7,1 | 8,7 | 11,1 | 15,5 | 19,3 | 23,9 | 27,4 | 25,9 | 22,3 | 16 | 10,7 | 6,1 | 16,2 |
+| +2,7 °C | Pluie (mm) | 46,3 | 34,2 | 43,2 | 61,1 | 55,6 | 41,7 | 25,7 | 40,6 | 98,7 | 87,6 | 90,8 | 41,9 | 667,4 |
+| +2,7 °C | ET0 (mm) | 31 | 43 | 71,6 | 100,6 | 143,3 | 177,5 | 206,7 | 171,1 | 110,5 | 58,8 | 32,1 | 26,6 | 1 172,9 |
+| +4 °C | T (°C) | 7,1 | 8,7 | 11,1 | 15,5 | 19,3 | 24,5 | 27,4 | 25,9 | 22,9 | 17,4 | 10,8 | 6,1 | 16,4 |
+| +4 °C | Pluie (mm) | 46,3 | 34,2 | 43,2 | 61,1 | 55,6 | 41,7 | 25,7 | 40,6 | 98,7 | 87,6 | 90,8 | 41,9 | 667,4 |
+| +4 °C | ET0 (mm) | 31 | 43 | 71,6 | 100,6 | 143,3 | 178,1 | 206,7 | 171,1 | 119,1 | 67,3 | 32,1 | 26,6 | 1 190,5 |
+
+#### Zone H3, station de Marignane (9 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 8,9 | 10,6 | 11,7 | 16 | 21,1 | 22,8 | 27,8 | 26,1 | 21,2 | 17,8 | 13,3 | 8,4 | 17,2 |
+| +2 °C | Pluie (mm) | 47,1 | 29,8 | 29,5 | 51,6 | 37,7 | 27,9 | 11,1 | 25,8 | 82 | 73,3 | 75,9 | 40,9 | 532,6 |
+| +2 °C | ET0 (mm) | 38 | 52,3 | 81,4 | 109,9 | 158,6 | 182,5 | 228,8 | 179,1 | 106,4 | 74,3 | 40,7 | 34,1 | 1 286,1 |
+| +2,7 °C | T (°C) | 9 | 10,6 | 11,7 | 16 | 21,1 | 24,4 | 27,8 | 26,1 | 21,2 | 18,5 | 13,4 | 9 | 17,4 |
+| +2,7 °C | Pluie (mm) | 47,1 | 29,8 | 29,5 | 51,6 | 37,7 | 27,9 | 11,1 | 25,8 | 82 | 73,3 | 75,9 | 40,9 | 532,6 |
+| +2,7 °C | ET0 (mm) | 38,1 | 52,3 | 81,4 | 109,9 | 158,6 | 194,3 | 228,8 | 179,1 | 106,4 | 72,7 | 40,8 | 30,2 | 1 292,6 |
+| +4 °C | T (°C) | 9 | 10,6 | 12,7 | 16,9 | 21,5 | 25,6 | 29,4 | 26,1 | 23,9 | 18,5 | 13,4 | 10,4 | 18,2 |
+| +4 °C | Pluie (mm) | 47,1 | 29,8 | 29,5 | 51,6 | 37,7 | 27,9 | 11,1 | 25,8 | 82 | 73,3 | 75,9 | 40,9 | 532,6 |
+| +4 °C | ET0 (mm) | 38,1 | 52,3 | 88 | 118,6 | 159,9 | 202,8 | 247,3 | 179,2 | 138 | 72,8 | 40,8 | 33,2 | 1 371 |
+
+### 2.17 Extraits des sources primaires utilisés
 
 Les deux tableaux suivants reproduisent les lignes des sources primaires effectivement appelées par la nomenclature : la liste allemande des valeurs de biotopes (texte réglementaire libre de droits) et les lignes de la métrique anglaise (Open Government Licence v3.0).
 
@@ -4676,9 +5198,9 @@ Les deux tableaux suivants reproduisent les lignes des sources primaires effecti
 | Woodland and forest - Upland birchwoods | G1.9 |
 | Woodland and forest - Wet woodland | G1.1, G1.2, G1.3, G1.4, G1.5, G1.B, G3.E, G4.1 |
 | Woodland and forest - Wood-pasture and parkland | E7.1, E7.2, E7.3 |
-### 2.12 Annexe 2 de la BKompV, liste complète
+### 2.18 Annexe 2 de la BKompV, liste complète
 
-Liste complète des types de biotopes de l'annexe 2 de la BKompV et de leur valeur sur 24, dans l'ordre du texte (extraction du 18/10/2026). Les intitulés de rubrique, sans valeur, structurent la liste. Les types appelés par la nomenclature OpenNAT sont repris en 2.11.
+Liste complète des types de biotopes de l'annexe 2 de la BKompV et de leur valeur sur 24, dans l'ordre du texte (extraction du 18/10/2026). Les intitulés de rubrique, sans valeur, structurent la liste. Les types appelés par la nomenclature OpenNAT sont repris plus haut.
 
 | Code | Biotoptyp | Valeur sur 24 | Valeur sur 1 |
 |---|---|---|---|
@@ -5571,7 +6093,7 @@ Liste complète des types de biotopes de l'annexe 2 de la BKompV et de leur vale
 | 70.04M | – Mittlere Ausprägung | 18 | 0,75 |
 | 70.04A | – Alte Ausprägung | 21 | 0,875 |
 
-### 2.13 Métrique statutaire anglaise, onglets utilisés
+### 2.19 Métrique statutaire anglaise, onglets utilisés
 
 Reproduction des colonnes utilisées des onglets G-1, G-4 et G-5 du tableur statutaire 1.0.4 (Defra et Natural England, Open Government Licence v3.0). « Not Possible » signifie que la création ou l'amélioration n'est pas admise par la métrique pour cette classe d'état.
 
@@ -6079,13 +6601,16 @@ Les fiches sont appelées dans l'ordre suivant, qui est celui du chapitre 6 de l
 | 3 | A06 à A08 | Module S, sol |
 | 4 | A09 à A16 | Module H, habitats |
 | 5 | A17 à A19 | Module C, connectivité |
-| 6 | A20 à A22 | Module N, nuisances |
+| 6 | A20 à A22, A51 à A53 | Module N, nuisances, et éclairage horaire |
 | 7 | A23 à A25 | Module E, eau, et valeur à maturité |
-| 8 | A26 à A31 | Module T, temps |
-| 9 | A32 à A36 | Module G, biodiversité grise |
-| 10 | A37, A38 | Agrégation (E3), Bnat |
-| 11 | A39 | Incertitude (E4) |
-| 12 | A40 à A42 | Conformité (E5), variantes, journal des calculs |
+| 8 | A43 à A50 | Module W, climat et bilan hydrique horaire |
+| 9 | A26 à A31, A54 à A58 | Module T, temps, maturation, gestion et calendrier mensuel |
+| 10 | A32 à A36 | Module G, biodiversité grise |
+| 11 | A37, A38 | Agrégation (E3), Bnat |
+| 12 | A39 | Incertitude (E4) |
+| 13 | A40 à A42 | Conformité (E5), variantes, journal des calculs |
+
+Les fiches A43 à A58, ajoutées avec les modules dynamiques, sont regroupées à la section 3.13 ; leur pseudo-code les suit.
 
 ### 3.1 Généralités et contexte
 
@@ -7025,7 +7550,7 @@ Sorties :
 
 (A20-1) L_u = L0 si d_lum,u > 50 m ou si aucun point lumineux ; L1 si conf_u ; L2 sinon. À défaut de distances, L_u est déclaré.
 
-(A20-2) k_lum,u = 1 (L0), 0,9 (L1), 0,75 (L2)
+(A20-2) k_lum,u se calcule heure par heure par les fiches A51 à A53, selon la durée d'allumage de nuit, la température de couleur et la distance. Les classes L0, L1 et L2 restent des raccourcis de saisie (A53-2) : 1 ; 0,916 à Trappes ; 0,75.
 
 Un éclairage est conforme (classe L1) s'il respecte l'arrêté du 27 décembre 2018 : température de couleur de 3 000 K au plus (2 400 K dans les espaces protégés), extinction au plus tard une heure après la fin de l'activité, flux orienté vers le bas.
 
@@ -7035,11 +7560,11 @@ Un éclairage de sécurité permanent est de classe L2 même s'il respecte la te
 
 **Cas élémentaire**
 
-Prairie à 20 m de candélabres de 3 000 K éteints à 22 h : L1, k = 0,9.
+Prairie à 20 m de candélabres de 3 000 K éteints à 22 h, à Trappes : 7,6 % des heures de nuit d'avril à octobre sont éclairées (A51) ; k_lum = 1 - 0,25 x 0,0756 x 0,9 x 0,75 = 0,987 (A53).
 
 **Renvois**
 
-Convention C-N1. Arrêté du 27 décembre 2018.
+Conventions C-N1, C-L1 à C-L4. Arrêté du 27 décembre 2018. Fiches A51 à A53.
 
 #### Fiche A21. Bruit
 
@@ -7251,7 +7776,7 @@ Variables internes et sorties :
 
 (A26-2) τ_t = t - d_ch
 
-La valeur d'une année est celle de sa fin : une unité créée commence à mûrir dès que τ_t devient positif.
+Le calcul se fait au pas mensuel (fiche A58) : φ_m = 1 pour chaque mois du chantier, 0 ensuite ; φ_t est la moyenne annuelle de φ_m. Le départ de la maturation des unités créées n'est plus la fin du chantier mais le premier mois favorable aux plantations (fiche A58) ; τ_t ne sert qu'aux unités sans délai.
 
 **Cas limites et contrôles**
 
@@ -7340,7 +7865,7 @@ Sorties : V_u(t).
 
 (A28-1) d_u = k_delai x d(h_u, cl_u) ; si le type n'a qu'un délai « sans état », d_u = k_delai x d(h_u, sans état) ; si le type n'a aucun délai, d_u = 0 (convention C-T3).
 
-(A28-2) g_u(t) = 0 si τ_t <= 0 ; 1 si d_u = 0 ; min(1 ; τ_t / d_u) sinon
+(A28-2) g_u = courbe de maturation de la fiche A54, τ étant compté au mois près depuis le départ fixé par la fiche A58 ; la droite min(1 ; τ / d_u) de la première rédaction est remplacée.
 
 (A28-3) V_u(t) = D_c(h_u) x V_u x g_u(t) [T3]
 
@@ -7352,11 +7877,11 @@ Une unité créée sur l'emprise d'une unité initiale détruite ne reprend rien
 
 **Cas élémentaire**
 
-Prairie urbaine VB.26, V_u = 88,53, classe moyen, d = 5 ans, D = 1, d_ch = 1,5 : V(2) = 8,85 ; V(3) = 26,56 ; V(5) = 61,97 ; V(7) et suivantes = 88,53.
+Prairie urbaine VB.26 de l'annexe C, V_u = 90,10, classe moyen, d = 5 ans, D = 1, chantier de 18 mois commencé en septembre, plantée en janvier (rang 17) : moyennes annuelles 12,40 l'année 2 ; 48,21 l'année 3 ; 69,24 l'année 4 ; 87,12 l'année 6 ; 90,10 à partir de l'année 8, avant facteurs hydrique et de gestion.
 
 **Renvois**
 
-Conventions C-T1, C-T2, C-T3, C-T7, C-E2.
+Conventions C-T1, C-T2, C-T3, C-T7, C-E2, C-M1, C-K2. Fiches A54, A58.
 
 #### Fiche A29. Unités améliorées
 
@@ -7440,7 +7965,7 @@ La fiche additionne les trajectoires et produit les valeurs intégrées du site 
 
 **Nomenclature**
 
-Entrées : V_u des unités de l'état initial ; V_u(t) des unités de l'état projet ; N, N30.
+Entrées : V_u et k_W,u(t) des unités de l'état initial ; V_u(t) des unités de l'état projet (fiches A27 à A30, multipliées par k_W,u(t) et f_g,u(t)) ; N, N30.
 
 Sorties :
 
@@ -7458,11 +7983,11 @@ Sorties :
 
 (A31-2) V_1(t) = somme des V_u(t) de l'état projet (conservées, créées, améliorées)
 
-(A31-3) I_0 = N x V_0 ; I_1 = somme pour t de 1 à N de V_1(t) [T6]
+(A31-3) I_0 = somme pour t de 1 à N des V_u x k_W,u(t) de l'état initial ; I_1 = somme pour t de 1 à N de V_1(t) [T7]. L'état initial subit le même climat que le projet (fiche A50).
 
-(A31-4) I_0,30 = 30 x V_0 ; I_1,30 = somme pour t de 1 à 30 de V_1(t)
+(A31-4) I_0,30 et I_1,30 : mêmes sommes sur 30 ans
 
-(A31-5) DM = somme pour t de 1 à N, sur les unités créées et améliorées, de (D x V_u - V_u(t)) [T7]
+(A31-5) DM = somme pour t de 1 à N, sur les unités créées et améliorées, de (D x V_u - moyenne annuelle des valeurs mensuelles), avant facteurs hydrique et de gestion [T8]
 
 Les unités initiales détruites (ni conservées ni améliorées) n'apparaissent pas dans V_1(t) : leur perte est dans l'écart I_0 - I_1.
 
@@ -7472,7 +7997,7 @@ Option d'étude inactive (convention C-T5) : avec un taux d'actualisation a, cha
 
 **Cas élémentaire**
 
-Voir l'annexe C de la partie 1 : V_0 = 270,39 ; I_0 = 13 519,3 ; I_1 = 12 051,0 ; DM = 860,2 m²HE·an.
+Voir l'annexe C de la partie 1 : V_0 = 270,39 ; I_0 = 13 277,1 ; I_1 = 10 059,9 ; DM = 673,1 m²HE·an.
 
 **Renvois**
 
@@ -7684,7 +8209,7 @@ L'étape E3 réunit les sorties des modules T et G en indicateurs de l'opératio
 
 **Nomenclature**
 
-Entrées : I_0, I_1, I_0,30, I_1,30, DM (fiche A31) ; Inat_clim, Inat_bois, Inat_carr (fiches A33 à A35) ; S_p, S_ref.
+Entrées : I_0, I_1, I_0,30, I_1,30, DM (fiche A31) ; ΔI_ch (fiche A57) ; Inat_clim, Inat_bois, Inat_carr (fiches A33 à A35) ; S_p, S_ref.
 
 Sorties :
 
@@ -7700,13 +8225,13 @@ Sorties :
 
 **Description mathématique**
 
-(A37-1) Cnat = I_0 - I_1 [A1]
+(A37-1) Cnat = I_0 - I_1 + ΔI_ch [A1]
 
 (A37-2) Cnat_moy = Cnat / N
 
 (A37-3) Cnat_rel = Cnat / I_0 si I_0 > 0 ; non défini sinon
 
-(A37-4) Cnat_30 = I_0,30 - I_1,30
+(A37-4) Cnat_30 = I_0,30 - I_1,30 + ΔI_ch
 
 (A37-5) Inat = Inat_clim + Inat_bois + Inat_carr [G1]
 
@@ -7718,7 +8243,7 @@ Sur un site sans valeur initiale (I_0 = 0), Cnat est négatif ou nul et Cnat_rel
 
 **Cas élémentaire**
 
-Annexe C : Cnat = 1 468,3 ; Cnat_rel = 0,109 ; Inat = 141 843 ; Snat = -143 311 m²HE·an.
+Annexe C : Cnat = 3 217,2 ; Cnat_rel = 0,242 ; Inat = 141 843 ; Snat = -145 060 m²HE·an. Volume d'arrosage annuel moyen : 0 m³ (aucune unité arrosée).
 
 **Renvois**
 
@@ -7856,7 +8381,7 @@ L'attestation au permis ne porte que sur les données du plan masse ; elle n'aff
 
 **Cas élémentaire**
 
-Bnat = 59,0, Bnat_min = 45, PT = 0,425, PT_min = 0,15, PLU sans exigence : conformité au permis. Cnat = 1 468,3 > 0 : niveau 0 à l'achèvement.
+Bnat = 59,0, Bnat_min = 45, PT = 0,425, PT_min = 0,15, PLU sans exigence : conformité au permis. Cnat = 3 217,2 > 0 : niveau 0 à l'achèvement.
 
 **Renvois**
 
@@ -8135,11 +8660,12 @@ Second cas : tache de 2 500 m² contiguë à un réservoir, sans clôture : k_C 
 #### A20. Lumière
 
 ```
-si distances saisies : L_u ← L0 si d_lum > 50 m, L1 si conforme, L2 sinon ; sinon L_u déclaré
-k_lum,u ← table(lumiere_<classe>, facteur_lumiere)
+si raccourci L0, L1 ou L2 : paramètres d'éclairage ← (A53-2)
+x ← heures de nuit allumées / heures de nuit, avril à octobre (A51) × part sous détection
+k_lum,u ← 1 − 0,25 × x × s(T_c) × g(d) (A52, A53)
 ```
 
-Second cas : jardin à 60 m du point lumineux le plus proche : L0, k = 1, même si l'éclairage n'est pas conforme.
+Second cas : jardin à 60 m du point lumineux le plus proche : g = 0, k = 1, même si l'éclairage n'est pas conforme.
 
 #### A21. Bruit
 
@@ -8188,7 +8714,9 @@ Second cas : la chênaie de A13 (V^H = 798,61), dans une tache de k_C = 0,6119, 
 #### A26. Calendrier
 
 ```
-pour t de 1 à N : φ_t ← min(1 ; max(0 ; d_ch − (t − 1))) ; τ_t ← t − d_ch
+pour m de 1 à 12 × N : φ_m ← 1 si m ≤ d_mois sinon 0
+pour t de 1 à N : φ_t ← moyenne des φ_m de l'année t
+m_pl ← premier mois favorable aux plantations (A58)
 ```
 
 Second cas : chantier de 6 mois (d_ch = 0,5) : φ_1 = 0,5, τ_1 = 0,5.
@@ -8207,11 +8735,11 @@ Second cas : unité protégée : V_u(t) = V_u toutes les années, chantier compr
 ```
 d_u ← k_delai × délai(h_u, cl_u) ; à défaut délai « sans état » ; à défaut meilleure classe accessible ; à défaut 0
 pour t de 1 à N :
-    g ← 0 si τ_t ≤ 0 ; 1 si d_u = 0 ; min(1 ; τ_t / d_u) sinon
-    V_u(t) ← D_c × V_u × g
+    pour chaque mois m de l'année t : τ ← (m − départ) / 12 ; g ← courbe(τ, d_u, forme) (A54)
+    V_u(t) ← D_c × V_u × moyenne des g de l'année
 ```
 
-Second cas : boisement créé (G1.A), bon état visé (d = 32 ans, D = 0,33), V_u = 400 m²HE, d_ch = 1 : l'année 17, g = 0,5 et V = 0,33 x 400 x 0,5 = 66 m²HE.
+Second cas : boisement créé (G1.A), bon état visé (d = 32 ans, D = 0,33), V_u = 400 m²HE, forme arborée : seize ans après la plantation, g = [(1 - e^(-1,5)) / (1 - e^(-3))]^3 = 0,5465 et V = 0,33 x 400 x 0,5465 = 72,14 m²HE ; la droite de la première rédaction donnait 0,5 et 66 m²HE.
 
 #### A29. Unités améliorées
 
@@ -8238,13 +8766,13 @@ Second cas : jardinière (VB.23, délai d'un an) replantée l'année 25 : valeur
 #### A31. Intégration
 
 ```
-V_0 ← Σ V_u (état initial) ; I_0 ← N × V_0 ; I_0,30 ← 30 × V_0
-pour t de 1 à N : V_1(t) ← Σ V_u(t) (état projet)
+V_0 ← Σ V_u (état initial) ; I_0 ← Σ_t Σ_u V_u × k_W,u(t) ; I_0,30 ← même somme sur 30 ans
+pour t de 1 à N : V_1(t) ← Σ V_u(t) × k_W,u(t) × f_g,u(t) (état projet)
 I_1 ← Σ_t V_1(t) ; I_1,30 ← Σ_{t ≤ 30} V_1(t)
-DM ← Σ_t Σ_{u créées ou améliorées} (D × V_u − V_u(t))
+DM ← Σ_t Σ_{u créées ou améliorées} (D × V_u − moyenne annuelle des valeurs mensuelles)
 ```
 
-Second cas : une seule unité créée de V = 100 m²HE, D = 1, d = 10 ans, d_ch = 1 : DM = 100 x 1 (année 1) + 100 x (0,9 + 0,8 + ... + 0) = 550 m²HE·an.
+Second cas : une seule unité herbacée créée de V = 100 m²HE, D = 1, d = 10 ans, maturation partant au début de l'année 2 : DM = 376,8 m²HE·an (550 avec la droite de la première rédaction).
 
 #### A32. Indicateurs d'ACV
 
@@ -8294,8 +8822,8 @@ Second cas : indicateur 106 de 1,2 mol H+ éq./m² en A1-A3 et 0,3 en B pour 2 0
 #### A37. Agrégation
 
 ```
-Cnat ← I_0 − I_1 ; Cnat_moy ← Cnat / N ; Cnat_rel ← Cnat / I_0 si I_0 > 0
-Cnat_30 ← I_0,30 − I_1,30
+Cnat ← I_0 − I_1 + ΔI_ch ; Cnat_moy ← Cnat / N ; Cnat_rel ← Cnat / I_0 si I_0 > 0
+Cnat_30 ← I_0,30 − I_1,30 + ΔI_ch
 Inat ← Inat_clim + Inat_bois + Inat_carr ; Snat ← −(Cnat + Inat)
 ```
 
@@ -8355,6 +8883,641 @@ créer resultats/<projet>/<horodatage>/
 ```
 
 Second cas : un calcul interrompu au tirage 600 sur 1 000 reprend au tirage 601 avec la même graine et donne le même résultat qu'un calcul sans interruption.
+
+### 3.13 Modules dynamiques : climat, bilan hydrique, éclairage, maturation, gestion et chantier
+
+Les fiches A43 à A58 décrivent les calculs qui font d'OpenNAT une simulation et non un barème : le climat horaire et son évolution sur la période, le bilan hydrique horaire de chaque unité végétalisée, l'éclairage nocturne heure par heure, la courbe de maturation, la gestion et la succession, le calendrier du chantier au pas mensuel. Elles complètent les fiches A20 (lumière), A26 (calendrier), A28 (maturation) et A31 (intégration), dont elles remplacent les équations simplifiées de la première rédaction.
+
+Ordre d'appel : A43 à A46 une fois par projet et par niveau de réchauffement ; A47 à A50 pour chaque unité végétalisée de l'état initial et de l'état projet ; A51 à A53 dans le module N, à la place de l'équation A20-2 ; A54 à A58 dans le module T.
+
+#### Fiche A43. Climat horaire conventionnel
+
+**Introduction**
+
+Le calcul a besoin d'un climat horaire : pluie, température, humidité, vent, rayonnement, hauteur du soleil. Comme la RE2020, OpenNAT emploie une année météorologique type par zone climatique. Les fichiers de la RE2020 ne sont pas employés : le ministère en réserve l'usage au calcul réglementaire RE2020. OpenNAT emploie les fichiers climatiques prospectifs publiés en juin 2025 par l'ADEME, Météo-France, le CSTB et la DHUP sous Licence Ouverte 2.0, aux trois niveaux de la TRACC.
+
+**Nomenclature**
+
+Entrées :
+
+| Nom | Description | Unité | Plage |
+|---|---|---|---|
+| zone | Zone climatique RE2020 du département du projet | énumération | H1a, H1b, H1c, H2a, H2b, H2c, H2d, H3 |
+| z_site | Altitude du site (RSET, `Simu/Altitude`) | m | 0 à 2 500 |
+| n | Niveau de réchauffement | énumération | +2 ; +2,7 ; +4 °C |
+
+Paramètres intrinsèques :
+
+| Nom | Description | Unité | Origine |
+|---|---|---|---|
+| station(zone), z_st | Station de référence et son altitude | m | `climat.csv`, `station_*` |
+| T2m, Hur, RR, FF, Tc, Rgh, Ps, Hs | Variables horaires de l'année type | °C, %, mm, m/s, °C, W/m², hPa, degré | `donnees/climat/tracc_<n>.csv.gz` |
+
+Constantes : gradient thermique de l'atmosphère type Γ = 0,0065 K/m (norme ISO 2533).
+
+Sorties : pour chaque heure h de l'année type (8 760 heures, en temps universel) : T(h), P(h), Hur(h), u_10(h), R_s(h), p_atm(h), H_s(h).
+
+**Description mathématique**
+
+(A43-1) Δz = z_site - z_st ; si z_site est inconnu, Δz = 0
+
+(A43-2) T(h) = T2m(h) - Γ x Δz
+
+(A43-3) p_atm(h) = Ps(h) / 10 x ((293 - Γ x Δz) / 293)^5,26 (kPa, forme de l'équation 7 de la FAO-56)
+
+(A43-4) L'humidité relative est celle de la station : e_a(h) = e°(T(h)) x Hur(h) / 100.
+
+(A43-5) P(h) = RR(h) x ρ_mois (fiche A45)
+
+**Cas limites et contrôles**
+
+Un site à plus de 800 m d'altitude reste calculé sur la station de sa zone, corrigée ; l'écart est écrit au journal. Les fichiers prospectifs ont 8 760 heures (année non bissextile) ; une heure manquante arrête le calcul.
+
+**Cas élémentaire**
+
+Trappes (H1a, 167 m), +2 °C, 15 juillet à 12 h UTC : T2m = 21,61 °C. Pour un site à 300 m, Δz = 133 m et T = 21,61 - 0,0065 x 133 = 20,75 °C.
+
+**Renvois**
+
+Conventions C-W1, C-W13. Table `climat.csv`. Fiche A44.
+
+#### Fiche A44. Évapotranspiration de référence horaire
+
+**Introduction**
+
+L'évapotranspiration de référence ET0 est la demande en eau de l'atmosphère, mesurée sur un gazon de référence bien alimenté. La fiche l'obtient heure par heure par l'équation de Penman-Monteith de la FAO-56 (Allen et al., 1998).
+
+**Nomenclature**
+
+Entrées : sorties de la fiche A43.
+
+Constantes : albédo 0,23 ; constante solaire G_sc = 4,92 MJ/m²/h ; constante de Stefan-Boltzmann horaire σ = 2,043 x 10^-10 MJ/K⁴/m²/h.
+
+Variables internes : e°(T), Δ, γ, u_2, R_s, R_so, R_ns, R_nl, R_n, G.
+
+Sorties : ET0(h), en mm.
+
+**Description mathématique**
+
+(A44-1) e°(T) = 0,6108 x exp(17,27 T / (T + 237,3)) ; Δ = 4 098 e°(T) / (T + 237,3)² ; γ = 0,665 x 10^-3 x p_atm
+
+(A44-2) u_2 = u_10 x 4,87 / ln(67,8 x 10 - 5,42) (vent ramené à 2 m, équation 47)
+
+(A44-3) R_s = 0,0036 x Rgh ; R_a = G_sc x d_r x sin(H_s) quand H_s > 0, avec d_r = 1 + 0,033 cos(2π J / 365) ; R_so = (0,75 + 2 x 10^-5 x z_site) x R_a
+
+(A44-4) R_ns = 0,77 x R_s ; R_nl = σ (T + 273,16)⁴ (0,34 - 0,14 √e_a) (1,35 R_s / R_so - 0,35), le rapport R_s / R_so étant borné entre 0,3 et 1 et gardé la nuit à sa dernière valeur relevée avec un soleil à plus de 10° (équations 37 à 39)
+
+(A44-5) R_n = R_ns - R_nl ; G = 0,1 R_n le jour (H_s > 0), 0,5 R_n la nuit (équations 45 et 46)
+
+(A44-6) ET0 = max(0 ; [0,408 Δ (R_n - G) + γ (37 / (T + 273,16)) u_2 (e°(T) - e_a)] / [Δ + γ (1 + 0,34 u_2)]) (équation 53)
+
+**Cas limites et contrôles**
+
+Les valeurs négatives (rosée) sont ramenées à 0. Contrôle : l'ET0 annuelle à +2 °C vaut de 0,86 à 1,00 fois l'ETP Penman normale 1991-2020 de Météo-France aux huit stations (`climat.csv`, `etp_penman_normale`) ; un écart hors de 0,8 à 1,1 est signalé.
+
+**Cas élémentaire**
+
+Trappes, +2 °C, 15 juillet à 12 h UTC : Rgh = 592,9 W/m², T = 21,61 °C, Hur = 72,8 %, u_10 = 1,99 m/s : ET0 = 0,375 mm. Journée du 15 juillet : 2,9 mm ; mois de juillet : 109,7 mm ; année : 666 mm (693 mm à +2,7 °C, 776 mm à +4 °C ; ETP Penman normale de Météo-France : 772 mm).
+
+**Renvois**
+
+Convention C-W2. FAO-56, chapitre 4.
+
+#### Fiche A45. Recalage des pluies
+
+**Introduction**
+
+La note technique des fichiers prospectifs signale que leurs cumuls de pluie s'approchent des maxima des simulations, faute d'années types choisies sur ce critère. Un bilan hydrique calculé tel quel sous-estimerait le stress. La fiche recale les pluies horaires sur les normales mensuelles observées.
+
+**Nomenclature**
+
+Entrées : RR(h) de la fiche A43.
+
+Paramètres intrinsèques : P_norm,mois(zone), normale mensuelle 1991-2020 de la station (`climat.csv`, `pluie_normale_m01` à `m12`, données climatologiques de base mensuelles de Météo-France).
+
+Sorties : ρ_mois, P(h).
+
+**Description mathématique**
+
+(A45-1) ρ_mois = P_norm,mois / somme des RR(h) du mois dans l'année type ; ρ_mois = 0 si le mois est sec dans l'année type
+
+(A45-2) P(h) = RR(h) x ρ_mois
+
+Le recalage garde la chronologie des averses et leur intensité relative ; il ne change pas avec le niveau de réchauffement (convention C-W3).
+
+**Cas limites et contrôles**
+
+Un mois sans pluie dans l'année type reste sec, quelle que soit la normale : l'écart est écrit au journal.
+
+**Cas élémentaire**
+
+Trappes, +2 °C, juillet : l'année type porte 148,9 mm, la normale 56,2 mm ; ρ_07 = 0,3776. Sur l'année, 981 mm deviennent 685 mm.
+
+**Renvois**
+
+Convention C-W3. Table `climat.csv`.
+
+#### Fiche A46. Climat de chaque année de la période
+
+**Introduction**
+
+La période de 50 ans traverse le réchauffement. La fiche affecte à chaque année civile un niveau de réchauffement de la TRACC et les poids des trois années types.
+
+**Nomenclature**
+
+Entrées : a_0, année de début du chantier (fiche A58).
+
+Paramètres : jalons de la TRACC (arrêté du 23 janvier 2026) : (2030 ; +2 °C), (2050 ; +2,7 °C), (2100 ; +4 °C).
+
+Sorties : ΔT(a) et poids w_n(a) pour a de a_0 à a_0 + 49.
+
+**Description mathématique**
+
+(A46-1) ΔT(a) = 2 si a <= 2030 ; interpolation linéaire entre les jalons sinon
+
+(A46-2) Si ΔT <= 2,7 : w_2,7 = (ΔT - 2) / 0,7 ; w_2 = 1 - w_2,7 ; w_4 = 0. Sinon : w_4 = (ΔT - 2,7) / 1,3 ; w_2,7 = 1 - w_4 ; w_2 = 0.
+
+(A46-3) Une grandeur X calculée sur les trois années types vaut, l'année a : X(a) = somme des w_n(a) x X_n.
+
+**Cas limites et contrôles**
+
+Une révision de la TRACC change les jalons sans changer la fiche. Au-delà de 2100, ΔT reste à +4 °C.
+
+**Cas élémentaire**
+
+a_0 = 2027 : 2027 à 2030, +2 °C ; 2035, +2,175 °C (0,75 et 0,25) ; 2040, +2,35 °C ; 2050, +2,7 °C ; 2064, +3,064 °C (0,72 à +2,7 °C, 0,28 à +4 °C) ; 2076, +3,376 °C (0,48 et 0,52).
+
+**Renvois**
+
+Convention C-W13.
+
+#### Fiche A47. Groupes hydriques
+
+**Introduction**
+
+Chaque unité végétalisée a besoin d'eau selon sa végétation. La fiche range les unités dans neuf groupes hydriques, dont la table `hydrique.csv` donne les coefficients.
+
+**Nomenclature**
+
+Entrées : code h_u, position, alimentation déclarée des milieux humides.
+
+Sorties : groupe g_u ou « sans bilan ».
+
+**Description mathématique**
+
+(A47-1) Sans bilan : surfaces minérales et scellées (VB.1 à VB.4, VB.10, VB.25, H5.6), bassins à eau traitée et bassins de rétention (VB.21, VB.24), façades (VB.15, VB.16), groupe J, cultures temporaires I2, cours d'eau, milieux humides et prairies humides (C2, C3, D, E3) alimentés par une nappe ou un cours d'eau.
+
+(A47-2) Mare : VB.20 et C1. Milieu humide alimenté par la pluie : VB.19, et les types C2, C3, D, E3 déclarés alimentés par la pluie. Toiture extensive : VB.11. Gazon : VB.5, VB.22. Végétation xérophile : E1, F5, F6, H. Conifères : G3. Arboré : G (hors G3), VB.18a, VB.18b. Arbustif : F (hors F5, F6), FA, FB, VB.6, VB.9. Prairie : tous les autres types végétalisés, dont VB.7, VB.8, VB.12, VB.13, VB.23, VB.26, E2, E4 à E7, I1.
+
+**Cas limites et contrôles**
+
+Un type nouveau de la nomenclature sans groupe explicite tombe dans le groupe prairie : le journal le signale.
+
+**Cas élémentaire**
+
+VB.26, prairie ; FA.3, arbustif ; VB.18a, arboré ; VB.12 (toiture biodiverse), prairie sur substrat ; E3.4 déclarée alimentée par la nappe, sans bilan.
+
+**Renvois**
+
+Convention C-W6. Table `hydrique.csv`.
+
+#### Fiche A48. Réserve utile
+
+**Introduction**
+
+La réserve utile est l'eau que le sol ou le substrat retient et que les racines peuvent prendre. Elle dépend de la texture, de la profondeur d'enracinement et, hors sol, de l'épaisseur du substrat.
+
+**Nomenclature**
+
+Entrées :
+
+| Nom | Description | Unité | Plage |
+|---|---|---|---|
+| tex | Classe de texture (unité ou site) | énumération | neuf classes du tableau 19 de la FAO-56 |
+| prof | Profondeur de sol (unité ou site) | m | 0,1 à 3 |
+| e_u | Épaisseur de substrat | cm | positions sur dalle et hors-sol |
+
+Paramètres intrinsèques : θ_cc(tex), θ_pf(tex), Z_r(g), réserve volumique du substrat (`hydrique.csv`).
+
+Sorties : RU_u en mm.
+
+**Description mathématique**
+
+(A48-1) Sur dalle et hors sol : RU_u = 10 x e_u x 0,20
+
+(A48-2) En pleine terre : RU_u = 1 000 x (θ_cc - θ_pf) x min(Z_r(g_u) ; prof) ; à défaut de déclaration, tex = limon et prof = 1 m (convention C-W4).
+
+**Cas limites et contrôles**
+
+Un arbre planté en fosse sur dalle se déclare sur dalle avec l'épaisseur de la fosse. Une réserve nulle (substrat absent) donne un stress maximal : le facteur hydrique tombe au plancher.
+
+**Cas élémentaire**
+
+Prairie sur limon d'un mètre : 1 000 x (0,25 - 0,12) x 1 = 130 mm. Arbre sur sable : 1 000 x (0,12 - 0,045) x min(1,5 ; 1) = 75 mm. Toiture de 15 cm : 30 mm. Haie sur argile de 60 cm : 1 000 x (0,36 - 0,22) x 0,6 = 84 mm.
+
+**Renvois**
+
+Conventions C-W4, C-W5. FAO-56, tableaux 19 et 22.
+
+#### Fiche A49. Bilan hydrique horaire
+
+**Introduction**
+
+La fiche suit, heure par heure, l'eau du réservoir de chaque unité : la pluie et les apports de ruissellement le remplissent, l'évapotranspiration le vide, l'excédent percole. Elle en tire l'indice de stress de Granier, le volume d'arrosage et, pour une mare, la tenue en eau.
+
+**Nomenclature**
+
+Entrées : P(h), ET0(h), T(h) (fiches A43 à A45) ; RU_u (A48) ; g_u (A47) ; arrosage déclaré ; surfaces raccordées S_imp et S_perm ; pour une mare, profondeur H et nature du fond.
+
+Paramètres intrinsèques : K_c saison, K_c hors saison, p (`hydrique.csv`) ; seuil de stress REW = 0,4 ; seuil d'arrosage 0,5 ; coefficients de ruissellement 0,9 et 0,1 ; infiltration du fond (0 ; 0,3 ; 1 mm/j) ; saison de végétation (5 °C sur six jours).
+
+Variables internes : D(h) déplétion, REW(h), K_s(h), saison(h).
+
+Sorties : IS_u,n, déficit relatif de transpiration, arrosage annuel (mm), pour une mare assec de printemps et jours en eau.
+
+**Description mathématique**
+
+(A49-1) saison(h) = vrai si la moyenne des températures des 144 heures précédentes dépasse 5 °C
+
+(A49-2) apport_u = (0,9 x S_imp + 0,1 x S_perm) / A_u
+
+(A49-3) REW(h) = 1 - D(h - 1) / RU_u ; K_s = 1 si REW >= 1 - p, REW / (1 - p) sinon (FAO-56, équation 84)
+
+(A49-4) ET_a(h) = K_s x K_c(saison) x ET0(h)
+
+(A49-5) D(h) = min(RU_u ; max(0 ; D(h - 1) - P(h) x (1 + apport_u) + ET_a(h)))
+
+(A49-6) Arrosage : à 2 h UTC, en saison, si REW < 0,5, le volume D(h) est apporté et D(h) = 0.
+
+(A49-7) IS_u = somme, sur les heures en saison, de max(0 ; (0,4 - REW(h)) / 0,4) / 24
+
+(A49-8) Mare : hauteur d'eau W(h) = min(H ; max(0 ; W(h - 1) + P(h) x (1 + apport_u) - 1,05 x ET0(h) - i_fond / 24)) ; assec de printemps si W(h) = 0 à une heure quelconque de mars à juin.
+
+L'année type est jouée deux fois ; seule la seconde est retenue, pour que le réservoir parte au 1er janvier de son état de fin d'année.
+
+**Cas limites et contrôles**
+
+Une unité de surface nulle est ignorée. Un apport de ruissellement supérieur à 20 fois la surface de l'unité est signalé (bassin de rétention à déclarer comme tel).
+
+**Cas élémentaire**
+
+Prairie sur limon d'un mètre à Trappes : IS = 2,1 jours-équivalents à +2 °C, 11,2 à +2,7 °C, 26,2 à +4 °C (déficit de transpiration de 12 % en saison). Gazon de 0,75 m de racines arrosé : IS = 0, arrosage de 198 mm par an, soit 0,198 m³ par m². Mare de 0,8 m à fond argileux à Marignane, sans bassin versant : à sec au printemps, 210 jours en eau ; raccordée à une surface imperméable égale à la sienne : en eau au printemps, 312 jours en eau.
+
+**Renvois**
+
+Conventions C-W6 à C-W8, C-W10 à C-W12. FAO-56, équations 84 et 85 ; Granier et al. (1999).
+
+#### Fiche A50. Facteur hydrique
+
+**Introduction**
+
+La végétation d'une zone est adaptée au climat de cette zone. Le facteur hydrique ne pénalise donc que le stress que le projet ajoute par ses choix (substrat mince, sol pauvre ou peu profond, absence d'apport) et celui que le réchauffement ajoute au fil de la période.
+
+**Nomenclature**
+
+Entrées : IS_u,n (A49), groupe g_u.
+
+Paramètres : β_g, tolérance 5 jours-équivalents, plancher 0,5, facteur d'assec 0,5 (`hydrique.csv`).
+
+Sorties : k_W,u,n pour chaque niveau ; k_W,u(t) pour chaque année (par A46-3).
+
+**Description mathématique**
+
+(A50-1) IS_ref,g = indice du groupe g sur un limon d'un mètre (substrat de 10 cm pour une toiture extensive), sans arrosage ni apport, à +2 °C, dans la zone du projet
+
+(A50-2) k_W,u,n = max(0,5 ; 1 - β_g x max(0 ; IS_u,n - IS_ref,g - 5) / 100)
+
+(A50-3) Mare : k_W,u,n = 0,5 en cas d'assec de printemps, 1 sinon
+
+(A50-4) k_W,u(t) = somme des w_n(a_0 + t - 1) x k_W,u,n
+
+**Cas limites et contrôles**
+
+Le facteur s'applique à l'état initial comme à l'état projet (fiche A31). Une unité sans bilan a k_W = 1.
+
+**Cas élémentaire**
+
+Toiture biodiverse de 15 cm à Trappes, groupe prairie (β = 0,4) : IS = 31,6 à +2 °C contre IS_ref = 2,1 ; k_W = 1 - 0,4 x (31,6 - 2,1 - 5) / 100 = 0,902. À +4 °C : IS = 45,7 et k_W = 0,846. En 2076 (0,48 et 0,52) : k_W = 0,866.
+
+**Renvois**
+
+Convention C-W9.
+
+#### Fiche A51. Heures éclairées de nuit
+
+**Introduction**
+
+L'effet de l'éclairage sur la faune nocturne dépend d'abord de sa durée. La fiche compte, sur l'année type, les heures de nuit de la saison d'activité des chiroptères pendant lesquelles l'éclairage est allumé.
+
+**Nomenclature**
+
+Entrées : heure d'extinction h_ext et heure de rallumage h_ral en heure légale (ou « toute la nuit ») ; part de temps allumé sous détection de présence δ (1 sans détection).
+
+Paramètres : saison d'activité d'avril à octobre ; nuit si H_s <= 0 à la station de référence ; heure légale = UTC + 2 d'avril à octobre (`eclairage.csv`).
+
+Sorties : x_nuit,u.
+
+**Description mathématique**
+
+(A51-1) N_nuit = nombre d'heures h d'avril à octobre avec H_s(h) <= 0
+
+(A51-2) Pour chaque heure de nuit, h_l = heure légale. Allumée si h_l >= 12 et h_l < h_ext (extinction le soir), ou si h_ext < 12 et (h_l >= 12 ou h_l < h_ext) (extinction après minuit), ou si h_l >= h_ral avant midi (rallumage du matin).
+
+(A51-3) x_nuit,u = δ x N_allumées / N_nuit
+
+**Cas limites et contrôles**
+
+Un éclairage permanent de sécurité est allumé toute la nuit (x_nuit = δ). Un éclairage d'activité économique éteint une heure après la fin d'activité se déclare avec l'heure réelle d'extinction.
+
+**Cas élémentaire**
+
+Trappes : 2 157 heures de nuit d'avril à octobre. Extinction à 1 h : 805 heures allumées, x = 0,3732. Extinction à 23 h : x = 0,1748. Extinction à 22 h et rallumage à 6 h : x = 0,2063.
+
+**Renvois**
+
+Conventions C-L2, C-L4. Arrêté du 27 décembre 2018, article 2.
+
+#### Fiche A52. Facteur spectral et facteur de distance
+
+**Introduction**
+
+À durée égale, une lumière riche en bleu dérange plus qu'une lumière ambrée, et un luminaire proche plus qu'un luminaire lointain.
+
+**Nomenclature**
+
+Entrées : température de couleur T_c (K) ; distance d_u de l'unité au luminaire le plus proche (m).
+
+Paramètres : points (1 800 K ; 0,5), (2 200 ; 0,6), (2 400 ; 0,7), (2 700 ; 0,8), (3 000 ; 0,9), (4 000 ; 1) ; distances 10 et 50 m (`eclairage.csv`).
+
+Sorties : s(T_c), g(d_u).
+
+**Description mathématique**
+
+(A52-1) s(T_c) = interpolation linéaire entre les points ; 0,5 sous 1 800 K ; 1 au-delà de 4 000 K
+
+(A52-2) g(d) = 1 si d <= 10 ; 0 si d >= 50 ; (50 - d) / 40 sinon
+
+**Cas limites et contrôles**
+
+Une unité éclairée par plusieurs luminaires prend la distance du plus proche et la température de couleur la plus élevée.
+
+**Cas élémentaire**
+
+s(2 700) = 0,8 ; s(3 500) = 0,95 ; g(20) = 0,75 ; g(35) = 0,375.
+
+**Renvois**
+
+Conventions C-L3, C-L4. Azam et al. (2018) ; Longcore et al. (2018).
+
+#### Fiche A53. Facteur d'éclairage
+
+**Introduction**
+
+La fiche combine durée, spectre et distance. Elle remplace l'équation A20-2 ; les classes L1 et L2 restent admises comme raccourcis de saisie.
+
+**Nomenclature**
+
+Entrées : x_nuit,u (A51), s, g (A52).
+
+Paramètres : perte maximale 0,25.
+
+Sorties : k_lum,u, qui entre dans k_N,u (fiche A20).
+
+**Description mathématique**
+
+(A53-1) k_lum,u = 1 - 0,25 x x_nuit,u x s(T_c) x g(d_u) [N3]
+
+(A53-2) Raccourcis : L0, aucun éclairage, k_lum = 1 ; L1, extinction à 1 h, 3 000 K, au pied ; L2, toute la nuit, 4 000 K, au pied (k_lum = 0,75).
+
+**Cas limites et contrôles**
+
+k_lum est compris entre 0,75 et 1.
+
+**Cas élémentaire**
+
+Trappes, L1 : 1 - 0,25 x 0,3732 x 0,9 x 1 = 0,9160. Extinction à 23 h, 2 700 K, à 20 m : 1 - 0,25 x 0,1748 x 0,8 x 0,75 = 0,9738. Toute la nuit en ambre sous détection (30 % du temps), au pied : 1 - 0,25 x 0,3 x 0,5 x 1 = 0,9625.
+
+**Renvois**
+
+Convention C-L1. Fiche A20.
+
+#### Fiche A54. Courbe de maturation
+
+**Introduction**
+
+Un milieu créé ne gagne pas sa valeur en ligne droite. Une prairie semée donne vite la plus grande part de sa flore ; un boisement planté vaut peu les premières années, puis accélère. La fiche emploie la fonction de croissance de Chapman-Richards, ramenée à 1 au délai de maturité de la métrique anglaise.
+
+**Nomenclature**
+
+Entrées : τ, temps depuis le départ de la maturation (A58), en années ; d_u, délai de maturité (A28-1).
+
+Paramètres : k x d = 3 ; exposant c = 1 (herbacé), 2 (arbustif), 3 (arboré) (`succession.csv`).
+
+Sorties : g_u(τ).
+
+**Description mathématique**
+
+(A54-1) Forme : arborée pour G, VB.18a, VB.18b ; arbustive pour F, FA, FB, VB.6, VB.9 ; herbacée sinon.
+
+(A54-2) g_u(τ) = 0 si τ <= 0 ; 1 si d_u = 0 ; min(1 ; [(1 - e^(-3 τ / d_u)) / (1 - e^(-3))]^c) sinon [T3]
+
+**Cas limites et contrôles**
+
+g_u(d_u) = 1 pour toutes les formes : le délai de maturité garde son sens. Un renouvellement (A30) repart de τ = 0.
+
+**Cas élémentaire**
+
+d = 10 ans, τ = 1 ; 2,5 ; 5 ; 7,5 ; 10. Herbacée : 0,273 ; 0,555 ; 0,818 ; 0,941 ; 1. Arbustive : 0,074 ; 0,308 ; 0,668 ; 0,886 ; 1. Arborée : 0,020 ; 0,171 ; 0,546 ; 0,834 ; 1. La droite de la première rédaction donnait 0,1 ; 0,25 ; 0,5 ; 0,75 ; 1.
+
+**Renvois**
+
+Convention C-M1. Richards (1959) ; Pienaar et Turnbull (1973).
+
+#### Fiche A55. Régime de gestion
+
+**Introduction**
+
+La valeur visée d'un milieu créé suppose une gestion écologique : fauche tardive, taille douce, maintien des bois morts. La fiche dit, pour chaque année, sous quel régime l'unité est gérée.
+
+**Nomenclature**
+
+Entrées : durée du plan de gestion écologique P (projet ou unité), en années depuis la livraison ; régime déclaré pour l'après-plan (gestion courante par défaut, ou abandon) ; régime imposé d'une unité (gestion courante ou abandon dès la livraison).
+
+Sorties : régime(t) et durée écoulée dans ce régime.
+
+**Description mathématique**
+
+(A55-1) a_l(t) = t - 1 - d_mois / 12, années écoulées depuis la livraison au début de l'année t
+
+(A55-2) régime(t) = régime imposé s'il y en a un ; plan si a_l(t) < P ; régime d'après-plan sinon, depuis a_l(t) - P années
+
+Les unités conservées et l'état initial gardent leur gestion actuelle.
+
+**Cas limites et contrôles**
+
+P = 0 (aucun plan déclaré) : gestion courante dès la livraison. Un plan de plus de 50 ans couvre toute la période.
+
+**Cas élémentaire**
+
+Chantier de 18 mois, plan de 10 ans : a_l(t) >= 10 à partir de t = 13 ; la gestion courante commence l'année 13.
+
+**Renvois**
+
+Convention C-M3.
+
+#### Fiche A56. Facteur de gestion et succession
+
+**Introduction**
+
+Une prairie tondue comme une pelouse perd la moitié de sa valeur ; une prairie abandonnée se ferme peu à peu en friche puis en fourré. La fiche traduit le régime de gestion en un facteur appliqué à la valeur de l'année.
+
+**Nomenclature**
+
+Entrées : régime(t), durée dans le régime, v_u, f_u, groupe g_u, position.
+
+Paramètres : valeur intrinsèque de VB.5 et des stades jeunes (`habitats.csv`) ; rapports d'abandon de la BKompV, délais de 2 et 15 ans, score 0,75 de la friche embroussaillée (`succession.csv`).
+
+Sorties : f_g,u(t).
+
+**Description mathématique**
+
+(A56-1) Plan : f_g = 1
+
+(A56-2) Gestion courante : prairie ou végétation xérophile en pleine terre (hors VB.5, VB.7, VB.22) : f_g = min(1 ; v(VB.5) / v_u) ; haie : f_g = min(1 ; v(h_u, stade J) / v_u) ; autres : f_g = 1
+
+(A56-3) Abandon d'un milieu herbacé : f_g = 1 pendant 2 ans ; puis r_ab(h_u), rapport de la variante abandonnée au type exploité de la BKompV (moyenne des couples à défaut) jusqu'à 15 ans ; puis f_g = v(VB.9) x (0,5 + 0,5 x 0,75) / (v_u x f_u)
+
+**Cas limites et contrôles**
+
+Un milieu ligneux ou aquatique abandonné garde f_g = 1 dans la présente version. f_g n'est jamais supérieur à 1 en gestion courante.
+
+**Cas élémentaire**
+
+Prairie urbaine VB.26 (v = 0,6250, f = 0,8333) en gestion courante : f_g = 0,3333 / 0,6250 = 0,5333. Haie FA.3 de stade moyen : 0,5 / 0,6667 = 0,75. Abandon de VB.26 (BKompV 34.07b.01, 15 points, contre 34.07b.03, 11 points) : 0,733 de la 3e à la 15e année, puis 0,5 x 0,875 / (0,625 x 0,8333) = 0,84.
+
+**Renvois**
+
+Conventions C-M2, C-M3. BKompV, annexe 2.
+
+#### Fiche A57. Destruction en période sensible
+
+**Introduction**
+
+Détruire un fourré en mai tue les couvées ; abattre un vieil arbre creux en janvier tue les chiroptères en hibernation. La fiche ajoute à Cnat le coût de ces destructions, en plus de la perte d'habitat.
+
+**Nomenclature**
+
+Entrées : unités de l'état initial non conservées ni améliorées ; mois de destruction m_d (déclaré, à défaut premier mois du chantier).
+
+Paramètres : sensibilité mensuelle des oiseaux nicheurs, des chiroptères et des amphibiens ; perte d'une année (`chantier.csv`).
+
+Sorties : ΔI_ch et son détail par unité.
+
+**Description mathématique**
+
+(A57-1) Groupes de faune d'une unité : oiseaux pour F, FA, G, VB.18, VB.9, E, VB.8, VB.26 ; chiroptères pour un arbre ou un boisement de stade âgé, ou des gîtes déclarés ; amphibiens pour C1, C3, D, VB.19, VB.20.
+
+(A57-2) s_u = sensibilité la plus forte de ses groupes au mois m_d
+
+(A57-3) ΔI_ch = somme des V_u x s_u x 1 an [T9]
+
+**Cas limites et contrôles**
+
+Une destruction étalée sur plusieurs mois se déclare au mois le plus sensible. ΔI_ch ne s'applique pas à l'état initial dégradé volontairement (convention C-R5), qui se saisit dans son état antérieur.
+
+**Cas élémentaire**
+
+Exemple de l'annexe C défriché en mai : friche herbacée 210,77 x 1 + friche arbustive 32,79 x 1 = 243,56 m²HE·an ; les arbres sont conservés. Défriché en septembre : 0.
+
+**Renvois**
+
+Convention C-K1. BCAE 8 de la conditionnalité de la PAC.
+
+#### Fiche A58. Calendrier mensuel et plantations
+
+**Introduction**
+
+La fiche place le chantier et les plantations dans le calendrier, au mois près. Un chantier qui finit en mai ne plante qu'en novembre : six mois de maturation perdus.
+
+**Nomenclature**
+
+Entrées : année a_0 et mois m_0 de début du chantier ; durée d_mois en mois.
+
+Paramètres : mois favorables aux plantations (novembre à mars), avance de deux mois (`chantier.csv`).
+
+Sorties : rang de plantation m_pl ; mois de départ de chaque unité.
+
+**Description mathématique**
+
+(A58-1) Mois civil du rang i : ((m_0 - 1 + i - 1) mod 12) + 1
+
+(A58-2) m_pl = premier rang i >= max(1 ; d_mois - 1) dont le mois civil est favorable
+
+(A58-3) Départ de la maturation : fin du rang m_pl - 1 pour un milieu à délai non nul ; fin du chantier (rang d_mois) sinon
+
+(A58-4) Valeur de l'année t : moyenne des valeurs mensuelles des rangs 12 (t - 1) + 1 à 12 t [T6]
+
+**Cas limites et contrôles**
+
+Un aménagement sans chantier lourd (d_mois = 0) plante au premier mois favorable de la période.
+
+**Cas élémentaire**
+
+Début en septembre, 18 mois : plantation au rang 17 (janvier). Début en janvier, 18 mois : rang 23 (novembre de l'année suivante). Début en avril, 6 mois : rang 8 (novembre). Début en novembre, 3 mois : rang 2 (décembre).
+
+**Renvois**
+
+Conventions C-K2, C-K3.
+
+#### Pseudo-code des fiches A43 à A58
+
+**A43 à A45. Climat horaire**
+
+```
+pour chaque niveau n dans (+2 ; +2,7 ; +4) :
+  lire l'année type de la station de la zone
+  pour chaque mois : ρ_mois ← P_norm,mois / cumul du mois
+  pour chaque heure h : T ← T2m - 0,0065 x (z_site - z_st) ; P ← RR x ρ_mois ; calculer ET0(h) (A44-1 à A44-6)
+```
+
+**A46. Années de la période**
+
+```
+pour a de a_0 à a_0 + 49 : ΔT ← jalons TRACC ; w_n(a) ← (A46-2)
+```
+
+**A47 à A50. Bilan hydrique**
+
+```
+pour chaque unité u de l'état initial et de l'état projet :
+  g ← groupe(u) ; si sans bilan : k_W,u,n ← 1 ; continuer
+  RU ← réserve(u) ; apport ← (0,9 S_imp + 0,1 S_perm) / A_u
+  pour chaque niveau n : jouer deux fois l'année ; garder IS, arrosage, assec de la seconde
+  IS_ref ← même calcul pour le groupe g sur le sol de référence à +2 °C
+  k_W,u,n ← (A50-2) ou (A50-3)
+  pour chaque année t : k_W,u(t) ← somme des w_n x k_W,u,n
+```
+
+**A51 à A53. Éclairage**
+
+```
+pour chaque unité éclairée : x ← heures allumées de nuit / heures de nuit (avril à octobre) x δ ; k_lum ← 1 - 0,25 x x x s(T_c) x g(d)
+```
+
+**A54 à A58. Trajectoire mensuelle**
+
+```
+m_pl ← (A58-2)
+pour chaque unité u du projet :
+  départ ← m_pl - 1 si d_u > 0, sinon d_mois
+  pour m de 1 à 600 : τ ← (m - départ) / 12 ; valeur(m) ← (T2), (T3) ou (T4) avec g_u(τ) de (A54-2)
+  pour t de 1 à 50 : base(t) ← moyenne des valeur(m) de l'année ; f_g ← (A56) selon le régime (A55) ; V_u(t) ← base(t) x k_W,u(t) x f_g
+ΔI_ch ← (A57-3)
+```
+
+**Second cas élémentaire, fiches A49 et A50**
+
+Haie champêtre FA.3 sur limon d'un mètre à Trappes (RU = 117 mm, β = 0,6) : IS = 33,3 à +2 °C (égal à IS_ref, k_W = 1), 37,4 à +2,7 °C (écart de 4,1, sous la tolérance de 5 : k_W = 1), 47,7 à +4 °C : k_W = 1 - 0,6 x (47,7 - 33,3 - 5) / 100 = 0,943.
 
 ## Partie 4. Fiches habitats
 
@@ -47021,11 +48184,13 @@ Une façade compte pour sa surface végétalisée à maturité, plafonnée à 10
 
 Une mare se saisit en VB.20 si ses berges sont naturelles et son alimentation pluviale, phréatique ou par ruissellement ; en VB.21 si son eau est traitée ou ses berges maçonnées. Une noue végétalisée qui infiltre en surface se saisit en VB.19 ; la surface de toiture ou de voirie qu'elle reçoit entre dans le bonus d'infiltration de Bnat (fiche A24). Une zone humide créée par décaissement se saisit avec le type de zone humide visé (D5, E3) et sa grille EZ1 : le critère A (nappe proche de la surface toute l'année) doit être justifié par une étude hydrologique.
 
+Le bilan hydrique (fiche A49) demande, pour une mare, sa profondeur, la nature de son fond et les surfaces raccordées ; pour une noue ou un jardin de pluie, les surfaces raccordées. Une zone humide créée alimentée par la nappe se déclare comme telle et n'a pas de bilan ; alimentée par la seule pluie, elle relève du groupe des milieux humides alimentés par la pluie (fiche A47) et sa valeur suit son stress hydrique.
+
 ### 5.4 Nuisances et clôtures
 
 #### Fiche F16. Éclairage extérieur
 
-La classe d'éclairage se justifie par la note d'éclairage du projet : implantation des points lumineux, température de couleur, orientation du flux, horaires d'extinction. Un éclairage piloté par détection de présence, éteint hors présence, est de classe L1. Un éclairage décoratif de façade allumé toute la nuit est de classe L2 pour les unités situées à moins de 50 m.
+L'éclairage se saisit avec les données de la note d'éclairage du projet : implantation des points lumineux, distance de chaque unité au plus proche, température de couleur, horaires d'extinction et de rallumage, part de temps allumé sous détection de présence (fiches A51 à A53). Les raccourcis L1 et L2 ne servent qu'à défaut de note. Un éclairage décoratif de façade allumé toute la nuit se saisit avec sa température de couleur et sa distance à chaque unité située à moins de 50 m ; au-delà, il est sans effet. Voir aussi la fiche F26.
 
 #### Fiche F17. Clôtures et passages à faune
 
@@ -47065,6 +48230,28 @@ Quand le PLU impose un coefficient de biotope par surface ou une part de pleine 
 
 Les seuils de Bnat et de pleine terre de la v1 reprennent ceux du critère SOL 01.2.5 du référentiel Effinature 8.1 (convention C-E6). Un projet engagé dans la certification Effinature fournit son RSNat comme pièce ; l'organisme certificateur applique le référentiel et ses propres modes de preuve. OpenNAT ne délivre ni certificat ni label.
 
+### 5.6 Données des modules dynamiques
+
+#### Fiche F26. Note d'éclairage et horaires
+
+L'heure d'extinction se saisit en heure légale, telle que le règlement de la copropriété, le contrat d'exploitation ou l'arrêté municipal la fixe. Pour un éclairage d'activité économique, c'est l'heure de fin d'activité plus une heure (arrêté du 27 décembre 2018, article 2) ; pour un parc de stationnement, plus deux heures. Un éclairage dont la plage varie selon les jours se saisit avec sa plage la plus longue. Une détection de présence se saisit avec la part de temps allumé mesurée sur une installation comparable ou, à défaut, déclarée par le fabricant ; sans justification, la part est 1. La distance se mesure du pied du luminaire au bord le plus proche de l'unité. Un luminaire équipé d'un pare-lumière qui empêche toute lumière directe sur l'unité est réputé à plus de 50 m.
+
+#### Fiche F27. Calendrier du chantier
+
+L'année et le mois de début du chantier sont ceux de la déclaration d'ouverture du chantier prévue ; à l'achèvement, ceux de la déclaration réelle. Le mois de destruction est celui des défrichements, abattages, dessouchages, comblements de mares et démolitions de bâtis abritant des gîtes ; quand ces travaux sont faits avant l'ouverture du chantier, c'est leur mois réel. Un calendrier écologique prescrit par un arrêté de dérogation espèces protégées s'applique et se déclare tel qu'il est prescrit. Un projet qui avance les plantations par une installation provisoire (pépinière sur site, placage de gazon en motte) les déclare au mois réel ; la convention C-K2 ne s'applique qu'à défaut.
+
+#### Fiche F28. Plan de gestion écologique
+
+Le plan de gestion écologique se déclare par sa durée, comptée depuis la livraison, et se justifie par une pièce qui engage le gestionnaire : clause du règlement de copropriété ou du cahier des charges de cession, contrat d'entretien, obligation réelle environnementale, convention avec une collectivité. Il décrit au moins la fauche ou le pâturage des milieux herbacés (dates, fréquence, exportation des produits), la taille des haies hors période de nidification et le maintien des bois morts. Une tonte régulière n'est pas un plan de gestion écologique : les unités ainsi tondues se déclarent en gestion courante. Un abandon prévu (réserve foncière, délaissé) se déclare comme tel (fiche A55). Un plan de gestion prescrit par la certification Effinature se déclare avec la durée de l'engagement pris.
+
+#### Fiche F29. Raccordement des eaux pluviales aux milieux humides
+
+Une surface imperméable raccordée à une mare, une noue ou un jardin de pluie se déclare par sa surface en projection horizontale. Une surface perméable (talus, prairie) dont le ruissellement est dirigé vers le milieu humide se déclare séparément : seul un dixième de la pluie qui y tombe est compté (convention C-W11). Le raccordement doit figurer au plan des réseaux et au dossier loi sur l'eau quand il existe. Une surverse vers le réseau ne change pas la surface raccordée. Une mare dont le fond est rendu étanche par une géomembrane ou un béton se déclare à fond étanche ; un fond d'argile compactée, à fond argileux ; un fond non traité, naturel.
+
+#### Fiche F30. Sol, substrat et arrosage
+
+La texture du sol se déclare d'après l'étude géotechnique ou une analyse de terre, selon la classification de la FAO-56 (tableau 19) ; un sol reconstitué (fiche F08) se déclare avec la texture et l'épaisseur de la terre apportée. La profondeur de sol est celle que les racines peuvent atteindre : jusqu'à la roche, à la dalle, à une couche compactée ou à la nappe permanente. Un substrat de toiture ou de dalle se déclare avec son épaisseur ; la réserve volumique déclarée par le fabricant remplace la valeur de 0,20 quand une fiche technique la justifie. Une unité arrosée par un système automatique se déclare arrosée ; un arrosage manuel d'appoint ne se déclare pas. Le volume d'arrosage calculé est un indicateur complémentaire : il ne réduit ni n'augmente Cnat.
+
 ### 5.6 Exemples chiffrés
 
 Chaque fiche d'application est illustrée ci-dessous par des variantes d'une même situation, calculées par le carnet de référence (`outils/carnet_reference.py`). Sauf mention contraire : parcelle de 2 000 m², zone continentale, chantier de 12 mois, hors trame verte et bleue, sans nuisance, taches de connexion faible. Les valeurs sont en m²HE, m²HE·an, points et pourcentage.
@@ -47076,7 +48263,7 @@ Un immeuble de 600 m² d'emprise sur une parcelle de 2 000 m² entièrement rev�
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
 | Variante A | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Variante B | 0 | 0 | 8 138 | -8 138 | 347 | 0 | 45 | 45 |
+| Variante B | 0 | 0 | 6 098 | -6 098 | 282 | 0 | 45 | 45 |
 
 Variante A, unités de l'état projet :
 
@@ -47100,8 +48287,8 @@ Une maison de 400 m² d'emprise sur une parcelle de 2 000 m² de prairie de fauc
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 535,9 | 26 795 | 22 653 | 4 142 | 0 | 0 | 70 | 70 |
-| Variante B | 535,9 | 26 795 | 28 328 | -1 533 | 31 | 0 | 90 | 80 |
+| Variante A | 535,9 | 26 253 | 22 193 | 4 060 | 0 | 0 | 70 | 70 |
+| Variante B | 535,9 | 26 253 | 27 783 | -1 530 | 34 | 0 | 90 | 80 |
 
 Variante A, unités de l'état projet :
 
@@ -47125,8 +48312,8 @@ Le même lotissement de 2 000 m² est construit sur une culture intensive (varia
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 253,3 | 12 665 | 8 140 | 4 525 | 166 | 0 | 50 | 50 |
-| Variante B | 457,4 | 22 869 | 8 140 | 14 729 | 166 | 0 | 50 | 50 |
+| Variante A | 253,3 | 12 409 | 7 959 | 4 450 | 178 | 0 | 50 | 50 |
+| Variante B | 457,4 | 22 406 | 7 959 | 14 447 | 178 | 0 | 50 | 50 |
 
 Variante A, unités de l'état projet :
 
@@ -47150,8 +48337,8 @@ Une friche urbaine de 2 000 m² est construite. Variante A : friche en mosaïque
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 506,6 | 25 330 | 6 200 | 19 130 | 127 | 0 | 40 | 40 |
-| Variante B | 380 | 18 998 | 6 200 | 12 798 | 127 | 0 | 40 | 40 |
+| Variante A | 506,6 | 24 818 | 6 062 | 18 755 | 136 | 0 | 40 | 40 |
+| Variante B | 380 | 18 613 | 6 062 | 12 551 | 136 | 0 | 40 | 40 |
 
 Variante A, unités de l'état projet :
 
@@ -47175,10 +48362,10 @@ Un jardin commun de 800 m² est aménagé. Variante A : en pleine terre. Variant
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 0 | 0 | 6 200 | -6 200 | 127 | 0 | 40 | 40 |
-| Variante B | 0 | 0 | 3 720 | -3 720 | 76 | 0 | 24 | 0 |
-| Variante C | 0 | 0 | 4 340 | -4 340 | 89 | 0 | 28 | 0 |
-| Variante D | 0 | 0 | 5 580 | -5 580 | 114 | 0 | 36 | 0 |
+| Variante A | 0 | 0 | 6 062 | -6 062 | 136 | 0 | 40 | 40 |
+| Variante B | 0 | 0 | 3 405 | -3 405 | 82 | 0 | 24 | 0 |
+| Variante C | 0 | 0 | 4 213 | -4 213 | 95 | 0 | 28 | 0 |
+| Variante D | 0 | 0 | 5 561 | -5 561 | 122 | 0 | 36 | 0 |
 
 Variante A, unités de l'état projet :
 
@@ -47218,8 +48405,8 @@ Une prairie de fauche de 1 200 m² est conservée pendant un chantier de 24 mois
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 415 | 20 750 | 20 750 | 0 | 0 | 0 | 60 | 60 |
-| Variante B | 415 | 20 750 | 20 543 | 208 | 0 | 0 | 60 | 60 |
+| Variante A | 415 | 20 330 | 20 330 | 7,276 x 10^-12 | 0 | 0 | 60 | 60 |
+| Variante B | 415 | 20 330 | 20 123 | 208 | 0 | 0 | 60 | 60 |
 
 Variante A, unités de l'état projet :
 
@@ -47241,9 +48428,9 @@ Deux chênes indigènes de grand diamètre (houppier de 733 m² par défaut) se 
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 496,5 | 24 826 | 16 033 | 8 792 | 104 | 0 | 50 | 50 |
-| Variante B | 496,5 | 24 826 | 5 074 | 19 752 | 104 | 0 | 50 | 50 |
-| Variante C | 496,5 | 24 826 | 9 457 | 15 368 | 1 808 | 0 | 50 | 50 |
+| Variante A | 496,5 | 24 556 | 15 845 | 8 711 | 111 | 0 | 50 | 50 |
+| Variante B | 496,5 | 24 556 | 5 015 | 19 795 | 111 | 0 | 50 | 50 |
+| Variante C | 496,5 | 24 556 | 9 324 | 15 487 | 1 819 | 0 | 50 | 50 |
 
 Variante A, unités de l'état projet :
 
@@ -47274,9 +48461,9 @@ Une haie indigène pauvre de 150 m sur 2 m borde une culture. Variante A : haie 
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 247,1 | 12 356 | 12 356 | 0 | 0 | 0 | 100 | 100 |
-| Variante B | 247,1 | 12 356 | 12 999 | -643 | 13 | 0 | 100 | 100 |
-| Variante C | 247,1 | 12 356 | 13 242 | -886 | 427 | 0 | 100 | 100 |
+| Variante A | 247,1 | 12 130 | 12 130 | -1,819 x 10^-12 | 0 | 0 | 100 | 100 |
+| Variante B | 247,1 | 12 130 | 12 768 | -638 | 13 | 0 | 100 | 100 |
+| Variante C | 247,1 | 12 130 | 12 337 | -207 | 375 | 0 | 100 | 100 |
 
 Variante A, unités de l'état projet :
 
@@ -47305,9 +48492,9 @@ Même bâtiment de 1 500 m² de S_ref. Variante A : isolation minérale. Variant
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 0 | 0 | 6 200 | -6 200 | 127 | 145 712 | 40 | 40 |
-| Variante B | 0 | 0 | 6 200 | -6 200 | 127 | 215 720 | 40 | 40 |
-| Variante C | 0 | 0 | 6 200 | -6 200 | 127 | 136 725 | 40 | 40 |
+| Variante A | 0 | 0 | 6 062 | -6 062 | 136 | 145 712 | 40 | 40 |
+| Variante B | 0 | 0 | 6 062 | -6 062 | 136 | 215 720 | 40 | 40 |
+| Variante C | 0 | 0 | 6 062 | -6 062 | 136 | 136 725 | 40 | 40 |
 
 Variante A, unités de l'état projet :
 
@@ -47340,10 +48527,10 @@ Une toiture de 1 000 m² sur un bâtiment de 1 000 m² d'emprise. Variante A : t
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
 | Variante A | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Variante B | 0 | 0 | 4 687 | -4 687 | 96 | 0 | 25 | 0 |
-| Variante C | 0 | 0 | 6 845 | -6 845 | 846 | 0 | 30 | 0 |
-| Variante D | 0 | 0 | 5 395 | -5 395 | 344 | 0 | 35 | 0 |
-| Variante E | 0 | 0 | 2 513 | -2 513 | 51 | 0 | 15 | 0 |
+| Variante B | 0 | 0 | 4 671 | -4 671 | 103 | 0 | 25 | 0 |
+| Variante C | 0 | 0 | 6 408 | -6 408 | 554 | 0 | 30 | 0 |
+| Variante D | 0 | 0 | 5 127 | -5 127 | 252 | 0 | 35 | 0 |
+| Variante E | 0 | 0 | 2 509 | -2 509 | 55 | 0 | 15 | 0 |
 
 Variante A, unités de l'état projet :
 
@@ -47391,8 +48578,8 @@ Une façade de 40 m de long est végétalisée sur 10 m de haut (400 m²). Varia
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
 | Variante A | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Variante B | 0 | 0 | 1 006 | -1 006 | 42 | 0 | 8 | 0 |
-| Variante C | 0 | 0 | 1 006 | -1 006 | 42 | 0 | 10 | 0 |
+| Variante B | 0 | 0 | 1 013 | -1 013 | 34 | 0 | 8 | 0 |
+| Variante C | 0 | 0 | 1 013 | -1 013 | 34 | 0 | 10 | 0 |
 
 Variante A, unités de l'état projet :
 
@@ -47423,9 +48610,9 @@ Un plan d'eau de 200 m² est créé dans une pelouse de 2 000 m². Variante A : 
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 241,2 | 12 061 | 13 557 | -1 496 | 113 | 0 | 96 | 90 |
-| Variante B | 241,2 | 12 061 | 13 016 | -955 | 90 | 0 | 96 | 90 |
-| Variante C | 241,2 | 12 061 | 11 487 | 574 | 13 | 0 | 92 | 90 |
+| Variante A | 241,2 | 11 942 | 13 470 | -1 528 | 92 | 0 | 96 | 90 |
+| Variante B | 241,2 | 11 942 | 12 926 | -984 | 74 | 0 | 96 | 90 |
+| Variante C | 241,2 | 11 942 | 11 379 | 563 | 14 | 0 | 92 | 90 |
 
 Variante A, unités de l'état projet :
 
@@ -47454,9 +48641,9 @@ Une prairie urbaine de 1 200 m² est créée à côté d'un stationnement éclai
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 253,3 | 12 665 | 13 300 | -635 | 849 | 0 | 60 | 60 |
-| Variante B | 253,3 | 12 665 | 11 970 | 695 | 764 | 0 | 60 | 60 |
-| Variante C | 253,3 | 12 665 | 9 975 | 2 690 | 637 | 0 | 60 | 60 |
+| Variante A | 253,3 | 12 409 | 7 063 | 5 346 | 622 | 0 | 60 | 60 |
+| Variante B | 253,3 | 12 409 | 6 470 | 5 939 | 569 | 0 | 60 | 60 |
+| Variante C | 253,3 | 12 409 | 5 297 | 7 112 | 466 | 0 | 60 | 60 |
 
 Variante A, unités de l'état projet :
 
@@ -47470,7 +48657,7 @@ Variante B, unités de l'état projet :
 | Unité | Type | A (m²) | v | f | f_sol | k_C | k_N | k_E | V | d | D |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | P1 | VB.2 | 800 | 0 | 1 | 1 | 1 | 1 | 1 | 0 | 0 | 1 |
-| P2 | VB.26 | 1 200 | 0,625 | 0,8333 | 1 | 0,4528 | 0,9 | 1 | 254,67 | 5 | 1 |
+| P2 | VB.26 | 1 200 | 0,625 | 0,8333 | 1 | 0,4528 | 0,916 | 1 | 259,21 | 5 | 1 |
 
 Variante C, unités de l'état projet :
 
@@ -47485,8 +48672,8 @@ Des jardins de 1 500 m² sont clos. Variante A : clôture perméable (passages d
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 253,3 | 12 665 | 13 349 | -684 | 272 | 0 | 75 | 75 |
-| Variante B | 253,3 | 12 665 | 12 014 | 651 | 245 | 0 | 75 | 75 |
+| Variante A | 253,3 | 12 409 | 13 053 | -644 | 293 | 0 | 75 | 75 |
+| Variante B | 253,3 | 12 409 | 11 747 | 661 | 263 | 0 | 75 | 75 |
 
 Variante A, unités de l'état projet :
 
@@ -47508,9 +48695,9 @@ Un stationnement de 1 000 m² est aménagé sur une pelouse de 2 000 m². Varian
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 241,2 | 12 061 | 5 177 | 6 883 | 0 | 0 | 50 | 50 |
-| Variante B | 241,2 | 12 061 | 8 730 | 3 330 | 73 | 0 | 60 | 50 |
-| Variante C | 241,2 | 12 061 | 7 842 | 4 219 | 54 | 0 | 72,5 | 50 |
+| Variante A | 241,2 | 11 942 | 5 127 | 6 816 | 0 | 0 | 50 | 50 |
+| Variante B | 241,2 | 11 942 | 8 679 | 3 263 | 73 | 0 | 60 | 50 |
+| Variante C | 241,2 | 11 942 | 7 791 | 4 152 | 54 | 0 | 72,5 | 50 |
 
 Variante A, unités de l'état projet :
 
@@ -47539,8 +48726,8 @@ Une prairie de fauche en bon état a été labourée un an avant le dépôt. Var
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 337,7 | 16 885 | 8 140 | 8 745 | 166 | 0 | 50 | 50 |
-| Variante B | 773,9 | 38 697 | 8 140 | 30 558 | 166 | 0 | 50 | 50 |
+| Variante A | 337,7 | 16 543 | 7 959 | 8 584 | 178 | 0 | 50 | 50 |
+| Variante B | 773,9 | 37 914 | 7 959 | 29 955 | 178 | 0 | 50 | 50 |
 
 Variante A, unités de l'état projet :
 
@@ -47789,7 +48976,7 @@ Le RSNat (nom provisoire) est au calcul OpenNAT ce que le RSEE est à l'étude R
 
 | Fichier | Contenu |
 |---|---|
-| `schemas/rsnat.xsd` | Schéma XSD, 252 éléments, 16 énumérations |
+| `schemas/rsnat.xsd` | Schéma XSD, 312 éléments, 22 énumérations |
 | `schemas/exemple_annexe_C.rsnat.xml` | RSNat de l'exemple de l'annexe C de la partie 1, validé contre le schéma |
 | `outils/edition/rsnat_spec.py` | Spécification unique dont dérivent le schéma, ce dictionnaire et l'exemple |
 
@@ -47849,6 +49036,15 @@ Identification et contexte.
 | latitude | nombre décimal | ° | 0..1 | Latitude WGS 84 | RSEE : latitude |
 | longitude | nombre décimal | ° | 0..1 | Longitude WGS 84 | RSEE : longitude |
 | zone_biogeographique | énumération : atlantique, continentale, mediterraneenne, alpine |  | 1..1 | Zone biogéographique (fiche A02) |  |
+| departement | texte |  | 0..1 | Département du site | RSET : Simu/Departement |
+| altitude | nombre décimal | m | 0..1 | Altitude du site (fiche A43) | RSET : Simu/Altitude |
+| zone_climatique | énumération : H1a, H1b, H1c, H2a, H2b, H2c, H2d, H3 |  | 1..1 | Zone climatique RE2020 (fiche A43) |  |
+| texture_sol | énumération : sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |  | 0..1 | Texture du sol du site (fiche A48) |  |
+| profondeur_sol | nombre décimal | m | 0..1 | Profondeur de sol du site (fiche A48) |  |
+| annee_debut_chantier | entier |  | 1..1 | Année de début du chantier (fiche A58) |  |
+| mois_debut_chantier | entier |  | 1..1 | Mois de début du chantier, 1 à 12 (fiche A58) |  |
+| mois_destruction | entier |  | 0..1 | Mois des défrichements, abattages et comblements (fiche A57) |  |
+| plan_gestion_annees | entier | an | 0..1 | Durée du plan de gestion écologique (fiche A55) |  |
 | typologie | énumération : logement, tertiaire, industrie, amenagement |  | 1..1 | Typologie de l'opération |  |
 | rsee_empreinte | texte |  | 0..1 | Empreinte SHA-256 du RSEE repris, s'il y en a un |  |
 | date_etude | date |  | 1..1 | Date de l'étude |  |
@@ -47979,8 +49175,20 @@ Unité d'habitat.
 | stade | énumération : J, M, A |  | 0..1 | Stade d'un type ligneux |  |
 | situation | énumération : reservoir, corridor, hors_trame |  | 0..1 | Situation dans la trame verte et bleue (fiche A02) |  |
 | tache | texte |  | 0..1 | Identifiant de tache (fiche A17) |  |
-| eclairage | énumération : L0, L1, L2 |  | 0..1 | Classe d'éclairage (fiche A20) |  |
+| eclairage | énumération : L0, L1, L2 |  | 0..1 | Raccourci d'éclairage L0, L1 ou L2 (fiche A53-2) |  |
+| Eclairage_Horaire | élément composé |  | 0..1 | Éclairage déclaré heure par heure (fiches A51 à A53) |  |
 | distance_lumiere | nombre décimal | m | 0..1 | Distance au point lumineux le plus proche |  |
+| arrose | booléen |  | 0..1 | Arrosage automatique (fiche A49) |  |
+| texture_sol | énumération : sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |  | 0..1 | Texture du sol de l'unité, si elle diffère de celle du site (fiche A48) |  |
+| profondeur_sol | nombre décimal | m | 0..1 | Profondeur de sol de l'unité (fiche A48) |  |
+| bassin_versant_impermeable | nombre décimal | m² | 0..1 | Surface imperméable raccordée (fiche A49) |  |
+| bassin_versant_permeable | nombre décimal | m² | 0..1 | Surface perméable raccordée (fiche A49) |  |
+| profondeur_mare | nombre décimal | m | 0..1 | Profondeur maximale d'une mare (fiche A49) |  |
+| fond_mare | énumération : etanche, argile, naturel |  | 0..1 | Nature du fond d'une mare (fiche A49) |  |
+| gites | booléen |  | 0..1 | Gîtes de chiroptères (fiche A57) |  |
+| regime_gestion | énumération : plan, courante, abandon |  | 0..1 | Régime imposé dès la livraison (fiche A55) |  |
+| regime_apres_plan | énumération : plan, courante, abandon |  | 0..1 | Régime après le plan de gestion (fiche A55) |  |
+| plan_gestion_annees | entier | an | 0..1 | Durée du plan de gestion propre à l'unité (fiche A55) |  |
 | niveau_sonore | nombre décimal | dB(A) | 0..1 | Niveau sonore à l'unité (fiche A21) |  |
 | exposition_vitrage | booléen |  | 0..1 | À moins de 15 m d'une façade vitrée non traitée de plus de 10 m² (fiche A22) |  |
 | alimentation_eau | énumération : naturelle, artificielle |  | 0..1 | Alimentation d'une unité en eau (fiche A23) |  |
@@ -47990,7 +49198,18 @@ Unité d'habitat.
 | Critere_Collection | élément composé |  | 0..1 | Réponses à la grille d'état |  |
 | Renouvellement_Collection | élément composé |  | 0..1 | Années de réfection (fiche A30) |  |
 
-#### 7.3.16 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Critere_Collection`
+#### 7.3.16 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Eclairage_Horaire`
+
+Éclairage déclaré heure par heure (fiches A51 à A53).
+
+| Élément | Type | Unité | Card. | Description | Origine |
+|---|---|---|---|---|---|
+| extinction | entier | heure légale | 0..1 | Heure d'extinction, absente si allumé toute la nuit |  |
+| rallumage | entier | heure légale | 0..1 | Heure de rallumage du matin |  |
+| temperature_couleur | nombre décimal | K | 1..1 | Température de couleur |  |
+| part_detection | nombre décimal |  | 0..1 | Part de temps allumé sous détection de présence |  |
+
+#### 7.3.17 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Critere_Collection`
 
 Réponses à la grille d'état.
 
@@ -47998,7 +49217,7 @@ Réponses à la grille d'état.
 |---|---|---|---|---|---|
 | Critere | élément composé |  | 0..n | Réponse à un critère de la grille d'état du type |  |
 
-#### 7.3.17 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Critere_Collection/Critere`
+#### 7.3.18 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Critere_Collection/Critere`
 
 Réponse à un critère de la grille d'état du type.
 
@@ -48009,7 +49228,7 @@ Réponse à un critère de la grille d'état du type.
 | note | entier | note 1 à 3 | 0..1 | Note d'un indicateur de la grille des boisements |  |
 | preuve | texte |  | 0..1 | Référence de la pièce qui justifie la réponse |  |
 
-#### 7.3.18 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Renouvellement_Collection`
+#### 7.3.19 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Renouvellement_Collection`
 
 Années de réfection (fiche A30).
 
@@ -48017,7 +49236,7 @@ Années de réfection (fiche A30).
 |---|---|---|---|---|---|
 | annee | entier | an | 0..n | Année de réfection, de 2 à 50 |  |
 
-#### 7.3.19 `RSNat/Entree_Projet/Variante_Collection`
+#### 7.3.20 `RSNat/Entree_Projet/Variante_Collection`
 
 Variantes de l'état projet (fiche A41).
 
@@ -48025,7 +49244,7 @@ Variantes de l'état projet (fiche A41).
 |---|---|---|---|---|---|
 | Variante | élément composé |  | 1..n | Variante |  |
 
-#### 7.3.20 `RSNat/Entree_Projet/Variante_Collection/Variante`
+#### 7.3.21 `RSNat/Entree_Projet/Variante_Collection/Variante`
 
 Variante.
 
@@ -48040,7 +49259,7 @@ Variante.
 | Ouvrage_Pluvial_Collection | élément composé |  | 0..1 | Ouvrages de gestion des eaux pluviales (fiche A24) |  |
 | Facade_Vitree_Collection | élément composé |  | 0..1 | Façades vitrées exposées (fiche A22) |  |
 
-#### 7.3.21 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection`
+#### 7.3.22 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection`
 
 Unités de l'état projet.
 
@@ -48048,7 +49267,7 @@ Unités de l'état projet.
 |---|---|---|---|---|---|
 | Unite | élément composé |  | 0..n | Unité d'habitat |  |
 
-#### 7.3.22 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite`
+#### 7.3.23 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite`
 
 Unité d'habitat.
 
@@ -48068,8 +49287,20 @@ Unité d'habitat.
 | stade | énumération : J, M, A |  | 0..1 | Stade d'un type ligneux |  |
 | situation | énumération : reservoir, corridor, hors_trame |  | 0..1 | Situation dans la trame verte et bleue (fiche A02) |  |
 | tache | texte |  | 0..1 | Identifiant de tache (fiche A17) |  |
-| eclairage | énumération : L0, L1, L2 |  | 0..1 | Classe d'éclairage (fiche A20) |  |
+| eclairage | énumération : L0, L1, L2 |  | 0..1 | Raccourci d'éclairage L0, L1 ou L2 (fiche A53-2) |  |
+| Eclairage_Horaire | élément composé |  | 0..1 | Éclairage déclaré heure par heure (fiches A51 à A53) |  |
 | distance_lumiere | nombre décimal | m | 0..1 | Distance au point lumineux le plus proche |  |
+| arrose | booléen |  | 0..1 | Arrosage automatique (fiche A49) |  |
+| texture_sol | énumération : sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |  | 0..1 | Texture du sol de l'unité, si elle diffère de celle du site (fiche A48) |  |
+| profondeur_sol | nombre décimal | m | 0..1 | Profondeur de sol de l'unité (fiche A48) |  |
+| bassin_versant_impermeable | nombre décimal | m² | 0..1 | Surface imperméable raccordée (fiche A49) |  |
+| bassin_versant_permeable | nombre décimal | m² | 0..1 | Surface perméable raccordée (fiche A49) |  |
+| profondeur_mare | nombre décimal | m | 0..1 | Profondeur maximale d'une mare (fiche A49) |  |
+| fond_mare | énumération : etanche, argile, naturel |  | 0..1 | Nature du fond d'une mare (fiche A49) |  |
+| gites | booléen |  | 0..1 | Gîtes de chiroptères (fiche A57) |  |
+| regime_gestion | énumération : plan, courante, abandon |  | 0..1 | Régime imposé dès la livraison (fiche A55) |  |
+| regime_apres_plan | énumération : plan, courante, abandon |  | 0..1 | Régime après le plan de gestion (fiche A55) |  |
+| plan_gestion_annees | entier | an | 0..1 | Durée du plan de gestion propre à l'unité (fiche A55) |  |
 | niveau_sonore | nombre décimal | dB(A) | 0..1 | Niveau sonore à l'unité (fiche A21) |  |
 | exposition_vitrage | booléen |  | 0..1 | À moins de 15 m d'une façade vitrée non traitée de plus de 10 m² (fiche A22) |  |
 | alimentation_eau | énumération : naturelle, artificielle |  | 0..1 | Alimentation d'une unité en eau (fiche A23) |  |
@@ -48079,7 +49310,18 @@ Unité d'habitat.
 | Critere_Collection | élément composé |  | 0..1 | Réponses à la grille d'état |  |
 | Renouvellement_Collection | élément composé |  | 0..1 | Années de réfection (fiche A30) |  |
 
-#### 7.3.23 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection`
+#### 7.3.24 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Eclairage_Horaire`
+
+Éclairage déclaré heure par heure (fiches A51 à A53).
+
+| Élément | Type | Unité | Card. | Description | Origine |
+|---|---|---|---|---|---|
+| extinction | entier | heure légale | 0..1 | Heure d'extinction, absente si allumé toute la nuit |  |
+| rallumage | entier | heure légale | 0..1 | Heure de rallumage du matin |  |
+| temperature_couleur | nombre décimal | K | 1..1 | Température de couleur |  |
+| part_detection | nombre décimal |  | 0..1 | Part de temps allumé sous détection de présence |  |
+
+#### 7.3.25 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection`
 
 Réponses à la grille d'état.
 
@@ -48087,7 +49329,7 @@ Réponses à la grille d'état.
 |---|---|---|---|---|---|
 | Critere | élément composé |  | 0..n | Réponse à un critère de la grille d'état du type |  |
 
-#### 7.3.24 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection/Critere`
+#### 7.3.26 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection/Critere`
 
 Réponse à un critère de la grille d'état du type.
 
@@ -48098,7 +49340,7 @@ Réponse à un critère de la grille d'état du type.
 | note | entier | note 1 à 3 | 0..1 | Note d'un indicateur de la grille des boisements |  |
 | preuve | texte |  | 0..1 | Référence de la pièce qui justifie la réponse |  |
 
-#### 7.3.25 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Renouvellement_Collection`
+#### 7.3.27 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Renouvellement_Collection`
 
 Années de réfection (fiche A30).
 
@@ -48106,7 +49348,7 @@ Années de réfection (fiche A30).
 |---|---|---|---|---|---|
 | annee | entier | an | 0..n | Année de réfection, de 2 à 50 |  |
 
-#### 7.3.26 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection`
+#### 7.3.28 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection`
 
 Bois mis en œuvre (fiche A34).
 
@@ -48114,7 +49356,7 @@ Bois mis en œuvre (fiche A34).
 |---|---|---|---|---|---|
 | Bois | élément composé |  | 0..n | Lot de bois |  |
 
-#### 7.3.27 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection/Bois`
+#### 7.3.29 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection/Bois`
 
 Lot de bois.
 
@@ -48125,7 +49367,7 @@ Lot de bois.
 | remplacements | entier |  | 0..1 | Nombre de remplacements en 50 ans |  |
 | justification | texte |  | 0..1 | Pièce qui justifie le régime |  |
 
-#### 7.3.28 `RSNat/Entree_Projet/Variante_Collection/Variante/Granulats`
+#### 7.3.30 `RSNat/Entree_Projet/Variante_Collection/Variante/Granulats`
 
 Granulats, sables et roches (fiche A35).
 
@@ -48134,7 +49376,7 @@ Granulats, sables et roches (fiche A35).
 | masse | nombre décimal | t | 1..1 | Masse mise en œuvre |  |
 | remplacements | entier |  | 0..1 | Nombre de remplacements en 50 ans |  |
 
-#### 7.3.29 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection`
+#### 7.3.31 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection`
 
 Ouvrages de gestion des eaux pluviales (fiche A24).
 
@@ -48142,7 +49384,7 @@ Ouvrages de gestion des eaux pluviales (fiche A24).
 |---|---|---|---|---|---|
 | Ouvrage_Pluvial | élément composé |  | 0..n | Ouvrage |  |
 
-#### 7.3.30 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection/Ouvrage_Pluvial`
+#### 7.3.32 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection/Ouvrage_Pluvial`
 
 Ouvrage.
 
@@ -48151,7 +49393,7 @@ Ouvrage.
 | surface_drainee | nombre décimal | m² | 1..1 | Surface imperméable conduite vers l'ouvrage |  |
 | infiltration_surface | booléen |  | 1..1 | Infiltration en surface |  |
 
-#### 7.3.31 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection`
+#### 7.3.33 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection`
 
 Façades vitrées exposées (fiche A22).
 
@@ -48159,7 +49401,7 @@ Façades vitrées exposées (fiche A22).
 |---|---|---|---|---|---|
 | Facade_Vitree | élément composé |  | 0..n | Façade |  |
 
-#### 7.3.32 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection/Facade_Vitree`
+#### 7.3.34 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection/Facade_Vitree`
 
 Façade.
 
@@ -48168,7 +49410,7 @@ Façade.
 | surface | nombre décimal | m² | 1..1 | Surface vitrée exposée |  |
 | traitee | booléen |  | 1..1 | Vitrage traité contre les collisions |  |
 
-#### 7.3.33 `RSNat/Sortie_Projet`
+#### 7.3.35 `RSNat/Sortie_Projet`
 
 Résultats (partie 1, chapitre 11).
 
@@ -48176,7 +49418,7 @@ Résultats (partie 1, chapitre 11).
 |---|---|---|---|---|---|
 | Variante_Resultat | élément composé |  | 1..n | Résultats d'une variante |  |
 
-#### 7.3.34 `RSNat/Sortie_Projet/Variante_Resultat`
+#### 7.3.36 `RSNat/Sortie_Projet/Variante_Resultat`
 
 Résultats d'une variante.
 
@@ -48192,7 +49434,7 @@ Résultats d'une variante.
 | Incertitude | élément composé |  | 0..1 | Analyse d'incertitude (fiche A39) |  |
 | Conformite | élément composé |  | 1..1 | Conformité (fiche A40) |  |
 
-#### 7.3.35 `RSNat/Sortie_Projet/Variante_Resultat/Contexte`
+#### 7.3.37 `RSNat/Sortie_Projet/Variante_Resultat/Contexte`
 
 Sorties de l'étape E1 (fiche A02).
 
@@ -48203,7 +49445,7 @@ Sorties de l'étape E1 (fiche A02).
 | pleine_terre_min | nombre décimal |  | 1..1 | Seuil de pleine terre applicable |  |
 | multiplicateur_delai | nombre décimal |  | 1..1 | Multiplicateur de délai de la zone |  |
 
-#### 7.3.36 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection`
+#### 7.3.38 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection`
 
 Contrôle de fermeture (fiche A03).
 
@@ -48211,7 +49453,7 @@ Contrôle de fermeture (fiche A03).
 |---|---|---|---|---|---|
 | Fermeture | élément composé |  | 2..2 | Contrôle d'un état |  |
 
-#### 7.3.37 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection/Fermeture`
+#### 7.3.39 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection/Fermeture`
 
 Contrôle d'un état.
 
@@ -48222,7 +49464,7 @@ Contrôle d'un état.
 | ecart | nombre décimal | m² | 1..1 | Écart avec S_p |  |
 | conforme | booléen |  | 1..1 | Contrôle satisfait |  |
 
-#### 7.3.38 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection`
+#### 7.3.40 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection`
 
 Résultats par unité.
 
@@ -48230,7 +49472,7 @@ Résultats par unité.
 |---|---|---|---|---|---|
 | Unite_Resultat | élément composé |  | 0..n | Résultats d'une unité |  |
 
-#### 7.3.39 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat`
+#### 7.3.41 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat`
 
 Résultats d'une unité.
 
@@ -48249,16 +49491,37 @@ Résultats d'une unité.
 | multiplicateur_situation | nombre décimal |  | 1..1 | m_u |  |
 | facteur_taille | nombre décimal |  | 0..1 | k_taille |  |
 | facteur_connectivite | nombre décimal |  | 1..1 | k_C,u |  |
+| facteur_eclairage | nombre décimal |  | 0..1 | k_lum,u |  |
+| fraction_nuit_eclairee | nombre décimal |  | 0..1 | x_nuit,u |  |
 | facteur_nuisances | nombre décimal |  | 1..1 | k_N,u |  |
 | facteur_eau | nombre décimal |  | 1..1 | k_E,u |  |
 | valeur_habitat | nombre décimal | m²HE | 1..1 | V^H_u |  |
 | valeur_maturite | nombre décimal | m²HE | 1..1 | V_u |  |
 | delai | nombre décimal | an | 0..1 | d_u |  |
 | difficulte | nombre décimal |  | 0..1 | D_u |  |
+| groupe_hydrique | énumération : gazon, prairie, xerophile, arbustif, arbore, conifere, toiture_extensive, humide_pluie, mare |  | 0..1 | g_u (fiche A47) |  |
+| reserve_utile | nombre décimal | mm | 0..1 | RU_u (fiche A48) |  |
+| Bilan_Hydrique | élément composé |  | 0..3 | Bilan d'un niveau de réchauffement (fiches A49, A50) |  |
+| mois_depart_maturation | entier |  | 0..1 | Rang du mois de départ (fiche A58) |  |
+| facteurs_hydriques | texte |  | 0..1 | 50 valeurs annuelles k_W,u(t) |  |
+| facteurs_gestion | texte |  | 0..1 | 50 valeurs annuelles f_g,u(t) |  |
 | trajectoire | texte | m²HE | 0..1 | 50 valeurs annuelles V_u(t) séparées par des espaces |  |
 | valeur_integree | nombre décimal | m²HE·an | 0..1 | Somme de la trajectoire |  |
 
-#### 7.3.40 `RSNat/Sortie_Projet/Variante_Resultat/Site`
+#### 7.3.42 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat/Bilan_Hydrique`
+
+Bilan d'un niveau de réchauffement (fiches A49, A50).
+
+| Élément | Type | Unité | Card. | Description | Origine |
+|---|---|---|---|---|---|
+| niveau | énumération : 2_0, 2_7, 4_0 |  | 1..1 | Année type |  |
+| indice_stress | nombre décimal | jours-équivalents | 1..1 | IS_u,n |  |
+| indice_stress_reference | nombre décimal | jours-équivalents | 1..1 | IS_ref,g |  |
+| facteur_hydrique | nombre décimal |  | 1..1 | k_W,u,n |  |
+| arrosage | nombre décimal | mm | 0..1 | Volume d'arrosage annuel |  |
+| assec_printemps | booléen |  | 0..1 | Mare à sec entre mars et juin |  |
+
+#### 7.3.43 `RSNat/Sortie_Projet/Variante_Resultat/Site`
 
 Sorties des modules S et T (fiches A08, A24, A31).
 
@@ -48270,6 +49533,11 @@ Sorties des modules S et T (fiches A08, A24, A31).
 | i0_30 | nombre décimal | m²HE·an | 1..1 | I_0,30 |  |
 | i1_30 | nombre décimal | m²HE·an | 1..1 | I_1,30 |  |
 | dette_maturite | nombre décimal | m²HE·an | 1..1 | DM |  |
+| supplement_destruction | nombre décimal | m²HE·an | 1..1 | ΔI_ch (fiche A57) |  |
+| arrosage_annuel | nombre décimal | m³ | 1..1 | Volume d'arrosage annuel moyen de la période (fiche A49) |  |
+| rang_plantation | entier |  | 0..1 | m_pl (fiche A58) |  |
+| annees_periode | texte |  | 0..1 | Première et dernière années civiles de la période (fiche A46) |  |
+| trajectoire_reference | texte | m²HE | 0..1 | 50 valeurs annuelles de l'état initial sous le même climat |  |
 | trajectoire_site | texte | m²HE | 1..1 | 50 valeurs annuelles V_1(t) |  |
 | pleine_terre | nombre décimal |  | 1..1 | PT |  |
 | pleine_terre_initiale | nombre décimal |  | 1..1 | PT_0 |  |
@@ -48279,7 +49547,7 @@ Sorties des modules S et T (fiches A08, A24, A31).
 | part_pluvial_infiltre | nombre décimal |  | 0..1 | P_inf |  |
 | surface_vitree_non_traitee | nombre décimal | m² | 0..1 | A_vit,nt |  |
 
-#### 7.3.41 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux`
+#### 7.3.44 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux`
 
 Sorties du module G (fiches A32 à A36).
 
@@ -48292,7 +49560,7 @@ Sorties du module G (fiches A32 à A36).
 | inat_carrieres | nombre décimal | m²HE·an | 1..1 | Inat_carr |  |
 | Pollution_Resultat | élément composé |  | 0..n | Indicateurs de pollution |  |
 
-#### 7.3.42 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Inat_Climat_Phase`
+#### 7.3.45 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Inat_Climat_Phase`
 
 Inat_clim par phase.
 
@@ -48301,7 +49569,7 @@ Inat_clim par phase.
 | phase | énumération : A1-A3, A4-A5, B, C, D |  | 1..1 | Phase |  |
 | valeur | nombre décimal | m²HE·an | 1..1 | Inat_clim,p |  |
 
-#### 7.3.43 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Pollution_Resultat`
+#### 7.3.46 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Pollution_Resultat`
 
 Indicateurs de pollution.
 
@@ -48310,7 +49578,7 @@ Indicateurs de pollution.
 | code | entier |  | 1..1 | Code |  |
 | valeur | nombre décimal | unité de l'annexe II | 1..1 | POL_i |  |
 
-#### 7.3.44 `RSNat/Sortie_Projet/Variante_Resultat/Indicateurs`
+#### 7.3.47 `RSNat/Sortie_Projet/Variante_Resultat/Indicateurs`
 
 Indicateurs de l'opération (fiches A37, A38).
 
@@ -48327,7 +49595,7 @@ Indicateurs de l'opération (fiches A37, A38).
 | cnat_par_m2_parcelle | nombre décimal | m²HE·an/m² | 1..1 | Cnat / S_p |  |
 | inat_par_m2_sref | nombre décimal | m²HE·an/m² | 0..1 | Inat / S_ref |  |
 
-#### 7.3.45 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude`
+#### 7.3.48 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude`
 
 Analyse d'incertitude (fiche A39).
 
@@ -48337,7 +49605,7 @@ Analyse d'incertitude (fiche A39).
 | Intervalle | élément composé |  | 0..n | Intervalle d'un indicateur |  |
 | Parametre_Influent | élément composé |  | 0..5 | Paramètre parmi les cinq plus influents |  |
 
-#### 7.3.46 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Intervalle`
+#### 7.3.49 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Intervalle`
 
 Intervalle d'un indicateur.
 
@@ -48348,7 +49616,7 @@ Intervalle d'un indicateur.
 | p50 | nombre décimal |  | 1..1 | Centile 50 |  |
 | p95 | nombre décimal |  | 1..1 | Centile 95 |  |
 
-#### 7.3.47 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Parametre_Influent`
+#### 7.3.50 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Parametre_Influent`
 
 Paramètre parmi les cinq plus influents.
 
@@ -48360,7 +49628,7 @@ Paramètre parmi les cinq plus influents.
 | parametre | texte |  | 1..1 | Paramètre |  |
 | correlation | nombre décimal |  | 1..1 | ρ de Spearman avec Snat |  |
 
-#### 7.3.48 `RSNat/Sortie_Projet/Variante_Resultat/Conformite`
+#### 7.3.51 `RSNat/Sortie_Projet/Variante_Resultat/Conformite`
 
 Conformité (fiche A40).
 
@@ -48371,7 +49639,7 @@ Conformité (fiche A40).
 | plu_conforme | booléen |  | 0..1 | conf_PLU |  |
 | niveau_cnat | entier |  | 1..1 | Niveau 0, 1 ou 2 |  |
 
-#### 7.3.49 `RSNat/Attestation_Permis`
+#### 7.3.52 `RSNat/Attestation_Permis`
 
 Attestation de prise en compte de la biodiversité au dépôt du permis de construire (fiche A40, convention C-P1).
 
@@ -48387,7 +49655,7 @@ Attestation de prise en compte de la biodiversité au dépôt du permis de const
 | conforme | booléen |  | 1..1 | Conclusion de conformité |  |
 | mention | texte |  | 0..1 | Mention, notamment l'écart au minimum du PLU |  |
 
-#### 7.3.50 `RSNat/Attestation_Achevement`
+#### 7.3.53 `RSNat/Attestation_Achevement`
 
 Attestation à l'achèvement (fiche A40).
 
@@ -48406,7 +49674,7 @@ Attestation à l'achèvement (fiche A40).
 | inat_par_m2_sref | nombre décimal | m²HE·an/m² | 0..1 | Inat / S_ref |  |
 | niveau_cnat | entier |  | 1..1 | Niveau atteint |  |
 
-#### 7.3.51 `RSNat/Empreinte`
+#### 7.3.54 `RSNat/Empreinte`
 
 Empreintes de contrôle (fiche A42).
 
@@ -48435,6 +49703,12 @@ Empreintes de contrôle (fiche A42).
 | phase | A1-A3, A4-A5, B, C, D |
 | etat | initial, projet |
 | classe_etat | bon, moyen, mauvais, sans_etat |
+| zone_climatique | H1a, H1b, H1c, H2a, H2b, H2c, H2d, H3 |
+| texture | sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |
+| fond_mare | etanche, argile, naturel |
+| regime_gestion | plan, courante, abandon |
+| niveau_rechauffement | 2_0, 2_7, 4_0 |
+| groupe_hydrique | gazon, prairie, xerophile, arbustif, arbore, conifere, toiture_extensive, humide_pluie, mare |
 
 ### 7.5 Exemple
 
@@ -48455,7 +49729,7 @@ Extrait du fichier `schemas/exemple_annexe_C.rsnat.xml`, bloc Attestation_Permis
 
 Les huit situations types du cahier des charges (§ 7) sont calculées ci-dessous par le carnet de calcul de référence (`outils/carnet_reference.py`), qui applique les fiches algorithmes de la partie 3 sans Monte-Carlo et sans rien partager avec le futur moteur. Chaque cas donne ses hypothèses, toutes les grandeurs intermédiaires et les indicateurs : le moteur devra les retrouver à 0,1 % près (exigence E10). Les cas 7 et 8 se déclinent en variantes.
 
-Le carnet a d'abord été contrôlé sur l'exemple de l'annexe C de la partie 1, qu'il retrouve à l'identique : V_0 = 270,39 ; I_0 = 13 519,3 ; I_1 = 12 051,0 ; Cnat = 1 468,3 ; dette de maturité 860,2 ; Inat = 141 842,9 ; Bnat = 59,0.
+Le carnet a d'abord été contrôlé sur l'exemple de l'annexe C de la partie 1, qu'il retrouve à l'identique : V_0 = 270,39 ; I_0 = 13 277,1 ; I_1 = 10 059,9 ; Cnat = 3 217,2 ; dette de maturité 673,1 ; Inat = 141 842,9 ; Bnat = 59. Les grandeurs des modules dynamiques (bilan hydrique horaire, éclairage horaire, maturation, gestion, calendrier) sont données par unité dans chaque cas.
 
 ### Cas 1. Friche urbaine imperméabilisée devenue résidence avec jardin
 
@@ -48470,6 +49744,11 @@ Le carnet a d'abord été contrôlé sur l'exemple de l'annexe C de la partie 1,
 | Zone biogéographique | atlantique |
 | Typologie | logement |
 | Durée du chantier | 20 mois (d_ch = 1,667 an) |
+| Zone climatique, altitude | H2a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 2 200 m² |
 | Émissions des composants et du chantier | A1-A5 : 520, B : 380, C : 60 |
 | Bois | 40 m³ (coupe rase) |
@@ -48505,7 +49784,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | F | 300 | 0,35 | 1 | 1 | 0,35 |
 
-Valeur du site sans projet V_0 = 32,81 m²HE ; I_0 = 1 640,6 m²HE·an.
+Valeur du site sans projet V_0 = 32,81 m²HE ; I_0 = 1 623 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -48545,27 +49824,53 @@ Taches de l'état projet :
 | T | 600 | 0,3887 | 1 | 1 | 0,3887 |
 | isolee_P3 | 200 | 0,35 | 1 | 1 | 0,35 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| I2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| I3 | prairie | 130 | 24,2 | 30,5 | 42,9 | 1 | 0,995 | 0,945 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 20 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 20 | 1 |
+| P3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 20 | 1 |
+| P4 | arbustif | 117 | 53,1 | 55,2 | 64,2 | 1 | 1 | 0,963 | 1 | 18 | 1 |
+| P5 | prairie | 130 | 24,2 | 30,5 | 42,9 | 1 | 0,995 | 0,945 | 1 | 18 | 0,533 |
+| P6 | prairie | 130 | 24,2 | 30,5 | 42,9 | 1 | 0,995 | 0,945 | 1 | 18 | 1 |
+| P7 | humide pluie | 65 | 42 | 48,6 | 57,7 | 1 | 0,984 | 0,893 | 1 | 18 | 1 |
+| P8 | arbustif | 117 | 53,1 | 55,2 | 64,2 | 1 | 1 | 0,963 | 1 | 18 | 0,75 |
+| P9 | arbore | 130 | 67,1 | 68,4 | 76,7 | 1 | 1 | 0,963 | 1 | 18 | 1 |
+| P10 | toiture extensive | 20 | 15,4 | 29,9 | 34,9 | 1 | 0,971 | 0,956 | 1 | 18 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 95,7 | 287 | 421 | 542,1 | 592,1 | 642,1 | 728,8 | 728,8 | 728,8 |
+| V_1(t), m²HE | 0 | 73,3 | 317,6 | 437,1 | 522,6 | 505,2 | 567,2 | 629,5 | 624,1 | 618,7 |
+| V_0 x k_W, m²HE | 32,8 | 32,8 | 32,8 | 32,8 | 32,8 | 32,7 | 32,7 | 32,4 | 32,1 | 31,8 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 1 640,6 | m²HE·an |
-| I_1 | 31 245 | m²HE·an |
-| Cnat | -29 604,4 | m²HE·an |
-| Cnat relatif | -18,045 |  |
-| Cnat sur 30 ans | -15 684,6 | m²HE·an |
-| Dette de maturité | 5 195 | m²HE·an |
+| I_0 | 1 623 | m²HE·an |
+| I_1 | 27 545 | m²HE·an |
+| Cnat | -25 921,9 | m²HE·an |
+| Cnat relatif | -15,971 |  |
+| Cnat sur 30 ans | -14 087,4 | m²HE·an |
+| Dette de maturité | 5 059,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 141 126,7 | m²HE·an |
 | Inat bois | 74 074,1 | m²HE·an |
 | Inat carrières | 2 736 | m²HE·an |
 | Inat | 217 936,8 | m²HE·an |
-| Snat | -188 332,4 | m²HE·an |
+| Snat | -192 014,8 | m²HE·an |
 | Bnat | 66,7 | points |
 | Pleine terre | 0,467 |  |
 | Imperméabilisation nette | -1 500 | m² |
@@ -48585,6 +49890,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 24 mois (d_ch = 2 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 6 000 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 350, C : 50 |
 | Bois | 120 m³ (coupe rase) |
@@ -48618,7 +49928,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | PR | 30 000 | 0,9192 | 1,15 | 1 | 1,0571 |
 
-Valeur du site sans projet V_0 = 8 058,26 m²HE ; I_0 = 402 913,1 m²HE·an.
+Valeur du site sans projet V_0 = 8 058,26 m²HE ; I_0 = 394 899,3 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -48646,27 +49956,47 @@ Taches de l'état projet :
 |---|---|---|---|---|---|
 | JA | 5 000 | 0,6197 | 1,1 | 1 | 0,6817 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| I2 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 24 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 24 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 26 | 1 |
+| P4 | gazon | 98 | 12,5 | 18,6 | 27,2 | 1 | 0,995 | 0,952 | 1 | 26 | 1 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 24 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 145,7 | 145,7 | 1 300,8 | 1 300,8 | 1 300,8 | 1 300,8 | 1 300,8 | 1 300,8 | 1 300,8 | 1 300,8 |
+| V_1(t), m²HE | 145,7 | 145,7 | 831,3 | 1 299,9 | 1 295,5 | 1 291,2 | 1 286,8 | 1 274,2 | 1 259,2 | 1 244,1 |
+| V_0 x k_W, m²HE | 8 058,3 | 8 058,3 | 8 058,3 | 8 051,9 | 8 020,2 | 7 988,4 | 7 956,7 | 7 873,5 | 7 777,3 | 7 681 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 402 913,1 | m²HE·an |
-| I_1 | 62 728,6 | m²HE·an |
-| Cnat | 340 184,5 | m²HE·an |
-| Cnat relatif | 0,844 |  |
-| Cnat sur 30 ans | 205 034,7 | m²HE·an |
-| Dette de maturité | 2 310,1 | m²HE·an |
+| I_0 | 394 899,3 | m²HE·an |
+| I_1 | 61 090,3 | m²HE·an |
+| Cnat | 333 809 | m²HE·an |
+| Cnat relatif | 0,845 |  |
+| Cnat sur 30 ans | 203 528,2 | m²HE·an |
+| Dette de maturité | 2 781 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 355 075,5 | m²HE·an |
 | Inat bois | 222 222,2 | m²HE·an |
 | Inat carrières | 7 695 | m²HE·an |
 | Inat | 584 992,7 | m²HE·an |
-| Snat | -925 177,2 | m²HE·an |
+| Snat | -918 801,7 | m²HE·an |
 | Bnat | 50 | points |
 | Pleine terre | 0,5 |  |
 | Imperméabilisation nette | 5 000 | m² |
@@ -48686,6 +50016,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | tertiaire |
 | Durée du chantier | 22 mois (d_ch = 1,833 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 9 000 m² |
 | Émissions des composants et du chantier | A1-A5 : 560, B : 420, C : 45 |
 | Bois | aucun |
@@ -48721,7 +50056,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | A | 400 | 0,3555 | 1 | 1 | 0,3555 |
 
-Valeur du site sans projet V_0 = 62,5 m²HE ; I_0 = 3 125 m²HE·an.
+Valeur du site sans projet V_0 = 62,5 m²HE ; I_0 = 3 090,7 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -48753,27 +50088,49 @@ Taches de l'état projet :
 | T | 1 200 | 0,4528 | 1 | 1 | 0,4528 |
 | isolee_P2 | 400 | 0,3555 | 1 | 1 | 0,3555 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| I2 | gazon | 98 | 12,5 | 18,6 | 27,2 | 1 | 0,995 | 0,952 | 1 |
+| I3 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 22 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 22 | 1 |
+| P3 | arbustif | 80 | 37,9 | 42,2 | 52,6 | 1 | 0,976 | 0,914 | 1 | 26 | 1 |
+| P4 | gazon | 60 | 18 | 24,7 | 34,2 | 0,998 | 0,964 | 0,917 | 1 | 26 | 1 |
+| P5 | prairie | 80 | 15,1 | 23,8 | 36 | 0,968 | 0,933 | 0,885 | 1 | 26 | 1 |
+| P6 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 26 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 48,1 | 175,7 | 245,9 | 298,5 | 298,5 | 298,5 | 298,5 | 298,5 | 298,5 |
+| V_1(t), m²HE | 0 | 4 | 113,5 | 264,1 | 291,5 | 289,5 | 287,5 | 284,4 | 281,7 | 279 |
+| V_0 x k_W, m²HE | 62,5 | 62,5 | 62,5 | 62,5 | 62,5 | 62,4 | 62,4 | 61,9 | 61 | 60,2 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 3 125 | m²HE·an |
-| I_1 | 14 089,4 | m²HE·an |
-| Cnat | -10 964,4 | m²HE·an |
-| Cnat relatif | -3,509 |  |
-| Cnat sur 30 ans | -6 244,6 | m²HE·an |
-| Dette de maturité | 835,3 | m²HE·an |
+| I_0 | 3 090,7 | m²HE·an |
+| I_1 | 13 438,3 | m²HE·an |
+| Cnat | -10 347,7 | m²HE·an |
+| Cnat relatif | -3,348 |  |
+| Cnat sur 30 ans | -5 936,9 | m²HE·an |
+| Dette de maturité | 888,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 626 125,5 | m²HE·an |
 | Inat bois | 0 | m²HE·an |
 | Inat carrières | 9 405 | m²HE·an |
 | Inat | 635 530,5 | m²HE·an |
-| Snat | -624 566,1 | m²HE·an |
+| Snat | -625 182,8 | m²HE·an |
 | Bnat | 46 | points |
 | Pleine terre | 0 |  |
 | Imperméabilisation nette | -1 200 | m² |
@@ -48793,6 +50150,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 14 mois (d_ch = 1,167 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 1 600 m² |
 | Émissions des composants et du chantier | A1-A5 : 180, B : 260, C : 30 |
 | Bois | 15 m³ (coupe selective) |
@@ -48828,7 +50190,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | J | 200 | 0,35 | 1 | 1 | 0,35 |
 
-Valeur du site sans projet V_0 = 21,39 m²HE ; I_0 = 1 069,4 m²HE·an.
+Valeur du site sans projet V_0 = 21,39 m²HE ; I_0 = 1 047,7 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -48855,27 +50217,47 @@ Taches de l'état projet :
 | J | 450 | 0,3649 | 1 | 1 | 0,3649 |
 | isolee_P2 | 150 | 0,35 | 1 | 1 | 0,35 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| I2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| I3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 14 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 14 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 14 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 14 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 21,4 | 61,9 | 70,9 | 71,5 | 71,5 | 71,5 | 71,5 | 71,5 | 71,5 | 71,5 |
+| V_1(t), m²HE | 21,4 | 52 | 70,8 | 71,4 | 71,2 | 70,9 | 70,6 | 70 | 69,2 | 68,5 |
+| V_0 x k_W, m²HE | 21,4 | 21,4 | 21,4 | 21,4 | 21,3 | 21,2 | 21,1 | 20,9 | 20,6 | 20,4 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 1 069,4 | m²HE·an |
-| I_1 | 3 512,8 | m²HE·an |
-| Cnat | -2 443,5 | m²HE·an |
-| Cnat relatif | -2,285 |  |
-| Cnat sur 30 ans | -1 442 | m²HE·an |
-| Dette de maturité | 60,2 | m²HE·an |
+| I_0 | 1 047,7 | m²HE·an |
+| I_1 | 3 439,4 | m²HE·an |
+| Cnat | -2 391,7 | m²HE·an |
+| Cnat relatif | -2,283 |  |
+| Cnat sur 30 ans | -1 419,9 | m²HE·an |
+| Dette de maturité | 70,2 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 44 813,6 | m²HE·an |
 | Inat bois | 16 666,7 | m²HE·an |
 | Inat carrières | 256,5 | m²HE·an |
 | Inat | 61 736,8 | m²HE·an |
-| Snat | -59 293,3 | m²HE·an |
+| Snat | -59 345,1 | m²HE·an |
 | Bnat | 32 | points |
 | Pleine terre | 0,3 |  |
 | Imperméabilisation nette | -400 | m² |
@@ -48895,6 +50277,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 24 mois (d_ch = 2 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 6 000 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 350, C : 50 |
 | Bois | 120 m³ (coupe rase) |
@@ -48928,7 +50315,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | PR | 30 000 | 0,9192 | 1,15 | 1 | 1,0571 |
 
-Valeur du site sans projet V_0 = 9 267 m²HE ; I_0 = 463 350,1 m²HE·an.
+Valeur du site sans projet V_0 = 9 267 m²HE ; I_0 = 454 134,2 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -48956,27 +50343,47 @@ Taches de l'état projet :
 |---|---|---|---|---|---|
 | JA | 5 000 | 0,6197 | 1,1 | 1 | 0,6817 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| I2 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 24 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 24 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 26 | 1 |
+| P4 | gazon | 98 | 12,5 | 18,6 | 27,2 | 1 | 0,995 | 0,952 | 1 | 26 | 1 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 24 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 167,6 | 167,6 | 1 495,9 | 1 495,9 | 1 495,9 | 1 495,9 | 1 495,9 | 1 495,9 | 1 495,9 | 1 495,9 |
+| V_1(t), m²HE | 167,6 | 167,6 | 956 | 1 494,9 | 1 489,9 | 1 484,8 | 1 479,8 | 1 465,4 | 1 448 | 1 430,7 |
+| V_0 x k_W, m²HE | 9 267 | 9 267 | 9 267 | 9 259,7 | 9 223,2 | 9 186,7 | 9 150,2 | 9 054,5 | 8 943,9 | 8 833,2 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 463 350,1 | m²HE·an |
-| I_1 | 72 137,9 | m²HE·an |
-| Cnat | 391 212,1 | m²HE·an |
-| Cnat relatif | 0,844 |  |
-| Cnat sur 30 ans | 235 789,9 | m²HE·an |
-| Dette de maturité | 2 656,6 | m²HE·an |
+| I_0 | 454 134,2 | m²HE·an |
+| I_1 | 70 253,8 | m²HE·an |
+| Cnat | 383 880,4 | m²HE·an |
+| Cnat relatif | 0,845 |  |
+| Cnat sur 30 ans | 234 057,4 | m²HE·an |
+| Dette de maturité | 3 198,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 355 075,5 | m²HE·an |
 | Inat bois | 222 222,2 | m²HE·an |
 | Inat carrières | 7 695 | m²HE·an |
 | Inat | 584 992,7 | m²HE·an |
-| Snat | -976 204,9 | m²HE·an |
+| Snat | -968 873,1 | m²HE·an |
 | Bnat | 50 | points |
 | Pleine terre | 0,5 |  |
 | Imperméabilisation nette | 5 000 | m² |
@@ -48996,6 +50403,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | amenagement |
 | Durée du chantier | 6 mois (d_ch = 0,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 0 m² |
 | Émissions des composants et du chantier | aucun bâtiment |
 | Bois | aucun |
@@ -49027,7 +50439,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | isolee_I1 | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 734,1 m²HE·an.
+Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 37 950,4 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -49056,27 +50468,46 @@ Taches de l'état projet :
 | N | 4 700 | 0,6114 | 1,1 | 1 | 0,6725 |
 | isolee_P5 | 300 | 0,35 | 1 | 1 | 0,35 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | mare |  |  |  |  | 1 | 1 | 1 | 1 | 4 | 1 |
+| P2 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 4 | 0,75 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 4 | 0,533 |
+| P4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 4 | 1 |
+| P5 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 6 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 166,7 | 465,2 | 763,6 | 1 304,5 | 1 452,4 | 1 471,6 | 1 490,9 | 1 529,4 | 1 539 | 1 539 |
+| V_1(t), m²HE | 185,2 | 730,5 | 1 070 | 1 369,9 | 1 438,4 | 918,8 | 942,8 | 968,6 | 963,4 | 952,6 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,1 | 770,9 | 767,8 | 764,6 | 756,6 | 747,3 | 738 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 38 734,1 | m²HE·an |
-| I_1 | 71 596,3 | m²HE·an |
-| Cnat | -32 862,2 | m²HE·an |
-| Cnat relatif | -0,848 |  |
-| Cnat sur 30 ans | -17 582,6 | m²HE·an |
-| Dette de maturité | 5 356,2 | m²HE·an |
+| I_0 | 37 950,4 | m²HE·an |
+| I_1 | 50 370 | m²HE·an |
+| Cnat | -12 419,6 | m²HE·an |
+| Cnat relatif | -0,327 |  |
+| Cnat sur 30 ans | -8 103,6 | m²HE·an |
+| Dette de maturité | 4 439,5 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 0 | m²HE·an |
 | Inat bois | 0 | m²HE·an |
 | Inat carrières | 171 | m²HE·an |
 | Inat | 171 | m²HE·an |
-| Snat | 32 691,2 | m²HE·an |
+| Snat | 12 248,6 | m²HE·an |
 | Bnat | 92,8 | points |
 | Pleine terre | 0,88 |  |
 | Imperméabilisation nette | 0 | m² |
@@ -49096,6 +50527,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 4 000 m² |
 | Émissions des composants et du chantier | A1-A5 : 560, B : 300, C : 60 |
 | Bois | 20 m³ (coupe rase) |
@@ -49127,7 +50563,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | J | 3 000 | 0,5539 | 1 | 1 | 0,5539 |
 
-Valeur du site sans projet V_0 = 435,14 m²HE ; I_0 = 21 757 m²HE·an.
+Valeur du site sans projet V_0 = 435,14 m²HE ; I_0 = 21 316,7 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -49151,27 +50587,44 @@ Taches de l'état projet :
 |---|---|---|---|---|---|
 | J | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 125,2 | 250,4 | 250,4 | 250,4 | 250,4 | 250,4 | 250,4 | 250,4 | 250,4 |
+| V_1(t), m²HE | 0 | 108,8 | 248,2 | 250,2 | 249,2 | 248,2 | 247,2 | 244,6 | 241,6 | 238,6 |
+| V_0 x k_W, m²HE | 435,1 | 435,1 | 435,1 | 434,8 | 433 | 431,3 | 429,5 | 425 | 419,8 | 414,6 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 21 757 | m²HE·an |
-| I_1 | 12 145,8 | m²HE·an |
-| Cnat | 9 611,1 | m²HE·an |
-| Cnat relatif | 0,442 |  |
-| Cnat sur 30 ans | 5 916,9 | m²HE·an |
-| Dette de maturité | 375,6 | m²HE·an |
+| I_0 | 21 316,7 | m²HE·an |
+| I_1 | 11 873,9 | m²HE·an |
+| Cnat | 9 442,9 | m²HE·an |
+| Cnat relatif | 0,443 |  |
+| Cnat sur 30 ans | 5 881,5 | m²HE·an |
+| Dette de maturité | 394,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 256 594 | m²HE·an |
 | Inat bois | 37 037 | m²HE·an |
 | Inat carrières | 8 122,5 | m²HE·an |
 | Inat | 301 753,5 | m²HE·an |
-| Snat | -311 364,7 | m²HE·an |
+| Snat | -311 196,4 | m²HE·an |
 | Bnat | 46,7 | points |
 | Pleine terre | 0,467 |  |
 | Imperméabilisation nette | 1 600 | m² |
@@ -49191,6 +50644,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 4 000 m² |
 | Émissions des composants et du chantier | A1-A5 : 400, B : 300, C : 70 |
 | Bois | 900 m³ (coupe rase) |
@@ -49222,7 +50680,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | J | 3 000 | 0,5539 | 1 | 1 | 0,5539 |
 
-Valeur du site sans projet V_0 = 435,14 m²HE ; I_0 = 21 757 m²HE·an.
+Valeur du site sans projet V_0 = 435,14 m²HE ; I_0 = 21 316,7 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -49246,27 +50704,44 @@ Taches de l'état projet :
 |---|---|---|---|---|---|
 | J | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 125,2 | 250,4 | 250,4 | 250,4 | 250,4 | 250,4 | 250,4 | 250,4 | 250,4 |
+| V_1(t), m²HE | 0 | 108,8 | 248,2 | 250,2 | 249,2 | 248,2 | 247,2 | 244,6 | 241,6 | 238,6 |
+| V_0 x k_W, m²HE | 435,1 | 435,1 | 435,1 | 434,8 | 433 | 431,3 | 429,5 | 425 | 419,8 | 414,6 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 21 757 | m²HE·an |
-| I_1 | 12 145,8 | m²HE·an |
-| Cnat | 9 611,1 | m²HE·an |
-| Cnat relatif | 0,442 |  |
-| Cnat sur 30 ans | 5 916,9 | m²HE·an |
-| Dette de maturité | 375,6 | m²HE·an |
+| I_0 | 21 316,7 | m²HE·an |
+| I_1 | 11 873,9 | m²HE·an |
+| Cnat | 9 442,9 | m²HE·an |
+| Cnat relatif | 0,443 |  |
+| Cnat sur 30 ans | 5 881,5 | m²HE·an |
+| Dette de maturité | 394,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 198 770 | m²HE·an |
 | Inat bois | 1 666 666,7 | m²HE·an |
 | Inat carrières | 2 137,5 | m²HE·an |
 | Inat | 1 867 574,2 | m²HE·an |
-| Snat | -1 877 185,3 | m²HE·an |
+| Snat | -1 877 017,1 | m²HE·an |
 | Bnat | 46,7 | points |
 | Pleine terre | 0,467 |  |
 | Imperméabilisation nette | 1 600 | m² |
@@ -49286,6 +50761,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 4 000 m² |
 | Émissions des composants et du chantier | A1-A5 : 400, B : 300, C : 70 |
 | Bois | 900 m³ (coupe selective) |
@@ -49317,7 +50797,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | J | 3 000 | 0,5539 | 1 | 1 | 0,5539 |
 
-Valeur du site sans projet V_0 = 435,14 m²HE ; I_0 = 21 757 m²HE·an.
+Valeur du site sans projet V_0 = 435,14 m²HE ; I_0 = 21 316,7 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -49341,27 +50821,44 @@ Taches de l'état projet :
 |---|---|---|---|---|---|
 | J | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 125,2 | 250,4 | 250,4 | 250,4 | 250,4 | 250,4 | 250,4 | 250,4 | 250,4 |
+| V_1(t), m²HE | 0 | 108,8 | 248,2 | 250,2 | 249,2 | 248,2 | 247,2 | 244,6 | 241,6 | 238,6 |
+| V_0 x k_W, m²HE | 435,1 | 435,1 | 435,1 | 434,8 | 433 | 431,3 | 429,5 | 425 | 419,8 | 414,6 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 21 757 | m²HE·an |
-| I_1 | 12 145,8 | m²HE·an |
-| Cnat | 9 611,1 | m²HE·an |
-| Cnat relatif | 0,442 |  |
-| Cnat sur 30 ans | 5 916,9 | m²HE·an |
-| Dette de maturité | 375,6 | m²HE·an |
+| I_0 | 21 316,7 | m²HE·an |
+| I_1 | 11 873,9 | m²HE·an |
+| Cnat | 9 442,9 | m²HE·an |
+| Cnat relatif | 0,443 |  |
+| Cnat sur 30 ans | 5 881,5 | m²HE·an |
+| Dette de maturité | 394,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 198 770 | m²HE·an |
 | Inat bois | 1 000 000 | m²HE·an |
 | Inat carrières | 2 137,5 | m²HE·an |
 | Inat | 1 200 907,5 | m²HE·an |
-| Snat | -1 210 518,6 | m²HE·an |
+| Snat | -1 210 350,4 | m²HE·an |
 | Bnat | 46,7 | points |
 | Pleine terre | 0,467 |  |
 | Imperméabilisation nette | 1 600 | m² |
@@ -49381,6 +50878,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | amenagement |
 | Durée du chantier | 6 mois (d_ch = 0,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 0 m² |
 | Émissions des composants et du chantier | aucun bâtiment |
 | Bois | aucun |
@@ -49412,7 +50914,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | isolee_I1 | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 734,1 m²HE·an.
+Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 37 950,4 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -49441,27 +50943,46 @@ Taches de l'état projet :
 | N | 4 700 | 0,6114 | 1,1 | 1 | 0,6725 |
 | isolee_P5 | 300 | 0,35 | 1 | 1 | 0,35 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | mare |  |  |  |  | 1 | 1 | 1 | 1 | 4 | 1 |
+| P2 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 4 | 0,75 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 4 | 0,533 |
+| P4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 4 | 1 |
+| P5 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 6 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 166,7 | 465,2 | 763,6 | 1 304,5 | 1 452,4 | 1 471,6 | 1 490,9 | 1 529,4 | 1 539 | 1 539 |
+| V_1(t), m²HE | 185,2 | 730,5 | 1 070 | 1 369,9 | 1 438,4 | 918,8 | 942,8 | 968,6 | 963,4 | 952,6 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,1 | 770,9 | 767,8 | 764,6 | 756,6 | 747,3 | 738 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 38 734,1 | m²HE·an |
-| I_1 | 71 596,3 | m²HE·an |
-| Cnat | -32 862,2 | m²HE·an |
-| Cnat relatif | -0,848 |  |
-| Cnat sur 30 ans | -17 582,6 | m²HE·an |
-| Dette de maturité | 5 356,2 | m²HE·an |
+| I_0 | 37 950,4 | m²HE·an |
+| I_1 | 50 370 | m²HE·an |
+| Cnat | -12 419,6 | m²HE·an |
+| Cnat relatif | -0,327 |  |
+| Cnat sur 30 ans | -8 103,6 | m²HE·an |
+| Dette de maturité | 4 439,5 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 0 | m²HE·an |
 | Inat bois | 0 | m²HE·an |
 | Inat carrières | 171 | m²HE·an |
 | Inat | 171 | m²HE·an |
-| Snat | 32 691,2 | m²HE·an |
+| Snat | 12 248,6 | m²HE·an |
 | Bnat | 92,8 | points |
 | Pleine terre | 0,88 |  |
 | Imperméabilisation nette | 0 | m² |
@@ -49470,7 +50991,7 @@ Taches de l'état projet :
 
 ### Cas 8b. Même aménagement en zone méditerranéenne
 
-**Résultat attendu** : identique en v1 (convention C-E2).
+**Résultat attendu** : délais identiques (convention C-E2) ; bilan hydrique et tenue de la mare propres au climat méditerranéen.
 
 **Hypothèses**
 
@@ -49481,6 +51002,11 @@ Taches de l'état projet :
 | Zone biogéographique | mediterraneenne |
 | Typologie | amenagement |
 | Durée du chantier | 6 mois (d_ch = 0,5 an) |
+| Zone climatique, altitude | H3, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 0 m² |
 | Émissions des composants et du chantier | aucun bâtiment |
 | Bois | aucun |
@@ -49512,7 +51038,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | isolee_I1 | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 734,1 m²HE·an.
+Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 616,6 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -49541,27 +51067,46 @@ Taches de l'état projet :
 | N | 4 700 | 0,6114 | 1,1 | 1 | 0,6725 |
 | isolee_P5 | 300 | 0,35 | 1 | 1 | 0,35 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | mare |  |  |  |  | 0,5 | 0,5 | 0,5 | 1 | 4 | 1 |
+| P2 | arbustif | 117 | 122,9 | 122,6 | 130,4 | 1 | 1 | 0,985 | 1 | 4 | 0,75 |
+| P3 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 | 4 | 0,533 |
+| P4 | arbore | 130 | 140,5 | 139,9 | 148,3 | 1 | 1 | 0,978 | 1 | 4 | 1 |
+| P5 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 6 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 166,7 | 465,2 | 763,6 | 1 304,5 | 1 452,4 | 1 471,6 | 1 490,9 | 1 529,4 | 1 539 | 1 539 |
+| V_1(t), m²HE | 173,4 | 689,8 | 1 017,8 | 1 314,7 | 1 387,5 | 867,7 | 894 | 925,9 | 928,1 | 924,6 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 772,7 | 769,3 | 766 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 38 734,1 | m²HE·an |
-| I_1 | 71 596,3 | m²HE·an |
-| Cnat | -32 862,2 | m²HE·an |
-| Cnat relatif | -0,848 |  |
-| Cnat sur 30 ans | -17 582,6 | m²HE·an |
-| Dette de maturité | 5 356,2 | m²HE·an |
+| I_0 | 38 616,6 | m²HE·an |
+| I_1 | 48 230,1 | m²HE·an |
+| Cnat | -9 613,5 | m²HE·an |
+| Cnat relatif | -0,249 |  |
+| Cnat sur 30 ans | -6 442,4 | m²HE·an |
+| Dette de maturité | 4 439,5 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 0 | m²HE·an |
 | Inat bois | 0 | m²HE·an |
 | Inat carrières | 171 | m²HE·an |
 | Inat | 171 | m²HE·an |
-| Snat | 32 691,2 | m²HE·an |
+| Snat | 9 442,5 | m²HE·an |
 | Bnat | 92,8 | points |
 | Pleine terre | 0,88 |  |
 | Imperméabilisation nette | 0 | m² |
@@ -49581,6 +51126,11 @@ Taches de l'état projet :
 | Zone biogéographique | mediterraneenne |
 | Typologie | amenagement |
 | Durée du chantier | 6 mois (d_ch = 0,5 an) |
+| Zone climatique, altitude | H3, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 0 m² |
 | Émissions des composants et du chantier | aucun bâtiment |
 | Bois | aucun |
@@ -49612,7 +51162,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | isolee_I1 | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 734,1 m²HE·an.
+Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 616,6 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -49641,27 +51191,46 @@ Taches de l'état projet :
 | N | 4 700 | 0,6114 | 1,1 | 1 | 0,6725 |
 | isolee_P5 | 300 | 0,35 | 1 | 1 | 0,35 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | mare |  |  |  |  | 0,5 | 0,5 | 0,5 | 1 | 4 | 1 |
+| P2 | arbustif | 117 | 122,9 | 122,6 | 130,4 | 1 | 1 | 0,985 | 1 | 4 | 0,75 |
+| P3 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 | 4 | 0,533 |
+| P4 | arbore | 130 | 140,5 | 139,9 | 148,3 | 1 | 1 | 0,978 | 1 | 4 | 1 |
+| P5 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 6 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 136,9 | 375,6 | 614,4 | 1 069,5 | 1 445 | 1 460,5 | 1 475,9 | 1 506,7 | 1 537,5 | 1 539 |
+| V_1(t), m²HE | 143 | 585,2 | 896,5 | 1 229,8 | 1 377,6 | 850,9 | 874,3 | 909,1 | 927 | 924,6 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 772,7 | 769,3 | 766 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 38 734,1 | m²HE·an |
-| I_1 | 70 264,7 | m²HE·an |
-| Cnat | -31 530,5 | m²HE·an |
-| Cnat relatif | -0,814 |  |
-| Cnat sur 30 ans | -16 397,3 | m²HE·an |
-| Dette de maturité | 6 687,8 | m²HE·an |
+| I_0 | 38 616,6 | m²HE·an |
+| I_1 | 47 245,9 | m²HE·an |
+| Cnat | -8 629,3 | m²HE·an |
+| Cnat relatif | -0,223 |  |
+| Cnat sur 30 ans | -5 550,2 | m²HE·an |
+| Dette de maturité | 5 436,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 0 | m²HE·an |
 | Inat bois | 0 | m²HE·an |
 | Inat carrières | 171 | m²HE·an |
 | Inat | 171 | m²HE·an |
-| Snat | 31 359,5 | m²HE·an |
+| Snat | 8 458,3 | m²HE·an |
 | Bnat | 92,8 | points |
 | Pleine terre | 0,88 |  |
 | Imperméabilisation nette | 0 | m² |
@@ -49672,29 +51241,29 @@ Taches de l'état projet :
 
 | Cas | Attendu | Cnat | Inat | Snat | Bnat | Niveau |
 |---|---|---|---|---|---|---|
-| Cas 1. Friche urbaine imperméabilisée devenue résidence avec jardin | gain : Cnat négatif | -29 604 | 217 937 | -188 332 | 66,7 | 2 |
-| Cas 2. Prairie naturelle en périphérie construite en logements | forte perte : Cnat positif et élevé | 340 184 | 584 993 | -925 177 | 50 | 0 |
-| Cas 3. Bureaux sur dalle avec toiture végétalisée | Bnat porté par la dalle et la toiture ; Cnat négatif sur un site déjà imperméable | -10 964 | 635 531 | -624 566 | 46 | 2 |
-| Cas 4. Réhabilitation sans emprise nouvelle | petit gain par la désimperméabilisation de la cour et l'amélioration du jardin | -2 443 | 61 737 | -59 293 | 32 | 2 |
-| Cas 5. Projet en réservoir de biodiversité | perte plus forte que le cas 2, du fait du multiplicateur de situation | 391 212 | 584 993 | -976 205 | 50 | 0 |
-| Cas 6. Mare et haies créées sur une culture intensive | gain à maturité, dette de maturité élevée | -32 862 | 171 | 32 691 | 92,8 | 2 |
-| Cas 7a. Bâtiment en béton | Inat climat dominant | 9 611 | 301 754 | -311 365 | 46,7 | 0 |
-| Cas 7b. Même bâtiment en bois, origine non justifiée | climat plus faible, occupation des forêts plus forte | 9 611 | 1 867 574 | -1 877 185 | 46,7 | 0 |
-| Cas 7c. Même bâtiment en bois issu de coupe sélective justifiée | Inat le plus faible des trois | 9 611 | 1 200 908 | -1 210 519 | 46,7 | 0 |
-| Cas 8a. Aménagement en zone continentale | référence | -32 862 | 171 | 32 691 | 92,8 | 2 |
-| Cas 8b. Même aménagement en zone méditerranéenne | identique en v1 (convention C-E2) | -32 862 | 171 | 32 691 | 92,8 | 2 |
-| Cas 8c. Zone méditerranéenne, délais allongés de 25 % (borne haute de C-E2) | perte de valeur intégrée par allongement des délais | -31 531 | 171 | 31 360 | 92,8 | 2 |
+| Cas 1. Friche urbaine imperméabilisée devenue résidence avec jardin | gain : Cnat négatif | -25 922 | 217 937 | -192 015 | 66,7 | 2 |
+| Cas 2. Prairie naturelle en périphérie construite en logements | forte perte : Cnat positif et élevé | 333 809 | 584 993 | -918 802 | 50 | 0 |
+| Cas 3. Bureaux sur dalle avec toiture végétalisée | Bnat porté par la dalle et la toiture ; Cnat négatif sur un site déjà imperméable | -10 348 | 635 531 | -625 183 | 46 | 2 |
+| Cas 4. Réhabilitation sans emprise nouvelle | petit gain par la désimperméabilisation de la cour et l'amélioration du jardin | -2 392 | 61 737 | -59 345 | 32 | 2 |
+| Cas 5. Projet en réservoir de biodiversité | perte plus forte que le cas 2, du fait du multiplicateur de situation | 383 880 | 584 993 | -968 873 | 50 | 0 |
+| Cas 6. Mare et haies créées sur une culture intensive | gain à maturité, dette de maturité élevée | -12 420 | 171 | 12 249 | 92,8 | 2 |
+| Cas 7a. Bâtiment en béton | Inat climat dominant | 9 443 | 301 754 | -311 196 | 46,7 | 0 |
+| Cas 7b. Même bâtiment en bois, origine non justifiée | climat plus faible, occupation des forêts plus forte | 9 443 | 1 867 574 | -1 877 017 | 46,7 | 0 |
+| Cas 7c. Même bâtiment en bois issu de coupe sélective justifiée | Inat le plus faible des trois | 9 443 | 1 200 908 | -1 210 350 | 46,7 | 0 |
+| Cas 8a. Aménagement en zone continentale | référence | -12 420 | 171 | 12 249 | 92,8 | 2 |
+| Cas 8b. Même aménagement en zone méditerranéenne | délais identiques (convention C-E2) ; bilan hydrique et tenue de la mare propres au climat méditerranéen | -9 614 | 171 | 9 443 | 92,8 | 2 |
+| Cas 8c. Zone méditerranéenne, délais allongés de 25 % (borne haute de C-E2) | perte de valeur intégrée par allongement des délais | -8 629 | 171 | 8 458 | 92,8 | 2 |
 
 Propriétés vérifiées par ces cas :
 
-- Une friche imperméabilisée transformée en résidence avec jardin gagne de la nature : Cnat = -29 604 m²HE·an (cas 1).
-- La construction d'une prairie riche fait perdre l'essentiel de sa valeur au site : Cnat relatif = 0,844 (cas 2).
-- La même opération en réservoir perd davantage : 391 212 contre 340 184 m²HE·an, soit le rapport du multiplicateur de situation (cas 5).
+- Une friche imperméabilisée transformée en résidence avec jardin gagne de la nature : Cnat = -25 922 m²HE·an (cas 1).
+- La construction d'une prairie riche fait perdre l'essentiel de sa valeur au site : Cnat relatif = 0,845 (cas 2).
+- La même opération en réservoir perd davantage : 383 880 contre 333 809 m²HE·an, soit le rapport du multiplicateur de situation (cas 5).
 - Les bureaux sur dalle atteignent le seuil de Bnat du tertiaire grâce à la dalle et à la toiture, mais pas celui de la pleine terre, nulle (cas 3).
 - La réhabilitation gagne un peu de nature par la cour désimperméabilisée et le jardin amélioré (cas 4).
-- La mare, les haies et le boisement créés sur une culture laissent une dette de maturité de 5 356 m²HE·an (cas 6).
+- La mare, les haies et le boisement créés sur une culture laissent une dette de maturité de 4 440 m²HE·an (cas 6).
 - Bois et béton (cas 7) : Inat vaut 301 754 pour le béton, 1 867 574 pour le bois d'origine non justifiée et 1 200 908 pour le bois de coupe sélective justifiée.
-- Zone méditerranéenne (cas 8) : sans différence en v1 ; avec des délais allongés de 25 %, Cnat passe de -32 862 à -31 531 m²HE·an.
+- Zone méditerranéenne (cas 8) : les délais sont les mêmes (C-E2), mais la mare non raccordée s'assèche au printemps sous le climat de Marignane ; Cnat passe de -12 420 à -9 614 m²HE·an, et à -8 629 avec des délais allongés de 25 %.
 
 ### Lecture du cas 7
 
@@ -49708,37 +51277,37 @@ Trente et un cas complémentaires déclinent une même opération type (part d'e
 
 | Cas | V_0 | Cnat | Cnat relatif | Dette | Inat | Snat | Bnat | Niveau |
 |---|---|---|---|---|---|---|---|---|
-| Cas C01 | 108,7 | -85 | -0,016 | 434 | 63 753 | -63 668 | 62,5 | 1 |
-| Cas C02 | 774,7 | 120 | 0,003 | 3 069 | 318 764 | -318 884 | 62,5 | 0 |
-| Cas C03 | 4 203,8 | 651 | 0,003 | 16 651 | 1 275 058 | -1 275 709 | 62,5 | 0 |
-| Cas C04 | 302 | 9 580 | 0,634 | 434 | 63 753 | -73 333 | 62,5 | 0 |
-| Cas C05 | 2 151,8 | 68 976 | 0,641 | 3 069 | 318 764 | -387 741 | 62,5 | 0 |
-| Cas C06 | 11 676,6 | 374 295 | 0,641 | 16 651 | 1 275 058 | -1 649 352 | 62,5 | 0 |
-| Cas C07 | 123,2 | 636 | 0,103 | 434 | 63 753 | -64 389 | 62,5 | 0 |
-| Cas C08 | 877,4 | 5 254 | 0,12 | 3 069 | 318 764 | -324 019 | 62,5 | 0 |
-| Cas C09 | 4 761 | 28 512 | 0,12 | 16 651 | 1 275 058 | -1 303 569 | 62,5 | 0 |
-| Cas C10 | 302 | 9 580 | 0,634 | 434 | 63 753 | -73 333 | 62,5 | 0 |
-| Cas C11 | 2 151,8 | 68 976 | 0,641 | 3 069 | 318 764 | -387 741 | 62,5 | 0 |
-| Cas C12 | 11 676,6 | 374 295 | 0,641 | 16 651 | 1 275 058 | -1 649 352 | 62,5 | 0 |
-| Cas C13 | 0 | -5 522 | non défini | 434 | 63 753 | -58 231 | 62,5 | 2 |
-| Cas C14 | 0 | -38 614 | non défini | 3 069 | 318 764 | -280 150 | 62,5 | 2 |
-| Cas C15 | 0 | -209 536 | non défini | 16 651 | 1 275 058 | -1 065 521 | 62,5 | 2 |
-| Cas C16 | 2 151,8 | 78 266 | 0,727 | 2 178 | 478 147 | -556 413 | 51,2 | 0 |
-| Cas C17 | 2 151,8 | 86 474 | 0,804 | 1 369 | 637 529 | -724 003 | 40 | 0 |
-| Cas C18 | 2 151,8 | 81 135 | 0,754 | 1 898 | 531 274 | -612 409 | 47,5 | 0 |
-| Cas C19 | 877,4 | 4 421 | 0,101 | 2 235 | 318 764 | -323 185 | 62,5 | 0 |
-| Cas C20 | 877,4 | 6 505 | 0,148 | 4 319 | 318 764 | -325 269 | 62,5 | 0 |
-| Cas C21 | 2 367 | 76 201 | 0,644 | 3 365 | 318 764 | -394 965 | 62,5 | 0 |
-| Cas C22 | 2 474,6 | 79 813 | 0,645 | 3 514 | 318 764 | -398 577 | 62,5 | 0 |
-| Cas C23 | 774,7 | 1 387 | 0,036 | 2 973 | 318 764 | -320 151 | 62,5 | 0 |
-| Cas C24 | 774,7 | 3 287 | 0,085 | 2 830 | 318 764 | -322 051 | 62,5 | 0 |
-| Cas C25 | 774,7 | 120 | 0,003 | 3 069 | 318 764 | -318 884 | 62,5 | 0 |
-| Cas C26 | 774,7 | 120 | 0,003 | 3 069 | 318 764 | -318 884 | 62,5 | 0 |
-| Cas C27 | 774,7 | 120 | 0,003 | 3 069 | 318 764 | -318 884 | 62,5 | 0 |
-| Cas C28 | 2 151,8 | 78 266 | 0,727 | 2 178 | 478 147 | -556 413 | 51,2 | 0 |
-| Cas C29 | 2 151,8 | 86 474 | 0,804 | 1 369 | 637 529 | -724 003 | 40 | 0 |
-| Cas C30 | 0 | -29 324 | non défini | 2 178 | 478 147 | -448 822 | 51,2 | 2 |
-| Cas C31 | 0 | -21 117 | non défini | 1 369 | 637 529 | -616 412 | 40 | 2 |
+| Cas C01 | 108,7 | 702 | 0,132 | 404 | 63 753 | -64 455 | 62,5 | 0 |
+| Cas C02 | 774,7 | 5 723 | 0,151 | 2 857 | 318 764 | -324 487 | 62,5 | 0 |
+| Cas C03 | 4 203,8 | 31 054 | 0,151 | 15 504 | 1 275 058 | -1 306 111 | 62,5 | 0 |
+| Cas C04 | 302 | 10 171 | 0,687 | 404 | 63 753 | -73 924 | 62,5 | 0 |
+| Cas C05 | 2 151,8 | 73 186 | 0,694 | 2 857 | 318 764 | -391 950 | 62,5 | 0 |
+| Cas C06 | 11 676,6 | 397 137 | 0,694 | 15 504 | 1 275 058 | -1 672 195 | 62,5 | 0 |
+| Cas C07 | 123,2 | 1 408 | 0,233 | 404 | 63 753 | -65 161 | 62,5 | 0 |
+| Cas C08 | 877,4 | 10 753 | 0,25 | 2 857 | 318 764 | -329 517 | 62,5 | 0 |
+| Cas C09 | 4 761 | 58 350 | 0,25 | 15 504 | 1 275 058 | -1 333 408 | 62,5 | 0 |
+| Cas C10 | 302 | 10 298 | 0,69 | 404 | 63 753 | -74 050 | 62,5 | 0 |
+| Cas C11 | 2 151,8 | 74 086 | 0,697 | 2 857 | 318 764 | -392 850 | 62,5 | 0 |
+| Cas C12 | 11 676,6 | 402 019 | 0,697 | 15 504 | 1 275 058 | -1 677 077 | 62,5 | 0 |
+| Cas C13 | 0 | -4 625 | non défini | 404 | 63 753 | -59 128 | 62,5 | 2 |
+| Cas C14 | 0 | -32 228 | non défini | 2 857 | 318 764 | -286 537 | 62,5 | 2 |
+| Cas C15 | 0 | -174 881 | non défini | 15 504 | 1 275 058 | -1 100 177 | 62,5 | 2 |
+| Cas C16 | 2 151,8 | 80 424 | 0,763 | 2 039 | 478 147 | -558 571 | 51,2 | 0 |
+| Cas C17 | 2 151,8 | 86 747 | 0,823 | 1 298 | 637 529 | -724 276 | 40 | 0 |
+| Cas C18 | 2 151,8 | 82 644 | 0,784 | 1 783 | 531 274 | -613 918 | 47,5 | 0 |
+| Cas C19 | 877,4 | 10 078 | 0,234 | 2 023 | 318 764 | -328 843 | 62,5 | 0 |
+| Cas C20 | 877,4 | 12 122 | 0,282 | 4 385 | 318 764 | -330 887 | 62,5 | 0 |
+| Cas C21 | 2 367 | 80 831 | 0,697 | 3 132 | 318 764 | -399 595 | 62,5 | 0 |
+| Cas C22 | 2 474,6 | 84 653 | 0,698 | 3 270 | 318 764 | -403 417 | 62,5 | 0 |
+| Cas C23 | 774,7 | 6 386 | 0,168 | 2 795 | 318 764 | -325 151 | 62,5 | 0 |
+| Cas C24 | 774,7 | 7 699 | 0,203 | 2 673 | 318 764 | -326 463 | 62,5 | 0 |
+| Cas C25 | 774,7 | 5 921 | 0,155 | 2 857 | 318 764 | -324 686 | 62,5 | 0 |
+| Cas C26 | 774,7 | 5 976 | 0,155 | 2 857 | 318 764 | -324 740 | 62,5 | 0 |
+| Cas C27 | 774,7 | 5 982 | 0,154 | 2 857 | 318 764 | -324 746 | 62,5 | 0 |
+| Cas C28 | 2 151,8 | 81 324 | 0,765 | 2 039 | 478 147 | -559 471 | 51,2 | 0 |
+| Cas C29 | 2 151,8 | 87 647 | 0,824 | 1 298 | 637 529 | -725 176 | 40 | 0 |
+| Cas C30 | 0 | -24 989 | non défini | 2 039 | 478 147 | -453 157 | 51,2 | 2 |
+| Cas C31 | 0 | -18 666 | non défini | 1 298 | 637 529 | -618 863 | 40 | 2 |
 
 Lecture :
 
@@ -49748,7 +51317,7 @@ Lecture :
 - Un chantier plus long creuse la perte (C19, C08, C20 : 6, 18 et 36 mois).
 - La situation en corridor ou en réservoir augmente la perte dans le rapport des multiplicateurs (C05, C21, C22).
 - L'éclairage de la prairie créée réduit le gain (C02, C23, C24).
-- La zone biogéographique ne change rien en v1 (C25 à C27, convention C-E2).
+- La zone biogéographique ne change pas les délais (C-E2) ; les écarts entre C02 et C25 à C27 viennent du climat de la station de référence (Trappes, Rennes, Marignane, Mâcon à 900 m) et restent faibles, le facteur hydrique ne comptant que l'écart au climat local.
 - Un parking revêtu transformé en résidence avec jardins gagne toujours de la nature (C13 à C15, C30, C31) ; sa valeur initiale nulle laisse Cnat relatif non défini et le niveau 2 se juge sur Cnat < 0.
 
 ### Cas C01. Culture intensive, 1 000 m², emprise 30 %, logement, chantier 18 mois
@@ -49764,6 +51333,11 @@ Lecture :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 660 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 13 m³ (coupe rase) |
@@ -49795,7 +51369,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | isolee_I1 | 1 000 | 0,435 | 1 | 1 | 0,435 |
 
-Valeur du site sans projet V_0 = 108,74 m²HE ; I_0 = 5 436,9 m²HE·an.
+Valeur du site sans projet V_0 = 108,74 m²HE ; I_0 = 5 326,9 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -49828,32 +51402,53 @@ Taches de l'état projet :
 | J | 550 | 0,3813 | 1 | 1 | 0,3813 |
 | T | 150 | 0,35 | 1 | 1 | 0,35 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 31,7 | 69,2 | 92,6 | 111,6 | 113,6 | 115,7 | 119,1 | 119,1 | 119,1 |
+| V_1(t), m²HE | 0 | 28,3 | 77 | 100,9 | 110,5 | 91 | 93,3 | 95,1 | 94 | 92,9 |
+| V_0 x k_W, m²HE | 108,7 | 108,7 | 108,7 | 108,6 | 108,2 | 107,8 | 107,3 | 106,2 | 104,9 | 103,6 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 5 436,9 | m²HE·an |
-| I_1 | 5 521,6 | m²HE·an |
-| Cnat | -84,7 | m²HE·an |
-| Cnat relatif | -0,016 |  |
-| Cnat sur 30 ans | 122,7 | m²HE·an |
-| Dette de maturité | 433,8 | m²HE·an |
+| I_0 | 5 326,9 | m²HE·an |
+| I_1 | 4 625 | m²HE·an |
+| Cnat | 701,9 | m²HE·an |
+| Cnat relatif | 0,132 |  |
+| Cnat sur 30 ans | 484,1 | m²HE·an |
+| Dette de maturité | 404,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 38 462 | m²HE·an |
 | Inat bois | 24 444,4 | m²HE·an |
 | Inat carrières | 846,4 | m²HE·an |
 | Inat | 63 752,9 | m²HE·an |
-| Snat | -63 668,2 | m²HE·an |
+| Snat | -64 454,8 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 450 | m² |
 
-**Conformité (fiche A40)** : Bnat 62,5 pour un seuil de 45 : atteint ; pleine terre 55 % pour un seuil de 15 % : atteint ; niveau du site : 1.
+**Conformité (fiche A40)** : Bnat 62,5 pour un seuil de 45 : atteint ; pleine terre 55 % pour un seuil de 15 % : atteint ; niveau du site : 0.
 
 ### Cas C02. Culture intensive, 5 000 m², emprise 30 %, logement, chantier 18 mois
 
@@ -49868,6 +51463,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -49899,7 +51499,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | isolee_I1 | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 734,1 m²HE·an.
+Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 37 950,4 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -49932,27 +51532,48 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 218,1 | 477,9 | 645 | 780,3 | 794,7 | 809,2 | 833,7 | 833,7 | 833,7 |
+| V_1(t), m²HE | 0 | 195,3 | 533,9 | 704,2 | 772,5 | 633,5 | 649,7 | 662,3 | 654,7 | 647,1 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,1 | 770,9 | 767,8 | 764,6 | 756,6 | 747,3 | 738 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 38 734,1 | m²HE·an |
-| I_1 | 38 614,1 | m²HE·an |
-| Cnat | 120 | m²HE·an |
-| Cnat relatif | 0,003 |  |
-| Cnat sur 30 ans | 1 299,4 | m²HE·an |
-| Dette de maturité | 3 068,5 | m²HE·an |
+| I_0 | 37 950,4 | m²HE·an |
+| I_1 | 32 227,7 | m²HE·an |
+| Cnat | 5 722,7 | m²HE·an |
+| Cnat relatif | 0,151 |  |
+| Cnat sur 30 ans | 3 872,9 | m²HE·an |
+| Dette de maturité | 2 857,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -318 884,4 | m²HE·an |
+| Snat | -324 487,1 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -49972,6 +51593,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 13 200 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 264 m³ (coupe rase) |
@@ -50003,7 +51629,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | isolee_I1 | 20 000 | 0,8408 | 1 | 1 | 0,8408 |
 
-Valeur du site sans projet V_0 = 4 203,75 m²HE ; I_0 = 210 187,6 m²HE·an.
+Valeur du site sans projet V_0 = 4 203,75 m²HE ; I_0 = 205 934,7 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -50036,27 +51662,48 @@ Taches de l'état projet :
 | J | 11 000 | 0,7371 | 1 | 1 | 0,7371 |
 | T | 3 000 | 0,5539 | 1 | 1 | 0,5539 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 1 183,5 | 2 593,5 | 3 499,9 | 4 234,4 | 4 312,6 | 4 390,8 | 4 523,7 | 4 523,7 | 4 523,7 |
+| V_1(t), m²HE | 0 | 1 059,9 | 2 897,4 | 3 821 | 4 192,2 | 3 437,6 | 3 525,4 | 3 593,9 | 3 552,8 | 3 511,7 |
+| V_0 x k_W, m²HE | 4 203,8 | 4 203,8 | 4 203,8 | 4 200,3 | 4 183,3 | 4 166,3 | 4 149,2 | 4 105,4 | 4 055,1 | 4 004,9 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 210 187,6 | m²HE·an |
-| I_1 | 209 536,5 | m²HE·an |
-| Cnat | 651,1 | m²HE·an |
-| Cnat relatif | 0,003 |  |
-| Cnat sur 30 ans | 7 051,1 | m²HE·an |
-| Dette de maturité | 16 651 | m²HE·an |
+| I_0 | 205 934,7 | m²HE·an |
+| I_1 | 174 881,1 | m²HE·an |
+| Cnat | 31 053,6 | m²HE·an |
+| Cnat relatif | 0,151 |  |
+| Cnat sur 30 ans | 21 015,7 | m²HE·an |
+| Dette de maturité | 15 503,8 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 769 239,9 | m²HE·an |
 | Inat bois | 488 888,9 | m²HE·an |
 | Inat carrières | 16 929 | m²HE·an |
 | Inat | 1 275 057,8 | m²HE·an |
-| Snat | -1 275 708,9 | m²HE·an |
+| Snat | -1 306 111,4 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 9 000 | m² |
@@ -50076,6 +51723,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 660 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 13 m³ (coupe rase) |
@@ -50107,7 +51759,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 1 000 | 0,435 | 1 | 1 | 0,435 |
 
-Valeur du site sans projet V_0 = 302,04 m²HE ; I_0 = 15 101,9 m²HE·an.
+Valeur du site sans projet V_0 = 302,04 m²HE ; I_0 = 14 796,3 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -50140,27 +51792,48 @@ Taches de l'état projet :
 | J | 550 | 0,3813 | 1 | 1 | 0,3813 |
 | T | 150 | 0,35 | 1 | 1 | 0,35 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 31,7 | 69,2 | 92,6 | 111,6 | 113,6 | 115,7 | 119,1 | 119,1 | 119,1 |
+| V_1(t), m²HE | 0 | 28,3 | 77 | 100,9 | 110,5 | 91 | 93,3 | 95,1 | 94 | 92,9 |
+| V_0 x k_W, m²HE | 302 | 302 | 302 | 301,8 | 300,6 | 299,3 | 298,1 | 295 | 291,4 | 287,7 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 15 101,9 | m²HE·an |
-| I_1 | 5 521,6 | m²HE·an |
-| Cnat | 9 580,3 | m²HE·an |
-| Cnat relatif | 0,634 |  |
-| Cnat sur 30 ans | 5 921,7 | m²HE·an |
-| Dette de maturité | 433,8 | m²HE·an |
+| I_0 | 14 796,3 | m²HE·an |
+| I_1 | 4 625 | m²HE·an |
+| Cnat | 10 171,3 | m²HE·an |
+| Cnat relatif | 0,687 |  |
+| Cnat sur 30 ans | 6 226,5 | m²HE·an |
+| Dette de maturité | 404,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 38 462 | m²HE·an |
 | Inat bois | 24 444,4 | m²HE·an |
 | Inat carrières | 846,4 | m²HE·an |
 | Inat | 63 752,9 | m²HE·an |
-| Snat | -73 333,2 | m²HE·an |
+| Snat | -73 924,2 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 450 | m² |
@@ -50180,6 +51853,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -50211,7 +51889,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 107 590,5 m²HE·an.
+Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 105 413,6 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -50244,27 +51922,48 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 218,1 | 477,9 | 645 | 780,3 | 794,7 | 809,2 | 833,7 | 833,7 | 833,7 |
+| V_1(t), m²HE | 0 | 195,3 | 533,9 | 704,2 | 772,5 | 633,5 | 649,7 | 662,3 | 654,7 | 647,1 |
+| V_0 x k_W, m²HE | 2 151,8 | 2 151,8 | 2 151,8 | 2 150,1 | 2 141,3 | 2 132,6 | 2 123,9 | 2 101,5 | 2 075,7 | 2 050 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 107 590,5 | m²HE·an |
-| I_1 | 38 614,1 | m²HE·an |
-| Cnat | 68 976,4 | m²HE·an |
-| Cnat relatif | 0,641 |  |
-| Cnat sur 30 ans | 42 613,2 | m²HE·an |
-| Dette de maturité | 3 068,5 | m²HE·an |
+| I_0 | 105 413,6 | m²HE·an |
+| I_1 | 32 227,7 | m²HE·an |
+| Cnat | 73 185,8 | m²HE·an |
+| Cnat relatif | 0,694 |  |
+| Cnat sur 30 ans | 44 783,7 | m²HE·an |
+| Dette de maturité | 2 857,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -387 740,8 | m²HE·an |
+| Snat | -391 950,3 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -50284,6 +51983,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 13 200 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 264 m³ (coupe rase) |
@@ -50315,7 +52019,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 20 000 | 0,8408 | 1 | 1 | 0,8408 |
 
-Valeur du site sans projet V_0 = 11 676,62 m²HE ; I_0 = 583 831 m²HE·an.
+Valeur du site sans projet V_0 = 11 676,62 m²HE ; I_0 = 572 018 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -50348,27 +52052,48 @@ Taches de l'état projet :
 | J | 11 000 | 0,7371 | 1 | 1 | 0,7371 |
 | T | 3 000 | 0,5539 | 1 | 1 | 0,5539 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 1 183,5 | 2 593,5 | 3 499,9 | 4 234,4 | 4 312,6 | 4 390,8 | 4 523,7 | 4 523,7 | 4 523,7 |
+| V_1(t), m²HE | 0 | 1 059,9 | 2 897,4 | 3 821 | 4 192,2 | 3 437,6 | 3 525,4 | 3 593,9 | 3 552,8 | 3 511,7 |
+| V_0 x k_W, m²HE | 11 676,6 | 11 676,6 | 11 676,6 | 11 667,2 | 11 619,8 | 11 572,5 | 11 525,2 | 11 403,5 | 11 263,8 | 11 124,1 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 583 831 | m²HE·an |
-| I_1 | 209 536,5 | m²HE·an |
-| Cnat | 374 294,5 | m²HE·an |
-| Cnat relatif | 0,641 |  |
-| Cnat sur 30 ans | 231 237,1 | m²HE·an |
-| Dette de maturité | 16 651 | m²HE·an |
+| I_0 | 572 018 | m²HE·an |
+| I_1 | 174 881,1 | m²HE·an |
+| Cnat | 397 136,9 | m²HE·an |
+| Cnat relatif | 0,694 |  |
+| Cnat sur 30 ans | 243 014,8 | m²HE·an |
+| Dette de maturité | 15 503,8 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 769 239,9 | m²HE·an |
 | Inat bois | 488 888,9 | m²HE·an |
 | Inat carrières | 16 929 | m²HE·an |
 | Inat | 1 275 057,8 | m²HE·an |
-| Snat | -1 649 352,3 | m²HE·an |
+| Snat | -1 672 194,7 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 9 000 | m² |
@@ -50388,6 +52113,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 660 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 13 m³ (coupe rase) |
@@ -50421,7 +52151,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 700 | 0,4021 | 1 | 1 | 0,4021 |
 
-Valeur du site sans projet V_0 = 123,15 m²HE ; I_0 = 6 157,6 m²HE·an.
+Valeur du site sans projet V_0 = 123,15 m²HE ; I_0 = 6 033 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -50454,27 +52184,49 @@ Taches de l'état projet :
 | J | 550 | 0,3813 | 1 | 1 | 0,3813 |
 | T | 150 | 0,35 | 1 | 1 | 0,35 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| I2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 31,7 | 69,2 | 92,6 | 111,6 | 113,6 | 115,7 | 119,1 | 119,1 | 119,1 |
+| V_1(t), m²HE | 0 | 28,3 | 77 | 100,9 | 110,5 | 91 | 93,3 | 95,1 | 94 | 92,9 |
+| V_0 x k_W, m²HE | 123,2 | 123,2 | 123,2 | 123,1 | 122,6 | 122,1 | 121,6 | 120,3 | 118,8 | 117,3 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 6 157,6 | m²HE·an |
-| I_1 | 5 521,6 | m²HE·an |
-| Cnat | 636 | m²HE·an |
-| Cnat relatif | 0,103 |  |
-| Cnat sur 30 ans | 555,1 | m²HE·an |
-| Dette de maturité | 433,8 | m²HE·an |
+| I_0 | 6 033 | m²HE·an |
+| I_1 | 4 625 | m²HE·an |
+| Cnat | 1 408 | m²HE·an |
+| Cnat relatif | 0,233 |  |
+| Cnat sur 30 ans | 912,3 | m²HE·an |
+| Dette de maturité | 404,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 38 462 | m²HE·an |
 | Inat bois | 24 444,4 | m²HE·an |
 | Inat carrières | 846,4 | m²HE·an |
 | Inat | 63 752,9 | m²HE·an |
-| Snat | -64 388,9 | m²HE·an |
+| Snat | -65 160,9 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 150 | m² |
@@ -50494,6 +52246,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -50527,7 +52284,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 3 500 | 0,573 | 1 | 1 | 0,573 |
 
-Valeur du site sans projet V_0 = 877,37 m²HE ; I_0 = 43 868,4 m²HE·an.
+Valeur du site sans projet V_0 = 877,37 m²HE ; I_0 = 42 980,8 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -50560,27 +52317,49 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| I2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 218,1 | 477,9 | 645 | 780,3 | 794,7 | 809,2 | 833,7 | 833,7 | 833,7 |
+| V_1(t), m²HE | 0 | 195,3 | 533,9 | 704,2 | 772,5 | 633,5 | 649,7 | 662,3 | 654,7 | 647,1 |
+| V_0 x k_W, m²HE | 877,4 | 877,4 | 877,4 | 876,7 | 873,1 | 869,5 | 866 | 856,8 | 846,3 | 835,9 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 43 868,4 | m²HE·an |
-| I_1 | 38 614,1 | m²HE·an |
-| Cnat | 5 254,2 | m²HE·an |
-| Cnat relatif | 0,12 |  |
-| Cnat sur 30 ans | 4 379,9 | m²HE·an |
-| Dette de maturité | 3 068,5 | m²HE·an |
+| I_0 | 42 980,8 | m²HE·an |
+| I_1 | 32 227,7 | m²HE·an |
+| Cnat | 10 753 | m²HE·an |
+| Cnat relatif | 0,25 |  |
+| Cnat sur 30 ans | 6 923,3 | m²HE·an |
+| Dette de maturité | 2 857,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -324 018,7 | m²HE·an |
+| Snat | -329 517,5 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 750 | m² |
@@ -50600,6 +52379,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 13 200 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 264 m³ (coupe rase) |
@@ -50633,7 +52417,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 14 000 | 0,7773 | 1 | 1 | 0,7773 |
 
-Valeur du site sans projet V_0 = 4 760,96 m²HE ; I_0 = 238 048,1 m²HE·an.
+Valeur du site sans projet V_0 = 4 760,96 m²HE ; I_0 = 233 231,5 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -50666,27 +52450,49 @@ Taches de l'état projet :
 | J | 11 000 | 0,7371 | 1 | 1 | 0,7371 |
 | T | 3 000 | 0,5539 | 1 | 1 | 0,5539 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| I2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 1 183,5 | 2 593,5 | 3 499,9 | 4 234,4 | 4 312,6 | 4 390,8 | 4 523,7 | 4 523,7 | 4 523,7 |
+| V_1(t), m²HE | 0 | 1 059,9 | 2 897,4 | 3 821 | 4 192,2 | 3 437,6 | 3 525,4 | 3 593,9 | 3 552,8 | 3 511,7 |
+| V_0 x k_W, m²HE | 4 761 | 4 761 | 4 761 | 4 757,1 | 4 737,8 | 4 718,5 | 4 699,2 | 4 649,6 | 4 592,6 | 4 535,7 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 238 048,1 | m²HE·an |
-| I_1 | 209 536,5 | m²HE·an |
-| Cnat | 28 511,6 | m²HE·an |
-| Cnat relatif | 0,12 |  |
-| Cnat sur 30 ans | 23 767,4 | m²HE·an |
-| Dette de maturité | 16 651 | m²HE·an |
+| I_0 | 233 231,5 | m²HE·an |
+| I_1 | 174 881,1 | m²HE·an |
+| Cnat | 58 350,4 | m²HE·an |
+| Cnat relatif | 0,25 |  |
+| Cnat sur 30 ans | 37 568,9 | m²HE·an |
+| Dette de maturité | 15 503,8 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 769 239,9 | m²HE·an |
 | Inat bois | 488 888,9 | m²HE·an |
 | Inat carrières | 16 929 | m²HE·an |
 | Inat | 1 275 057,8 | m²HE·an |
-| Snat | -1 303 569,4 | m²HE·an |
+| Snat | -1 333 408,2 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 3 000 | m² |
@@ -50706,6 +52512,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 660 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 13 m³ (coupe rase) |
@@ -50737,7 +52548,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 1 000 | 0,435 | 1 | 1 | 0,435 |
 
-Valeur du site sans projet V_0 = 302,04 m²HE ; I_0 = 15 101,9 m²HE·an.
+Valeur du site sans projet V_0 = 302,04 m²HE ; I_0 = 14 922,6 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -50770,27 +52581,48 @@ Taches de l'état projet :
 | J | 550 | 0,3813 | 1 | 1 | 0,3813 |
 | T | 150 | 0,35 | 1 | 1 | 0,35 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 31,7 | 69,2 | 92,6 | 111,6 | 113,6 | 115,7 | 119,1 | 119,1 | 119,1 |
+| V_1(t), m²HE | 0 | 28,3 | 77 | 100,9 | 110,5 | 91 | 93,3 | 95,1 | 94 | 92,9 |
+| V_0 x k_W, m²HE | 302 | 302 | 302 | 302 | 302 | 302 | 302 | 299 | 293,9 | 288,8 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 15 101,9 | m²HE·an |
-| I_1 | 5 521,6 | m²HE·an |
-| Cnat | 9 580,3 | m²HE·an |
-| Cnat relatif | 0,634 |  |
-| Cnat sur 30 ans | 5 921,7 | m²HE·an |
-| Dette de maturité | 433,8 | m²HE·an |
+| I_0 | 14 922,6 | m²HE·an |
+| I_1 | 4 625 | m²HE·an |
+| Cnat | 10 297,6 | m²HE·an |
+| Cnat relatif | 0,69 |  |
+| Cnat sur 30 ans | 6 304,2 | m²HE·an |
+| Dette de maturité | 404,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 38 462 | m²HE·an |
 | Inat bois | 24 444,4 | m²HE·an |
 | Inat carrières | 846,4 | m²HE·an |
 | Inat | 63 752,9 | m²HE·an |
-| Snat | -73 333,2 | m²HE·an |
+| Snat | -74 050,5 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 450 | m² |
@@ -50810,6 +52642,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -50841,7 +52678,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 107 590,5 m²HE·an.
+Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 106 313,3 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -50874,27 +52711,48 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 218,1 | 477,9 | 645 | 780,3 | 794,7 | 809,2 | 833,7 | 833,7 | 833,7 |
+| V_1(t), m²HE | 0 | 195,3 | 533,9 | 704,2 | 772,5 | 633,5 | 649,7 | 662,3 | 654,7 | 647,1 |
+| V_0 x k_W, m²HE | 2 151,8 | 2 151,8 | 2 151,8 | 2 151,8 | 2 151,8 | 2 151,8 | 2 151,8 | 2 130 | 2 093,6 | 2 057,2 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 107 590,5 | m²HE·an |
-| I_1 | 38 614,1 | m²HE·an |
-| Cnat | 68 976,4 | m²HE·an |
-| Cnat relatif | 0,641 |  |
-| Cnat sur 30 ans | 42 613,2 | m²HE·an |
-| Dette de maturité | 3 068,5 | m²HE·an |
+| I_0 | 106 313,3 | m²HE·an |
+| I_1 | 32 227,7 | m²HE·an |
+| Cnat | 74 085,6 | m²HE·an |
+| Cnat relatif | 0,697 |  |
+| Cnat sur 30 ans | 45 337 | m²HE·an |
+| Dette de maturité | 2 857,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -387 740,8 | m²HE·an |
+| Snat | -392 850 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -50914,6 +52772,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 13 200 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 264 m³ (coupe rase) |
@@ -50945,7 +52808,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 20 000 | 0,8408 | 1 | 1 | 0,8408 |
 
-Valeur du site sans projet V_0 = 11 676,62 m²HE ; I_0 = 583 831 m²HE·an.
+Valeur du site sans projet V_0 = 11 676,62 m²HE ; I_0 = 576 900,3 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -50978,27 +52841,48 @@ Taches de l'état projet :
 | J | 11 000 | 0,7371 | 1 | 1 | 0,7371 |
 | T | 3 000 | 0,5539 | 1 | 1 | 0,5539 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 1 183,5 | 2 593,5 | 3 499,9 | 4 234,4 | 4 312,6 | 4 390,8 | 4 523,7 | 4 523,7 | 4 523,7 |
+| V_1(t), m²HE | 0 | 1 059,9 | 2 897,4 | 3 821 | 4 192,2 | 3 437,6 | 3 525,4 | 3 593,9 | 3 552,8 | 3 511,7 |
+| V_0 x k_W, m²HE | 11 676,6 | 11 676,6 | 11 676,6 | 11 676,6 | 11 676,6 | 11 676,6 | 11 676,6 | 11 558,1 | 11 360,7 | 11 163,2 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 583 831 | m²HE·an |
-| I_1 | 209 536,5 | m²HE·an |
-| Cnat | 374 294,5 | m²HE·an |
-| Cnat relatif | 0,641 |  |
-| Cnat sur 30 ans | 231 237,1 | m²HE·an |
-| Dette de maturité | 16 651 | m²HE·an |
+| I_0 | 576 900,3 | m²HE·an |
+| I_1 | 174 881,1 | m²HE·an |
+| Cnat | 402 019,2 | m²HE·an |
+| Cnat relatif | 0,697 |  |
+| Cnat sur 30 ans | 246 017,3 | m²HE·an |
+| Dette de maturité | 15 503,8 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 769 239,9 | m²HE·an |
 | Inat bois | 488 888,9 | m²HE·an |
 | Inat carrières | 16 929 | m²HE·an |
 | Inat | 1 275 057,8 | m²HE·an |
-| Snat | -1 649 352,3 | m²HE·an |
+| Snat | -1 677 077 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 9 000 | m² |
@@ -51018,6 +52902,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 660 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 13 m³ (coupe rase) |
@@ -51080,27 +52969,48 @@ Taches de l'état projet :
 | J | 550 | 0,3813 | 1 | 1 | 0,3813 |
 | T | 150 | 0,35 | 1 | 1 | 0,35 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 31,7 | 69,2 | 92,6 | 111,6 | 113,6 | 115,7 | 119,1 | 119,1 | 119,1 |
+| V_1(t), m²HE | 0 | 28,3 | 77 | 100,9 | 110,5 | 91 | 93,3 | 95,1 | 94 | 92,9 |
+| V_0 x k_W, m²HE | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 0 | m²HE·an |
-| I_1 | 5 521,6 | m²HE·an |
-| Cnat | -5 521,6 | m²HE·an |
+| I_1 | 4 625 | m²HE·an |
+| Cnat | -4 625 | m²HE·an |
 | Cnat relatif | non défini |  |
-| Cnat sur 30 ans | -3 139,4 | m²HE·an |
-| Dette de maturité | 433,8 | m²HE·an |
+| Cnat sur 30 ans | -2 746,2 | m²HE·an |
+| Dette de maturité | 404,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 38 462 | m²HE·an |
 | Inat bois | 24 444,4 | m²HE·an |
 | Inat carrières | 846,4 | m²HE·an |
 | Inat | 63 752,9 | m²HE·an |
-| Snat | -58 231,3 | m²HE·an |
+| Snat | -59 127,9 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | -550 | m² |
@@ -51120,6 +53030,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -51182,27 +53097,48 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 218,1 | 477,9 | 645 | 780,3 | 794,7 | 809,2 | 833,7 | 833,7 | 833,7 |
+| V_1(t), m²HE | 0 | 195,3 | 533,9 | 704,2 | 772,5 | 633,5 | 649,7 | 662,3 | 654,7 | 647,1 |
+| V_0 x k_W, m²HE | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 0 | m²HE·an |
-| I_1 | 38 614,1 | m²HE·an |
-| Cnat | -38 614,1 | m²HE·an |
+| I_1 | 32 227,7 | m²HE·an |
+| Cnat | -32 227,7 | m²HE·an |
 | Cnat relatif | non défini |  |
-| Cnat sur 30 ans | -21 941,1 | m²HE·an |
-| Dette de maturité | 3 068,5 | m²HE·an |
+| Cnat sur 30 ans | -19 140,9 | m²HE·an |
+| Dette de maturité | 2 857,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -280 150,3 | m²HE·an |
+| Snat | -286 536,7 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | -2 750 | m² |
@@ -51222,6 +53158,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 13 200 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 264 m³ (coupe rase) |
@@ -51284,27 +53225,48 @@ Taches de l'état projet :
 | J | 11 000 | 0,7371 | 1 | 1 | 0,7371 |
 | T | 3 000 | 0,5539 | 1 | 1 | 0,5539 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 1 183,5 | 2 593,5 | 3 499,9 | 4 234,4 | 4 312,6 | 4 390,8 | 4 523,7 | 4 523,7 | 4 523,7 |
+| V_1(t), m²HE | 0 | 1 059,9 | 2 897,4 | 3 821 | 4 192,2 | 3 437,6 | 3 525,4 | 3 593,9 | 3 552,8 | 3 511,7 |
+| V_0 x k_W, m²HE | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 0 | m²HE·an |
-| I_1 | 209 536,5 | m²HE·an |
-| Cnat | -209 536,5 | m²HE·an |
+| I_1 | 174 881,1 | m²HE·an |
+| Cnat | -174 881,1 | m²HE·an |
 | Cnat relatif | non défini |  |
-| Cnat sur 30 ans | -119 061,5 | m²HE·an |
-| Dette de maturité | 16 651 | m²HE·an |
+| Cnat sur 30 ans | -103 866,6 | m²HE·an |
+| Dette de maturité | 15 503,8 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 769 239,9 | m²HE·an |
 | Inat bois | 488 888,9 | m²HE·an |
 | Inat carrières | 16 929 | m²HE·an |
 | Inat | 1 275 057,8 | m²HE·an |
-| Snat | -1 065 521,3 | m²HE·an |
+| Snat | -1 100 176,7 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | -11 000 | m² |
@@ -51324,6 +53286,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 4 950 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 99 m³ (coupe rase) |
@@ -51355,7 +53322,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 107 590,5 m²HE·an.
+Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 105 413,6 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -51388,27 +53355,48 @@ Taches de l'état projet :
 | J | 2 000 | 0,5066 | 1 | 1 | 0,5066 |
 | T | 1 125 | 0,4464 | 1 | 1 | 0,4464 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 180,3 | 388,9 | 502,1 | 593,9 | 603,7 | 613,4 | 630 | 630 | 630 |
+| V_1(t), m²HE | 0 | 160,6 | 426,2 | 542,2 | 588,6 | 494,3 | 505,3 | 513,9 | 508,7 | 503,6 |
+| V_0 x k_W, m²HE | 2 151,8 | 2 151,8 | 2 151,8 | 2 150,1 | 2 141,3 | 2 132,6 | 2 123,9 | 2 101,5 | 2 075,7 | 2 050 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 107 590,5 | m²HE·an |
-| I_1 | 29 324,4 | m²HE·an |
-| Cnat | 78 266,1 | m²HE·an |
-| Cnat relatif | 0,727 |  |
-| Cnat sur 30 ans | 47 830,8 | m²HE·an |
-| Dette de maturité | 2 177,8 | m²HE·an |
+| I_0 | 105 413,6 | m²HE·an |
+| I_1 | 24 989,2 | m²HE·an |
+| Cnat | 80 424,4 | m²HE·an |
+| Cnat relatif | 0,763 |  |
+| Cnat sur 30 ans | 49 104,6 | m²HE·an |
+| Dette de maturité | 2 039,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 288 465 | m²HE·an |
 | Inat bois | 183 333,3 | m²HE·an |
 | Inat carrières | 6 348,4 | m²HE·an |
 | Inat | 478 146,7 | m²HE·an |
-| Snat | -556 412,8 | m²HE·an |
+| Snat | -558 571,1 | m²HE·an |
 | Bnat | 51,2 | points |
 | Pleine terre | 0,4 |  |
 | Imperméabilisation nette | 3 000 | m² |
@@ -51428,6 +53416,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 6 600 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 132 m³ (coupe rase) |
@@ -51459,7 +53452,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 107 590,5 m²HE·an.
+Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 105 413,6 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -51492,27 +53485,48 @@ Taches de l'état projet :
 | J | 1 250 | 0,4568 | 1 | 1 | 0,4568 |
 | T | 1 500 | 0,4755 | 1 | 1 | 0,4755 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 148,9 | 313,8 | 377,6 | 429,3 | 434,8 | 440,4 | 449,7 | 449,7 | 449,7 |
+| V_1(t), m²HE | 0 | 131,6 | 334 | 400,2 | 426,4 | 373,2 | 379,4 | 384,2 | 381,3 | 378,4 |
+| V_0 x k_W, m²HE | 2 151,8 | 2 151,8 | 2 151,8 | 2 150,1 | 2 141,3 | 2 132,6 | 2 123,9 | 2 101,5 | 2 075,7 | 2 050 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 107 590,5 | m²HE·an |
-| I_1 | 21 116,6 | m²HE·an |
-| Cnat | 86 473,9 | m²HE·an |
-| Cnat relatif | 0,804 |  |
-| Cnat sur 30 ans | 52 432,1 | m²HE·an |
-| Dette de maturité | 1 369,4 | m²HE·an |
+| I_0 | 105 413,6 | m²HE·an |
+| I_1 | 18 666,3 | m²HE·an |
+| Cnat | 86 747,3 | m²HE·an |
+| Cnat relatif | 0,823 |  |
+| Cnat sur 30 ans | 52 882,2 | m²HE·an |
+| Dette de maturité | 1 298,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 384 619,9 | m²HE·an |
 | Inat bois | 244 444,4 | m²HE·an |
 | Inat carrières | 8 464,5 | m²HE·an |
 | Inat | 637 528,9 | m²HE·an |
-| Snat | -724 002,8 | m²HE·an |
+| Snat | -724 276,2 | m²HE·an |
 | Bnat | 40 | points |
 | Pleine terre | 0,25 |  |
 | Imperméabilisation nette | 3 750 | m² |
@@ -51532,6 +53546,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | tertiaire |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 5 500 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 110 m³ (coupe rase) |
@@ -51563,7 +53582,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 107 590,5 m²HE·an.
+Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 105 413,6 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -51596,27 +53615,48 @@ Taches de l'état projet :
 | J | 1 750 | 0,4919 | 1 | 1 | 0,4919 |
 | T | 1 250 | 0,4568 | 1 | 1 | 0,4568 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 169 | 362,1 | 458,4 | 536,4 | 544,7 | 553 | 567,1 | 567,1 | 567,1 |
+| V_1(t), m²HE | 0 | 150,2 | 393,6 | 492,5 | 531,9 | 451,8 | 461,1 | 468,4 | 464 | 459,6 |
+| V_0 x k_W, m²HE | 2 151,8 | 2 151,8 | 2 151,8 | 2 150,1 | 2 141,3 | 2 132,6 | 2 123,9 | 2 101,5 | 2 075,7 | 2 050 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 107 590,5 | m²HE·an |
-| I_1 | 26 455,9 | m²HE·an |
-| Cnat | 81 134,6 | m²HE·an |
-| Cnat relatif | 0,754 |  |
-| Cnat sur 30 ans | 49 440 | m²HE·an |
-| Dette de maturité | 1 898 | m²HE·an |
+| I_0 | 105 413,6 | m²HE·an |
+| I_1 | 22 770 | m²HE·an |
+| Cnat | 82 643,5 | m²HE·an |
+| Cnat relatif | 0,784 |  |
+| Cnat sur 30 ans | 50 430 | m²HE·an |
+| Dette de maturité | 1 782,7 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 320 516,6 | m²HE·an |
 | Inat bois | 203 703,7 | m²HE·an |
 | Inat carrières | 7 053,8 | m²HE·an |
 | Inat | 531 274,1 | m²HE·an |
-| Snat | -612 408,7 | m²HE·an |
+| Snat | -613 917,6 | m²HE·an |
 | Bnat | 47,5 | points |
 | Pleine terre | 0,35 |  |
 | Imperméabilisation nette | 3 250 | m² |
@@ -51636,6 +53676,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 6 mois (d_ch = 0,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -51669,7 +53714,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 3 500 | 0,573 | 1 | 1 | 0,573 |
 
-Valeur du site sans projet V_0 = 877,37 m²HE ; I_0 = 43 868,4 m²HE·an.
+Valeur du site sans projet V_0 = 877,37 m²HE ; I_0 = 42 980,8 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -51702,27 +53747,49 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| I2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 6 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 6 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 4 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 4 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 4 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 4 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 4 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 218,1 | 477,9 | 561,5 | 728,5 | 783,2 | 797,6 | 812 | 833,7 | 833,7 | 833,7 |
+| V_1(t), m²HE | 195,3 | 533,9 | 640,5 | 742,6 | 777 | 637,5 | 652,6 | 662,3 | 654,7 | 647,1 |
+| V_0 x k_W, m²HE | 877,4 | 877,4 | 877,4 | 876,7 | 873,1 | 869,5 | 866 | 856,8 | 846,3 | 835,9 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 43 868,4 | m²HE·an |
-| I_1 | 39 447,8 | m²HE·an |
-| Cnat | 4 420,6 | m²HE·an |
-| Cnat relatif | 0,101 |  |
-| Cnat sur 30 ans | 3 546,3 | m²HE·an |
-| Dette de maturité | 2 234,9 | m²HE·an |
+| I_0 | 42 980,8 | m²HE·an |
+| I_1 | 32 902,3 | m²HE·an |
+| Cnat | 10 078,4 | m²HE·an |
+| Cnat relatif | 0,234 |  |
+| Cnat sur 30 ans | 6 248,7 | m²HE·an |
+| Dette de maturité | 2 023,5 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -323 185 | m²HE·an |
+| Snat | -328 842,9 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 750 | m² |
@@ -51742,6 +53809,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 36 mois (d_ch = 3 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -51775,7 +53847,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 3 500 | 0,573 | 1 | 1 | 0,573 |
 
-Valeur du site sans projet V_0 = 877,37 m²HE ; I_0 = 43 868,4 m²HE·an.
+Valeur du site sans projet V_0 = 877,37 m²HE ; I_0 = 42 980,8 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -51808,27 +53880,49 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| I2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 36 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 36 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 38 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 38 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 38 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 38 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 38 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 0 | 0 | 519,7 | 776 | 790,4 | 804,8 | 833,7 | 833,7 | 833,7 |
+| V_1(t), m²HE | 0 | 0 | 0 | 556,8 | 765 | 625,7 | 643,8 | 661,4 | 654,7 | 647,1 |
+| V_0 x k_W, m²HE | 877,4 | 877,4 | 877,4 | 876,7 | 873,1 | 869,5 | 866 | 856,8 | 846,3 | 835,9 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 43 868,4 | m²HE·an |
-| I_1 | 37 363,7 | m²HE·an |
-| Cnat | 6 504,7 | m²HE·an |
-| Cnat relatif | 0,148 |  |
-| Cnat sur 30 ans | 5 630,4 | m²HE·an |
-| Dette de maturité | 4 319 | m²HE·an |
+| I_0 | 42 980,8 | m²HE·an |
+| I_1 | 30 858,6 | m²HE·an |
+| Cnat | 12 122,2 | m²HE·an |
+| Cnat relatif | 0,282 |  |
+| Cnat sur 30 ans | 8 292,5 | m²HE·an |
+| Dette de maturité | 4 385,5 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -325 269,1 | m²HE·an |
+| Snat | -330 886,6 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 750 | m² |
@@ -51848,6 +53942,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -51879,7 +53978,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 2 366,99 m²HE ; I_0 = 118 349,6 m²HE·an.
+Valeur du site sans projet V_0 = 2 366,99 m²HE ; I_0 = 115 954,9 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -51912,27 +54011,48 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 236,5 | 519 | 702,7 | 851,6 | 867,5 | 883,3 | 910,3 | 910,3 | 910,3 |
+| V_1(t), m²HE | 0 | 211,9 | 580,7 | 767,8 | 843,1 | 690,1 | 707,9 | 721,8 | 713,5 | 705,1 |
+| V_0 x k_W, m²HE | 2 367 | 2 367 | 2 367 | 2 365,1 | 2 355,5 | 2 345,9 | 2 336,3 | 2 311,6 | 2 283,3 | 2 255 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 118 349,6 | m²HE·an |
-| I_1 | 42 149 | m²HE·an |
-| Cnat | 76 200,6 | m²HE·an |
-| Cnat relatif | 0,644 |  |
-| Cnat sur 30 ans | 47 066,5 | m²HE·an |
-| Dette de maturité | 3 365,3 | m²HE·an |
+| I_0 | 115 954,9 | m²HE·an |
+| I_1 | 35 124,4 | m²HE·an |
+| Cnat | 80 830,5 | m²HE·an |
+| Cnat relatif | 0,697 |  |
+| Cnat sur 30 ans | 49 453,4 | m²HE·an |
+| Dette de maturité | 3 132,2 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -394 965 | m²HE·an |
+| Snat | -399 595 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -51952,6 +54072,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -51983,7 +54108,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 2 474,58 m²HE ; I_0 = 123 729,1 m²HE·an.
+Valeur du site sans projet V_0 = 2 474,58 m²HE ; I_0 = 121 225,6 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -52016,27 +54141,48 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 245,8 | 539,5 | 731,6 | 887,3 | 903,9 | 920,4 | 948,6 | 948,6 | 948,6 |
+| V_1(t), m²HE | 0 | 220,2 | 604 | 799,7 | 878,3 | 718,4 | 737 | 751,5 | 742,8 | 734,1 |
+| V_0 x k_W, m²HE | 2 474,6 | 2 474,6 | 2 474,6 | 2 472,6 | 2 462,5 | 2 452,5 | 2 442,5 | 2 416,7 | 2 387,1 | 2 357,5 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 123 729,1 | m²HE·an |
-| I_1 | 43 916,4 | m²HE·an |
-| Cnat | 79 812,7 | m²HE·an |
-| Cnat relatif | 0,645 |  |
-| Cnat sur 30 ans | 49 293,1 | m²HE·an |
-| Dette de maturité | 3 513,6 | m²HE·an |
+| I_0 | 121 225,6 | m²HE·an |
+| I_1 | 36 572,7 | m²HE·an |
+| Cnat | 84 652,9 | m²HE·an |
+| Cnat relatif | 0,698 |  |
+| Cnat sur 30 ans | 51 788,3 | m²HE·an |
+| Dette de maturité | 3 269,8 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -398 577,2 | m²HE·an |
+| Snat | -403 417,3 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -52056,6 +54202,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -52087,7 +54238,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | isolee_I1 | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 734,1 m²HE·an.
+Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 37 950,4 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -52108,7 +54259,7 @@ Facteurs de calcul :
 | P1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
 | P2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
 | P3 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,5434 | 1 | 1 | 285,34 |
-| P4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,5434 | 0,9 | 1 | 245,15 |
+| P4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,5434 | 0,916 | 1 | 249,52 |
 | P5 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,5434 | 1 | 1 | 130,75 |
 | P6 |  | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,5434 | 1 | 1 | 77,83 |
 | P7 | 0,5 | 1 | 0,2639 | 0,6667 | 0,8333 | 1 | 0,4083 | 1 | 1 | 67,34 |
@@ -52120,27 +54271,48 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 215,4 | 469,8 | 625,9 | 753,1 | 767,5 | 781,9 | 806,4 | 806,4 | 806,4 |
+| V_1(t), m²HE | 0 | 192,2 | 521,7 | 683,7 | 749,8 | 621,4 | 637,6 | 650,4 | 643 | 635,5 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,1 | 770,9 | 767,8 | 764,6 | 756,6 | 747,3 | 738 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 38 734,1 | m²HE·an |
-| I_1 | 37 347,5 | m²HE·an |
-| Cnat | 1 386,6 | m²HE·an |
-| Cnat relatif | 0,036 |  |
-| Cnat sur 30 ans | 2 021,2 | m²HE·an |
-| Dette de maturité | 2 973,2 | m²HE·an |
+| I_0 | 37 950,4 | m²HE·an |
+| I_1 | 31 564,1 | m²HE·an |
+| Cnat | 6 386,3 | m²HE·an |
+| Cnat relatif | 0,168 |  |
+| Cnat sur 30 ans | 4 301,3 | m²HE·an |
+| Dette de maturité | 2 795,4 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -320 151,1 | m²HE·an |
+| Snat | -325 150,8 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -52160,6 +54332,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -52191,7 +54368,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | isolee_I1 | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 734,1 m²HE·an.
+Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 37 950,4 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -52224,27 +54401,48 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,75 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 211,3 | 457,5 | 597,3 | 712,2 | 726,6 | 741,1 | 765,6 | 765,6 | 765,6 |
+| V_1(t), m²HE | 0 | 185,9 | 497,5 | 643,1 | 704,8 | 597,5 | 613,8 | 626,8 | 619,7 | 612,5 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,1 | 770,9 | 767,8 | 764,6 | 756,6 | 747,3 | 738 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 38 734,1 | m²HE·an |
-| I_1 | 35 447,6 | m²HE·an |
-| Cnat | 3 286,5 | m²HE·an |
-| Cnat relatif | 0,085 |  |
-| Cnat sur 30 ans | 3 104 | m²HE·an |
-| Dette de maturité | 2 830,2 | m²HE·an |
+| I_0 | 37 950,4 | m²HE·an |
+| I_1 | 30 251,9 | m²HE·an |
+| Cnat | 7 698,5 | m²HE·an |
+| Cnat relatif | 0,203 |  |
+| Cnat sur 30 ans | 5 148,5 | m²HE·an |
+| Dette de maturité | 2 673,5 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -322 051 | m²HE·an |
+| Snat | -326 463 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -52264,6 +54462,11 @@ Taches de l'état projet :
 | Zone biogéographique | atlantique |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H2a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -52295,7 +54498,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | isolee_I1 | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 734,1 m²HE·an.
+Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 318,5 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -52328,27 +54531,48 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 24,2 | 30,5 | 42,9 | 1 | 0,995 | 0,945 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 24,2 | 30,5 | 42,9 | 1 | 0,995 | 0,945 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 24,2 | 30,5 | 42,9 | 1 | 0,995 | 0,945 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 53,1 | 55,2 | 64,2 | 1 | 1 | 0,963 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 67,1 | 68,4 | 76,7 | 1 | 1 | 0,963 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 15,4 | 29,9 | 34,9 | 1 | 0,971 | 0,956 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 218,1 | 477,9 | 645 | 780,3 | 794,7 | 809,2 | 833,7 | 833,7 | 833,7 |
+| V_1(t), m²HE | 0 | 195,3 | 533,9 | 704,3 | 773,8 | 635 | 651,9 | 666,2 | 660,5 | 654,7 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,5 | 773,5 | 772,5 | 771,5 | 766,1 | 758,4 | 750,7 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 38 734,1 | m²HE·an |
-| I_1 | 38 614,1 | m²HE·an |
-| Cnat | 120 | m²HE·an |
-| Cnat relatif | 0,003 |  |
-| Cnat sur 30 ans | 1 299,4 | m²HE·an |
-| Dette de maturité | 3 068,5 | m²HE·an |
+| I_0 | 38 318,5 | m²HE·an |
+| I_1 | 32 397,3 | m²HE·an |
+| Cnat | 5 921,2 | m²HE·an |
+| Cnat relatif | 0,155 |  |
+| Cnat sur 30 ans | 3 964,4 | m²HE·an |
+| Dette de maturité | 2 857,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -318 884,4 | m²HE·an |
+| Snat | -324 685,6 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -52368,6 +54592,11 @@ Taches de l'état projet :
 | Zone biogéographique | mediterraneenne |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H3, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -52399,7 +54628,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | isolee_I1 | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 734,1 m²HE·an.
+Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 616,6 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -52432,27 +54661,48 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 122,9 | 122,6 | 130,4 | 1 | 1 | 0,985 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 140,5 | 139,9 | 148,3 | 1 | 1 | 0,978 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 99,3 | 101,4 | 120,9 | 1 | 1 | 0,95 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 218,1 | 477,9 | 645 | 780,3 | 794,7 | 809,2 | 833,7 | 833,7 | 833,7 |
+| V_1(t), m²HE | 0 | 195,3 | 533,9 | 704,6 | 775,3 | 637,3 | 655,3 | 671,9 | 668,8 | 665,6 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 772,7 | 769,3 | 766 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 38 734,1 | m²HE·an |
-| I_1 | 38 614,1 | m²HE·an |
-| Cnat | 120 | m²HE·an |
-| Cnat relatif | 0,003 |  |
-| Cnat sur 30 ans | 1 299,4 | m²HE·an |
-| Dette de maturité | 3 068,5 | m²HE·an |
+| I_0 | 38 616,6 | m²HE·an |
+| I_1 | 32 641 | m²HE·an |
+| Cnat | 5 975,6 | m²HE·an |
+| Cnat relatif | 0,155 |  |
+| Cnat sur 30 ans | 3 964,4 | m²HE·an |
+| Dette de maturité | 2 857,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -318 884,4 | m²HE·an |
+| Snat | -324 740 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -52472,6 +54722,11 @@ Taches de l'état projet :
 | Zone biogéographique | alpine |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1c, 900 m |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 3 300 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 66 m³ (coupe rase) |
@@ -52536,27 +54791,48 @@ Taches de l'état projet :
 | J | 2 750 | 0,5434 | 1 | 1 | 0,5434 |
 | T | 750 | 0,4083 | 1 | 1 | 0,4083 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 13,4 | 5,9 | 6 | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 13,4 | 5,9 | 6 | 1 | 1 | 1 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 13,4 | 5,9 | 6 | 1 | 1 | 1 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 32,4 | 29,7 | 28,6 | 1 | 1 | 1 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 42 | 40,7 | 40,4 | 1 | 1 | 1 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 26,7 | 19,3 | 16 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 218,1 | 477,9 | 645 | 780,3 | 794,7 | 809,2 | 833,7 | 833,7 | 833,7 |
+| V_1(t), m²HE | 0 | 195,3 | 533,9 | 704,6 | 775,3 | 637,3 | 655,3 | 673,8 | 673,8 | 673,8 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 38 734,1 | m²HE·an |
-| I_1 | 38 614,1 | m²HE·an |
-| Cnat | 120 | m²HE·an |
-| Cnat relatif | 0,003 |  |
-| Cnat sur 30 ans | 1 299,4 | m²HE·an |
-| Dette de maturité | 3 068,5 | m²HE·an |
+| I_1 | 32 752,2 | m²HE·an |
+| Cnat | 5 981,9 | m²HE·an |
+| Cnat relatif | 0,154 |  |
+| Cnat sur 30 ans | 3 964,8 | m²HE·an |
+| Dette de maturité | 2 857,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
 | Inat bois | 122 222,2 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
 | Inat | 318 764,4 | m²HE·an |
-| Snat | -318 884,4 | m²HE·an |
+| Snat | -324 746,3 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -52576,6 +54852,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 4 950 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 99 m³ (coupe rase) |
@@ -52607,7 +54888,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 107 590,5 m²HE·an.
+Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 106 313,3 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -52640,27 +54921,48 @@ Taches de l'état projet :
 | J | 2 000 | 0,5066 | 1 | 1 | 0,5066 |
 | T | 1 125 | 0,4464 | 1 | 1 | 0,4464 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 180,3 | 388,9 | 502,1 | 593,9 | 603,7 | 613,4 | 630 | 630 | 630 |
+| V_1(t), m²HE | 0 | 160,6 | 426,2 | 542,2 | 588,6 | 494,3 | 505,3 | 513,9 | 508,7 | 503,6 |
+| V_0 x k_W, m²HE | 2 151,8 | 2 151,8 | 2 151,8 | 2 151,8 | 2 151,8 | 2 151,8 | 2 151,8 | 2 130 | 2 093,6 | 2 057,2 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 107 590,5 | m²HE·an |
-| I_1 | 29 324,4 | m²HE·an |
-| Cnat | 78 266,1 | m²HE·an |
-| Cnat relatif | 0,727 |  |
-| Cnat sur 30 ans | 47 830,8 | m²HE·an |
-| Dette de maturité | 2 177,8 | m²HE·an |
+| I_0 | 106 313,3 | m²HE·an |
+| I_1 | 24 989,2 | m²HE·an |
+| Cnat | 81 324,1 | m²HE·an |
+| Cnat relatif | 0,765 |  |
+| Cnat sur 30 ans | 49 657,9 | m²HE·an |
+| Dette de maturité | 2 039,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 288 465 | m²HE·an |
 | Inat bois | 183 333,3 | m²HE·an |
 | Inat carrières | 6 348,4 | m²HE·an |
 | Inat | 478 146,7 | m²HE·an |
-| Snat | -556 412,8 | m²HE·an |
+| Snat | -559 470,8 | m²HE·an |
 | Bnat | 51,2 | points |
 | Pleine terre | 0,4 |  |
 | Imperméabilisation nette | 3 000 | m² |
@@ -52680,6 +54982,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 6 600 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 132 m³ (coupe rase) |
@@ -52711,7 +55018,7 @@ Taches de l'état initial (fiches A17 à A19) :
 |---|---|---|---|---|---|
 | I | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
 
-Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 107 590,5 m²HE·an.
+Valeur du site sans projet V_0 = 2 151,81 m²HE ; I_0 = 106 313,3 m²HE·an.
 
 **État projet (fiches A06 à A30)**
 
@@ -52744,27 +55051,48 @@ Taches de l'état projet :
 | J | 1 250 | 0,4568 | 1 | 1 | 0,4568 |
 | T | 1 500 | 0,4755 | 1 | 1 | 0,4755 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 148,9 | 313,8 | 377,6 | 429,3 | 434,8 | 440,4 | 449,7 | 449,7 | 449,7 |
+| V_1(t), m²HE | 0 | 131,6 | 334 | 400,2 | 426,4 | 373,2 | 379,4 | 384,2 | 381,3 | 378,4 |
+| V_0 x k_W, m²HE | 2 151,8 | 2 151,8 | 2 151,8 | 2 151,8 | 2 151,8 | 2 151,8 | 2 151,8 | 2 130 | 2 093,6 | 2 057,2 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
-| I_0 | 107 590,5 | m²HE·an |
-| I_1 | 21 116,6 | m²HE·an |
-| Cnat | 86 473,9 | m²HE·an |
-| Cnat relatif | 0,804 |  |
-| Cnat sur 30 ans | 52 432,1 | m²HE·an |
-| Dette de maturité | 1 369,4 | m²HE·an |
+| I_0 | 106 313,3 | m²HE·an |
+| I_1 | 18 666,3 | m²HE·an |
+| Cnat | 87 647 | m²HE·an |
+| Cnat relatif | 0,824 |  |
+| Cnat sur 30 ans | 53 435,5 | m²HE·an |
+| Dette de maturité | 1 298,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 384 619,9 | m²HE·an |
 | Inat bois | 244 444,4 | m²HE·an |
 | Inat carrières | 8 464,5 | m²HE·an |
 | Inat | 637 528,9 | m²HE·an |
-| Snat | -724 002,8 | m²HE·an |
+| Snat | -725 175,9 | m²HE·an |
 | Bnat | 40 | points |
 | Pleine terre | 0,25 |  |
 | Imperméabilisation nette | 3 750 | m² |
@@ -52784,6 +55112,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 4 950 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 99 m³ (coupe rase) |
@@ -52846,27 +55179,48 @@ Taches de l'état projet :
 | J | 2 000 | 0,5066 | 1 | 1 | 0,5066 |
 | T | 1 125 | 0,4464 | 1 | 1 | 0,4464 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 180,3 | 388,9 | 502,1 | 593,9 | 603,7 | 613,4 | 630 | 630 | 630 |
+| V_1(t), m²HE | 0 | 160,6 | 426,2 | 542,2 | 588,6 | 494,3 | 505,3 | 513,9 | 508,7 | 503,6 |
+| V_0 x k_W, m²HE | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 0 | m²HE·an |
-| I_1 | 29 324,4 | m²HE·an |
-| Cnat | -29 324,4 | m²HE·an |
+| I_1 | 24 989,2 | m²HE·an |
+| Cnat | -24 989,2 | m²HE·an |
 | Cnat relatif | non défini |  |
-| Cnat sur 30 ans | -16 723,5 | m²HE·an |
-| Dette de maturité | 2 177,8 | m²HE·an |
+| Cnat sur 30 ans | -14 820 | m²HE·an |
+| Dette de maturité | 2 039,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 288 465 | m²HE·an |
 | Inat bois | 183 333,3 | m²HE·an |
 | Inat carrières | 6 348,4 | m²HE·an |
 | Inat | 478 146,7 | m²HE·an |
-| Snat | -448 822,3 | m²HE·an |
+| Snat | -453 157,5 | m²HE·an |
 | Bnat | 51,2 | points |
 | Pleine terre | 0,4 |  |
 | Imperméabilisation nette | -2 000 | m² |
@@ -52886,6 +55240,11 @@ Taches de l'état projet :
 | Zone biogéographique | continentale |
 | Typologie | logement |
 | Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
 | Surface de référence | 6 600 m² |
 | Émissions des composants et du chantier | A1-A5 : 480, B : 330, C : 50 |
 | Bois | 132 m³ (coupe rase) |
@@ -52948,38 +55307,4197 @@ Taches de l'état projet :
 | J | 1 250 | 0,4568 | 1 | 1 | 0,4568 |
 | T | 1 500 | 0,4755 | 1 | 1 | 0,4755 |
 
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| P3 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| P4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 0,533 |
+| P5 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| P6 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| P7 | toiture extensive | 20 | 14,9 | 14,9 | 19,7 | 1 | 1 | 1 | 1 | 16 | 1 |
+
 **Trajectoire du site (fiche A31)**
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 148,9 | 313,8 | 377,6 | 429,3 | 434,8 | 440,4 | 449,7 | 449,7 | 449,7 |
+| V_1(t), m²HE | 0 | 131,6 | 334 | 400,2 | 426,4 | 373,2 | 379,4 | 384,2 | 381,3 | 378,4 |
+| V_0 x k_W, m²HE | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 **Indicateurs (fiches A33 à A38)**
 
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 0 | m²HE·an |
-| I_1 | 21 116,6 | m²HE·an |
-| Cnat | -21 116,6 | m²HE·an |
+| I_1 | 18 666,3 | m²HE·an |
+| Cnat | -18 666,3 | m²HE·an |
 | Cnat relatif | non défini |  |
-| Cnat sur 30 ans | -12 122,2 | m²HE·an |
-| Dette de maturité | 1 369,4 | m²HE·an |
+| Cnat sur 30 ans | -11 042,4 | m²HE·an |
+| Dette de maturité | 1 298,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 384 619,9 | m²HE·an |
 | Inat bois | 244 444,4 | m²HE·an |
 | Inat carrières | 8 464,5 | m²HE·an |
 | Inat | 637 528,9 | m²HE·an |
-| Snat | -616 412,3 | m²HE·an |
+| Snat | -618 862,6 | m²HE·an |
 | Bnat | 40 | points |
 | Pleine terre | 0,25 |  |
 | Imperméabilisation nette | -1 250 | m² |
 
 **Conformité (fiche A40)** : Bnat 40 pour un seuil de 25 : atteint ; pleine terre 25 % pour un seuil de 15 % : atteint ; niveau du site : 2.
 
+### Cas dynamiques
+
+Vingt-neuf cas reprennent l'exemple de l'annexe C (et le cas 6 pour la mare) en ne changeant qu'une donnée des modules dynamiques : calendrier du chantier, substrat de la toiture, sol, arrosage, zone climatique, éclairage, plan de gestion, année de début, raccordement et fond de la mare, abattage d'arbres à gîtes. L'écart se lit par rapport à l'exemple de l'annexe C (Cnat = 3 217,2) ou au cas 6 en zone H3 pour D25 à D27 (Cnat du cas 6 en zone H1a : -12 419,6).
+
+#### Synthèse des cas dynamiques
+
+| Cas | Donnée changée | I_1 | Cnat | Écart | ΔI_ch | Arrosage (m³/an) |
+|---|---|---|---|---|---|---|
+| Cas D01 | Chantier commencé en mai : défrichement pendant la nidification | 10 023 | 3 497 | 280 | 243,6 | 0 |
+| Cas D02 | Chantier commencé en janvier : plantations reportées à novembre de l'année suivante | 9 950 | 3 327 | 110 | 0 | 0 |
+| Cas D03 | Toiture extensive de 8 cm au lieu de 15 cm | 9 762 | 3 515 | 298 | 0 | 0 |
+| Cas D04 | Toiture semi-intensive de 30 cm | 10 153 | 3 124 | -93 | 0 | 0 |
+| Cas D05 | Toiture intensive de 50 cm (gazon et massifs, type VB.13) | 9 603 | 3 674 | 457 | 0 | 0 |
+| Cas D06 | Prairie urbaine arrosée | 10 110 | 3 167 | -50 | 0 | 34,3 |
+| Cas D07 | Sol sableux | 9 756 | 2 926 | -291 | 0 | 0 |
+| Cas D08 | Sol argileux | 10 098 | 3 256 | 39 | 0 | 0 |
+| Cas D09 | Sol limoneux de 40 cm sur dalle rocheuse | 9 608 | 2 795 | -422 | 0 | 0 |
+| Cas D10 | Zone climatique H1b (Nancy) | 10 226 | 3 233 | 16 | 0 | 0 |
+| Cas D11 | Zone climatique H1c (Mâcon) | 10 329 | 3 190 | -27 | 0 | 0 |
+| Cas D12 | Zone climatique H2a (Rennes) | 10 198 | 3 193 | -24 | 0 | 0 |
+| Cas D13 | Zone climatique H2b (Tours) | 10 246 | 3 183 | -34 | 0 | 0 |
+| Cas D14 | Zone climatique H2c (Agen) | 10 248 | 3 246 | 29 | 0 | 0 |
+| Cas D15 | Zone climatique H2d (Carpentras) | 10 235 | 3 284 | 67 | 0 | 0 |
+| Cas D16 | Zone climatique H3 (Marignane) | 10 189 | 3 290 | 73 | 0 | 0 |
+| Cas D17 | Prairie éclairée toute la nuit en 4 000 K | 9 586 | 3 691 | 474 | 0 | 0 |
+| Cas D18 | Prairie éclairée jusqu'à 23 h en 2 700 K, luminaires à 20 m | 10 225 | 3 052 | -165 | 0 | 0 |
+| Cas D19 | Prairie éclairée toute la nuit en ambre avec détection de présence (30 % du temps) | 10 193 | 3 085 | -133 | 0 | 0 |
+| Cas D20 | Sans plan de gestion écologique | 9 633 | 3 644 | 426 | 0 | 0 |
+| Cas D21 | Plan de gestion de trente ans | 10 985 | 2 292 | -926 | 0 | 0 |
+| Cas D22 | Plan de gestion couvrant les cinquante ans | 11 801 | 1 476 | -1 741 | 0 | 0 |
+| Cas D23 | Abandon de l'entretien à la fin du plan de dix ans | 11 044 | 2 233 | -984 | 0 | 0 |
+| Cas D24 | Chantier commencé en 2045 | 9 879 | 3 141 | -77 | 0 | 0 |
+| Cas D25 | Cas 6 en zone H3, mare sans bassin versant | 48 230 | -9 614 | 2 806 | 0 | 0 |
+| Cas D26 | Cas 6 en zone H3, mare raccordée à 3 000 m² de prairie | 50 575 | -11 959 | 461 | 0 | 0 |
+| Cas D27 | Cas 6 en zone H3, mare à fond étanche raccordée à 3 000 m² de prairie | 50 969 | -12 352 | 68 | 0 | 0 |
+| Cas D28 | Arbres âgés à gîtes abattus en janvier | 9 588 | 3 986 | 769 | 32,2 | 0 |
+| Cas D29 | Arbres âgés à gîtes abattus en octobre | 9 711 | 3 832 | 614 | 0 | 0 |
+
+Lecture :
+
+- Calendrier : un défrichement en mai ajoute 243,6 m²HE·an pour la nidification ; un début en janvier reporte les plantations à novembre et coûte 110 m²HE·an ; l'abattage d'arbres âgés à gîtes en janvier ajoute 32,2 m²HE·an que l'abattage en octobre évite.
+- Substrat : la toiture de 8 cm coûte 298 m²HE·an, celle de 30 cm en rend 93.
+- Sol : sur un sable, Cnat baisse de 291 m²HE·an. L'état initial, sur le même sol, perd lui aussi, et davantage : la friche herbacée initiale est plus étendue que les milieux créés. Le sol pauvre pénalise le projet dans l'absolu (I_1 plus faible), pas face à l'état initial.
+- Éclairage : la prairie éclairée toute la nuit en 4 000 K coûte 474 m²HE·an ; éteinte à 23 h, en 2 700 K, à 20 m, elle en rend 165.
+- Gestion : sans plan, Cnat monte de 426 ; un plan de trente ans le baisse de 926, un plan de cinquante ans de 1 741. L'abandon après le plan vaut mieux que la tonte d'une pelouse : la friche abandonnée garde plus de valeur que la pelouse (BKompV).
+- Climat : d'une zone à l'autre, l'écart reste sous 73 m²HE·an, parce que la végétation de chaque zone est jugée sur son propre climat ; un début en 2045 décale la période vers un climat plus chaud et baisse Cnat de 77 m²HE·an, l'état initial perdant davantage que le projet.
+- Mare en zone H3 : sans bassin versant, elle s'assèche au printemps ; raccordée à 3 000 m² de prairie, elle tient mieux (Cnat -11 959) ; avec un fond étanche, elle reste en eau (Cnat -12 352, contre -9 614).
+
+### Cas D01. Chantier commencé en mai : défrichement pendant la nidification
+
+**Résultat attendu** : supplément de Cnat pour la friche et le fourré détruits en période sensible (fiche A57).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | mai 2027 ; période 2027 à 2076 |
+| Mois de destruction | mai |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 18 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 18 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 18 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 18 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 53,5 | 147,4 | 215,9 | 249,9 | 205 | 204,3 | 202,4 | 200,1 | 197,8 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 10 023,2 | m²HE·an |
+| Cnat | 3 497,5 | m²HE·an |
+| Cnat relatif | 0,263 |  |
+| Cnat sur 30 ans | 2 268,4 | m²HE·an |
+| Dette de maturité | 710,9 | m²HE·an |
+| Supplément pour destruction en période sensible | 243,6 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 340,3 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D02. Chantier commencé en janvier : plantations reportées à novembre de l'année suivante
+
+**Résultat attendu** : maturation plus tardive, Cnat plus élevé que l'exemple (fiche A58).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | janvier 2027 ; période 2027 à 2076 |
+| Mois de destruction | janvier |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 22 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 22 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 22 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 22 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 32,7 | 124 | 208,5 | 249,3 | 205 | 204,3 | 202,4 | 200,1 | 197,8 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 9 949,7 | m²HE·an |
+| Cnat | 3 327,4 | m²HE·an |
+| Cnat relatif | 0,251 |  |
+| Cnat sur 30 ans | 2 098,4 | m²HE·an |
+| Dette de maturité | 786,6 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 170,3 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D03. Toiture extensive de 8 cm au lieu de 15 cm
+
+**Résultat attendu** : valeur et facteur hydrique plus faibles (fiche A48).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.11 | hors sol toiture | 500 | S04 | créée | 1 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,5 | 1 | 0,2639 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 49,27 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | toiture extensive | 16 | 19,8 | 19 | 24,3 | 1 | 1 | 0,987 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 85,2 | 186,4 | 229,8 | 242,4 | 195,2 | 194,8 | 193,4 | 191,5 | 189,6 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 9 762,1 | m²HE·an |
+| Cnat | 3 515 | m²HE·an |
+| Cnat relatif | 0,265 |  |
+| Cnat sur 30 ans | 2 113,4 | m²HE·an |
+| Dette de maturité | 479,9 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 357,8 | m²HE·an |
+| Bnat | 56,5 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 56,5 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D04. Toiture semi-intensive de 30 cm
+
+**Résultat attendu** : moins de stress hydrique (fiche A48).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 60 | 20,1 | 28,4 | 39,7 | 0,948 | 0,915 | 0,87 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,4 | 157,5 | 221,1 | 252,7 | 207,3 | 206,4 | 204,2 | 201,8 | 199,5 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 10 153 | m²HE·an |
+| Cnat | 3 124 | m²HE·an |
+| Cnat relatif | 0,235 |  |
+| Cnat sur 30 ans | 1 929,7 | m²HE·an |
+| Dette de maturité | 673,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -144 966,9 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D05. Toiture intensive de 50 cm (gazon et massifs, type VB.13)
+
+**Résultat attendu** : facteur hydrique de 1 mais valeur intrinsèque plus faible que la toiture biodiverse (distinctivité faible de la métrique anglaise).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.13 | hors sol toiture | 500 | S06 | créée | 5 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,7 | 1 | 0,2639 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 49,27 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 100 | 9,8 | 18,8 | 32,1 | 0,989 | 0,953 | 0,9 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 70,5 | 163,7 | 224,1 | 241,3 | 193,7 | 192,9 | 190,8 | 188,5 | 186,2 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 9 603,1 | m²HE·an |
+| Cnat | 3 674 | m²HE·an |
+| Cnat relatif | 0,277 |  |
+| Cnat sur 30 ans | 2 213,3 | m²HE·an |
+| Dette de maturité | 535,2 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 516,8 | m²HE·an |
+| Bnat | 61,5 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 61,5 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D06. Prairie urbaine arrosée
+
+**Résultat attendu** : facteur hydrique de 1, consommation d'eau d'arrosage affichée (fiche A49).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 0 | 0 | 0 | 1 | 1 | 1 | 0,916 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,2 | 156,5 | 219,2 | 250,6 | 205,4 | 205 | 203,5 | 201,8 | 200,1 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 10 109,7 | m²HE·an |
+| Cnat | 3 167,4 | m²HE·an |
+| Cnat relatif | 0,239 |  |
+| Cnat sur 30 ans | 1 972,9 | m²HE·an |
+| Dette de maturité | 673,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 34,3 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 010,2 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D07. Sol sableux
+
+**Résultat attendu** : réserve utile plus faible, stress hydrique accru (fiche A48).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture sable, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 12 682 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 75 | 16,4 | 25 | 36,9 | 0,963 | 0,929 | 0,881 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 68 | 39,7 | 43,8 | 53,8 | 0,991 | 0,967 | 0,906 | 1 |
+| U0-4 | arbore | 75 | 53,1 | 54,6 | 66,1 | 0,982 | 0,97 | 0,878 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 75 | 16,4 | 25 | 36,9 | 0,963 | 0,929 | 0,881 | 0,916 | 16 | 0,533 |
+| U1-5 | prairie | 75 | 16,4 | 25 | 36,9 | 0,963 | 0,929 | 0,881 | 1 | 16 | 1 |
+| U1-6 | arbustif | 68 | 39,7 | 43,8 | 53,8 | 0,991 | 0,967 | 0,906 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 75 | 53,1 | 54,6 | 66,1 | 0,982 | 0,97 | 0,878 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 23,6 | 66,4 | 152,3 | 213,5 | 243,3 | 199,4 | 198,1 | 195,8 | 193,7 | 191,6 |
+| V_0 x k_W, m²HE | 261,8 | 261,8 | 261,8 | 261,4 | 259,3 | 257,2 | 255,1 | 251,7 | 248,8 | 245,9 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 12 682 | m²HE·an |
+| I_1 | 9 756,3 | m²HE·an |
+| Cnat | 2 925,8 | m²HE·an |
+| Cnat relatif | 0,231 |  |
+| Cnat sur 30 ans | 1 825,3 | m²HE·an |
+| Dette de maturité | 673,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -144 768,6 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D08. Sol argileux
+
+**Résultat attendu** : réserve utile plus forte.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture argile, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 354,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 140 | 0,4 | 8,7 | 24 | 1 | 0,994 | 0,932 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 126 | 32,3 | 36,1 | 46,7 | 1 | 1 | 0,95 | 1 |
+| U0-4 | arbore | 140 | 44,5 | 48,1 | 60,3 | 1 | 1 | 0,925 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 140 | 0,4 | 8,7 | 24 | 1 | 0,994 | 0,932 | 0,916 | 16 | 0,533 |
+| U1-5 | prairie | 140 | 0,4 | 8,7 | 24 | 1 | 0,994 | 0,932 | 1 | 16 | 1 |
+| U1-6 | arbustif | 126 | 32,3 | 36,1 | 46,7 | 1 | 1 | 0,95 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 140 | 44,5 | 48,1 | 60,3 | 1 | 1 | 0,925 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,2 | 156,5 | 219,2 | 250,5 | 205,5 | 205,1 | 203,4 | 201,1 | 198,9 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,3 | 270 | 269,7 | 269,3 | 267,1 | 263,7 | 260,4 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 354,1 | m²HE·an |
+| I_1 | 10 097,6 | m²HE·an |
+| Cnat | 3 256,4 | m²HE·an |
+| Cnat relatif | 0,244 |  |
+| Cnat sur 30 ans | 2 005,6 | m²HE·an |
+| Dette de maturité | 673,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 099,3 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D09. Sol limoneux de 40 cm sur dalle rocheuse
+
+**Résultat attendu** : réserve utile bornée par la profondeur de sol.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 0.4 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 12 403,2 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 52 | 22 | 30,2 | 41,1 | 0,941 | 0,908 | 0,864 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 52 | 42,6 | 47,1 | 56,2 | 0,974 | 0,947 | 0,892 | 1 |
+| U0-4 | arbore | 52 | 56,6 | 57,7 | 68,2 | 0,954 | 0,945 | 0,861 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 52 | 22 | 30,2 | 41,1 | 0,941 | 0,908 | 0,864 | 0,916 | 16 | 0,533 |
+| U1-5 | prairie | 52 | 22 | 30,2 | 41,1 | 0,941 | 0,908 | 0,864 | 1 | 16 | 1 |
+| U1-6 | arbustif | 52 | 42,6 | 47,1 | 56,2 | 0,974 | 0,947 | 0,892 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 52 | 56,6 | 57,7 | 68,2 | 0,954 | 0,945 | 0,861 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 22,9 | 65 | 149,4 | 209,6 | 239,2 | 196,3 | 195,1 | 193 | 191 | 189 |
+| V_0 x k_W, m²HE | 255,8 | 255,8 | 255,8 | 255,4 | 253,4 | 251,4 | 249,4 | 246,2 | 243,5 | 240,9 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 12 403,2 | m²HE·an |
+| I_1 | 9 607,8 | m²HE·an |
+| Cnat | 2 795,4 | m²HE·an |
+| Cnat relatif | 0,225 |  |
+| Cnat sur 30 ans | 1 745,7 | m²HE·an |
+| Dette de maturité | 673,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -144 638,3 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D10. Zone climatique H1b (Nancy)
+
+**Résultat attendu** : effet du climat local et de son évolution.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1b, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 458,4 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,911 | 1 | 89,62 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 10,1 | 14 | 22,1 | 1 | 1 | 0,972 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 32,8 | 37 | 45 | 1 | 1 | 0,957 | 1 |
+| U0-4 | arbore | 130 | 45,7 | 49,5 | 56,9 | 1 | 1 | 0,951 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 10,1 | 14 | 22,1 | 1 | 1 | 0,972 | 0,911 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 10,1 | 14 | 22,1 | 1 | 1 | 0,972 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 32,8 | 37 | 45 | 1 | 1 | 0,957 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,7 | 49,5 | 56,9 | 1 | 1 | 0,951 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 32,1 | 35,7 | 46,2 | 0,932 | 0,917 | 0,875 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,3 | 156,9 | 220,1 | 252,2 | 207,6 | 207,3 | 206,3 | 204,8 | 203,3 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 269,3 | 267,6 | 265,9 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 458,4 | m²HE·an |
+| I_1 | 10 225,6 | m²HE·an |
+| Cnat | 3 232,8 | m²HE·an |
+| Cnat relatif | 0,24 |  |
+| Cnat sur 30 ans | 1 976,4 | m²HE·an |
+| Dette de maturité | 671,8 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 075,7 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D11. Zone climatique H1c (Mâcon)
+
+**Résultat attendu** : effet du climat local et de son évolution.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1c, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 519,3 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,913 | 1 | 89,8 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 20 | 17,2 | 16,1 | 1 | 1 | 1 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 41,6 | 40,6 | 39,4 | 1 | 1 | 1 | 1 |
+| U0-4 | arbore | 130 | 53 | 53,1 | 53,5 | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 20 | 17,2 | 16,1 | 1 | 1 | 1 | 0,913 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 20 | 17,2 | 16,1 | 1 | 1 | 1 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 41,6 | 40,6 | 39,4 | 1 | 1 | 1 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 53 | 53,1 | 53,5 | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 43,6 | 42,1 | 33,2 | 0,925 | 0,931 | 0,967 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,3 | 156,8 | 220 | 252,4 | 208 | 208,1 | 208,4 | 208,9 | 209,4 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 519,3 | m²HE·an |
+| I_1 | 10 329,1 | m²HE·an |
+| Cnat | 3 190,2 | m²HE·an |
+| Cnat relatif | 0,236 |  |
+| Cnat sur 30 ans | 1 961,4 | m²HE·an |
+| Dette de maturité | 672,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 033,1 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D12. Zone climatique H2a (Rennes)
+
+**Résultat attendu** : effet du climat local et de son évolution.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H2a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 390,8 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,924 | 1 | 90,85 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 24,2 | 30,5 | 42,9 | 1 | 0,995 | 0,945 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 53,1 | 55,2 | 64,2 | 1 | 1 | 0,963 | 1 |
+| U0-4 | arbore | 130 | 67,1 | 68,4 | 76,7 | 1 | 1 | 0,963 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 24,2 | 30,5 | 42,9 | 1 | 0,995 | 0,945 | 0,924 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 24,2 | 30,5 | 42,9 | 1 | 0,995 | 0,945 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 53,1 | 55,2 | 64,2 | 1 | 1 | 0,963 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 67,1 | 68,4 | 76,7 | 1 | 1 | 0,963 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 46,4 | 53,4 | 62,8 | 0,931 | 0,903 | 0,866 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,4 | 157,5 | 221,1 | 252,9 | 207,4 | 206,8 | 205,3 | 203,5 | 201,7 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,3 | 270,1 | 269,8 | 269,5 | 267,8 | 265,3 | 262,7 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 390,8 | m²HE·an |
+| I_1 | 10 197,8 | m²HE·an |
+| Cnat | 3 193 | m²HE·an |
+| Cnat relatif | 0,238 |  |
+| Cnat sur 30 ans | 1 959 | m²HE·an |
+| Dette de maturité | 675,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 035,9 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D13. Zone climatique H2b (Tours)
+
+**Résultat attendu** : effet du climat local et de son évolution.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H2b, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 429,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,919 | 1 | 90,36 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 36,7 | 38,7 | 51,6 | 1 | 1 | 0,96 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 58,6 | 62,5 | 73,5 | 1 | 1 | 0,941 | 1 |
+| U0-4 | arbore | 130 | 70 | 76,1 | 82,2 | 1 | 0,991 | 0,942 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 36,7 | 38,7 | 51,6 | 1 | 1 | 0,96 | 0,919 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 36,7 | 38,7 | 51,6 | 1 | 1 | 0,96 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 58,6 | 62,5 | 73,5 | 1 | 1 | 0,941 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 70 | 76,1 | 82,2 | 1 | 0,991 | 0,942 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 56,9 | 59,9 | 76,5 | 0,939 | 0,927 | 0,86 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,4 | 157,4 | 221 | 253,4 | 208,4 | 208,2 | 206,7 | 204,6 | 202,6 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,4 | 270,3 | 270,3 | 270,2 | 268,8 | 266,4 | 264,1 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 429,1 | m²HE·an |
+| I_1 | 10 246,1 | m²HE·an |
+| Cnat | 3 183 | m²HE·an |
+| Cnat relatif | 0,237 |  |
+| Cnat sur 30 ans | 1 947,3 | m²HE·an |
+| Dette de maturité | 673,8 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 025,8 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D14. Zone climatique H2c (Agen)
+
+**Résultat attendu** : effet du climat local et de son évolution.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H2c, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 494,2 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,919 | 1 | 90,35 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 33,6 | 30,9 | 42,8 | 1 | 1 | 0,983 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 59,7 | 57 | 62,8 | 1 | 1 | 1 | 1 |
+| U0-4 | arbore | 130 | 73,1 | 71,3 | 75,8 | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 33,6 | 30,9 | 42,8 | 1 | 1 | 0,983 | 0,919 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 33,6 | 30,9 | 42,8 | 1 | 1 | 0,983 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 59,7 | 57 | 62,8 | 1 | 1 | 1 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 73,1 | 71,3 | 75,8 | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 63,9 | 59,6 | 67,6 | 0,899 | 0,916 | 0,884 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,2 | 156,6 | 219,4 | 251,5 | 206,9 | 207,2 | 207 | 206,2 | 205,5 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270 | 269,2 | 268,5 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 494,2 | m²HE·an |
+| I_1 | 10 248,1 | m²HE·an |
+| Cnat | 3 246,1 | m²HE·an |
+| Cnat relatif | 0,241 |  |
+| Cnat sur 30 ans | 1 985,6 | m²HE·an |
+| Dette de maturité | 673,8 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 089 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D15. Zone climatique H2d (Carpentras)
+
+**Résultat attendu** : effet du climat local et de son évolution.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H2d, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 519,3 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,913 | 1 | 89,81 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 74,6 | 76 | 70,5 | 1 | 1 | 1 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 94,9 | 94,9 | 90,7 | 1 | 1 | 1 | 1 |
+| U0-4 | arbore | 130 | 104,4 | 104,9 | 101,7 | 1 | 1 | 1 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 74,6 | 76 | 70,5 | 1 | 1 | 1 | 0,913 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 74,6 | 76 | 70,5 | 1 | 1 | 1 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 94,9 | 94,9 | 90,7 | 1 | 1 | 1 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 104,4 | 104,9 | 101,7 | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 104 | 102,1 | 108,4 | 0,902 | 0,91 | 0,885 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,1 | 156,3 | 219 | 251 | 206,5 | 206,7 | 206,6 | 206,2 | 205,9 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 519,3 | m²HE·an |
+| I_1 | 10 234,9 | m²HE·an |
+| Cnat | 3 284,4 | m²HE·an |
+| Cnat relatif | 0,243 |  |
+| Cnat sur 30 ans | 2 000,7 | m²HE·an |
+| Dette de maturité | 672,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 127,2 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D16. Zone climatique H3 (Marignane)
+
+**Résultat attendu** : effet du climat local et de son évolution.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H3, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 479,7 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,913 | 1 | 89,83 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 122,9 | 122,6 | 130,4 | 1 | 1 | 0,985 | 1 |
+| U0-4 | arbore | 130 | 140,5 | 139,9 | 148,3 | 1 | 1 | 0,978 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 0,913 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 122,9 | 122,6 | 130,4 | 1 | 1 | 0,985 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 140,5 | 139,9 | 148,3 | 1 | 1 | 0,978 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 123,9 | 127,1 | 144,7 | 0,917 | 0,904 | 0,834 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,2 | 156,7 | 219,6 | 251,5 | 206,8 | 206,6 | 205,5 | 204 | 202,5 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 270,4 | 269,7 | 268,6 | 267,5 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 479,7 | m²HE·an |
+| I_1 | 10 189,5 | m²HE·an |
+| Cnat | 3 290,2 | m²HE·an |
+| Cnat relatif | 0,244 |  |
+| Cnat sur 30 ans | 1 997,5 | m²HE·an |
+| Dette de maturité | 672,4 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 133,1 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D17. Prairie éclairée toute la nuit en 4 000 K
+
+**Résultat attendu** : facteur d'éclairage de 0,75 (fiche A53).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,75 | 1 | 73,77 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,75 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 65,9 | 147,8 | 204,5 | 233,9 | 196,3 | 195,7 | 193,9 | 191,7 | 189,5 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 9 586,1 | m²HE·an |
+| Cnat | 3 691 | m²HE·an |
+| Cnat relatif | 0,278 |  |
+| Cnat sur 30 ans | 2 294,1 | m²HE·an |
+| Dette de maturité | 629 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 533,9 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D18. Prairie éclairée jusqu'à 23 h en 2 700 K, luminaires à 20 m
+
+**Résultat attendu** : facteur d'éclairage proche de 1 (fiche A53).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,974 | 1 | 95,78 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,974 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 69 | 159,5 | 224,2 | 255,8 | 208 | 207,3 | 205,4 | 203 | 200,7 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 10 224,7 | m²HE·an |
+| Cnat | 3 052,3 | m²HE·an |
+| Cnat relatif | 0,23 |  |
+| Cnat sur 30 ans | 1 881,7 | m²HE·an |
+| Dette de maturité | 688,4 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -144 895,2 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D19. Prairie éclairée toute la nuit en ambre avec détection de présence (30 % du temps)
+
+**Résultat attendu** : facteur d'éclairage intermédiaire.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,963 | 1 | 94,67 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,963 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,8 | 158,9 | 223,2 | 254,7 | 207,4 | 206,7 | 204,8 | 202,5 | 200,1 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 10 192,5 | m²HE·an |
+| Cnat | 3 084,6 | m²HE·an |
+| Cnat relatif | 0,232 |  |
+| Cnat sur 30 ans | 1 902,5 | m²HE·an |
+| Dette de maturité | 685,4 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -144 927,4 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D20. Sans plan de gestion écologique
+
+**Résultat attendu** : gestion courante dès la livraison (fiche A55, C-M3).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 0 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,2 | 132,6 | 177,5 | 203,4 | 205 | 204,3 | 202,4 | 200,1 | 197,8 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 9 633,5 | m²HE·an |
+| Cnat | 3 643,6 | m²HE·an |
+| Cnat relatif | 0,274 |  |
+| Cnat sur 30 ans | 2 414,6 | m²HE·an |
+| Dette de maturité | 673,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 486,5 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D21. Plan de gestion de trente ans
+
+**Résultat attendu** : gestion courante après trente ans.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 30 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,2 | 156,5 | 219,1 | 250,1 | 251,5 | 250,7 | 248,4 | 200,1 | 197,8 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 10 985,5 | m²HE·an |
+| Cnat | 2 291,6 | m²HE·an |
+| Cnat relatif | 0,173 |  |
+| Cnat sur 30 ans | 1 154,3 | m²HE·an |
+| Dette de maturité | 673,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -144 134,4 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D22. Plan de gestion couvrant les cinquante ans
+
+**Résultat attendu** : aucune perte de gestion.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 50 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 16 | 1 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 1 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,2 | 156,5 | 219,1 | 250,1 | 251,5 | 250,7 | 248,4 | 245,5 | 242,6 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 11 800,7 | m²HE·an |
+| Cnat | 1 476,4 | m²HE·an |
+| Cnat relatif | 0,111 |  |
+| Cnat sur 30 ans | 1 154,3 | m²HE·an |
+| Dette de maturité | 673,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -143 319,2 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D23. Abandon de l'entretien à la fin du plan de dix ans
+
+**Résultat attendu** : friche puis embroussaillement des milieux herbacés (fiche A56, C-M2).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 16 | 0,84 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1,146 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,2 | 156,5 | 219,1 | 250,1 | 214,3 | 213,6 | 236,7 | 234 | 231,2 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 11 044 | m²HE·an |
+| Cnat | 2 233,1 | m²HE·an |
+| Cnat relatif | 0,168 |  |
+| Cnat sur 30 ans | 1 680,8 | m²HE·an |
+| Dette de maturité | 673,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -144 076 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D24. Chantier commencé en 2045
+
+**Résultat attendu** : climat plus chaud sur la période : facteurs hydriques plus faibles (fiche A46).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2045 ; période 2045 à 2094 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 019,6 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 67,7 | 154,9 | 216,7 | 246,7 | 201,7 | 200,6 | 198,3 | 195,9 | 193,6 |
+| V_0 x k_W, m²HE | 267,8 | 267,7 | 267,5 | 267,1 | 265,6 | 264 | 262,3 | 258,9 | 255,6 | 252,2 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 019,6 | m²HE·an |
+| I_1 | 9 879,1 | m²HE·an |
+| Cnat | 3 140,6 | m²HE·an |
+| Cnat relatif | 0,241 |  |
+| Cnat sur 30 ans | 1 948,7 | m²HE·an |
+| Dette de maturité | 673,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -144 983,4 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D25. Cas 6 en zone H3, mare sans bassin versant
+
+**Résultat attendu** : assec de printemps (fiche A49, C-W12).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 5 000 m² |
+| Emprise du bâti | 0 m² |
+| Zone biogéographique | mediterraneenne |
+| Typologie | amenagement |
+| Durée du chantier | 6 mois (d_ch = 0,5 an) |
+| Zone climatique, altitude | H3, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 0 m² |
+| Émissions des composants et du chantier | aucun bâtiment |
+| Bois | aucun |
+| Granulats | 200 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 5 000 | 0 | satisfait |
+| projet | 5 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | I1.1 | sol pleine terre | 5 000 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 1 | 1 | 0,25 |  | 1 | 1 | 0,6197 | 1 | 1 | 774,68 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| isolee_I1 | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
+
+Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 616,6 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.20 | eau | 300 | S11 | créée | 3 | 1 |
+| P2 | FA.3 | lineaire | 600 | S08 | créée | 5 | 1 |
+| P3 | VB.26 | sol pleine terre | 3 000 | S08 | créée | 5 | 1 |
+| P4 | G1.A | sol pleine terre | 800 | S08 | créée | 32 | 0,33 |
+| P5 | VB.3 | sol pleine terre | 300 | S02 | créée | 0 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0,6 | 1 | 0,625 | 0,7778 | 0,8889 | 1 | 0,6725 | 1 | 1 | 112,08 |
+| P2 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,6725 | 1 | 1 | 235,39 |
+| P3 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 1 050,79 |
+| P4 | 1 | 1 | 0,8333 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 373,6 |
+| P5 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 17,5 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| N | 4 700 | 0,6114 | 1,1 | 1 | 0,6725 |
+| isolee_P5 | 300 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | mare |  |  |  |  | 0,5 | 0,5 | 0,5 | 1 | 4 | 1 |
+| P2 | arbustif | 117 | 122,9 | 122,6 | 130,4 | 1 | 1 | 0,985 | 1 | 4 | 0,75 |
+| P3 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 | 4 | 0,533 |
+| P4 | arbore | 130 | 140,5 | 139,9 | 148,3 | 1 | 1 | 0,978 | 1 | 4 | 1 |
+| P5 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 6 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 173,4 | 689,8 | 1 017,8 | 1 314,7 | 1 387,5 | 867,7 | 894 | 925,9 | 928,1 | 924,6 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 772,7 | 769,3 | 766 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 38 616,6 | m²HE·an |
+| I_1 | 48 230,1 | m²HE·an |
+| Cnat | -9 613,5 | m²HE·an |
+| Cnat relatif | -0,249 |  |
+| Cnat sur 30 ans | -6 442,4 | m²HE·an |
+| Dette de maturité | 4 439,5 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 0 | m²HE·an |
+| Inat bois | 0 | m²HE·an |
+| Inat carrières | 171 | m²HE·an |
+| Inat | 171 | m²HE·an |
+| Snat | 9 442,5 | m²HE·an |
+| Bnat | 92,8 | points |
+| Pleine terre | 0,88 |  |
+| Imperméabilisation nette | 0 | m² |
+
+**Conformité (fiche A40)** : pas de seuil de Bnat pour cette typologie ; pleine terre 88 % pour un seuil de 15 % : atteint ; niveau du site : 2.
+
+### Cas D26. Cas 6 en zone H3, mare raccordée à 3 000 m² de prairie
+
+**Résultat attendu** : mare en eau au printemps.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 5 000 m² |
+| Emprise du bâti | 0 m² |
+| Zone biogéographique | mediterraneenne |
+| Typologie | amenagement |
+| Durée du chantier | 6 mois (d_ch = 0,5 an) |
+| Zone climatique, altitude | H3, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 0 m² |
+| Émissions des composants et du chantier | aucun bâtiment |
+| Bois | aucun |
+| Granulats | 200 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 5 000 | 0 | satisfait |
+| projet | 5 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | I1.1 | sol pleine terre | 5 000 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 1 | 1 | 0,25 |  | 1 | 1 | 0,6197 | 1 | 1 | 774,68 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| isolee_I1 | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
+
+Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 616,6 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.20 | eau | 300 | S11 | créée | 3 | 1 |
+| P2 | FA.3 | lineaire | 600 | S08 | créée | 5 | 1 |
+| P3 | VB.26 | sol pleine terre | 3 000 | S08 | créée | 5 | 1 |
+| P4 | G1.A | sol pleine terre | 800 | S08 | créée | 32 | 0,33 |
+| P5 | VB.3 | sol pleine terre | 300 | S02 | créée | 0 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0,6 | 1 | 0,625 | 0,7778 | 0,8889 | 1 | 0,6725 | 1 | 1 | 112,08 |
+| P2 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,6725 | 1 | 1 | 235,39 |
+| P3 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 1 050,79 |
+| P4 | 1 | 1 | 0,8333 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 373,6 |
+| P5 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 17,5 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| N | 4 700 | 0,6114 | 1,1 | 1 | 0,6725 |
+| isolee_P5 | 300 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | mare |  |  |  |  | 1 | 1 | 0,5 | 1 | 4 | 1 |
+| P2 | arbustif | 117 | 122,9 | 122,6 | 130,4 | 1 | 1 | 0,985 | 1 | 4 | 0,75 |
+| P3 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 | 4 | 0,533 |
+| P4 | arbore | 130 | 140,5 | 139,9 | 148,3 | 1 | 1 | 0,978 | 1 | 4 | 1 |
+| P5 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 6 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 185,2 | 730,5 | 1 070 | 1 370,7 | 1 443,6 | 923,8 | 950,1 | 975,3 | 966,2 | 951,5 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 772,7 | 769,3 | 766 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 38 616,6 | m²HE·an |
+| I_1 | 50 575,2 | m²HE·an |
+| Cnat | -11 958,6 | m²HE·an |
+| Cnat relatif | -0,31 |  |
+| Cnat sur 30 ans | -8 036,5 | m²HE·an |
+| Dette de maturité | 4 439,5 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 0 | m²HE·an |
+| Inat bois | 0 | m²HE·an |
+| Inat carrières | 171 | m²HE·an |
+| Inat | 171 | m²HE·an |
+| Snat | 11 787,6 | m²HE·an |
+| Bnat | 92,8 | points |
+| Pleine terre | 0,88 |  |
+| Imperméabilisation nette | 0 | m² |
+
+**Conformité (fiche A40)** : pas de seuil de Bnat pour cette typologie ; pleine terre 88 % pour un seuil de 15 % : atteint ; niveau du site : 2.
+
+### Cas D27. Cas 6 en zone H3, mare à fond étanche raccordée à 3 000 m² de prairie
+
+**Résultat attendu** : mare en eau toute l'année.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 5 000 m² |
+| Emprise du bâti | 0 m² |
+| Zone biogéographique | mediterraneenne |
+| Typologie | amenagement |
+| Durée du chantier | 6 mois (d_ch = 0,5 an) |
+| Zone climatique, altitude | H3, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 0 m² |
+| Émissions des composants et du chantier | aucun bâtiment |
+| Bois | aucun |
+| Granulats | 200 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 5 000 | 0 | satisfait |
+| projet | 5 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| I1 | I1.1 | sol pleine terre | 5 000 | S08 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I1 | 1 | 1 | 0,25 |  | 1 | 1 | 0,6197 | 1 | 1 | 774,68 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| isolee_I1 | 5 000 | 0,6197 | 1 | 1 | 0,6197 |
+
+Valeur du site sans projet V_0 = 774,68 m²HE ; I_0 = 38 616,6 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| P1 | VB.20 | eau | 300 | S11 | créée | 3 | 1 |
+| P2 | FA.3 | lineaire | 600 | S08 | créée | 5 | 1 |
+| P3 | VB.26 | sol pleine terre | 3 000 | S08 | créée | 5 | 1 |
+| P4 | G1.A | sol pleine terre | 800 | S08 | créée | 32 | 0,33 |
+| P5 | VB.3 | sol pleine terre | 300 | S02 | créée | 0 | 1 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | 0,6 | 1 | 0,625 | 0,7778 | 0,8889 | 1 | 0,6725 | 1 | 1 | 112,08 |
+| P2 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,6725 | 1 | 1 | 235,39 |
+| P3 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 1 050,79 |
+| P4 | 1 | 1 | 0,8333 | 0,6667 | 0,8333 | 1 | 0,6725 | 1 | 1 | 373,6 |
+| P5 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 17,5 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| N | 4 700 | 0,6114 | 1,1 | 1 | 0,6725 |
+| isolee_P5 | 300 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| I1 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | mare |  |  |  |  | 1 | 1 | 1 | 1 | 4 | 1 |
+| P2 | arbustif | 117 | 122,9 | 122,6 | 130,4 | 1 | 1 | 0,985 | 1 | 4 | 0,75 |
+| P3 | prairie | 130 | 98,2 | 101,9 | 108,6 | 1 | 1 | 0,978 | 1 | 4 | 0,533 |
+| P4 | arbore | 130 | 140,5 | 139,9 | 148,3 | 1 | 1 | 0,978 | 1 | 4 | 1 |
+| P5 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 6 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 185,2 | 730,5 | 1 070 | 1 370,7 | 1 443,6 | 923,8 | 950,1 | 982 | 984,2 | 980,7 |
+| V_0 x k_W, m²HE | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 774,7 | 772,7 | 769,3 | 766 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 38 616,6 | m²HE·an |
+| I_1 | 50 968,6 | m²HE·an |
+| Cnat | -12 352 | m²HE·an |
+| Cnat relatif | -0,32 |  |
+| Cnat sur 30 ans | -8 060 | m²HE·an |
+| Dette de maturité | 4 439,5 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 0 | m²HE·an |
+| Inat bois | 0 | m²HE·an |
+| Inat carrières | 171 | m²HE·an |
+| Inat | 171 | m²HE·an |
+| Snat | 12 181 | m²HE·an |
+| Bnat | 92,8 | points |
+| Pleine terre | 0,88 |  |
+| Imperméabilisation nette | 0 | m² |
+
+**Conformité (fiche A40)** : pas de seuil de Bnat pour cette typologie ; pleine terre 88 % pour un seuil de 15 % : atteint ; niveau du site : 2.
+
+### Cas D28. Arbres âgés à gîtes abattus en janvier
+
+**Résultat attendu** : supplément de Cnat pour les chiroptères en hibernation (fiche A57).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | janvier 2027 ; période 2027 à 2076 |
+| Mois de destruction | janvier |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,75 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 32,2 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 275,75 m²HE ; I_0 = 13 542,2 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | créée | 27 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 22 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 22 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 22 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 22 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 22 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 0 | 8,7 | 99,9 | 185 | 230,6 | 193,1 | 198,1 | 202,4 | 200,1 | 197,8 |
+| V_0 x k_W, m²HE | 275,8 | 275,8 | 275,8 | 275,6 | 274,7 | 273,9 | 273 | 270,3 | 266,8 | 263,4 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 542,2 | m²HE·an |
+| I_1 | 9 588,4 | m²HE·an |
+| Cnat | 3 986 | m²HE·an |
+| Cnat relatif | 0,294 |  |
+| Cnat sur 30 ans | 2 652,6 | m²HE·an |
+| Dette de maturité | 1 147,8 | m²HE·an |
+| Supplément pour destruction en période sensible | 32,2 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 828,8 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D29. Arbres âgés à gîtes abattus en octobre
+
+**Résultat attendu** : pas de supplément : période favorable.
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | octobre 2027 ; période 2027 à 2076 |
+| Mois de destruction | octobre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,75 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 32,2 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 275,75 m²HE ; I_0 = 13 542,2 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | créée | 27 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 16 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 0 | 44,1 | 132,5 | 195,9 | 232,1 | 193,7 | 198,6 | 202,4 | 200,1 | 197,8 |
+| V_0 x k_W, m²HE | 275,8 | 275,8 | 275,8 | 275,6 | 274,7 | 273,9 | 273 | 270,3 | 266,8 | 263,4 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 542,2 | m²HE·an |
+| I_1 | 9 710,7 | m²HE·an |
+| Cnat | 3 831,5 | m²HE·an |
+| Cnat relatif | 0,283 |  |
+| Cnat sur 30 ans | 2 498,2 | m²HE·an |
+| Dette de maturité | 1 022,3 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 55 555,6 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 141 842,9 | m²HE·an |
+| Snat | -145 674,4 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
 ## Partie 9. Conventions
 
 Une convention est une règle ou une valeur que OpenNAT fixe parce qu'aucune source ne la donne telle quelle. Chacune est numérotée, citée dans le texte de la méthode et dans la colonne `convention` des tables de `donnees/`, et soumise au Biodiversity Standard Council avec la méthode. Toutes sont « proposées, en attente de validation ».
 
-Familles : H habitats, S sols, E contexte, eau et seuils, C connectivité, N nuisances, T temps, G biodiversité grise, R relevés, I incertitude, B Bnat, P attestation au permis de construire.
+Familles : H habitats, S sols, E contexte, eau et seuils, C connectivité, N nuisances, T temps, G biodiversité grise, R relevés, I incertitude, B Bnat, P attestation au permis de construire, W bilan hydrique et climat, L éclairage, M maturation et gestion, K calendrier du chantier.
 
 Les conventions jouent le rôle des fiches d'application de la méthode Th-BCE : elles disent comment appliquer la méthode là où les sources se taisent. Le registre suit les trois catégories du registre des lectures d'OpenBCE : source muette (aucune source ne traite le point), convention de transposition (une source traite le point dans un autre cadre et la valeur est transposée), valeur de secours (une valeur est posée faute de mieux, avec une plage large).
 
@@ -53192,6 +59710,106 @@ Bnat = 100 x (somme des surfaces x coefficient de sol + bonus d'infiltration) / 
 #### C-P1
 Catégorie : convention de transposition.
 Comme l'attestation de la RE2020 au dépôt du permis de construire, qui ne demande que le Bbio, l'attestation OpenNAT au permis porte sur les seules données du plan masse : Bnat et son seuil, le taux de pleine terre et, quand le PLU impose un coefficient de biotope ou une part de pleine terre, la comparaison avec ce minimum. Si le projet ne respecte pas le minimum du PLU, l'attestation le dit et ne conclut pas à la conformité. Les indicateurs Cnat, Inat et Snat sont attestés à l'achèvement des travaux.
+
+### Bilan hydrique et climat
+
+#### C-W1
+Catégorie : convention de transposition.
+Le climat du calcul est l'année type horaire des fichiers climatiques prospectifs publiés en juin 2025 par l'ADEME, Météo-France, le CSTB et la DHUP (Licence Ouverte 2.0), à la station de référence de la zone climatique RE2020 du projet (H1a Trappes, H1b Nancy, H1c Mâcon, H2a Rennes, H2b Tours, H2c Agen, H2d Carpentras, H3 Marignane). La zone est celle du récapitulatif RE2020. Les fichiers météorologiques conventionnels de la RE2020 ne sont pas utilisés : le ministère en réserve l'usage au calcul réglementaire RE2020. La température est corrigée de l'altitude du site par le gradient de l'atmosphère type (0,0065 K par mètre, norme ISO 2533) et la pression ramenée à cette altitude.
+
+#### C-W2
+Catégorie : convention de transposition.
+L'évapotranspiration de référence horaire suit l'équation 53 de la FAO-56 (gazon de référence, résistance de surface de 70 s/m). Le rayonnement net suit les équations 37 à 40, la hauteur du soleil étant celle du fichier climatique ; la nuit, le rapport du rayonnement global au rayonnement par ciel clair garde la dernière valeur relevée avec un soleil à plus de 10° au-dessus de l'horizon. Contrôle : sur l'année type France +2 °C, l'évapotranspiration annuelle calculée vaut de 0,86 à 1,00 fois l'ETP Penman normale 1991-2020 de Météo-France aux huit stations (0,93 en moyenne), écart attendu entre la formule Penman de Météo-France et celle de Penman-Monteith. L'ETP de Météo-France sert au contrôle et n'entre pas dans le calcul.
+
+#### C-W3
+Catégorie : valeur de secours.
+La note technique des fichiers prospectifs indique que leurs cumuls de pluie sont proches des maxima des simulations, pas des médianes. Les pluies horaires de chaque année type sont donc recalées, mois par mois, sur la normale 1991-2020 de la station (données climatologiques de base mensuelles de Météo-France, Licence Ouverte 2.0) ; la chronologie des averses est conservée. Le cumul de pluie ne varie pas avec le réchauffement, la carte de la TRACC laissant incertain le signe de son évolution sur la plupart du territoire : le réchauffement agit par l'évapotranspiration. Cette convention sous-estime probablement les sécheresses d'été futures ; elle sera revue avec le conseil quand un jeu de pluies médianes par niveau de réchauffement sera publié.
+
+#### C-W4
+Catégorie : valeur de secours.
+La réserve utile d'un sol en pleine terre se calcule avec les teneurs en eau à la capacité au champ et au point de flétrissement du tableau 19 de la FAO-56 (milieu de plage) pour la classe de texture déclarée par le bureau d'études, et avec la profondeur d'enracinement, bornée par la profondeur de sol. À défaut de déclaration, le sol est un limon d'un mètre.
+
+#### C-W5
+Catégorie : valeur de secours.
+L'eau utile d'un substrat de toiture ou de dalle vaut 0,20 m³ par m³ (plage 0,12 à 0,30) quand le fabricant ne la déclare pas. La réserve vaut l'épaisseur du substrat multipliée par cette valeur ; la couche de drainage n'est pas comptée.
+
+#### C-W6
+Catégorie : convention de transposition.
+Chaque unité végétalisée appartient à un groupe hydrique (fiche A47) : gazon, prairie, végétation xérophile, arbustif, arboré, conifères, toiture extensive, milieu humide alimenté par la pluie, mare. Les coefficients culturaux en saison et hors saison, la profondeur racinaire et la fraction de réserve consommée sans réduction de la transpiration viennent des tableaux 12 et 22 de la FAO-56, par la culture la plus proche (gazon de saison fraîche, pâturage extensif, petits fruits arbustifs, vergers avec couvert, conifères, roselière, eau libre de moins de 2 m). Les milieux humides et les cours d'eau alimentés par une nappe ou un cours d'eau, les surfaces minérales, les façades et les bassins à eau traitée n'ont pas de bilan. La toiture extensive reçoit des valeurs de secours, la FAO-56 n'en donnant pas.
+
+#### C-W7
+Catégorie : convention de transposition.
+La saison de végétation est l'ensemble des heures où la moyenne des températures des six jours précédents dépasse 5 °C, d'après l'indice de durée de la saison de croissance de l'ETCCDI. Le coefficient cultural de saison s'applique pendant la saison, celui de repos en dehors.
+
+#### C-W8
+Catégorie : convention de transposition.
+Le stress hydrique d'une unité est l'indice de Granier et al. (1999), établi pour les peuplements forestiers : somme, sur la saison de végétation, de (0,4 - REW) / 0,4 quand la réserve extractible relative REW passe sous 0,4. Il est calculé au pas horaire et exprimé en jours-équivalents. Il est étendu à tous les groupes hydriques.
+
+#### C-W9
+Catégorie : valeur de secours.
+Le facteur hydrique vaut k_W = max(0,5 ; 1 - beta x (IS - IS_ref - 5) / 100), où IS_ref est l'indice du même groupe dans la situation de référence de la zone : limon d'un mètre (substrat de 10 cm pour une toiture extensive), sans arrosage ni apport, année type France +2 °C. La végétation d'une zone est adaptée à son climat : seul compte le stress que le projet ajoute par ses choix (substrat mince, sol pauvre ou peu profond) et que le réchauffement ajoute au fil de la période. La sensibilité beta va de 0,3 (végétation xérophile, toiture extensive) à 1,0 (milieu humide alimenté par la pluie) par 100 jours-équivalents ; la tolérance est de 5 jours-équivalents ; le plancher de 0,5 est celui du facteur d'état (C-H2).
+
+#### C-W10
+Catégorie : valeur de secours.
+Une unité déclarée arrosée reçoit chaque nuit, en saison de végétation, l'eau qui ramène sa réserve à la capacité au champ dès que la réserve extractible relative passe sous 0,5. Le volume d'arrosage annuel moyen de la période, en m³, est un indicateur complémentaire du RSNat ; il n'entre ni dans Cnat ni dans Snat.
+
+#### C-W11
+Catégorie : valeur de secours.
+Une mare a par défaut 0,8 m de profondeur et un fond argileux qui laisse s'infiltrer 0,3 mm par jour (fond étanche : 0 ; fond naturel : 1 mm par jour). Elle reçoit la pluie tombée sur elle, 90 % de celle tombée sur les surfaces imperméables raccordées et 10 % de celle tombée sur les sols perméables raccordés ; elle perd par évaporation 1,05 fois l'évapotranspiration de référence (eau libre de moins de 2 m, FAO-56). La noue et le jardin de pluie reçoivent les mêmes apports dans leur réserve en eau.
+
+#### C-W12
+Catégorie : valeur de secours.
+Une mare à sec à un moment quelconque entre le 1er mars et le 30 juin manque la reproduction des amphibiens de l'année : sa valeur est multipliée par 0,5 pour l'année type concernée. Un assec de fin d'été n'est pas pénalisé, il reproduit le fonctionnement des mares temporaires.
+
+#### C-W13
+Catégorie : convention de transposition.
+Chaque année civile de la période reçoit le niveau de réchauffement de la trajectoire de référence pour l'adaptation au changement climatique (TRACC, arrêté du 23 janvier 2026) : +2 °C en 2030, +2,7 °C en 2050, +4 °C en 2100, interpolation linéaire entre ces jalons, +2 °C avant 2030. Les grandeurs calculées sur les trois années types (facteur hydrique, arrosage) sont interpolées linéairement en niveau de réchauffement. La période commence l'année de début du chantier (C-K3). Le climat agit sur l'état initial comme sur le projet : la référence sans projet subit le même réchauffement.
+
+### Éclairage
+
+#### C-L1
+Catégorie : valeur de secours.
+Le facteur d'éclairage d'une unité vaut k_L = 1 - 0,25 x x_nuit x s x g, où x_nuit est la part des heures de nuit de la saison d'activité des chiroptères pendant lesquelles l'éclairage est allumé, s le facteur spectral et g le facteur de distance. La perte maximale de 0,25 reproduit le facteur de 0,75 de l'éclairage non conforme de la v1 (C-N1) : un éclairage froid allumé toute la nuit au pied de l'unité. Un éclairage conforme à l'arrêté du 27 décembre 2018 (3 000 K, extinction à 1 h) donne 0,916, contre 0,9 en v1. Une détection de présence multiplie x_nuit par la part de temps allumé déclarée.
+
+#### C-L2
+Catégorie : valeur de secours.
+La saison d'activité des chiroptères va d'avril à octobre. Une heure est de nuit quand le soleil est sous l'horizon à la station de référence (hauteur du soleil du fichier climatique). L'heure légale vaut l'heure universelle plus deux heures d'avril à octobre et plus une heure le reste de l'année, à une semaine près des dates du changement d'heure.
+
+#### C-L3
+Catégorie : convention de transposition.
+Le facteur de distance vaut 1 jusqu'à 10 m du luminaire le plus proche, 0 au-delà de 50 m, et décroît linéairement entre les deux, d'après les distances d'attraction et d'évitement mesurées par Azam et al. (2018) sur six espèces et deux genres de chiroptères.
+
+#### C-L4
+Catégorie : valeur de secours.
+Le facteur spectral croît avec la température de couleur : 0,5 en ambre (1 800 K), 0,6 à 2 200 K, 0,7 à 2 400 K, 0,8 à 2 700 K, 0,9 à 3 000 K, 1 à 4 000 K et au-delà, interpolé entre ces points. Les points de 2 400, 2 700 et 3 000 K sont les plafonds de l'arrêté du 27 décembre 2018 ; la croissance suit le constat de Longcore et al. (2018), qui attribuent plus d'effets aux sources riches en bleu ; l'échelonnement est conventionnel.
+
+### Maturation et gestion
+
+#### C-M1
+Catégorie : convention de transposition.
+La maturation d'un milieu créé suit une courbe de Chapman-Richards (Richards, 1959 ; Pienaar et Turnbull, 1973) ramenée à 1 au délai de maturité d de la métrique anglaise : g(tau) = [(1 - e^(-3 tau / d)) / (1 - e^(-3))]^c. L'exposant c vaut 1 pour un milieu herbacé (courbe concave : une prairie semée donne vite la plus grande part de sa valeur), 2 pour un milieu arbustif, 3 pour un milieu arboré (courbe en S : un boisement planté vaut peu les premières années). Cette courbe remplace la droite de la première rédaction ; le délai et la difficulté restent ceux de la métrique anglaise.
+
+#### C-M2
+Catégorie : convention de transposition.
+Un milieu herbacé dont l'entretien cesse prend, après deux ans, la valeur de sa variante abandonnée dans l'annexe 2 de la BKompV (rapport du type « brachgefallen » au type exploité, onze couples de 0,73 à 0,91, moyenne appliquée aux types sans couple), puis devient après quinze ans une friche arbustive (VB.9) en état moyen (score 0,75). Les milieux ligneux et aquatiques ne sont pas soumis à cette succession dans la présente version.
+
+#### C-M3
+Catégorie : valeur de secours.
+Le plan de gestion écologique déclaré couvre un nombre d'années compté depuis la livraison. Pendant le plan, chaque unité garde sa valeur. Ensuite, sauf déclaration d'un autre régime, l'unité passe en gestion courante : une prairie ou une pelouse sèche est tondue comme une pelouse d'agrément et prend la valeur intrinsèque de VB.5 ; une haie est taillée chaque année et garde la valeur du stade jeune de la BKompV ; les jardins, les pelouses, les toitures et les autres milieux ne changent pas. L'état initial garde sa gestion actuelle sur toute la période.
+
+### Calendrier du chantier
+
+#### C-K1
+Catégorie : valeur de secours.
+La destruction d'une unité de l'état initial pendant une période sensible ajoute à Cnat sa valeur pendant une année, multipliée par la sensibilité du mois de destruction : oiseaux nicheurs (ligneux, prairies et friches) du 16 mars au 15 août, d'après la BCAE 8 de la conditionnalité de la PAC ; chiroptères (arbres âgés, gîtes déclarés) de novembre à février (hibernation) et de mai à août (mise bas) ; amphibiens (mares, fossés, milieux humides) de février à juin. Le mois de destruction est celui déclaré, à défaut le premier mois du chantier.
+
+#### C-K2
+Catégorie : valeur de secours.
+Les plantations et les semis se font de novembre à mars, au plus tôt deux mois avant la fin du chantier : la maturation d'un milieu planté ou semé commence au premier mois favorable. Un milieu sans délai de maturité (revêtement, jardin d'un an et moins) est livré à la fin du chantier.
+
+#### C-K3
+Catégorie : valeur de secours.
+La période de 50 ans commence au premier mois du chantier, déclaré par son année et son mois (à défaut, janvier 2027). Les trajectoires se calculent au pas mensuel puis se moyennent par année.
 
 ## Partie 10. Bibliographie
 

@@ -3826,7 +3826,449 @@ Le libellé de chaque critère est dans la colonne « justification » de la tab
 | EB1 | seuil bon | Score total minimal du bon état |
 | EB1 | seuil moyen | Score total minimal de l'état moyen |
 
-### 2.11 Extraits des sources primaires utilisés
+### 2.11 Stations climatiques de référence (`climat.csv`)
+
+Stations de référence des huit zones climatiques, normales mensuelles de pluie 1991-2020 sur lesquelles les années types sont recalées, ETP Penman de contrôle (module W, fiches A43 à A45).
+
+| Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
+|---|---|---|---|---|---|---|---|
+| H1a | station latitude | 48,7743 | degré | 48,7743 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station TRAPPES |
+| H1a | station longitude | 2,0098 | degré | 2,0098 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station TRAPPES |
+| H1a | station altitude | 167 | m | 167 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station TRAPPES |
+| H1a | pluie normale m01 | 56,2 | mm/mois | 28,1 à 84,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m02 | 48,9 | mm/mois | 24,4 à 73,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m03 | 50,1 | mm/mois | 25,1 à 75,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m04 | 49,9 | mm/mois | 25 à 74,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m05 | 66 | mm/mois | 33 à 99 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m06 | 57 | mm/mois | 28,5 à 85,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m07 | 56,2 | mm/mois | 28,1 à 84,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m08 | 56,1 | mm/mois | 28 à 84,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m09 | 49,8 | mm/mois | 24,9 à 74,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m10 | 61,8 | mm/mois | 30,9 à 92,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m11 | 61,2 | mm/mois | 30,6 à 91,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | pluie normale m12 | 72 | mm/mois | 36 à 108 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1a | etp penman normale | 772 | mm/an | 695 à 849 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_78, poste 78621001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H1b | station latitude | 48,6878 | degré | 48,6878 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station NANCY |
+| H1b | station longitude | 6,2215 | degré | 6,2215 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station NANCY |
+| H1b | station altitude | 212 | m | 212 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station NANCY |
+| H1b | pluie normale m01 | 64,4 | mm/mois | 32,2 à 96,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m02 | 54,8 | mm/mois | 27,4 à 82,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m03 | 54,1 | mm/mois | 27,1 à 81,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m04 | 44,3 | mm/mois | 22,2 à 66,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m05 | 67,9 | mm/mois | 33,9 à 101,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m06 | 56 | mm/mois | 28 à 83,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m07 | 63 | mm/mois | 31,5 à 94,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m08 | 67,2 | mm/mois | 33,6 à 100,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m09 | 61,1 | mm/mois | 30,6 à 91,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m10 | 66,5 | mm/mois | 33,3 à 99,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m11 | 68,9 | mm/mois | 34,5 à 103,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | pluie normale m12 | 78,1 | mm/mois | 39 à 117,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1b | etp penman normale | 819 | mm/an | 737 à 901 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_54, poste 54526001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H1c | station latitude | 46,2945 | degré | 46,2945 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station MACON |
+| H1c | station longitude | 4,7943 | degré | 4,7943 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station MACON |
+| H1c | station altitude | 219 | m | 219 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station MACON |
+| H1c | pluie normale m01 | 58,1 | mm/mois | 29,1 à 87,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m02 | 48,9 | mm/mois | 24,4 à 73,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m03 | 49,1 | mm/mois | 24,6 à 73,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m04 | 65,5 | mm/mois | 32,8 à 98,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m05 | 75,7 | mm/mois | 37,9 à 113,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m06 | 69,8 | mm/mois | 34,9 à 104,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m07 | 72,2 | mm/mois | 36,1 à 108,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m08 | 72,6 | mm/mois | 36,3 à 108,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m09 | 71,1 | mm/mois | 35,5 à 106,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m10 | 91,1 | mm/mois | 45,5 à 136,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m11 | 92,8 | mm/mois | 46,4 à 139,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | pluie normale m12 | 66,8 | mm/mois | 33,4 à 100,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H1c | etp penman normale | 895 | mm/an | 805 à 984 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_71, poste 71105001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H2a | station latitude | 48,0688 | degré | 48,0688 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station RENNES |
+| H2a | station longitude | -1,764 | degré | -1,764 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station RENNES |
+| H2a | station altitude | 36 | m | 36 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station RENNES |
+| H2a | pluie normale m01 | 66,6 | mm/mois | 33,3 à 100 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m02 | 51,6 | mm/mois | 25,8 à 77,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m03 | 48,9 | mm/mois | 24,4 à 73,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m04 | 51,2 | mm/mois | 25,6 à 76,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m05 | 58,1 | mm/mois | 29 à 87,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m06 | 50,9 | mm/mois | 25,4 à 76,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m07 | 44 | mm/mois | 22 à 66 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m08 | 43,5 | mm/mois | 21,7 à 65,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m09 | 56,6 | mm/mois | 28,3 à 85 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m10 | 73,1 | mm/mois | 36,5 à 109,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m11 | 73,2 | mm/mois | 36,6 à 109,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | pluie normale m12 | 73,3 | mm/mois | 36,6 à 109,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2a | etp penman normale | 839 | mm/an | 755 à 922 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_35, poste 35281001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H2b | station latitude | 47,4445 | degré | 47,4445 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station TOURS |
+| H2b | station longitude | 0,7273 | degré | 0,7273 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station TOURS |
+| H2b | station altitude | 108 | m | 108 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station TOURS |
+| H2b | pluie normale m01 | 63 | mm/mois | 31,5 à 94,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m02 | 52,4 | mm/mois | 26,2 à 78,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m03 | 48,7 | mm/mois | 24,3 à 73 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m04 | 53 | mm/mois | 26,5 à 79,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m05 | 57,7 | mm/mois | 28,8 à 86,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m06 | 53,2 | mm/mois | 26,6 à 79,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m07 | 46,6 | mm/mois | 23,3 à 69,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m08 | 44 | mm/mois | 22 à 66 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m09 | 51,8 | mm/mois | 25,9 à 77,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m10 | 66 | mm/mois | 33 à 98,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m11 | 69,3 | mm/mois | 34,7 à 104 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | pluie normale m12 | 72,1 | mm/mois | 36 à 108,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2b | etp penman normale | 901 | mm/an | 811 à 991 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_37, poste 37179001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H2c | station latitude | 44,1721 | degré | 44,1721 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station AGEN |
+| H2c | station longitude | 0,5946 | degré | 0,5946 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station AGEN |
+| H2c | station altitude | 58 | m | 58 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station AGEN |
+| H2c | pluie normale m01 | 59,6 | mm/mois | 29,8 à 89,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m02 | 44,2 | mm/mois | 22,1 à 66,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m03 | 49 | mm/mois | 24,5 à 73,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m04 | 70 | mm/mois | 35 à 104,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m05 | 73,3 | mm/mois | 36,6 à 109,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m06 | 62,2 | mm/mois | 31,1 à 93,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m07 | 49,4 | mm/mois | 24,7 à 74,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m08 | 50,4 | mm/mois | 25,2 à 75,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m09 | 60,6 | mm/mois | 30,3 à 90,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m10 | 58,7 | mm/mois | 29,4 à 88,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m11 | 70,1 | mm/mois | 35 à 105,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | pluie normale m12 | 60,7 | mm/mois | 30,4 à 91,1 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2c | etp penman normale | 940 | mm/an | 846 à 1 034 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_47, poste 47091001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H2d | station latitude | 44,0836 | degré | 44,0836 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station CARPENTRAS |
+| H2d | station longitude | 5,216 | degré | 5,216 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station CARPENTRAS |
+| H2d | station altitude | 98 | m | 98 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station CARPENTRAS |
+| H2d | pluie normale m01 | 46,3 | mm/mois | 23,2 à 69,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m02 | 34,2 | mm/mois | 17,1 à 51,3 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m03 | 43,2 | mm/mois | 21,6 à 64,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m04 | 61,1 | mm/mois | 30,5 à 91,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m05 | 55,6 | mm/mois | 27,8 à 83,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m06 | 41,7 | mm/mois | 20,9 à 62,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m07 | 25,7 | mm/mois | 12,9 à 38,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m08 | 40,6 | mm/mois | 20,3 à 60,9 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m09 | 98,7 | mm/mois | 49,3 à 148 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m10 | 87,6 | mm/mois | 43,8 à 131,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m11 | 90,8 | mm/mois | 45,4 à 136,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | pluie normale m12 | 41,9 | mm/mois | 20,9 à 62,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H2d | etp penman normale | 1 140 | mm/an | 1 026 à 1 254 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_84, poste 84031001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+| H3 | station latitude | 43,4376 | degré | 43,4376 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station MARIGNANE |
+| H3 | station longitude | 5,216 | degré | 5,216 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station MARIGNANE |
+| H3 | station altitude | 9 | m | 9 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), note technique Météo-France, ADEME (version 3.0 du 23 mai 2025), tableau des stations de référence, station MARIGNANE |
+| H3 | pluie normale m01 | 47,1 | mm/mois | 23,6 à 70,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m02 | 29,8 | mm/mois | 14,9 à 44,6 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m03 | 29,5 | mm/mois | 14,7 à 44,2 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m04 | 51,6 | mm/mois | 25,8 à 77,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m05 | 37,7 | mm/mois | 18,8 à 56,5 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m06 | 27,9 | mm/mois | 13,9 à 41,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m07 | 11,1 | mm/mois | 5,6 à 16,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (29 années valides) |
+| H3 | pluie normale m08 | 25,8 | mm/mois | 12,9 à 38,7 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m09 | 82 | mm/mois | 41 à 123 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m10 | 73,3 | mm/mois | 36,7 à 110 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m11 | 75,9 | mm/mois | 37,9 à 113,8 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | pluie normale m12 | 40,9 | mm/mois | 20,5 à 61,4 | primaire | C-W3 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ RR, moyenne 1991-2020 (30 années valides) |
+| H3 | etp penman normale | 1 377 | mm/an | 1 239 à 1 515 | primaire | C-W2 | Météo-France, données climatologiques de base mensuelles, fichier MENSQ_13, poste 13054001, champ ETP, somme des moyennes mensuelles 1991-2020 |
+
+### 2.12 Bilan hydrique (`hydrique.csv`)
+
+Textures et réserves utiles, substrats, groupes hydriques, saison de végétation, stress hydrique, arrosage, mares (module W, fiches A47 à A50).
+
+| Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
+|---|---|---|---|---|---|---|---|
+| sable | theta capacite champ | 0,12 | m³/m³ | 0,07 à 0,17 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Sand », milieu de la plage |
+| sable | theta point fletrissement | 0,045 | m³/m³ | 0,02 à 0,07 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Sand », milieu de la plage |
+| sable_limoneux | theta capacite champ | 0,15 | m³/m³ | 0,11 à 0,19 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Loamy sand », milieu de la plage |
+| sable_limoneux | theta point fletrissement | 0,065 | m³/m³ | 0,03 à 0,1 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Loamy sand », milieu de la plage |
+| limon_sableux | theta capacite champ | 0,23 | m³/m³ | 0,18 à 0,28 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Sandy loam », milieu de la plage |
+| limon_sableux | theta point fletrissement | 0,11 | m³/m³ | 0,06 à 0,16 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Sandy loam », milieu de la plage |
+| limon | theta capacite champ | 0,25 | m³/m³ | 0,2 à 0,3 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Loam », milieu de la plage |
+| limon | theta point fletrissement | 0,12 | m³/m³ | 0,07 à 0,17 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Loam », milieu de la plage |
+| limon_silteux | theta capacite champ | 0,29 | m³/m³ | 0,22 à 0,36 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silt loam », milieu de la plage |
+| limon_silteux | theta point fletrissement | 0,15 | m³/m³ | 0,09 à 0,21 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silt loam », milieu de la plage |
+| silt | theta capacite champ | 0,32 | m³/m³ | 0,28 à 0,36 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silt », milieu de la plage |
+| silt | theta point fletrissement | 0,17 | m³/m³ | 0,12 à 0,22 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silt », milieu de la plage |
+| limon_argilo_silteux | theta capacite champ | 0,335 | m³/m³ | 0,3 à 0,37 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silt clay loam », milieu de la plage |
+| limon_argilo_silteux | theta point fletrissement | 0,205 | m³/m³ | 0,17 à 0,24 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silt clay loam », milieu de la plage |
+| argile_silteuse | theta capacite champ | 0,36 | m³/m³ | 0,3 à 0,42 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silty clay », milieu de la plage |
+| argile_silteuse | theta point fletrissement | 0,23 | m³/m³ | 0,17 à 0,29 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Silty clay », milieu de la plage |
+| argile | theta capacite champ | 0,36 | m³/m³ | 0,32 à 0,4 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Clay », milieu de la plage |
+| argile | theta point fletrissement | 0,22 | m³/m³ | 0,2 à 0,24 | primaire | C-W4 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 19, ligne « Clay », milieu de la plage |
+| * | profondeur sol defaut | 1 | m | 0,5 à 1,5 | convention | C-W4 | OpenNAT, valeur de secours |
+| substrat | reserve volumique | 0,2 | m³/m³ | 0,12 à 0,3 | convention | C-W5 | OpenNAT, valeur de secours pour les substrats de toiture et de dalle |
+| gazon | kc saison | 0,95 | sans unité | 0,81 à 1,09 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Turf grass, cool season » (Kc ini 0,90, Kc mi 0,95) ; tableau 22 « Turf grass, cool season » (Zr 0,5 à 1,0 m, p 0,40) |
+| gazon | kc hors saison | 0,9 | sans unité | 0,72 à 1,08 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Turf grass, cool season » (Kc ini 0,90, Kc mi 0,95) ; tableau 22 « Turf grass, cool season » (Zr 0,5 à 1,0 m, p 0,40) |
+| gazon | profondeur racinaire | 0,75 | m | 0,5 à 1 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Turf grass, cool season » (Kc ini 0,90, Kc mi 0,95) ; tableau 22 « Turf grass, cool season » (Zr 0,5 à 1,0 m, p 0,40) |
+| gazon | fraction p | 0,4 | fraction | 0,3 à 0,5 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Turf grass, cool season » (Kc ini 0,90, Kc mi 0,95) ; tableau 22 « Turf grass, cool season » (Zr 0,5 à 1,0 m, p 0,40) |
+| prairie | kc saison | 0,75 | sans unité | 0,64 à 0,86 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Grazing pasture, extensive grazing » (Kc ini 0,30, Kc mi 0,75) ; tableau 22 « Grazing pasture, extensive » (Zr 0,5 à 1,5 m, p 0,60) |
+| prairie | kc hors saison | 0,3 | sans unité | 0,24 à 0,36 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Grazing pasture, extensive grazing » (Kc ini 0,30, Kc mi 0,75) ; tableau 22 « Grazing pasture, extensive » (Zr 0,5 à 1,5 m, p 0,60) |
+| prairie | profondeur racinaire | 1 | m | 0,67 à 1,33 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Grazing pasture, extensive grazing » (Kc ini 0,30, Kc mi 0,75) ; tableau 22 « Grazing pasture, extensive » (Zr 0,5 à 1,5 m, p 0,60) |
+| prairie | fraction p | 0,6 | fraction | 0,5 à 0,7 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Grazing pasture, extensive grazing » (Kc ini 0,30, Kc mi 0,75) ; tableau 22 « Grazing pasture, extensive » (Zr 0,5 à 1,5 m, p 0,60) |
+| xerophile | kc saison | 0,75 | sans unité | 0,64 à 0,86 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, mêmes valeurs que le groupe prairie (tableaux 12 et 22, « Grazing pasture, extensive ») |
+| xerophile | kc hors saison | 0,3 | sans unité | 0,24 à 0,36 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, mêmes valeurs que le groupe prairie (tableaux 12 et 22, « Grazing pasture, extensive ») |
+| xerophile | profondeur racinaire | 1 | m | 0,67 à 1,33 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, mêmes valeurs que le groupe prairie (tableaux 12 et 22, « Grazing pasture, extensive ») |
+| xerophile | fraction p | 0,6 | fraction | 0,5 à 0,7 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, mêmes valeurs que le groupe prairie (tableaux 12 et 22, « Grazing pasture, extensive ») |
+| arbustif | kc saison | 1,05 | sans unité | 0,89 à 1,21 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Berries (bushes) » (Kc ini 0,30, Kc mi 1,05) ; tableau 22 « Berries (bushes) » (Zr 0,6 à 1,2 m, p 0,50) |
+| arbustif | kc hors saison | 0,3 | sans unité | 0,24 à 0,36 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Berries (bushes) » (Kc ini 0,30, Kc mi 1,05) ; tableau 22 « Berries (bushes) » (Zr 0,6 à 1,2 m, p 0,50) |
+| arbustif | profondeur racinaire | 0,9 | m | 0,6 à 1,2 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Berries (bushes) » (Kc ini 0,30, Kc mi 1,05) ; tableau 22 « Berries (bushes) » (Zr 0,6 à 1,2 m, p 0,50) |
+| arbustif | fraction p | 0,5 | fraction | 0,4 à 0,6 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Berries (bushes) » (Kc ini 0,30, Kc mi 1,05) ; tableau 22 « Berries (bushes) » (Zr 0,6 à 1,2 m, p 0,50) |
+| arbore | kc saison | 1,2 | sans unité | 1,02 à 1,3 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Apples, Cherries, Pears, active ground cover, killing frost » (Kc ini 0,50, Kc mi 1,20) ; tableau 22 « Apples, cherries, pears » (Zr 1,0 à 2,0 m, p 0,50) |
+| arbore | kc hors saison | 0,5 | sans unité | 0,4 à 0,6 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Apples, Cherries, Pears, active ground cover, killing frost » (Kc ini 0,50, Kc mi 1,20) ; tableau 22 « Apples, cherries, pears » (Zr 1,0 à 2,0 m, p 0,50) |
+| arbore | profondeur racinaire | 1,5 | m | 1,01 à 2 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Apples, Cherries, Pears, active ground cover, killing frost » (Kc ini 0,50, Kc mi 1,20) ; tableau 22 « Apples, cherries, pears » (Zr 1,0 à 2,0 m, p 0,50) |
+| arbore | fraction p | 0,5 | fraction | 0,4 à 0,6 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Apples, Cherries, Pears, active ground cover, killing frost » (Kc ini 0,50, Kc mi 1,20) ; tableau 22 « Apples, cherries, pears » (Zr 1,0 à 2,0 m, p 0,50) |
+| conifere | kc saison | 1 | sans unité | 0,85 à 1,15 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Conifer Trees » (Kc 1,00) ; tableau 22 « Conifer trees » (Zr 1,0 à 1,5 m, p 0,70) |
+| conifere | kc hors saison | 1 | sans unité | 0,8 à 1,2 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Conifer Trees » (Kc 1,00) ; tableau 22 « Conifer trees » (Zr 1,0 à 1,5 m, p 0,70) |
+| conifere | profondeur racinaire | 1,25 | m | 0,84 à 1,66 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Conifer Trees » (Kc 1,00) ; tableau 22 « Conifer trees » (Zr 1,0 à 1,5 m, p 0,70) |
+| conifere | fraction p | 0,7 | fraction | 0,6 à 0,8 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Conifer Trees » (Kc 1,00) ; tableau 22 « Conifer trees » (Zr 1,0 à 1,5 m, p 0,70) |
+| humide_pluie | kc saison | 1,2 | sans unité | 1,02 à 1,3 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Reed Swamp, moist soil » (Kc ini 0,90, Kc mi 1,20) ; profondeur et fraction p fixées par convention |
+| humide_pluie | kc hors saison | 0,9 | sans unité | 0,72 à 1,08 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Reed Swamp, moist soil » (Kc ini 0,90, Kc mi 1,20) ; profondeur et fraction p fixées par convention |
+| humide_pluie | profondeur racinaire | 0,5 | m | 0,34 à 0,67 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Reed Swamp, moist soil » (Kc ini 0,90, Kc mi 1,20) ; profondeur et fraction p fixées par convention |
+| humide_pluie | fraction p | 0,3 | fraction | 0,2 à 0,4 | transposée | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Reed Swamp, moist soil » (Kc ini 0,90, Kc mi 1,20) ; profondeur et fraction p fixées par convention |
+| mare | kc saison | 1,05 | sans unité | 0,89 à 1,21 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Open Water, < 2 m depth » (Kc 1,05) |
+| mare | kc hors saison | 1,05 | sans unité | 0,84 à 1,26 | primaire | C-W6 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, tableau 12 « Open Water, < 2 m depth » (Kc 1,05) |
+| toiture_extensive | kc saison | 0,5 | sans unité | 0,3 à 0,8 | convention | C-W6 | OpenNAT, valeur de secours |
+| toiture_extensive | kc hors saison | 0,3 | sans unité | 0,2 à 0,5 | convention | C-W6 | OpenNAT, valeur de secours |
+| toiture_extensive | profondeur racinaire | 0,15 | m | 0,1 à 0,15 | convention | C-W6 | OpenNAT, bornée par l'épaisseur du substrat |
+| toiture_extensive | fraction p | 0,6 | fraction | 0,5 à 0,7 | convention | C-W6 | OpenNAT, valeur de secours |
+| * | seuil rew stress | 0,4 | fraction | 0,3 à 0,5 | transposée | C-W8 | Granier A., Bréda N., Biron P., Villette S. (1999), A lumped water balance model to evaluate duration and intensity of drought constraints in forest stands, Ecological Modelling 116, seuil de réserve extractible relative sous lequel la transpiration est réduite (REW < 0,4) et indice de stress IS = somme de (0,4 - REW) / 0,4 |
+| * | seuil saison temperature | 5 | °C | 5 | transposée | C-W7 | ETCCDI, indices climatiques extrêmes, indice GSL (durée de la saison de croissance) : température moyenne quotidienne supérieure à 5 °C |
+| * | seuil saison jours | 6 | jours | 6 | transposée | C-W7 | ETCCDI, indices climatiques extrêmes, indice GSL : six jours consécutifs |
+| * | tolerance stress | 5 | jours-équivalents | 0 à 15 | convention | C-W9 | OpenNAT, valeur de secours |
+| gazon | sensibilite stress | 0,5 | par 100 jours-équivalents | 0,25 à 0,75 | convention | C-W9 | OpenNAT, valeur de secours |
+| prairie | sensibilite stress | 0,4 | par 100 jours-équivalents | 0,2 à 0,6 | convention | C-W9 | OpenNAT, valeur de secours |
+| xerophile | sensibilite stress | 0,3 | par 100 jours-équivalents | 0,15 à 0,45 | convention | C-W9 | OpenNAT, valeur de secours |
+| arbustif | sensibilite stress | 0,6 | par 100 jours-équivalents | 0,3 à 0,9 | convention | C-W9 | OpenNAT, valeur de secours |
+| arbore | sensibilite stress | 0,8 | par 100 jours-équivalents | 0,4 à 1,2 | convention | C-W9 | OpenNAT, valeur de secours |
+| conifere | sensibilite stress | 0,8 | par 100 jours-équivalents | 0,4 à 1,2 | convention | C-W9 | OpenNAT, valeur de secours |
+| toiture_extensive | sensibilite stress | 0,3 | par 100 jours-équivalents | 0,15 à 0,45 | convention | C-W9 | OpenNAT, valeur de secours |
+| humide_pluie | sensibilite stress | 1 | par 100 jours-équivalents | 0,5 à 1,5 | convention | C-W9 | OpenNAT, valeur de secours |
+| * | facteur hydrique minimum | 0,5 | sans unité | 0,3 à 0,7 | convention | C-W9 | OpenNAT, valeur de secours |
+| * | seuil rew arrosage | 0,5 | fraction | 0,4 à 0,6 | convention | C-W10 | OpenNAT, valeur de secours |
+| * | profondeur mare defaut | 0,8 | m | 0,5 à 1,2 | convention | C-W11 | OpenNAT, valeur de secours |
+| fond_etanche | infiltration | 0 | mm/jour | 0 à 0,2 | convention | C-W11 | OpenNAT, valeur de secours |
+| fond_argile | infiltration | 0,3 | mm/jour | 0,1 à 1 | convention | C-W11 | OpenNAT, valeur de secours |
+| fond_naturel | infiltration | 1 | mm/jour | 0,5 à 5 | convention | C-W11 | OpenNAT, valeur de secours |
+| * | coefficient ruissellement | 0,9 | fraction | 0,8 à 1 | convention | C-W11 | OpenNAT, valeur de secours |
+| * | coefficient ruissellement permeable | 0,1 | fraction | 0,05 à 0,3 | convention | C-W11 | OpenNAT, valeur de secours |
+| * | facteur assec precoce | 0,5 | sans unité | 0,3 à 0,8 | convention | C-W12 | OpenNAT, valeur de secours |
+
+### 2.13 Éclairage horaire (`eclairage.csv`)
+
+Saison d'activité des chiroptères, nuit, distances, facteur spectral (module N, fiches A51 à A53).
+
+| Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
+|---|---|---|---|---|---|---|---|
+| * | distance effet plein | 10 | m | 0 à 25 | transposée | C-L3 | Azam C., Le Viol I., Bas Y., Zissis G., Vernet A., Julien J.-F., Kerbiriou C. (2018), Evidence for distance and illuminance thresholds in the effects of artificial lighting on bat activity, Landscape and Urban Planning 175, résumé : effet d'attraction limité à 10 m pour Pipistrellus et Nyctalus |
+| * | distance effet nul | 50 | m | 25 à 100 | primaire | C-L3 | Azam C., Le Viol I., Bas Y., Zissis G., Vernet A., Julien J.-F., Kerbiriou C. (2018), Evidence for distance and illuminance thresholds in the effects of artificial lighting on bat activity, Landscape and Urban Planning 175, résumé : évitement jusqu'à 25 m (Myotis) et 50 m (Eptesicus serotinus) ; recommandation de 50 m entre luminaires et corridors |
+| * | perte maximale | 0,25 | fraction | 0,15 à 0,4 | convention | C-L1 | OpenNAT, calage sur le facteur L2 de nuisances.csv (0,75) |
+| * | saison chiropteres debut | 4 | mois | 3 à 4 | convention | C-L2 | OpenNAT, valeur de secours |
+| * | saison chiropteres fin | 10 | mois | 10 à 11 | convention | C-L2 | OpenNAT, valeur de secours |
+| * | hauteur soleil nuit | 0 | degré | -6 à 0 | convention | C-L2 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), variable Hs (hauteur angulaire du soleil) de l'année type |
+| ambre | temperature couleur | 1 800 | K | 1 800 | primaire | C-L4 | Arrêté du 27 décembre 2018 relatif à la prévention, à la réduction et à la limitation des nuisances lumineuses, articles 3 et 4 : plafonds de 3 000 K, 2 700 K et 2 400 K selon les sites |
+| ambre | facteur spectral | 0,5 | sans unité | 0,4 à 0,7 | convention | C-L4 | Longcore T. et al. (2018), Rapid assessment of lamp spectrum to quantify ecological effects of light at night, Journal of Experimental Zoology A 329, résumé : les sources riches en bleu (2 200 K et plus) ont plus d'effets que les LED ambre filtrées |
+| k2200 | temperature couleur | 2 200 | K | 2 200 | primaire | C-L4 | Arrêté du 27 décembre 2018 relatif à la prévention, à la réduction et à la limitation des nuisances lumineuses, articles 3 et 4 : plafonds de 3 000 K, 2 700 K et 2 400 K selon les sites |
+| k2200 | facteur spectral | 0,6 | sans unité | 0,5 à 0,8 | convention | C-L4 | Longcore T. et al. (2018), Rapid assessment of lamp spectrum to quantify ecological effects of light at night, Journal of Experimental Zoology A 329, résumé : les sources riches en bleu (2 200 K et plus) ont plus d'effets que les LED ambre filtrées |
+| k2400 | temperature couleur | 2 400 | K | 2 400 | primaire | C-L4 | Arrêté du 27 décembre 2018 relatif à la prévention, à la réduction et à la limitation des nuisances lumineuses, articles 3 et 4 : plafonds de 3 000 K, 2 700 K et 2 400 K selon les sites |
+| k2400 | facteur spectral | 0,7 | sans unité | 0,6 à 0,85 | convention | C-L4 | Longcore T. et al. (2018), Rapid assessment of lamp spectrum to quantify ecological effects of light at night, Journal of Experimental Zoology A 329, résumé : les sources riches en bleu (2 200 K et plus) ont plus d'effets que les LED ambre filtrées |
+| k2700 | temperature couleur | 2 700 | K | 2 700 | primaire | C-L4 | Arrêté du 27 décembre 2018 relatif à la prévention, à la réduction et à la limitation des nuisances lumineuses, articles 3 et 4 : plafonds de 3 000 K, 2 700 K et 2 400 K selon les sites |
+| k2700 | facteur spectral | 0,8 | sans unité | 0,7 à 0,9 | convention | C-L4 | Longcore T. et al. (2018), Rapid assessment of lamp spectrum to quantify ecological effects of light at night, Journal of Experimental Zoology A 329, résumé : les sources riches en bleu (2 200 K et plus) ont plus d'effets que les LED ambre filtrées |
+| k3000 | temperature couleur | 3 000 | K | 3 000 | primaire | C-L4 | Arrêté du 27 décembre 2018 relatif à la prévention, à la réduction et à la limitation des nuisances lumineuses, articles 3 et 4 : plafonds de 3 000 K, 2 700 K et 2 400 K selon les sites |
+| k3000 | facteur spectral | 0,9 | sans unité | 0,8 à 1 | convention | C-L4 | Longcore T. et al. (2018), Rapid assessment of lamp spectrum to quantify ecological effects of light at night, Journal of Experimental Zoology A 329, résumé : les sources riches en bleu (2 200 K et plus) ont plus d'effets que les LED ambre filtrées |
+| k4000 | temperature couleur | 4 000 | K | 4 000 | primaire | C-L4 | Arrêté du 27 décembre 2018 relatif à la prévention, à la réduction et à la limitation des nuisances lumineuses, articles 3 et 4 : plafonds de 3 000 K, 2 700 K et 2 400 K selon les sites |
+| k4000 | facteur spectral | 1 | sans unité | 1 | convention | C-L4 | Longcore T. et al. (2018), Rapid assessment of lamp spectrum to quantify ecological effects of light at night, Journal of Experimental Zoology A 329, résumé : les sources riches en bleu (2 200 K et plus) ont plus d'effets que les LED ambre filtrées |
+
+### 2.14 Maturation, gestion et succession (`succession.csv`)
+
+Courbe de Chapman-Richards, couples exploité et abandonné de la BKompV, délais de succession (module T, fiches A54 à A56).
+
+| Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
+|---|---|---|---|---|---|---|---|
+| * | produit k d | 3 | sans unité | 2 à 4 | convention | C-M1 | Richards F. J. (1959), A flexible growth function for empirical use, Journal of Experimental Botany 10, fonction de croissance de Chapman-Richards |
+| herbacee | exposant forme | 1 | sans unité | 1 à 1,5 | convention | C-M1 | Pienaar L. V., Turnbull K. J. (1973), The Chapman-Richards generalization of Von Bertalanffy's growth model, Forest Science 19, exposant de forme de la fonction de Chapman-Richards |
+| arbustive | exposant forme | 2 | sans unité | 1,5 à 2,5 | convention | C-M1 | Pienaar L. V., Turnbull K. J. (1973), The Chapman-Richards generalization of Von Bertalanffy's growth model, Forest Science 19, exposant de forme de la fonction de Chapman-Richards |
+| arboree | exposant forme | 3 | sans unité | 2,5 à 4 | convention | C-M1 | Pienaar L. V., Turnbull K. J. (1973), The Chapman-Richards generalization of Von Bertalanffy's growth model, Forest Science 19, exposant de forme de la fonction de Chapman-Richards |
+| 34.02a>34.02b | rapport abandon | 0,81 | sans unité | 0,81 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.02a (21) exploité, 34.02b (17) abandonné |
+| 34.03.01a>34.03.03 | rapport abandon | 0,864 | sans unité | 0,864 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.03.01a (22) exploité, 34.03.03 (19) abandonné |
+| 34.04.03.01a>34.04.03.03 | rapport abandon | 0,762 | sans unité | 0,762 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.04.03.01a (21) exploité, 34.04.03.03 (16) abandonné |
+| 34.06.01a>34.06.01b | rapport abandon | 0,857 | sans unité | 0,857 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.06.01a (21) exploité, 34.06.01b (18) abandonné |
+| 34.06.02a>34.06.02b | rapport abandon | 0,864 | sans unité | 0,864 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.06.02a (22) exploité, 34.06.02b (19) abandonné |
+| 34.07a.01>34.07a.03 | rapport abandon | 0,8 | sans unité | 0,8 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.07a.01 (20) exploité, 34.07a.03 (16) abandonné |
+| 34.07b.01>34.07b.03 | rapport abandon | 0,733 | sans unité | 0,733 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 34.07b.01 (15) exploité, 34.07b.03 (11) abandonné |
+| 35.02.01a>35.02.01.03 | rapport abandon | 0,87 | sans unité | 0,87 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 35.02.01a (23) exploité, 35.02.01.03 (20) abandonné |
+| 35.02.02a>35.02.02.03 | rapport abandon | 0,913 | sans unité | 0,913 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 35.02.02a (23) exploité, 35.02.02.03 (21) abandonné |
+| 35.02.03a.01>35.02.03a.02 | rapport abandon | 0,8 | sans unité | 0,8 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 35.02.03a.01 (20) exploité, 35.02.03a.02 (16) abandonné |
+| 35.02.05.01>35.02.05.01a | rapport abandon | 0,889 | sans unité | 0,889 | primaire | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), 35.02.05.01 (18) exploité, 35.02.05.01a (16) abandonné |
+| * | rapport abandon moyen | 0,833 | sans unité | 0,733 à 0,913 | transposée | C-M2 | BKompV, annexe 2 (Bundeskompensationsverordnung, 2020), moyenne des onze couples ci-dessus |
+| * | delai friche herbacee | 2 | an | 1 à 3 | convention | C-M2 | OpenNAT, valeur de secours |
+| * | delai embroussaillement | 15 | an | 10 à 30 | convention | C-M2 | OpenNAT, valeur de secours |
+| * | score friche embroussaillee | 0,75 | fraction | 0,65 à 0,85 | convention | C-M2 | OpenNAT, valeur de secours |
+
+### 2.15 Calendrier du chantier (`chantier.csv`)
+
+Sensibilité mensuelle des oiseaux nicheurs, des chiroptères et des amphibiens, saison de plantation, année de début par défaut (module T, fiches A57 et A58).
+
+| Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
+|---|---|---|---|---|---|---|---|
+| oiseaux | sensibilite m01 | 0 | fraction | 0 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m02 | 0 | fraction | 0 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m03 | 0,5 | fraction | 0,5 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m04 | 1 | fraction | 1 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m05 | 1 | fraction | 1 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m06 | 1 | fraction | 1 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m07 | 1 | fraction | 1 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m08 | 0,5 | fraction | 0,5 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m09 | 0 | fraction | 0 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m10 | 0 | fraction | 0 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m11 | 0 | fraction | 0 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| oiseaux | sensibilite m12 | 0 | fraction | 0 | transposée | C-K1 | Ministère de l'Agriculture, conditionnalité de la PAC 2023-2027, BCAE 8 (maintien des particularités topographiques), interdiction de tailler haies et arbres du 16 mars au 15 août (nidification) |
+| chiropteres | sensibilite m01 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m02 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m03 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m04 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m05 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m06 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m07 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m08 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m09 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m10 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m11 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| chiropteres | sensibilite m12 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : hibernation de novembre à février, mise bas et élevage des jeunes de mai à août |
+| amphibiens | sensibilite m01 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m02 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m03 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m04 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m05 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m06 | 1 | fraction | 1 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m07 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m08 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m09 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m10 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m11 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| amphibiens | sensibilite m12 | 0 | fraction | 0 | convention | C-K1 | OpenNAT, valeur de secours : reproduction et développement larvaire de février à juin |
+| * | perte destruction sensible | 1 | an | 0,5 à 2 | convention | C-K1 | OpenNAT, valeur de secours |
+| plantation | mois favorable m01 | 1 | booléen | 1 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m02 | 1 | booléen | 1 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m03 | 1 | booléen | 1 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m04 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m05 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m06 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m07 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m08 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m09 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m10 | 0 | booléen | 0 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m11 | 1 | booléen | 1 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| plantation | mois favorable m12 | 1 | booléen | 1 | convention | C-K2 | OpenNAT, valeur de secours : plantation à racines nues ou en motte hors gel, de novembre à mars |
+| * | avance plantation | 2 | mois | 0 à 4 | convention | C-K2 | OpenNAT, valeur de secours |
+| * | annee debut defaut | 2 027 | année | 2 027 à 2 030 | convention | C-K3 | OpenNAT, valeur de secours |
+
+### 2.16 Années types horaires : synthèse mensuelle
+
+Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures : France +2 °C (2030), +2,7 °C (2050) et +4 °C (2100), tirées des fichiers climatiques prospectifs de l'ADEME, de Météo-France, du CSTB et de la DHUP (juin 2025, Licence Ouverte 2.0) et réduites dans `donnees/climat/` aux variables utilisées. Le tableau de chaque station donne, mois par mois, la température moyenne, la pluie après recalage sur la normale 1991-2020 (fiche A45) et l'évapotranspiration de référence calculée par la fiche A44, à l'altitude de la station.
+
+#### Zone H1a, station de Trappes (167 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 6,9 | 3 | 8,8 | 9,2 | 13,4 | 17,8 | 19,5 | 18,7 | 16 | 12,8 | 8,9 | 5,5 | 11,8 |
+| +2 °C | Pluie (mm) | 56,2 | 48,9 | 50,1 | 49,9 | 66 | 57 | 56,2 | 56,1 | 49,8 | 61,8 | 61,2 | 72 | 685,2 |
+| +2 °C | ET0 (mm) | 14,7 | 21,2 | 46,2 | 55,5 | 90,5 | 101,6 | 109,7 | 96,9 | 66,3 | 35,8 | 15,2 | 12,8 | 666,4 |
+| +2,7 °C | T (°C) | 6,9 | 3 | 8,8 | 9,2 | 13,8 | 17,2 | 20,4 | 20,8 | 17,8 | 12,8 | 8,9 | 5,5 | 12,1 |
+| +2,7 °C | Pluie (mm) | 56,2 | 48,9 | 50,1 | 49,9 | 66 | 57 | 56,2 | 56,1 | 49,8 | 61,8 | 61,2 | 72 | 685,2 |
+| +2,7 °C | ET0 (mm) | 14,7 | 21,2 | 46,2 | 55,5 | 95,8 | 102,7 | 126,2 | 100,2 | 66,2 | 35,8 | 15,2 | 12,8 | 692,5 |
+| +4 °C | T (°C) | 6,9 | 6,8 | 8,8 | 12,9 | 18,6 | 20,8 | 24,3 | 20,8 | 20,2 | 14,7 | 10,6 | 8,7 | 14,5 |
+| +4 °C | Pluie (mm) | 56,2 | 48,9 | 50,1 | 49,9 | 66 | 57 | 56,2 | 56,1 | 49,8 | 61,8 | 61,2 | 72 | 685,2 |
+| +4 °C | ET0 (mm) | 14,8 | 22,8 | 46,1 | 70,6 | 106,4 | 132,7 | 137 | 100,2 | 78 | 38,4 | 14,2 | 14,9 | 776,2 |
+
+#### Zone H1b, station de Nancy (212 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 3,2 | 4,4 | 7,9 | 12,7 | 14,6 | 17,3 | 20,4 | 20,9 | 15,7 | 13,4 | 6,8 | 5,7 | 12 |
+| +2 °C | Pluie (mm) | 64,4 | 54,8 | 54,1 | 44,3 | 67,9 | 56 | 63 | 67,2 | 61,1 | 66,5 | 68,9 | 78,1 | 746,3 |
+| +2 °C | ET0 (mm) | 16 | 20,3 | 43,5 | 73,7 | 101,9 | 113,7 | 124,3 | 100,7 | 68,2 | 36,8 | 17,5 | 13,1 | 729,8 |
+| +2,7 °C | T (°C) | 3,2 | 4,4 | 7,9 | 12,7 | 14,6 | 20,9 | 22,7 | 20,9 | 15,7 | 13,4 | 8,5 | 4,4 | 12,5 |
+| +2,7 °C | Pluie (mm) | 64,4 | 54,8 | 54,1 | 44,3 | 67,9 | 56 | 63 | 67,2 | 61,1 | 66,5 | 68,9 | 78,1 | 746,3 |
+| +2,7 °C | ET0 (mm) | 16 | 20,3 | 43,5 | 73,7 | 101,9 | 123 | 133,4 | 100,7 | 68,2 | 36,8 | 16 | 14 | 747,6 |
+| +4 °C | T (°C) | 6,6 | 6,2 | 7,9 | 12,7 | 17,1 | 21 | 22,7 | 24,4 | 19,5 | 13,4 | 8,1 | 4,4 | 13,7 |
+| +4 °C | Pluie (mm) | 64,4 | 54,8 | 54,1 | 44,3 | 67,9 | 56 | 63 | 67,2 | 61,1 | 66,5 | 68,9 | 78,1 | 746,3 |
+| +4 °C | ET0 (mm) | 17,3 | 28,2 | 43,5 | 73,7 | 104,4 | 123 | 133,4 | 118,8 | 82 | 36,8 | 17,9 | 14 | 793 |
+
+#### Zone H1c, station de Macon (219 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 7 | 7,1 | 9,6 | 13,5 | 15,6 | 23,1 | 23,2 | 22,2 | 18,7 | 13,7 | 8,6 | 4,8 | 14 |
+| +2 °C | Pluie (mm) | 58,1 | 48,9 | 49,1 | 65,5 | 75,7 | 69,8 | 72,2 | 72,6 | 71,1 | 91,1 | 92,8 | 66,8 | 833,7 |
+| +2 °C | ET0 (mm) | 18,6 | 30,4 | 55,9 | 81,7 | 111,7 | 150,1 | 150,8 | 124,6 | 88,7 | 42,3 | 19,1 | 13 | 886,8 |
+| +2,7 °C | T (°C) | 7 | 7,1 | 9,6 | 13,5 | 15,6 | 22,3 | 25,4 | 21,6 | 18,7 | 14,1 | 8,7 | 5,4 | 14,1 |
+| +2,7 °C | Pluie (mm) | 58,1 | 48,9 | 49,1 | 65,5 | 75,7 | 69,8 | 72,2 | 72,6 | 71,1 | 91,1 | 92,8 | 66,8 | 833,7 |
+| +2,7 °C | ET0 (mm) | 18,6 | 30,4 | 55,9 | 81,7 | 111,7 | 153,7 | 158,1 | 109,6 | 88,6 | 43,1 | 20,3 | 10,3 | 882 |
+| +4 °C | T (°C) | 7 | 7,1 | 9,6 | 13,6 | 18,3 | 22,8 | 25,5 | 23,6 | 20,1 | 14,1 | 10,5 | 5,2 | 14,8 |
+| +4 °C | Pluie (mm) | 58,1 | 48,9 | 49,1 | 65,5 | 75,7 | 69,8 | 72,2 | 72,6 | 71,1 | 91,1 | 92,8 | 66,8 | 833,7 |
+| +4 °C | ET0 (mm) | 18,6 | 30,4 | 55,9 | 80,5 | 121,1 | 152,4 | 158,1 | 129,5 | 81,5 | 43,1 | 20 | 14,2 | 905,3 |
+
+#### Zone H2a, station de Rennes (36 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 7,3 | 8,8 | 9,7 | 13,4 | 14,4 | 17,7 | 18,7 | 20,9 | 18,3 | 15,5 | 11,3 | 7,5 | 13,6 |
+| +2 °C | Pluie (mm) | 66,6 | 51,6 | 48,9 | 51,2 | 58,1 | 50,9 | 44 | 43,5 | 56,6 | 73,1 | 73,2 | 73,3 | 691 |
+| +2 °C | ET0 (mm) | 18,6 | 31 | 54,2 | 73,7 | 93,8 | 115,3 | 107,4 | 96,6 | 82 | 42,9 | 20,2 | 14,6 | 750,4 |
+| +2,7 °C | T (°C) | 8,6 | 8,8 | 9,7 | 13,4 | 15,4 | 17,7 | 23,3 | 21,9 | 18,8 | 15,5 | 11,3 | 7,5 | 14,4 |
+| +2,7 °C | Pluie (mm) | 66,6 | 51,6 | 48,9 | 51,2 | 58,1 | 50,9 | 44 | 43,5 | 56,6 | 73,1 | 73,2 | 73,3 | 691 |
+| +2,7 °C | ET0 (mm) | 20,1 | 31 | 54,2 | 73,7 | 93,5 | 115,2 | 137,3 | 111,7 | 69,8 | 42,9 | 20,2 | 14,6 | 784,3 |
+| +4 °C | T (°C) | 7,3 | 8,8 | 9,7 | 13,2 | 15,4 | 20,2 | 24,3 | 22 | 20,4 | 15,7 | 11,3 | 7,5 | 14,7 |
+| +4 °C | Pluie (mm) | 66,6 | 51,6 | 48,9 | 51,2 | 58,1 | 50,9 | 44 | 43,5 | 56,6 | 73,1 | 73,2 | 73,3 | 691 |
+| +4 °C | ET0 (mm) | 18,6 | 31 | 54,2 | 73,1 | 109,5 | 124,9 | 143,6 | 111,7 | 98,5 | 45,4 | 20,2 | 14,6 | 845,3 |
+
+#### Zone H2b, station de Tours (108 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 6,6 | 5,7 | 9,3 | 12,8 | 15,8 | 21,3 | 22,8 | 21 | 17,8 | 14,5 | 9,6 | 6,5 | 13,7 |
+| +2 °C | Pluie (mm) | 63 | 52,4 | 48,7 | 53 | 57,7 | 53,2 | 46,6 | 44 | 51,8 | 66 | 69,3 | 72,1 | 677,8 |
+| +2 °C | ET0 (mm) | 21,1 | 25 | 55,2 | 73,2 | 99 | 131,5 | 152,4 | 118,7 | 87,6 | 43,6 | 19,6 | 15,1 | 842 |
+| +2,7 °C | T (°C) | 6,5 | 9,2 | 9,3 | 12,8 | 15,8 | 21,3 | 22,8 | 22,7 | 17,8 | 14,5 | 9,6 | 6,5 | 14,1 |
+| +2,7 °C | Pluie (mm) | 63 | 52,4 | 48,7 | 53 | 57,7 | 53,2 | 46,6 | 44 | 51,8 | 66 | 69,3 | 72,1 | 677,8 |
+| +2,7 °C | ET0 (mm) | 16,7 | 33,1 | 55,3 | 73,2 | 99 | 131,5 | 152,4 | 132,3 | 87,7 | 43,6 | 20 | 15 | 859,8 |
+| +4 °C | T (°C) | 6,5 | 9,4 | 9,3 | 12,8 | 18,9 | 21,3 | 24,3 | 23,2 | 20,1 | 14,5 | 11,6 | 7,5 | 15 |
+| +4 °C | Pluie (mm) | 63 | 52,4 | 48,7 | 53 | 57,7 | 53,2 | 46,6 | 44 | 51,8 | 66 | 69,3 | 72,1 | 677,8 |
+| +4 °C | ET0 (mm) | 21,1 | 30,6 | 55,3 | 73,2 | 127,3 | 131,4 | 154,7 | 140,6 | 103,4 | 43,6 | 23 | 17,2 | 921,4 |
+
+#### Zone H2c, station de Agen (58 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 7,2 | 8,3 | 10,9 | 14 | 16,7 | 20,6 | 22,4 | 23,2 | 20,9 | 15,7 | 9,3 | 7,7 | 14,8 |
+| +2 °C | Pluie (mm) | 59,6 | 44,2 | 49 | 70 | 73,3 | 62,2 | 49,4 | 50,4 | 60,6 | 58,7 | 70,1 | 60,7 | 708,2 |
+| +2 °C | ET0 (mm) | 21 | 36,9 | 60,9 | 77,3 | 117,7 | 139,6 | 143,4 | 125,7 | 92,1 | 46,7 | 22,7 | 16,4 | 900,4 |
+| +2,7 °C | T (°C) | 7,2 | 8,3 | 10,9 | 14 | 16,7 | 20,6 | 22,4 | 23,2 | 20,9 | 15,8 | 11,9 | 7,7 | 15 |
+| +2,7 °C | Pluie (mm) | 59,6 | 44,2 | 49 | 70 | 73,3 | 62,2 | 49,4 | 50,4 | 60,6 | 58,7 | 70,1 | 60,7 | 708,2 |
+| +2,7 °C | ET0 (mm) | 21 | 36,9 | 60,9 | 77,3 | 117,7 | 139,6 | 143,4 | 125,7 | 92,1 | 49,4 | 22 | 16,4 | 902,3 |
+| +4 °C | T (°C) | 8,8 | 8,3 | 10,7 | 14 | 21 | 23,3 | 26,5 | 23,2 | 21,8 | 16,4 | 11,9 | 7,7 | 16,2 |
+| +4 °C | Pluie (mm) | 59,6 | 44,2 | 49 | 70 | 73,3 | 62,2 | 49,4 | 50,4 | 60,6 | 58,7 | 70,1 | 60,7 | 708,2 |
+| +4 °C | ET0 (mm) | 19,5 | 37,9 | 67,7 | 77,3 | 121,5 | 151,6 | 159,6 | 125,7 | 94,8 | 53,7 | 22 | 16,4 | 947,7 |
+
+#### Zone H2d, station de Carpentras (98 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 7,1 | 7,6 | 11,1 | 15,5 | 19,3 | 23,9 | 24,5 | 25,4 | 22,3 | 16 | 10,7 | 6,1 | 15,8 |
+| +2 °C | Pluie (mm) | 46,3 | 34,2 | 43,2 | 61,1 | 55,6 | 41,7 | 25,7 | 40,6 | 98,7 | 87,6 | 90,8 | 41,9 | 667,4 |
+| +2 °C | ET0 (mm) | 31 | 44,1 | 71,7 | 100,6 | 143,3 | 177,5 | 180,8 | 159,2 | 110,5 | 58,8 | 32,1 | 26,6 | 1 136,2 |
+| +2,7 °C | T (°C) | 7,1 | 8,7 | 11,1 | 15,5 | 19,3 | 23,9 | 27,4 | 25,9 | 22,3 | 16 | 10,7 | 6,1 | 16,2 |
+| +2,7 °C | Pluie (mm) | 46,3 | 34,2 | 43,2 | 61,1 | 55,6 | 41,7 | 25,7 | 40,6 | 98,7 | 87,6 | 90,8 | 41,9 | 667,4 |
+| +2,7 °C | ET0 (mm) | 31 | 43 | 71,6 | 100,6 | 143,3 | 177,5 | 206,7 | 171,1 | 110,5 | 58,8 | 32,1 | 26,6 | 1 172,9 |
+| +4 °C | T (°C) | 7,1 | 8,7 | 11,1 | 15,5 | 19,3 | 24,5 | 27,4 | 25,9 | 22,9 | 17,4 | 10,8 | 6,1 | 16,4 |
+| +4 °C | Pluie (mm) | 46,3 | 34,2 | 43,2 | 61,1 | 55,6 | 41,7 | 25,7 | 40,6 | 98,7 | 87,6 | 90,8 | 41,9 | 667,4 |
+| +4 °C | ET0 (mm) | 31 | 43 | 71,6 | 100,6 | 143,3 | 178,1 | 206,7 | 171,1 | 119,1 | 67,3 | 32,1 | 26,6 | 1 190,5 |
+
+#### Zone H3, station de Marignane (9 m)
+
+| Niveau | Grandeur | janv. | févr. | mars | avr. | mai | juin | juil. | août | sept. | oct. | nov. | déc. | Année |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| +2 °C | T (°C) | 8,9 | 10,6 | 11,7 | 16 | 21,1 | 22,8 | 27,8 | 26,1 | 21,2 | 17,8 | 13,3 | 8,4 | 17,2 |
+| +2 °C | Pluie (mm) | 47,1 | 29,8 | 29,5 | 51,6 | 37,7 | 27,9 | 11,1 | 25,8 | 82 | 73,3 | 75,9 | 40,9 | 532,6 |
+| +2 °C | ET0 (mm) | 38 | 52,3 | 81,4 | 109,9 | 158,6 | 182,5 | 228,8 | 179,1 | 106,4 | 74,3 | 40,7 | 34,1 | 1 286,1 |
+| +2,7 °C | T (°C) | 9 | 10,6 | 11,7 | 16 | 21,1 | 24,4 | 27,8 | 26,1 | 21,2 | 18,5 | 13,4 | 9 | 17,4 |
+| +2,7 °C | Pluie (mm) | 47,1 | 29,8 | 29,5 | 51,6 | 37,7 | 27,9 | 11,1 | 25,8 | 82 | 73,3 | 75,9 | 40,9 | 532,6 |
+| +2,7 °C | ET0 (mm) | 38,1 | 52,3 | 81,4 | 109,9 | 158,6 | 194,3 | 228,8 | 179,1 | 106,4 | 72,7 | 40,8 | 30,2 | 1 292,6 |
+| +4 °C | T (°C) | 9 | 10,6 | 12,7 | 16,9 | 21,5 | 25,6 | 29,4 | 26,1 | 23,9 | 18,5 | 13,4 | 10,4 | 18,2 |
+| +4 °C | Pluie (mm) | 47,1 | 29,8 | 29,5 | 51,6 | 37,7 | 27,9 | 11,1 | 25,8 | 82 | 73,3 | 75,9 | 40,9 | 532,6 |
+| +4 °C | ET0 (mm) | 38,1 | 52,3 | 88 | 118,6 | 159,9 | 202,8 | 247,3 | 179,2 | 138 | 72,8 | 40,8 | 33,2 | 1 371 |
+
+### 2.17 Extraits des sources primaires utilisés
 
 Les deux tableaux suivants reproduisent les lignes des sources primaires effectivement appelées par la nomenclature : la liste allemande des valeurs de biotopes (texte réglementaire libre de droits) et les lignes de la métrique anglaise (Open Government Licence v3.0).
 
@@ -4086,9 +4528,9 @@ Les deux tableaux suivants reproduisent les lignes des sources primaires effecti
 | Woodland and forest - Upland birchwoods | G1.9 |
 | Woodland and forest - Wet woodland | G1.1, G1.2, G1.3, G1.4, G1.5, G1.B, G3.E, G4.1 |
 | Woodland and forest - Wood-pasture and parkland | E7.1, E7.2, E7.3 |
-### 2.12 Annexe 2 de la BKompV, liste complète
+### 2.18 Annexe 2 de la BKompV, liste complète
 
-Liste complète des types de biotopes de l'annexe 2 de la BKompV et de leur valeur sur 24, dans l'ordre du texte (extraction du 18/10/2026). Les intitulés de rubrique, sans valeur, structurent la liste. Les types appelés par la nomenclature OpenNAT sont repris en 2.11.
+Liste complète des types de biotopes de l'annexe 2 de la BKompV et de leur valeur sur 24, dans l'ordre du texte (extraction du 18/10/2026). Les intitulés de rubrique, sans valeur, structurent la liste. Les types appelés par la nomenclature OpenNAT sont repris plus haut.
 
 | Code | Biotoptyp | Valeur sur 24 | Valeur sur 1 |
 |---|---|---|---|
@@ -4981,7 +5423,7 @@ Liste complète des types de biotopes de l'annexe 2 de la BKompV et de leur vale
 | 70.04M | – Mittlere Ausprägung | 18 | 0,75 |
 | 70.04A | – Alte Ausprägung | 21 | 0,875 |
 
-### 2.13 Métrique statutaire anglaise, onglets utilisés
+### 2.19 Métrique statutaire anglaise, onglets utilisés
 
 Reproduction des colonnes utilisées des onglets G-1, G-4 et G-5 du tableur statutaire 1.0.4 (Defra et Natural England, Open Government Licence v3.0). « Not Possible » signifie que la création ou l'amélioration n'est pas admise par la métrique pour cette classe d'état.
 

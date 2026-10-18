@@ -76,11 +76,13 @@ Une façade compte pour sa surface végétalisée à maturité, plafonnée à 10
 
 Une mare se saisit en VB.20 si ses berges sont naturelles et son alimentation pluviale, phréatique ou par ruissellement ; en VB.21 si son eau est traitée ou ses berges maçonnées. Une noue végétalisée qui infiltre en surface se saisit en VB.19 ; la surface de toiture ou de voirie qu'elle reçoit entre dans le bonus d'infiltration de Bnat (fiche A24). Une zone humide créée par décaissement se saisit avec le type de zone humide visé (D5, E3) et sa grille EZ1 : le critère A (nappe proche de la surface toute l'année) doit être justifié par une étude hydrologique.
 
+Le bilan hydrique (fiche A49) demande, pour une mare, sa profondeur, la nature de son fond et les surfaces raccordées ; pour une noue ou un jardin de pluie, les surfaces raccordées. Une zone humide créée alimentée par la nappe se déclare comme telle et n'a pas de bilan ; alimentée par la seule pluie, elle relève du groupe des milieux humides alimentés par la pluie (fiche A47) et sa valeur suit son stress hydrique.
+
 ### 5.4 Nuisances et clôtures
 
 #### Fiche F16. Éclairage extérieur
 
-La classe d'éclairage se justifie par la note d'éclairage du projet : implantation des points lumineux, température de couleur, orientation du flux, horaires d'extinction. Un éclairage piloté par détection de présence, éteint hors présence, est de classe L1. Un éclairage décoratif de façade allumé toute la nuit est de classe L2 pour les unités situées à moins de 50 m.
+L'éclairage se saisit avec les données de la note d'éclairage du projet : implantation des points lumineux, distance de chaque unité au plus proche, température de couleur, horaires d'extinction et de rallumage, part de temps allumé sous détection de présence (fiches A51 à A53). Les raccourcis L1 et L2 ne servent qu'à défaut de note. Un éclairage décoratif de façade allumé toute la nuit se saisit avec sa température de couleur et sa distance à chaque unité située à moins de 50 m ; au-delà, il est sans effet. Voir aussi la fiche F26.
 
 #### Fiche F17. Clôtures et passages à faune
 
@@ -119,3 +121,26 @@ Quand le PLU impose un coefficient de biotope par surface ou une part de pleine 
 #### Fiche F25. Certification Effinature
 
 Les seuils de Bnat et de pleine terre de la v1 reprennent ceux du critère SOL 01.2.5 du référentiel Effinature 8.1 (convention C-E6). Un projet engagé dans la certification Effinature fournit son RSNat comme pièce ; l'organisme certificateur applique le référentiel et ses propres modes de preuve. OpenNAT ne délivre ni certificat ni label.
+
+### 5.6 Données des modules dynamiques
+
+#### Fiche F26. Note d'éclairage et horaires
+
+L'heure d'extinction se saisit en heure légale, telle que le règlement de la copropriété, le contrat d'exploitation ou l'arrêté municipal la fixe. Pour un éclairage d'activité économique, c'est l'heure de fin d'activité plus une heure (arrêté du 27 décembre 2018, article 2) ; pour un parc de stationnement, plus deux heures. Un éclairage dont la plage varie selon les jours se saisit avec sa plage la plus longue. Une détection de présence se saisit avec la part de temps allumé mesurée sur une installation comparable ou, à défaut, déclarée par le fabricant ; sans justification, la part est 1. La distance se mesure du pied du luminaire au bord le plus proche de l'unité. Un luminaire équipé d'un pare-lumière qui empêche toute lumière directe sur l'unité est réputé à plus de 50 m.
+
+#### Fiche F27. Calendrier du chantier
+
+L'année et le mois de début du chantier sont ceux de la déclaration d'ouverture du chantier prévue ; à l'achèvement, ceux de la déclaration réelle. Le mois de destruction est celui des défrichements, abattages, dessouchages, comblements de mares et démolitions de bâtis abritant des gîtes ; quand ces travaux sont faits avant l'ouverture du chantier, c'est leur mois réel. Un calendrier écologique prescrit par un arrêté de dérogation espèces protégées s'applique et se déclare tel qu'il est prescrit. Un projet qui avance les plantations par une installation provisoire (pépinière sur site, placage de gazon en motte) les déclare au mois réel ; la convention C-K2 ne s'applique qu'à défaut.
+
+#### Fiche F28. Plan de gestion écologique
+
+Le plan de gestion écologique se déclare par sa durée, comptée depuis la livraison, et se justifie par une pièce qui engage le gestionnaire : clause du règlement de copropriété ou du cahier des charges de cession, contrat d'entretien, obligation réelle environnementale, convention avec une collectivité. Il décrit au moins la fauche ou le pâturage des milieux herbacés (dates, fréquence, exportation des produits), la taille des haies hors période de nidification et le maintien des bois morts. Une tonte régulière n'est pas un plan de gestion écologique : les unités ainsi tondues se déclarent en gestion courante. Un abandon prévu (réserve foncière, délaissé) se déclare comme tel (fiche A55). Un plan de gestion prescrit par la certification Effinature se déclare avec la durée de l'engagement pris.
+
+#### Fiche F29. Raccordement des eaux pluviales aux milieux humides
+
+Une surface imperméable raccordée à une mare, une noue ou un jardin de pluie se déclare par sa surface en projection horizontale. Une surface perméable (talus, prairie) dont le ruissellement est dirigé vers le milieu humide se déclare séparément : seul un dixième de la pluie qui y tombe est compté (convention C-W11). Le raccordement doit figurer au plan des réseaux et au dossier loi sur l'eau quand il existe. Une surverse vers le réseau ne change pas la surface raccordée. Une mare dont le fond est rendu étanche par une géomembrane ou un béton se déclare à fond étanche ; un fond d'argile compactée, à fond argileux ; un fond non traité, naturel.
+
+#### Fiche F30. Sol, substrat et arrosage
+
+La texture du sol se déclare d'après l'étude géotechnique ou une analyse de terre, selon la classification de la FAO-56 (tableau 19) ; un sol reconstitué (fiche F08) se déclare avec la texture et l'épaisseur de la terre apportée. La profondeur de sol est celle que les racines peuvent atteindre : jusqu'à la roche, à la dalle, à une couche compactée ou à la nappe permanente. Un substrat de toiture ou de dalle se déclare avec son épaisseur ; la réserve volumique déclarée par le fabricant remplace la valeur de 0,20 quand une fiche technique la justifie. Une unité arrosée par un système automatique se déclare arrosée ; un arrosage manuel d'appoint ne se déclare pas. Le volume d'arrosage calculé est un indicateur complémentaire : il ne réduit ni n'augmente Cnat.
+

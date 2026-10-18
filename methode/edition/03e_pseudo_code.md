@@ -208,11 +208,12 @@ Second cas : tache de 2 500 m² contiguë à un réservoir, sans clôture : k_C 
 #### A20. Lumière
 
 ```
-si distances saisies : L_u ← L0 si d_lum > 50 m, L1 si conforme, L2 sinon ; sinon L_u déclaré
-k_lum,u ← table(lumiere_<classe>, facteur_lumiere)
+si raccourci L0, L1 ou L2 : paramètres d'éclairage ← (A53-2)
+x ← heures de nuit allumées / heures de nuit, avril à octobre (A51) × part sous détection
+k_lum,u ← 1 − 0,25 × x × s(T_c) × g(d) (A52, A53)
 ```
 
-Second cas : jardin à 60 m du point lumineux le plus proche : L0, k = 1, même si l'éclairage n'est pas conforme.
+Second cas : jardin à 60 m du point lumineux le plus proche : g = 0, k = 1, même si l'éclairage n'est pas conforme.
 
 #### A21. Bruit
 
@@ -261,7 +262,9 @@ Second cas : la chênaie de A13 (V^H = 798,61), dans une tache de k_C = 0,6119, 
 #### A26. Calendrier
 
 ```
-pour t de 1 à N : φ_t ← min(1 ; max(0 ; d_ch − (t − 1))) ; τ_t ← t − d_ch
+pour m de 1 à 12 × N : φ_m ← 1 si m ≤ d_mois sinon 0
+pour t de 1 à N : φ_t ← moyenne des φ_m de l'année t
+m_pl ← premier mois favorable aux plantations (A58)
 ```
 
 Second cas : chantier de 6 mois (d_ch = 0,5) : φ_1 = 0,5, τ_1 = 0,5.
@@ -280,11 +283,11 @@ Second cas : unité protégée : V_u(t) = V_u toutes les années, chantier compr
 ```
 d_u ← k_delai × délai(h_u, cl_u) ; à défaut délai « sans état » ; à défaut meilleure classe accessible ; à défaut 0
 pour t de 1 à N :
-    g ← 0 si τ_t ≤ 0 ; 1 si d_u = 0 ; min(1 ; τ_t / d_u) sinon
-    V_u(t) ← D_c × V_u × g
+    pour chaque mois m de l'année t : τ ← (m − départ) / 12 ; g ← courbe(τ, d_u, forme) (A54)
+    V_u(t) ← D_c × V_u × moyenne des g de l'année
 ```
 
-Second cas : boisement créé (G1.A), bon état visé (d = 32 ans, D = 0,33), V_u = 400 m²HE, d_ch = 1 : l'année 17, g = 0,5 et V = 0,33 x 400 x 0,5 = 66 m²HE.
+Second cas : boisement créé (G1.A), bon état visé (d = 32 ans, D = 0,33), V_u = 400 m²HE, forme arborée : seize ans après la plantation, g = [(1 - e^(-1,5)) / (1 - e^(-3))]^3 = 0,5465 et V = 0,33 x 400 x 0,5465 = 72,14 m²HE ; la droite de la première rédaction donnait 0,5 et 66 m²HE.
 
 #### A29. Unités améliorées
 
@@ -311,13 +314,13 @@ Second cas : jardinière (VB.23, délai d'un an) replantée l'année 25 : valeur
 #### A31. Intégration
 
 ```
-V_0 ← Σ V_u (état initial) ; I_0 ← N × V_0 ; I_0,30 ← 30 × V_0
-pour t de 1 à N : V_1(t) ← Σ V_u(t) (état projet)
+V_0 ← Σ V_u (état initial) ; I_0 ← Σ_t Σ_u V_u × k_W,u(t) ; I_0,30 ← même somme sur 30 ans
+pour t de 1 à N : V_1(t) ← Σ V_u(t) × k_W,u(t) × f_g,u(t) (état projet)
 I_1 ← Σ_t V_1(t) ; I_1,30 ← Σ_{t ≤ 30} V_1(t)
-DM ← Σ_t Σ_{u créées ou améliorées} (D × V_u − V_u(t))
+DM ← Σ_t Σ_{u créées ou améliorées} (D × V_u − moyenne annuelle des valeurs mensuelles)
 ```
 
-Second cas : une seule unité créée de V = 100 m²HE, D = 1, d = 10 ans, d_ch = 1 : DM = 100 x 1 (année 1) + 100 x (0,9 + 0,8 + ... + 0) = 550 m²HE·an.
+Second cas : une seule unité herbacée créée de V = 100 m²HE, D = 1, d = 10 ans, maturation partant au début de l'année 2 : DM = 376,8 m²HE·an (550 avec la droite de la première rédaction).
 
 #### A32. Indicateurs d'ACV
 
@@ -367,8 +370,8 @@ Second cas : indicateur 106 de 1,2 mol H+ éq./m² en A1-A3 et 0,3 en B pour 2 0
 #### A37. Agrégation
 
 ```
-Cnat ← I_0 − I_1 ; Cnat_moy ← Cnat / N ; Cnat_rel ← Cnat / I_0 si I_0 > 0
-Cnat_30 ← I_0,30 − I_1,30
+Cnat ← I_0 − I_1 + ΔI_ch ; Cnat_moy ← Cnat / N ; Cnat_rel ← Cnat / I_0 si I_0 > 0
+Cnat_30 ← I_0,30 − I_1,30 + ΔI_ch
 Inat ← Inat_clim + Inat_bois + Inat_carr ; Snat ← −(Cnat + Inat)
 ```
 

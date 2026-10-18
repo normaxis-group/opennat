@@ -61,7 +61,7 @@ def groupe_hydrique(u):
 
 def reserve_utile(u, sol):
     """Fiche A48 : réserve utile en mm. Substrat hors sol ou sur dalle : épaisseur x réserve volumique du
-    substrat ; pleine terre : (theta_cc - theta_pf) x profondeur explorée, bornée par la profondeur de sol."""
+    substrat ; pleine terre : (theta_cc - theta_pf) x profondeur d'enracinement, bornée par la profondeur de sol."""
     g = groupe_hydrique(u)
     if u['position'] in ('hors_sol_toiture', 'sol_sur_dalle'):
         return 10 * u.get('epaisseur', 10) * HYD[('substrat', 'reserve_volumique')], g
@@ -100,7 +100,7 @@ def bilan_annee(zone, niveau, altitude, groupe, ru, arrose, apport, mare_param):
         for passe in (0, 1):
             assec, jours_eau, hmin = False, 0, h
             for i, x in enumerate(an):
-                h += x['rr'] * (1 + bv * HYD[('*', 'coefficient_ruissellement')]) - kc * x['et0'] - infil / 24
+                h += x['rr'] * (1 + bv) - kc * x['et0'] - infil / 24          # bv : apport par mm de pluie (A49-2)
                 h = min(h, prof * 1000)
                 if h <= 0:
                     h = 0.0

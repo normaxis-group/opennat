@@ -6,7 +6,7 @@ Le RSNat (nom provisoire) est au calcul OpenNAT ce que le RSEE est à l'étude R
 
 | Fichier | Contenu |
 |---|---|
-| `schemas/rsnat.xsd` | Schéma XSD, 252 éléments, 16 énumérations |
+| `schemas/rsnat.xsd` | Schéma XSD, 312 éléments, 22 énumérations |
 | `schemas/exemple_annexe_C.rsnat.xml` | RSNat de l'exemple de l'annexe C de la partie 1, validé contre le schéma |
 | `outils/edition/rsnat_spec.py` | Spécification unique dont dérivent le schéma, ce dictionnaire et l'exemple |
 
@@ -66,6 +66,15 @@ Identification et contexte.
 | latitude | nombre décimal | ° | 0..1 | Latitude WGS 84 | RSEE : latitude |
 | longitude | nombre décimal | ° | 0..1 | Longitude WGS 84 | RSEE : longitude |
 | zone_biogeographique | énumération : atlantique, continentale, mediterraneenne, alpine |  | 1..1 | Zone biogéographique (fiche A02) |  |
+| departement | texte |  | 0..1 | Département du site | RSET : Simu/Departement |
+| altitude | nombre décimal | m | 0..1 | Altitude du site (fiche A43) | RSET : Simu/Altitude |
+| zone_climatique | énumération : H1a, H1b, H1c, H2a, H2b, H2c, H2d, H3 |  | 1..1 | Zone climatique RE2020 (fiche A43) |  |
+| texture_sol | énumération : sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |  | 0..1 | Texture du sol du site (fiche A48) |  |
+| profondeur_sol | nombre décimal | m | 0..1 | Profondeur de sol du site (fiche A48) |  |
+| annee_debut_chantier | entier |  | 1..1 | Année de début du chantier (fiche A58) |  |
+| mois_debut_chantier | entier |  | 1..1 | Mois de début du chantier, 1 à 12 (fiche A58) |  |
+| mois_destruction | entier |  | 0..1 | Mois des défrichements, abattages et comblements (fiche A57) |  |
+| plan_gestion_annees | entier | an | 0..1 | Durée du plan de gestion écologique (fiche A55) |  |
 | typologie | énumération : logement, tertiaire, industrie, amenagement |  | 1..1 | Typologie de l'opération |  |
 | rsee_empreinte | texte |  | 0..1 | Empreinte SHA-256 du RSEE repris, s'il y en a un |  |
 | date_etude | date |  | 1..1 | Date de l'étude |  |
@@ -196,8 +205,20 @@ Unité d'habitat.
 | stade | énumération : J, M, A |  | 0..1 | Stade d'un type ligneux |  |
 | situation | énumération : reservoir, corridor, hors_trame |  | 0..1 | Situation dans la trame verte et bleue (fiche A02) |  |
 | tache | texte |  | 0..1 | Identifiant de tache (fiche A17) |  |
-| eclairage | énumération : L0, L1, L2 |  | 0..1 | Classe d'éclairage (fiche A20) |  |
+| eclairage | énumération : L0, L1, L2 |  | 0..1 | Raccourci d'éclairage L0, L1 ou L2 (fiche A53-2) |  |
+| Eclairage_Horaire | élément composé |  | 0..1 | Éclairage déclaré heure par heure (fiches A51 à A53) |  |
 | distance_lumiere | nombre décimal | m | 0..1 | Distance au point lumineux le plus proche |  |
+| arrose | booléen |  | 0..1 | Arrosage automatique (fiche A49) |  |
+| texture_sol | énumération : sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |  | 0..1 | Texture du sol de l'unité, si elle diffère de celle du site (fiche A48) |  |
+| profondeur_sol | nombre décimal | m | 0..1 | Profondeur de sol de l'unité (fiche A48) |  |
+| bassin_versant_impermeable | nombre décimal | m² | 0..1 | Surface imperméable raccordée (fiche A49) |  |
+| bassin_versant_permeable | nombre décimal | m² | 0..1 | Surface perméable raccordée (fiche A49) |  |
+| profondeur_mare | nombre décimal | m | 0..1 | Profondeur maximale d'une mare (fiche A49) |  |
+| fond_mare | énumération : etanche, argile, naturel |  | 0..1 | Nature du fond d'une mare (fiche A49) |  |
+| gites | booléen |  | 0..1 | Gîtes de chiroptères (fiche A57) |  |
+| regime_gestion | énumération : plan, courante, abandon |  | 0..1 | Régime imposé dès la livraison (fiche A55) |  |
+| regime_apres_plan | énumération : plan, courante, abandon |  | 0..1 | Régime après le plan de gestion (fiche A55) |  |
+| plan_gestion_annees | entier | an | 0..1 | Durée du plan de gestion propre à l'unité (fiche A55) |  |
 | niveau_sonore | nombre décimal | dB(A) | 0..1 | Niveau sonore à l'unité (fiche A21) |  |
 | exposition_vitrage | booléen |  | 0..1 | À moins de 15 m d'une façade vitrée non traitée de plus de 10 m² (fiche A22) |  |
 | alimentation_eau | énumération : naturelle, artificielle |  | 0..1 | Alimentation d'une unité en eau (fiche A23) |  |
@@ -207,7 +228,18 @@ Unité d'habitat.
 | Critere_Collection | élément composé |  | 0..1 | Réponses à la grille d'état |  |
 | Renouvellement_Collection | élément composé |  | 0..1 | Années de réfection (fiche A30) |  |
 
-#### 7.3.16 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Critere_Collection`
+#### 7.3.16 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Eclairage_Horaire`
+
+Éclairage déclaré heure par heure (fiches A51 à A53).
+
+| Élément | Type | Unité | Card. | Description | Origine |
+|---|---|---|---|---|---|
+| extinction | entier | heure légale | 0..1 | Heure d'extinction, absente si allumé toute la nuit |  |
+| rallumage | entier | heure légale | 0..1 | Heure de rallumage du matin |  |
+| temperature_couleur | nombre décimal | K | 1..1 | Température de couleur |  |
+| part_detection | nombre décimal |  | 0..1 | Part de temps allumé sous détection de présence |  |
+
+#### 7.3.17 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Critere_Collection`
 
 Réponses à la grille d'état.
 
@@ -215,7 +247,7 @@ Réponses à la grille d'état.
 |---|---|---|---|---|---|
 | Critere | élément composé |  | 0..n | Réponse à un critère de la grille d'état du type |  |
 
-#### 7.3.17 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Critere_Collection/Critere`
+#### 7.3.18 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Critere_Collection/Critere`
 
 Réponse à un critère de la grille d'état du type.
 
@@ -226,7 +258,7 @@ Réponse à un critère de la grille d'état du type.
 | note | entier | note 1 à 3 | 0..1 | Note d'un indicateur de la grille des boisements |  |
 | preuve | texte |  | 0..1 | Référence de la pièce qui justifie la réponse |  |
 
-#### 7.3.18 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Renouvellement_Collection`
+#### 7.3.19 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Renouvellement_Collection`
 
 Années de réfection (fiche A30).
 
@@ -234,7 +266,7 @@ Années de réfection (fiche A30).
 |---|---|---|---|---|---|
 | annee | entier | an | 0..n | Année de réfection, de 2 à 50 |  |
 
-#### 7.3.19 `RSNat/Entree_Projet/Variante_Collection`
+#### 7.3.20 `RSNat/Entree_Projet/Variante_Collection`
 
 Variantes de l'état projet (fiche A41).
 
@@ -242,7 +274,7 @@ Variantes de l'état projet (fiche A41).
 |---|---|---|---|---|---|
 | Variante | élément composé |  | 1..n | Variante |  |
 
-#### 7.3.20 `RSNat/Entree_Projet/Variante_Collection/Variante`
+#### 7.3.21 `RSNat/Entree_Projet/Variante_Collection/Variante`
 
 Variante.
 
@@ -257,7 +289,7 @@ Variante.
 | Ouvrage_Pluvial_Collection | élément composé |  | 0..1 | Ouvrages de gestion des eaux pluviales (fiche A24) |  |
 | Facade_Vitree_Collection | élément composé |  | 0..1 | Façades vitrées exposées (fiche A22) |  |
 
-#### 7.3.21 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection`
+#### 7.3.22 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection`
 
 Unités de l'état projet.
 
@@ -265,7 +297,7 @@ Unités de l'état projet.
 |---|---|---|---|---|---|
 | Unite | élément composé |  | 0..n | Unité d'habitat |  |
 
-#### 7.3.22 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite`
+#### 7.3.23 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite`
 
 Unité d'habitat.
 
@@ -285,8 +317,20 @@ Unité d'habitat.
 | stade | énumération : J, M, A |  | 0..1 | Stade d'un type ligneux |  |
 | situation | énumération : reservoir, corridor, hors_trame |  | 0..1 | Situation dans la trame verte et bleue (fiche A02) |  |
 | tache | texte |  | 0..1 | Identifiant de tache (fiche A17) |  |
-| eclairage | énumération : L0, L1, L2 |  | 0..1 | Classe d'éclairage (fiche A20) |  |
+| eclairage | énumération : L0, L1, L2 |  | 0..1 | Raccourci d'éclairage L0, L1 ou L2 (fiche A53-2) |  |
+| Eclairage_Horaire | élément composé |  | 0..1 | Éclairage déclaré heure par heure (fiches A51 à A53) |  |
 | distance_lumiere | nombre décimal | m | 0..1 | Distance au point lumineux le plus proche |  |
+| arrose | booléen |  | 0..1 | Arrosage automatique (fiche A49) |  |
+| texture_sol | énumération : sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |  | 0..1 | Texture du sol de l'unité, si elle diffère de celle du site (fiche A48) |  |
+| profondeur_sol | nombre décimal | m | 0..1 | Profondeur de sol de l'unité (fiche A48) |  |
+| bassin_versant_impermeable | nombre décimal | m² | 0..1 | Surface imperméable raccordée (fiche A49) |  |
+| bassin_versant_permeable | nombre décimal | m² | 0..1 | Surface perméable raccordée (fiche A49) |  |
+| profondeur_mare | nombre décimal | m | 0..1 | Profondeur maximale d'une mare (fiche A49) |  |
+| fond_mare | énumération : etanche, argile, naturel |  | 0..1 | Nature du fond d'une mare (fiche A49) |  |
+| gites | booléen |  | 0..1 | Gîtes de chiroptères (fiche A57) |  |
+| regime_gestion | énumération : plan, courante, abandon |  | 0..1 | Régime imposé dès la livraison (fiche A55) |  |
+| regime_apres_plan | énumération : plan, courante, abandon |  | 0..1 | Régime après le plan de gestion (fiche A55) |  |
+| plan_gestion_annees | entier | an | 0..1 | Durée du plan de gestion propre à l'unité (fiche A55) |  |
 | niveau_sonore | nombre décimal | dB(A) | 0..1 | Niveau sonore à l'unité (fiche A21) |  |
 | exposition_vitrage | booléen |  | 0..1 | À moins de 15 m d'une façade vitrée non traitée de plus de 10 m² (fiche A22) |  |
 | alimentation_eau | énumération : naturelle, artificielle |  | 0..1 | Alimentation d'une unité en eau (fiche A23) |  |
@@ -296,7 +340,18 @@ Unité d'habitat.
 | Critere_Collection | élément composé |  | 0..1 | Réponses à la grille d'état |  |
 | Renouvellement_Collection | élément composé |  | 0..1 | Années de réfection (fiche A30) |  |
 
-#### 7.3.23 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection`
+#### 7.3.24 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Eclairage_Horaire`
+
+Éclairage déclaré heure par heure (fiches A51 à A53).
+
+| Élément | Type | Unité | Card. | Description | Origine |
+|---|---|---|---|---|---|
+| extinction | entier | heure légale | 0..1 | Heure d'extinction, absente si allumé toute la nuit |  |
+| rallumage | entier | heure légale | 0..1 | Heure de rallumage du matin |  |
+| temperature_couleur | nombre décimal | K | 1..1 | Température de couleur |  |
+| part_detection | nombre décimal |  | 0..1 | Part de temps allumé sous détection de présence |  |
+
+#### 7.3.25 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection`
 
 Réponses à la grille d'état.
 
@@ -304,7 +359,7 @@ Réponses à la grille d'état.
 |---|---|---|---|---|---|
 | Critere | élément composé |  | 0..n | Réponse à un critère de la grille d'état du type |  |
 
-#### 7.3.24 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection/Critere`
+#### 7.3.26 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection/Critere`
 
 Réponse à un critère de la grille d'état du type.
 
@@ -315,7 +370,7 @@ Réponse à un critère de la grille d'état du type.
 | note | entier | note 1 à 3 | 0..1 | Note d'un indicateur de la grille des boisements |  |
 | preuve | texte |  | 0..1 | Référence de la pièce qui justifie la réponse |  |
 
-#### 7.3.25 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Renouvellement_Collection`
+#### 7.3.27 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Renouvellement_Collection`
 
 Années de réfection (fiche A30).
 
@@ -323,7 +378,7 @@ Années de réfection (fiche A30).
 |---|---|---|---|---|---|
 | annee | entier | an | 0..n | Année de réfection, de 2 à 50 |  |
 
-#### 7.3.26 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection`
+#### 7.3.28 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection`
 
 Bois mis en œuvre (fiche A34).
 
@@ -331,7 +386,7 @@ Bois mis en œuvre (fiche A34).
 |---|---|---|---|---|---|
 | Bois | élément composé |  | 0..n | Lot de bois |  |
 
-#### 7.3.27 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection/Bois`
+#### 7.3.29 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection/Bois`
 
 Lot de bois.
 
@@ -342,7 +397,7 @@ Lot de bois.
 | remplacements | entier |  | 0..1 | Nombre de remplacements en 50 ans |  |
 | justification | texte |  | 0..1 | Pièce qui justifie le régime |  |
 
-#### 7.3.28 `RSNat/Entree_Projet/Variante_Collection/Variante/Granulats`
+#### 7.3.30 `RSNat/Entree_Projet/Variante_Collection/Variante/Granulats`
 
 Granulats, sables et roches (fiche A35).
 
@@ -351,7 +406,7 @@ Granulats, sables et roches (fiche A35).
 | masse | nombre décimal | t | 1..1 | Masse mise en œuvre |  |
 | remplacements | entier |  | 0..1 | Nombre de remplacements en 50 ans |  |
 
-#### 7.3.29 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection`
+#### 7.3.31 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection`
 
 Ouvrages de gestion des eaux pluviales (fiche A24).
 
@@ -359,7 +414,7 @@ Ouvrages de gestion des eaux pluviales (fiche A24).
 |---|---|---|---|---|---|
 | Ouvrage_Pluvial | élément composé |  | 0..n | Ouvrage |  |
 
-#### 7.3.30 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection/Ouvrage_Pluvial`
+#### 7.3.32 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection/Ouvrage_Pluvial`
 
 Ouvrage.
 
@@ -368,7 +423,7 @@ Ouvrage.
 | surface_drainee | nombre décimal | m² | 1..1 | Surface imperméable conduite vers l'ouvrage |  |
 | infiltration_surface | booléen |  | 1..1 | Infiltration en surface |  |
 
-#### 7.3.31 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection`
+#### 7.3.33 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection`
 
 Façades vitrées exposées (fiche A22).
 
@@ -376,7 +431,7 @@ Façades vitrées exposées (fiche A22).
 |---|---|---|---|---|---|
 | Facade_Vitree | élément composé |  | 0..n | Façade |  |
 
-#### 7.3.32 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection/Facade_Vitree`
+#### 7.3.34 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection/Facade_Vitree`
 
 Façade.
 
@@ -385,7 +440,7 @@ Façade.
 | surface | nombre décimal | m² | 1..1 | Surface vitrée exposée |  |
 | traitee | booléen |  | 1..1 | Vitrage traité contre les collisions |  |
 
-#### 7.3.33 `RSNat/Sortie_Projet`
+#### 7.3.35 `RSNat/Sortie_Projet`
 
 Résultats (partie 1, chapitre 11).
 
@@ -393,7 +448,7 @@ Résultats (partie 1, chapitre 11).
 |---|---|---|---|---|---|
 | Variante_Resultat | élément composé |  | 1..n | Résultats d'une variante |  |
 
-#### 7.3.34 `RSNat/Sortie_Projet/Variante_Resultat`
+#### 7.3.36 `RSNat/Sortie_Projet/Variante_Resultat`
 
 Résultats d'une variante.
 
@@ -409,7 +464,7 @@ Résultats d'une variante.
 | Incertitude | élément composé |  | 0..1 | Analyse d'incertitude (fiche A39) |  |
 | Conformite | élément composé |  | 1..1 | Conformité (fiche A40) |  |
 
-#### 7.3.35 `RSNat/Sortie_Projet/Variante_Resultat/Contexte`
+#### 7.3.37 `RSNat/Sortie_Projet/Variante_Resultat/Contexte`
 
 Sorties de l'étape E1 (fiche A02).
 
@@ -420,7 +475,7 @@ Sorties de l'étape E1 (fiche A02).
 | pleine_terre_min | nombre décimal |  | 1..1 | Seuil de pleine terre applicable |  |
 | multiplicateur_delai | nombre décimal |  | 1..1 | Multiplicateur de délai de la zone |  |
 
-#### 7.3.36 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection`
+#### 7.3.38 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection`
 
 Contrôle de fermeture (fiche A03).
 
@@ -428,7 +483,7 @@ Contrôle de fermeture (fiche A03).
 |---|---|---|---|---|---|
 | Fermeture | élément composé |  | 2..2 | Contrôle d'un état |  |
 
-#### 7.3.37 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection/Fermeture`
+#### 7.3.39 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection/Fermeture`
 
 Contrôle d'un état.
 
@@ -439,7 +494,7 @@ Contrôle d'un état.
 | ecart | nombre décimal | m² | 1..1 | Écart avec S_p |  |
 | conforme | booléen |  | 1..1 | Contrôle satisfait |  |
 
-#### 7.3.38 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection`
+#### 7.3.40 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection`
 
 Résultats par unité.
 
@@ -447,7 +502,7 @@ Résultats par unité.
 |---|---|---|---|---|---|
 | Unite_Resultat | élément composé |  | 0..n | Résultats d'une unité |  |
 
-#### 7.3.39 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat`
+#### 7.3.41 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat`
 
 Résultats d'une unité.
 
@@ -466,16 +521,37 @@ Résultats d'une unité.
 | multiplicateur_situation | nombre décimal |  | 1..1 | m_u |  |
 | facteur_taille | nombre décimal |  | 0..1 | k_taille |  |
 | facteur_connectivite | nombre décimal |  | 1..1 | k_C,u |  |
+| facteur_eclairage | nombre décimal |  | 0..1 | k_lum,u |  |
+| fraction_nuit_eclairee | nombre décimal |  | 0..1 | x_nuit,u |  |
 | facteur_nuisances | nombre décimal |  | 1..1 | k_N,u |  |
 | facteur_eau | nombre décimal |  | 1..1 | k_E,u |  |
 | valeur_habitat | nombre décimal | m²HE | 1..1 | V^H_u |  |
 | valeur_maturite | nombre décimal | m²HE | 1..1 | V_u |  |
 | delai | nombre décimal | an | 0..1 | d_u |  |
 | difficulte | nombre décimal |  | 0..1 | D_u |  |
+| groupe_hydrique | énumération : gazon, prairie, xerophile, arbustif, arbore, conifere, toiture_extensive, humide_pluie, mare |  | 0..1 | g_u (fiche A47) |  |
+| reserve_utile | nombre décimal | mm | 0..1 | RU_u (fiche A48) |  |
+| Bilan_Hydrique | élément composé |  | 0..3 | Bilan d'un niveau de réchauffement (fiches A49, A50) |  |
+| mois_depart_maturation | entier |  | 0..1 | Rang du mois de départ (fiche A58) |  |
+| facteurs_hydriques | texte |  | 0..1 | 50 valeurs annuelles k_W,u(t) |  |
+| facteurs_gestion | texte |  | 0..1 | 50 valeurs annuelles f_g,u(t) |  |
 | trajectoire | texte | m²HE | 0..1 | 50 valeurs annuelles V_u(t) séparées par des espaces |  |
 | valeur_integree | nombre décimal | m²HE·an | 0..1 | Somme de la trajectoire |  |
 
-#### 7.3.40 `RSNat/Sortie_Projet/Variante_Resultat/Site`
+#### 7.3.42 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat/Bilan_Hydrique`
+
+Bilan d'un niveau de réchauffement (fiches A49, A50).
+
+| Élément | Type | Unité | Card. | Description | Origine |
+|---|---|---|---|---|---|
+| niveau | énumération : 2_0, 2_7, 4_0 |  | 1..1 | Année type |  |
+| indice_stress | nombre décimal | jours-équivalents | 1..1 | IS_u,n |  |
+| indice_stress_reference | nombre décimal | jours-équivalents | 1..1 | IS_ref,g |  |
+| facteur_hydrique | nombre décimal |  | 1..1 | k_W,u,n |  |
+| arrosage | nombre décimal | mm | 0..1 | Volume d'arrosage annuel |  |
+| assec_printemps | booléen |  | 0..1 | Mare à sec entre mars et juin |  |
+
+#### 7.3.43 `RSNat/Sortie_Projet/Variante_Resultat/Site`
 
 Sorties des modules S et T (fiches A08, A24, A31).
 
@@ -487,6 +563,11 @@ Sorties des modules S et T (fiches A08, A24, A31).
 | i0_30 | nombre décimal | m²HE·an | 1..1 | I_0,30 |  |
 | i1_30 | nombre décimal | m²HE·an | 1..1 | I_1,30 |  |
 | dette_maturite | nombre décimal | m²HE·an | 1..1 | DM |  |
+| supplement_destruction | nombre décimal | m²HE·an | 1..1 | ΔI_ch (fiche A57) |  |
+| arrosage_annuel | nombre décimal | m³ | 1..1 | Volume d'arrosage annuel moyen de la période (fiche A49) |  |
+| rang_plantation | entier |  | 0..1 | m_pl (fiche A58) |  |
+| annees_periode | texte |  | 0..1 | Première et dernière années civiles de la période (fiche A46) |  |
+| trajectoire_reference | texte | m²HE | 0..1 | 50 valeurs annuelles de l'état initial sous le même climat |  |
 | trajectoire_site | texte | m²HE | 1..1 | 50 valeurs annuelles V_1(t) |  |
 | pleine_terre | nombre décimal |  | 1..1 | PT |  |
 | pleine_terre_initiale | nombre décimal |  | 1..1 | PT_0 |  |
@@ -496,7 +577,7 @@ Sorties des modules S et T (fiches A08, A24, A31).
 | part_pluvial_infiltre | nombre décimal |  | 0..1 | P_inf |  |
 | surface_vitree_non_traitee | nombre décimal | m² | 0..1 | A_vit,nt |  |
 
-#### 7.3.41 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux`
+#### 7.3.44 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux`
 
 Sorties du module G (fiches A32 à A36).
 
@@ -509,7 +590,7 @@ Sorties du module G (fiches A32 à A36).
 | inat_carrieres | nombre décimal | m²HE·an | 1..1 | Inat_carr |  |
 | Pollution_Resultat | élément composé |  | 0..n | Indicateurs de pollution |  |
 
-#### 7.3.42 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Inat_Climat_Phase`
+#### 7.3.45 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Inat_Climat_Phase`
 
 Inat_clim par phase.
 
@@ -518,7 +599,7 @@ Inat_clim par phase.
 | phase | énumération : A1-A3, A4-A5, B, C, D |  | 1..1 | Phase |  |
 | valeur | nombre décimal | m²HE·an | 1..1 | Inat_clim,p |  |
 
-#### 7.3.43 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Pollution_Resultat`
+#### 7.3.46 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Pollution_Resultat`
 
 Indicateurs de pollution.
 
@@ -527,7 +608,7 @@ Indicateurs de pollution.
 | code | entier |  | 1..1 | Code |  |
 | valeur | nombre décimal | unité de l'annexe II | 1..1 | POL_i |  |
 
-#### 7.3.44 `RSNat/Sortie_Projet/Variante_Resultat/Indicateurs`
+#### 7.3.47 `RSNat/Sortie_Projet/Variante_Resultat/Indicateurs`
 
 Indicateurs de l'opération (fiches A37, A38).
 
@@ -544,7 +625,7 @@ Indicateurs de l'opération (fiches A37, A38).
 | cnat_par_m2_parcelle | nombre décimal | m²HE·an/m² | 1..1 | Cnat / S_p |  |
 | inat_par_m2_sref | nombre décimal | m²HE·an/m² | 0..1 | Inat / S_ref |  |
 
-#### 7.3.45 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude`
+#### 7.3.48 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude`
 
 Analyse d'incertitude (fiche A39).
 
@@ -554,7 +635,7 @@ Analyse d'incertitude (fiche A39).
 | Intervalle | élément composé |  | 0..n | Intervalle d'un indicateur |  |
 | Parametre_Influent | élément composé |  | 0..5 | Paramètre parmi les cinq plus influents |  |
 
-#### 7.3.46 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Intervalle`
+#### 7.3.49 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Intervalle`
 
 Intervalle d'un indicateur.
 
@@ -565,7 +646,7 @@ Intervalle d'un indicateur.
 | p50 | nombre décimal |  | 1..1 | Centile 50 |  |
 | p95 | nombre décimal |  | 1..1 | Centile 95 |  |
 
-#### 7.3.47 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Parametre_Influent`
+#### 7.3.50 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Parametre_Influent`
 
 Paramètre parmi les cinq plus influents.
 
@@ -577,7 +658,7 @@ Paramètre parmi les cinq plus influents.
 | parametre | texte |  | 1..1 | Paramètre |  |
 | correlation | nombre décimal |  | 1..1 | ρ de Spearman avec Snat |  |
 
-#### 7.3.48 `RSNat/Sortie_Projet/Variante_Resultat/Conformite`
+#### 7.3.51 `RSNat/Sortie_Projet/Variante_Resultat/Conformite`
 
 Conformité (fiche A40).
 
@@ -588,7 +669,7 @@ Conformité (fiche A40).
 | plu_conforme | booléen |  | 0..1 | conf_PLU |  |
 | niveau_cnat | entier |  | 1..1 | Niveau 0, 1 ou 2 |  |
 
-#### 7.3.49 `RSNat/Attestation_Permis`
+#### 7.3.52 `RSNat/Attestation_Permis`
 
 Attestation de prise en compte de la biodiversité au dépôt du permis de construire (fiche A40, convention C-P1).
 
@@ -604,7 +685,7 @@ Attestation de prise en compte de la biodiversité au dépôt du permis de const
 | conforme | booléen |  | 1..1 | Conclusion de conformité |  |
 | mention | texte |  | 0..1 | Mention, notamment l'écart au minimum du PLU |  |
 
-#### 7.3.50 `RSNat/Attestation_Achevement`
+#### 7.3.53 `RSNat/Attestation_Achevement`
 
 Attestation à l'achèvement (fiche A40).
 
@@ -623,7 +704,7 @@ Attestation à l'achèvement (fiche A40).
 | inat_par_m2_sref | nombre décimal | m²HE·an/m² | 0..1 | Inat / S_ref |  |
 | niveau_cnat | entier |  | 1..1 | Niveau atteint |  |
 
-#### 7.3.51 `RSNat/Empreinte`
+#### 7.3.54 `RSNat/Empreinte`
 
 Empreintes de contrôle (fiche A42).
 
@@ -652,6 +733,12 @@ Empreintes de contrôle (fiche A42).
 | phase | A1-A3, A4-A5, B, C, D |
 | etat | initial, projet |
 | classe_etat | bon, moyen, mauvais, sans_etat |
+| zone_climatique | H1a, H1b, H1c, H2a, H2b, H2c, H2d, H3 |
+| texture | sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |
+| fond_mare | etanche, argile, naturel |
+| regime_gestion | plan, courante, abandon |
+| niveau_rechauffement | 2_0, 2_7, 4_0 |
+| groupe_hydrique | gazon, prairie, xerophile, arbustif, arbore, conifere, toiture_extensive, humide_pluie, mare |
 
 ### 7.5 Exemple
 

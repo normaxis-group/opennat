@@ -53,7 +53,7 @@ def main():
 Méthode conventionnelle de calcul de la consommation de nature d'une opération de construction ou d'aménagement, et de la biodiversité grise de ses matériaux.
 
 Éditeur : NORMATYS. Application dans la certification Effinature : IRICE. Moteur de calcul libre : le moteur OpenNAT, qui porte le nom de la méthode.
-Version 1, édition complète du 18 octobre 2026. Projet soumis à la validation du Biodiversity Standard Council : la méthode, ses conventions et ses seuils ne sont pas opposables tant que le conseil ne les a pas validés.
+Version 1, édition complète du 18 octobre 2026, avec les modules dynamiques : climat horaire et trajectoire de réchauffement de référence, bilan hydrique horaire, éclairage horaire, maturation et gestion, calendrier du chantier au pas mensuel. Projet soumis à la validation du Biodiversity Standard Council : la méthode, ses conventions et ses seuils ne sont pas opposables tant que le conseil ne les a pas validés.
 Texte et tables de données sous licence CC BY 4.0, chaque valeur portant la licence de sa source. Moteur sous licence AGPL-3.0-or-later.
 
 ## Organisation de l'édition complète
@@ -62,20 +62,21 @@ L'édition complète suit le plan de l'annexe III de l'arrêté du 4 août 2021 
 
 | Partie | Contenu |
 |---|---|
-| 1 | Texte de la méthode : objet, définitions, principes, données d'entrée, algorithme, modules, indicateurs, incertitude, seuils, récapitulatif, exemple complet |
-| 2 | Données conventionnelles : nomenclature et toutes les valeurs des tables, avec leur source |
-| 3 | Fiches algorithmes A01 à A42, au format des fiches de la méthode Th-BCE, avec leur pseudo-code et un second cas élémentaire |
+| 1 | Texte de la méthode : objet, définitions, principes, données d'entrée, algorithme, modules (dont le bilan hydrique), indicateurs, incertitude, seuils, récapitulatif, exemple complet |
+| 2 | Données conventionnelles : nomenclature et toutes les valeurs des tables, avec leur source, et synthèse mensuelle des années types horaires des huit zones climatiques |
+| 3 | Fiches algorithmes A01 à A58, au format des fiches de la méthode Th-BCE, avec leur pseudo-code et un second cas élémentaire ; les fiches A43 à A58 décrivent les modules dynamiques |
 | 4 | Fiches habitats H001 à H191, avec les listes complètes de correspondances et d'espèces |
-| 5 | Fiches d'application F01 à F25 et leurs exemples chiffrés |
+| 5 | Fiches d'application F01 à F30 et leurs exemples chiffrés |
 | 6 | Protocoles de relevé des grilles d'état et liste des espèces exotiques envahissantes |
 | 7 | Récapitulatif standardisé RSNat : schéma, dictionnaire des données, exemple |
-| 8 | Cas de validation : les huit cas du cahier des charges et trente et un cas complémentaires |
+| 8 | Cas de validation : les huit cas du cahier des charges, trente et un cas complémentaires et vingt-neuf cas dynamiques |
 | 9 | Conventions |
 | 10 | Bibliographie |
 """
     morceaux = [tete, '## Partie 1. Texte de la méthode\n', partie1]
     for nom in ('02_donnees_conventionnelles.md', '03a_fiches_algorithmes.md', '03b_fiches_algorithmes.md',
-                '03c_fiches_algorithmes.md', '03d_fiches_algorithmes.md', '03e_pseudo_code.md', '04_fiches_habitats.md',
+                '03c_fiches_algorithmes.md', '03d_fiches_algorithmes.md', '03e_pseudo_code.md',
+                '03f_fiches_dynamiques.md', '04_fiches_habitats.md',
                 '05_fiches_application.md', '05b_exemples_application.md', '06_protocoles.md', '07_rsnat.md', '08_cas_validation.md'):
         morceaux.append(lire(os.path.join(EDITION, nom)))
     morceaux += [conventions, biblio]

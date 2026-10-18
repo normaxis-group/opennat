@@ -9,7 +9,7 @@ Un immeuble de 600 m² d'emprise sur une parcelle de 2 000 m² entièrement rev�
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
 | Variante A | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Variante B | 0 | 0 | 8 138 | -8 138 | 347 | 0 | 45 | 45 |
+| Variante B | 0 | 0 | 6 098 | -6 098 | 282 | 0 | 45 | 45 |
 
 Variante A, unités de l'état projet :
 
@@ -33,8 +33,8 @@ Une maison de 400 m² d'emprise sur une parcelle de 2 000 m² de prairie de fauc
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 535,9 | 26 795 | 22 653 | 4 142 | 0 | 0 | 70 | 70 |
-| Variante B | 535,9 | 26 795 | 28 328 | -1 533 | 31 | 0 | 90 | 80 |
+| Variante A | 535,9 | 26 253 | 22 193 | 4 060 | 0 | 0 | 70 | 70 |
+| Variante B | 535,9 | 26 253 | 27 783 | -1 530 | 34 | 0 | 90 | 80 |
 
 Variante A, unités de l'état projet :
 
@@ -58,8 +58,8 @@ Le même lotissement de 2 000 m² est construit sur une culture intensive (varia
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 253,3 | 12 665 | 8 140 | 4 525 | 166 | 0 | 50 | 50 |
-| Variante B | 457,4 | 22 869 | 8 140 | 14 729 | 166 | 0 | 50 | 50 |
+| Variante A | 253,3 | 12 409 | 7 959 | 4 450 | 178 | 0 | 50 | 50 |
+| Variante B | 457,4 | 22 406 | 7 959 | 14 447 | 178 | 0 | 50 | 50 |
 
 Variante A, unités de l'état projet :
 
@@ -83,8 +83,8 @@ Une friche urbaine de 2 000 m² est construite. Variante A : friche en mosaïque
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 506,6 | 25 330 | 6 200 | 19 130 | 127 | 0 | 40 | 40 |
-| Variante B | 380 | 18 998 | 6 200 | 12 798 | 127 | 0 | 40 | 40 |
+| Variante A | 506,6 | 24 818 | 6 062 | 18 755 | 136 | 0 | 40 | 40 |
+| Variante B | 380 | 18 613 | 6 062 | 12 551 | 136 | 0 | 40 | 40 |
 
 Variante A, unités de l'état projet :
 
@@ -108,10 +108,10 @@ Un jardin commun de 800 m² est aménagé. Variante A : en pleine terre. Variant
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 0 | 0 | 6 200 | -6 200 | 127 | 0 | 40 | 40 |
-| Variante B | 0 | 0 | 3 720 | -3 720 | 76 | 0 | 24 | 0 |
-| Variante C | 0 | 0 | 4 340 | -4 340 | 89 | 0 | 28 | 0 |
-| Variante D | 0 | 0 | 5 580 | -5 580 | 114 | 0 | 36 | 0 |
+| Variante A | 0 | 0 | 6 062 | -6 062 | 136 | 0 | 40 | 40 |
+| Variante B | 0 | 0 | 3 405 | -3 405 | 82 | 0 | 24 | 0 |
+| Variante C | 0 | 0 | 4 213 | -4 213 | 95 | 0 | 28 | 0 |
+| Variante D | 0 | 0 | 5 561 | -5 561 | 122 | 0 | 36 | 0 |
 
 Variante A, unités de l'état projet :
 
@@ -151,8 +151,8 @@ Une prairie de fauche de 1 200 m² est conservée pendant un chantier de 24 mois
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 415 | 20 750 | 20 750 | 0 | 0 | 0 | 60 | 60 |
-| Variante B | 415 | 20 750 | 20 543 | 208 | 0 | 0 | 60 | 60 |
+| Variante A | 415 | 20 330 | 20 330 | 7,276 x 10^-12 | 0 | 0 | 60 | 60 |
+| Variante B | 415 | 20 330 | 20 123 | 208 | 0 | 0 | 60 | 60 |
 
 Variante A, unités de l'état projet :
 
@@ -174,9 +174,9 @@ Deux chênes indigènes de grand diamètre (houppier de 733 m² par défaut) se 
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 496,5 | 24 826 | 16 033 | 8 792 | 104 | 0 | 50 | 50 |
-| Variante B | 496,5 | 24 826 | 5 074 | 19 752 | 104 | 0 | 50 | 50 |
-| Variante C | 496,5 | 24 826 | 9 457 | 15 368 | 1 808 | 0 | 50 | 50 |
+| Variante A | 496,5 | 24 556 | 15 845 | 8 711 | 111 | 0 | 50 | 50 |
+| Variante B | 496,5 | 24 556 | 5 015 | 19 795 | 111 | 0 | 50 | 50 |
+| Variante C | 496,5 | 24 556 | 9 324 | 15 487 | 1 819 | 0 | 50 | 50 |
 
 Variante A, unités de l'état projet :
 
@@ -207,9 +207,9 @@ Une haie indigène pauvre de 150 m sur 2 m borde une culture. Variante A : haie 
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 247,1 | 12 356 | 12 356 | 0 | 0 | 0 | 100 | 100 |
-| Variante B | 247,1 | 12 356 | 12 999 | -643 | 13 | 0 | 100 | 100 |
-| Variante C | 247,1 | 12 356 | 13 242 | -886 | 427 | 0 | 100 | 100 |
+| Variante A | 247,1 | 12 130 | 12 130 | -1,819 x 10^-12 | 0 | 0 | 100 | 100 |
+| Variante B | 247,1 | 12 130 | 12 768 | -638 | 13 | 0 | 100 | 100 |
+| Variante C | 247,1 | 12 130 | 12 337 | -207 | 375 | 0 | 100 | 100 |
 
 Variante A, unités de l'état projet :
 
@@ -238,9 +238,9 @@ Même bâtiment de 1 500 m² de S_ref. Variante A : isolation minérale. Variant
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 0 | 0 | 6 200 | -6 200 | 127 | 145 712 | 40 | 40 |
-| Variante B | 0 | 0 | 6 200 | -6 200 | 127 | 215 720 | 40 | 40 |
-| Variante C | 0 | 0 | 6 200 | -6 200 | 127 | 136 725 | 40 | 40 |
+| Variante A | 0 | 0 | 6 062 | -6 062 | 136 | 145 712 | 40 | 40 |
+| Variante B | 0 | 0 | 6 062 | -6 062 | 136 | 215 720 | 40 | 40 |
+| Variante C | 0 | 0 | 6 062 | -6 062 | 136 | 136 725 | 40 | 40 |
 
 Variante A, unités de l'état projet :
 
@@ -273,10 +273,10 @@ Une toiture de 1 000 m² sur un bâtiment de 1 000 m² d'emprise. Variante A : t
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
 | Variante A | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Variante B | 0 | 0 | 4 687 | -4 687 | 96 | 0 | 25 | 0 |
-| Variante C | 0 | 0 | 6 845 | -6 845 | 846 | 0 | 30 | 0 |
-| Variante D | 0 | 0 | 5 395 | -5 395 | 344 | 0 | 35 | 0 |
-| Variante E | 0 | 0 | 2 513 | -2 513 | 51 | 0 | 15 | 0 |
+| Variante B | 0 | 0 | 4 671 | -4 671 | 103 | 0 | 25 | 0 |
+| Variante C | 0 | 0 | 6 408 | -6 408 | 554 | 0 | 30 | 0 |
+| Variante D | 0 | 0 | 5 127 | -5 127 | 252 | 0 | 35 | 0 |
+| Variante E | 0 | 0 | 2 509 | -2 509 | 55 | 0 | 15 | 0 |
 
 Variante A, unités de l'état projet :
 
@@ -324,8 +324,8 @@ Une façade de 40 m de long est végétalisée sur 10 m de haut (400 m²). Varia
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
 | Variante A | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Variante B | 0 | 0 | 1 006 | -1 006 | 42 | 0 | 8 | 0 |
-| Variante C | 0 | 0 | 1 006 | -1 006 | 42 | 0 | 10 | 0 |
+| Variante B | 0 | 0 | 1 013 | -1 013 | 34 | 0 | 8 | 0 |
+| Variante C | 0 | 0 | 1 013 | -1 013 | 34 | 0 | 10 | 0 |
 
 Variante A, unités de l'état projet :
 
@@ -356,9 +356,9 @@ Un plan d'eau de 200 m² est créé dans une pelouse de 2 000 m². Variante A : 
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 241,2 | 12 061 | 13 557 | -1 496 | 113 | 0 | 96 | 90 |
-| Variante B | 241,2 | 12 061 | 13 016 | -955 | 90 | 0 | 96 | 90 |
-| Variante C | 241,2 | 12 061 | 11 487 | 574 | 13 | 0 | 92 | 90 |
+| Variante A | 241,2 | 11 942 | 13 470 | -1 528 | 92 | 0 | 96 | 90 |
+| Variante B | 241,2 | 11 942 | 12 926 | -984 | 74 | 0 | 96 | 90 |
+| Variante C | 241,2 | 11 942 | 11 379 | 563 | 14 | 0 | 92 | 90 |
 
 Variante A, unités de l'état projet :
 
@@ -387,9 +387,9 @@ Une prairie urbaine de 1 200 m² est créée à côté d'un stationnement éclai
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 253,3 | 12 665 | 13 300 | -635 | 849 | 0 | 60 | 60 |
-| Variante B | 253,3 | 12 665 | 11 970 | 695 | 764 | 0 | 60 | 60 |
-| Variante C | 253,3 | 12 665 | 9 975 | 2 690 | 637 | 0 | 60 | 60 |
+| Variante A | 253,3 | 12 409 | 7 063 | 5 346 | 622 | 0 | 60 | 60 |
+| Variante B | 253,3 | 12 409 | 6 470 | 5 939 | 569 | 0 | 60 | 60 |
+| Variante C | 253,3 | 12 409 | 5 297 | 7 112 | 466 | 0 | 60 | 60 |
 
 Variante A, unités de l'état projet :
 
@@ -403,7 +403,7 @@ Variante B, unités de l'état projet :
 | Unité | Type | A (m²) | v | f | f_sol | k_C | k_N | k_E | V | d | D |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | P1 | VB.2 | 800 | 0 | 1 | 1 | 1 | 1 | 1 | 0 | 0 | 1 |
-| P2 | VB.26 | 1 200 | 0,625 | 0,8333 | 1 | 0,4528 | 0,9 | 1 | 254,67 | 5 | 1 |
+| P2 | VB.26 | 1 200 | 0,625 | 0,8333 | 1 | 0,4528 | 0,916 | 1 | 259,21 | 5 | 1 |
 
 Variante C, unités de l'état projet :
 
@@ -418,8 +418,8 @@ Des jardins de 1 500 m² sont clos. Variante A : clôture perméable (passages d
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 253,3 | 12 665 | 13 349 | -684 | 272 | 0 | 75 | 75 |
-| Variante B | 253,3 | 12 665 | 12 014 | 651 | 245 | 0 | 75 | 75 |
+| Variante A | 253,3 | 12 409 | 13 053 | -644 | 293 | 0 | 75 | 75 |
+| Variante B | 253,3 | 12 409 | 11 747 | 661 | 263 | 0 | 75 | 75 |
 
 Variante A, unités de l'état projet :
 
@@ -441,9 +441,9 @@ Un stationnement de 1 000 m² est aménagé sur une pelouse de 2 000 m². Varian
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 241,2 | 12 061 | 5 177 | 6 883 | 0 | 0 | 50 | 50 |
-| Variante B | 241,2 | 12 061 | 8 730 | 3 330 | 73 | 0 | 60 | 50 |
-| Variante C | 241,2 | 12 061 | 7 842 | 4 219 | 54 | 0 | 72,5 | 50 |
+| Variante A | 241,2 | 11 942 | 5 127 | 6 816 | 0 | 0 | 50 | 50 |
+| Variante B | 241,2 | 11 942 | 8 679 | 3 263 | 73 | 0 | 60 | 50 |
+| Variante C | 241,2 | 11 942 | 7 791 | 4 152 | 54 | 0 | 72,5 | 50 |
 
 Variante A, unités de l'état projet :
 
@@ -472,8 +472,8 @@ Une prairie de fauche en bon état a été labourée un an avant le dépôt. Var
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 337,7 | 16 885 | 8 140 | 8 745 | 166 | 0 | 50 | 50 |
-| Variante B | 773,9 | 38 697 | 8 140 | 30 558 | 166 | 0 | 50 | 50 |
+| Variante A | 337,7 | 16 543 | 7 959 | 8 584 | 178 | 0 | 50 | 50 |
+| Variante B | 773,9 | 37 914 | 7 959 | 29 955 | 178 | 0 | 50 | 50 |
 
 Variante A, unités de l'état projet :
 

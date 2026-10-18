@@ -381,7 +381,7 @@ Sorties :
 
 (A20-1) L_u = L0 si d_lum,u > 50 m ou si aucun point lumineux ; L1 si conf_u ; L2 sinon. À défaut de distances, L_u est déclaré.
 
-(A20-2) k_lum,u = 1 (L0), 0,9 (L1), 0,75 (L2)
+(A20-2) k_lum,u se calcule heure par heure par les fiches A51 à A53, selon la durée d'allumage de nuit, la température de couleur et la distance. Les classes L0, L1 et L2 restent des raccourcis de saisie (A53-2) : 1 ; 0,916 à Trappes ; 0,75.
 
 Un éclairage est conforme (classe L1) s'il respecte l'arrêté du 27 décembre 2018 : température de couleur de 3 000 K au plus (2 400 K dans les espaces protégés), extinction au plus tard une heure après la fin de l'activité, flux orienté vers le bas.
 
@@ -391,11 +391,11 @@ Un éclairage de sécurité permanent est de classe L2 même s'il respecte la te
 
 **Cas élémentaire**
 
-Prairie à 20 m de candélabres de 3 000 K éteints à 22 h : L1, k = 0,9.
+Prairie à 20 m de candélabres de 3 000 K éteints à 22 h, à Trappes : 7,6 % des heures de nuit d'avril à octobre sont éclairées (A51) ; k_lum = 1 - 0,25 x 0,0756 x 0,9 x 0,75 = 0,987 (A53).
 
 **Renvois**
 
-Convention C-N1. Arrêté du 27 décembre 2018.
+Conventions C-N1, C-L1 à C-L4. Arrêté du 27 décembre 2018. Fiches A51 à A53.
 
 #### Fiche A21. Bruit
 

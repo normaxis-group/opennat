@@ -8,9 +8,33 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import carnet_reference as C  # noqa: E402
 from cas_validation import CAS, ANNEXE_C  # noqa: E402
 from cas_complementaires import CAS_SUPP  # noqa: E402
+from cas_dynamiques import CAS_DYN  # noqa: E402
 from commun import ecrire, nombre, tableau  # noqa: E402
 
 ANNEES = (1, 2, 3, 5, 10, 15, 20, 30, 40, 50)
+MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre',
+        'décembre']
+NIV = ('2_0', '2_7', '4_0')
+
+
+def table_dynamique(unites, projet=False):
+    """Facteurs des modules dynamiques par unité : bilan hydrique (A47 à A50), éclairage (A53), départ de la
+    maturation (A58) et facteur de gestion de la dernière année (A56)."""
+    ent = ['Unité', 'Groupe', 'RU (mm)', 'IS +2', 'IS +2,7', 'IS +4', 'k_W +2', 'k_W +2,7', 'k_W +4', 'k_lum']
+    if projet:
+        ent += ['Départ (rang)', 'f_g an 50']
+    rows = []
+    for u in unites:
+        b = u.get('bilan', {})
+        b0 = b.get('2_0') or {}
+        l = [u['id'], (b0.get('groupe') or 'sans bilan').replace('_', ' '), n(b0.get('RU'), 0) if 'RU' in b0 else '']
+        l += [n(b[k]['IS'], 1) if b.get(k) and 'IS' in b[k] else '' for k in NIV]
+        l += [n(u['kW_niveaux'][k], 3) for k in NIV]
+        l.append(n(u.get('kL', 1.0), 3))
+        if projet:
+            l += [str(u.get('mois_depart', '')), n(u['f_gestion'][-1], 3)]
+        rows.append(l)
+    return tableau(ent, rows)
 
 
 def n(x, d=2):
@@ -49,6 +73,13 @@ def derouler(cas, r):
                ['Parcelle', f'{n(cas["parcelle"], 0)} m²'], ['Emprise du bâti', f'{n(cas.get("emprise", 0), 0)} m²'],
                ['Zone biogéographique', cas['contexte']['zone']], ['Typologie', cas['contexte']['typologie']],
                ['Durée du chantier', f'{cas["duree_chantier_mois"]} mois (d_ch = {n(r["d_ch"], 3)} an)'],
+               ['Zone climatique, altitude', f'{r["contexte"]["zone_climatique"]}, '
+                + (f'{n(r["contexte"]["altitude"], 0)} m' if r['contexte'].get('altitude') else 'altitude de la station')],
+               ['Sol du site', ', '.join(f'{k} {v}' for k, v in cas.get('sol', {}).items()) or 'limon, 1 m (défaut)'],
+               ['Début du chantier', f'{MOIS[cas.get("mois_debut", 1) - 1]} {cas.get("annee_debut", 2027)} ; '
+                f'période {r["annees"][0]} à {r["annees"][-1]}'],
+               ['Mois de destruction', MOIS[cas.get('mois_destruction', cas.get('mois_debut', 1)) - 1]],
+               ['Plan de gestion écologique', f'{cas.get("plan_gestion_annees", 0)} ans'],
                ['Surface de référence', f'{n(cas.get("sref", 0), 0)} m²'],
                ['Émissions des composants et du chantier', ', '.join(
                    f'{p.replace("phase_", "").replace("_", "-")} : {n(g, 0)}' for p, g in cas.get('ges', {}).items())
@@ -65,14 +96,19 @@ def derouler(cas, r):
            f'Valeur du site sans projet V_0 = {n(r["v0"])} m²HE ; I_0 = {n(r["i0"], 1)} m²HE·an.', '',
            '**État projet (fiches A06 à A30)**', '', table_unites(r['projet'], projet=True), '',
            'Taches de l\'état projet :', '', table_taches(r['kc1']), '',
+           '**Modules dynamiques, état initial (fiches A47 à A53)**', '', table_dynamique(r['initial']), '',
+           '**Modules dynamiques, état projet (fiches A47 à A58)**', '', table_dynamique(r['projet'], True), '',
            '**Trajectoire du site (fiche A31)**', '',
-           tableau(['Année'] + [str(a) for a in ANNEES], [['V_1(t), m²HE'] + [n(r['site'][a - 1], 1) for a in ANNEES]]),
+           tableau(['Année'] + [str(a) for a in ANNEES], [['V_1(t), m²HE'] + [n(r['site'][a - 1], 1) for a in ANNEES],
+                                                          ['V_0 x k_W, m²HE'] + [n(r['ref'][a - 1], 1) for a in ANNEES]]),
            '', '**Indicateurs (fiches A33 à A38)**', '']
     m = r['mat']
     lignes = [['I_0', n(r['i0'], 1), 'm²HE·an'], ['I_1', n(r['i1'], 1), 'm²HE·an'],
               ['Cnat', n(r['cnat'], 1), 'm²HE·an'],
               ['Cnat relatif', n(r['cnat_rel'], 3) if r['cnat_rel'] is not None else 'non défini', ''],
               ['Cnat sur 30 ans', n(r['cnat_30'], 1), 'm²HE·an'], ['Dette de maturité', n(r['dm'], 1), 'm²HE·an'],
+              ['Supplément pour destruction en période sensible', n(r['faune'], 1), 'm²HE·an'],
+              ['Arrosage annuel moyen', n(r['arrosage_m3_an'], 1), 'm³'],
               ['Inat climat', n(m['inat_clim'], 1), 'm²HE·an'], ['Inat bois', n(m['inat_bois'], 1), 'm²HE·an'],
               ['Inat carrières', n(m['inat_carr'], 1), 'm²HE·an'], ['Inat', n(r['inat'], 1), 'm²HE·an'],
               ['Snat', n(r['snat'], 1), 'm²HE·an'], ['Bnat', n(r['bnat'], 1), 'points'],
@@ -92,6 +128,9 @@ def derouler(cas, r):
     return out
 
 
+RC = C.calculer(ANNEXE_C)
+
+
 def main():
     out = ['## Partie 8. Cas de validation', '',
            'Les huit situations types du cahier des charges (§ 7) sont calculées ci-dessous par le carnet de calcul '
@@ -99,9 +138,11 @@ def main():
            'Monte-Carlo et sans rien partager avec le futur moteur. Chaque cas donne ses hypothèses, toutes les '
            'grandeurs intermédiaires et les indicateurs : le moteur devra les retrouver à 0,1 % près (exigence E10). '
            'Les cas 7 et 8 se déclinent en variantes.', '',
-           'Le carnet a d\'abord été contrôlé sur l\'exemple de l\'annexe C de la partie 1, qu\'il retrouve à '
-           'l\'identique : V_0 = 270,39 ; I_0 = 13 519,3 ; I_1 = 12 051,0 ; Cnat = 1 468,3 ; dette de maturité 860,2 ; '
-           'Inat = 141 842,9 ; Bnat = 59,0.', '']
+           f'Le carnet a d\'abord été contrôlé sur l\'exemple de l\'annexe C de la partie 1, qu\'il retrouve à '
+           f'l\'identique : V_0 = {n(RC["v0"])} ; I_0 = {n(RC["i0"], 1)} ; I_1 = {n(RC["i1"], 1)} ; Cnat = '
+           f'{n(RC["cnat"], 1)} ; dette de maturité {n(RC["dm"], 1)} ; Inat = {n(RC["inat"], 1)} ; Bnat = '
+           f'{n(RC["bnat"], 1)}. Les grandeurs des modules dynamiques (bilan hydrique horaire, éclairage horaire, '
+           f'maturation, gestion, calendrier) sont données par unité dans chaque cas.', '']
     res = {}
     for cas in CAS:
         r = C.calculer(cas)
@@ -130,8 +171,9 @@ def main():
             f'{n(res[CAS[5]["nom"]]["dm"], 0)} m²HE·an (cas 6).',
             f'- Bois et béton (cas 7) : Inat vaut {n(r7[0]["inat"], 0)} pour le béton, {n(r7[1]["inat"], 0)} pour le '
             f'bois d\'origine non justifiée et {n(r7[2]["inat"], 0)} pour le bois de coupe sélective justifiée.',
-            f'- Zone méditerranéenne (cas 8) : sans différence en v1 ; avec des délais allongés de 25 %, Cnat passe de '
-            f'{n(r8[0]["cnat"], 0)} à {n(r8[2]["cnat"], 0)} m²HE·an.', '',
+            f'- Zone méditerranéenne (cas 8) : les délais sont les mêmes (C-E2), mais la mare non raccordée s\'assèche '
+            f'au printemps sous le climat de Marignane ; Cnat passe de {n(r8[0]["cnat"], 0)} à {n(r8[1]["cnat"], 0)} '
+            f'm²HE·an, et à {n(r8[2]["cnat"], 0)} avec des délais allongés de 25 %.', '',
             '### Lecture du cas 7', '',
             'Avec les conventions de la v1, le bâtiment en bois a une biodiversité grise plusieurs fois plus forte que '
             'le même bâtiment en béton. Le climat est plus faible pour le bois, mais l\'occupation des forêts, '
@@ -166,10 +208,58 @@ def main():
             "- La situation en corridor ou en réservoir augmente la perte dans le rapport des multiplicateurs "
             "(C05, C21, C22).",
             "- L'éclairage de la prairie créée réduit le gain (C02, C23, C24).",
-            "- La zone biogéographique ne change rien en v1 (C25 à C27, convention C-E2).",
+            "- La zone biogéographique ne change pas les délais (C-E2) ; les écarts entre C02 et C25 à C27 viennent "
+            "du climat de la station de référence (Trappes, Rennes, Marignane, Mâcon à 900 m) et restent faibles, "
+            "le facteur hydrique ne comptant que l'écart au climat local.",
             "- Un parking revêtu transformé en résidence avec jardins gagne toujours de la nature (C13 à C15, C30, "
             "C31) ; sa valeur initiale nulle laisse Cnat relatif non défini et le niveau 2 se juge sur Cnat < 0.", '']
     for cas, r in rs:
+        out += derouler(cas, r)
+    # cas dynamiques
+    r6 = C.calculer(next(c for c in CAS if c['nom'].startswith('Cas 6')))
+    rd = [(cas, C.calculer(cas)) for cas in CAS_DYN]
+
+    def ref(cas):
+        return r6 if 'Cas 6' in cas['nom'] else RC
+    out += ['### Cas dynamiques', '',
+            "Vingt-neuf cas reprennent l'exemple de l'annexe C (et le cas 6 pour la mare) en ne changeant qu'une "
+            "donnée des modules dynamiques : calendrier du chantier, substrat de la toiture, sol, arrosage, zone "
+            "climatique, éclairage, plan de gestion, année de début, raccordement et fond de la mare, abattage "
+            "d'arbres à gîtes. L'écart se lit par rapport à l'exemple de l'annexe C (Cnat = "
+            f"{n(RC['cnat'], 1)}) ou au cas 6 en zone H3 pour D25 à D27 (Cnat du cas 6 en zone H1a : "
+            f"{n(r6['cnat'], 1)}).", '',
+            '#### Synthèse des cas dynamiques', '',
+            tableau(['Cas', 'Donnée changée', 'I_1', 'Cnat', 'Écart', 'ΔI_ch', 'Arrosage (m³/an)'],
+                    [[c['nom'].split('. ')[0], c['nom'].split('. ', 1)[1], n(r['i1'], 0), n(r['cnat'], 0),
+                      n(r['cnat'] - ref(c)['cnat'], 0), n(r['faune'], 1), n(r['arrosage_m3_an'], 1)]
+                     for c, r in rd]), '',
+            'Lecture :', '']
+    d = {c['nom'].split('. ')[0]: r for c, r in rd}
+    e = lambda k: n(d[k]['cnat'] - RC['cnat'], 0)
+    out += [f"- Calendrier : un défrichement en mai ajoute {n(d['Cas D01']['faune'], 1)} m²HE·an pour la "
+            f"nidification ; un début en janvier reporte les plantations à novembre et coûte {e('Cas D02')} m²HE·an ; "
+            f"l'abattage d'arbres âgés à gîtes en janvier ajoute {n(d['Cas D28']['faune'], 1)} m²HE·an que l'abattage "
+            "en octobre évite.",
+            f"- Substrat : la toiture de 8 cm coûte {e('Cas D03')} m²HE·an, celle de 30 cm en rend "
+            f"{n(-(d['Cas D04']['cnat'] - RC['cnat']), 0)}.",
+            f"- Sol : sur un sable, Cnat baisse de {n(-(d['Cas D07']['cnat'] - RC['cnat']), 0)} m²HE·an. L'état "
+            "initial, sur le même sol, perd lui aussi, et davantage : la friche herbacée initiale est plus étendue "
+            "que les milieux créés. Le sol pauvre pénalise le projet dans l'absolu (I_1 plus faible), pas face à "
+            "l'état initial.",
+            f"- Éclairage : la prairie éclairée toute la nuit en 4 000 K coûte {e('Cas D17')} m²HE·an ; éteinte à 23 h, "
+            f"en 2 700 K, à 20 m, elle en rend {n(-(d['Cas D18']['cnat'] - RC['cnat']), 0)}.",
+            f"- Gestion : sans plan, Cnat monte de {e('Cas D20')} ; un plan de trente ans le baisse de "
+            f"{n(-(d['Cas D21']['cnat'] - RC['cnat']), 0)}, un plan de cinquante ans de "
+            f"{n(-(d['Cas D22']['cnat'] - RC['cnat']), 0)}. L'abandon après le plan vaut mieux que la tonte d'une "
+            "pelouse : la friche abandonnée garde plus de valeur que la pelouse (BKompV).",
+            f"- Climat : d'une zone à l'autre, l'écart reste sous {n(max(abs(d[f'Cas D{i}']['cnat'] - RC['cnat']) for i in range(10, 17)), 0)} "
+            "m²HE·an, parce que la végétation de chaque zone est jugée sur son propre climat ; un début en 2045 "
+            f"décale la période vers un climat plus chaud et baisse Cnat de {n(-(d['Cas D24']['cnat'] - RC['cnat']), 0)} "
+            "m²HE·an, l'état initial perdant davantage que le projet.",
+            f"- Mare en zone H3 : sans bassin versant, elle s'assèche au printemps ; raccordée à 3 000 m² de prairie, "
+            f"elle tient mieux (Cnat {n(d['Cas D26']['cnat'], 0)}) ; avec un fond étanche, elle reste en eau "
+            f"(Cnat {n(d['Cas D27']['cnat'], 0)}, contre {n(d['Cas D25']['cnat'], 0)}).", '']
+    for cas, r in rd:
         out += derouler(cas, r)
     print(ecrire('08_cas_validation.md', '\n'.join(out)))
 

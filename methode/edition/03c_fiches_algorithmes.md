@@ -23,7 +23,7 @@ Variables internes et sorties :
 
 (A26-2) τ_t = t - d_ch
 
-La valeur d'une année est celle de sa fin : une unité créée commence à mûrir dès que τ_t devient positif.
+Le calcul se fait au pas mensuel (fiche A58) : φ_m = 1 pour chaque mois du chantier, 0 ensuite ; φ_t est la moyenne annuelle de φ_m. Le départ de la maturation des unités créées n'est plus la fin du chantier mais le premier mois favorable aux plantations (fiche A58) ; τ_t ne sert qu'aux unités sans délai.
 
 **Cas limites et contrôles**
 
@@ -112,7 +112,7 @@ Sorties : V_u(t).
 
 (A28-1) d_u = k_delai x d(h_u, cl_u) ; si le type n'a qu'un délai « sans état », d_u = k_delai x d(h_u, sans état) ; si le type n'a aucun délai, d_u = 0 (convention C-T3).
 
-(A28-2) g_u(t) = 0 si τ_t <= 0 ; 1 si d_u = 0 ; min(1 ; τ_t / d_u) sinon
+(A28-2) g_u = courbe de maturation de la fiche A54, τ étant compté au mois près depuis le départ fixé par la fiche A58 ; la droite min(1 ; τ / d_u) de la première rédaction est remplacée.
 
 (A28-3) V_u(t) = D_c(h_u) x V_u x g_u(t) [T3]
 
@@ -124,11 +124,11 @@ Une unité créée sur l'emprise d'une unité initiale détruite ne reprend rien
 
 **Cas élémentaire**
 
-Prairie urbaine VB.26, V_u = 88,53, classe moyen, d = 5 ans, D = 1, d_ch = 1,5 : V(2) = 8,85 ; V(3) = 26,56 ; V(5) = 61,97 ; V(7) et suivantes = 88,53.
+Prairie urbaine VB.26 de l'annexe C, V_u = 90,10, classe moyen, d = 5 ans, D = 1, chantier de 18 mois commencé en septembre, plantée en janvier (rang 17) : moyennes annuelles 12,40 l'année 2 ; 48,21 l'année 3 ; 69,24 l'année 4 ; 87,12 l'année 6 ; 90,10 à partir de l'année 8, avant facteurs hydrique et de gestion.
 
 **Renvois**
 
-Conventions C-T1, C-T2, C-T3, C-T7, C-E2.
+Conventions C-T1, C-T2, C-T3, C-T7, C-E2, C-M1, C-K2. Fiches A54, A58.
 
 #### Fiche A29. Unités améliorées
 
@@ -212,7 +212,7 @@ La fiche additionne les trajectoires et produit les valeurs intégrées du site 
 
 **Nomenclature**
 
-Entrées : V_u des unités de l'état initial ; V_u(t) des unités de l'état projet ; N, N30.
+Entrées : V_u et k_W,u(t) des unités de l'état initial ; V_u(t) des unités de l'état projet (fiches A27 à A30, multipliées par k_W,u(t) et f_g,u(t)) ; N, N30.
 
 Sorties :
 
@@ -230,11 +230,11 @@ Sorties :
 
 (A31-2) V_1(t) = somme des V_u(t) de l'état projet (conservées, créées, améliorées)
 
-(A31-3) I_0 = N x V_0 ; I_1 = somme pour t de 1 à N de V_1(t) [T6]
+(A31-3) I_0 = somme pour t de 1 à N des V_u x k_W,u(t) de l'état initial ; I_1 = somme pour t de 1 à N de V_1(t) [T7]. L'état initial subit le même climat que le projet (fiche A50).
 
-(A31-4) I_0,30 = 30 x V_0 ; I_1,30 = somme pour t de 1 à 30 de V_1(t)
+(A31-4) I_0,30 et I_1,30 : mêmes sommes sur 30 ans
 
-(A31-5) DM = somme pour t de 1 à N, sur les unités créées et améliorées, de (D x V_u - V_u(t)) [T7]
+(A31-5) DM = somme pour t de 1 à N, sur les unités créées et améliorées, de (D x V_u - moyenne annuelle des valeurs mensuelles), avant facteurs hydrique et de gestion [T8]
 
 Les unités initiales détruites (ni conservées ni améliorées) n'apparaissent pas dans V_1(t) : leur perte est dans l'écart I_0 - I_1.
 
@@ -244,7 +244,7 @@ Option d'étude inactive (convention C-T5) : avec un taux d'actualisation a, cha
 
 **Cas élémentaire**
 
-Voir l'annexe C de la partie 1 : V_0 = 270,39 ; I_0 = 13 519,3 ; I_1 = 12 051,0 ; DM = 860,2 m²HE·an.
+Voir l'annexe C de la partie 1 : V_0 = 270,39 ; I_0 = 13 277,1 ; I_1 = 10 059,9 ; DM = 673,1 m²HE·an.
 
 **Renvois**
 

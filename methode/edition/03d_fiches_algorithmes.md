@@ -8,7 +8,7 @@ L'étape E3 réunit les sorties des modules T et G en indicateurs de l'opératio
 
 **Nomenclature**
 
-Entrées : I_0, I_1, I_0,30, I_1,30, DM (fiche A31) ; Inat_clim, Inat_bois, Inat_carr (fiches A33 à A35) ; S_p, S_ref.
+Entrées : I_0, I_1, I_0,30, I_1,30, DM (fiche A31) ; ΔI_ch (fiche A57) ; Inat_clim, Inat_bois, Inat_carr (fiches A33 à A35) ; S_p, S_ref.
 
 Sorties :
 
@@ -24,13 +24,13 @@ Sorties :
 
 **Description mathématique**
 
-(A37-1) Cnat = I_0 - I_1 [A1]
+(A37-1) Cnat = I_0 - I_1 + ΔI_ch [A1]
 
 (A37-2) Cnat_moy = Cnat / N
 
 (A37-3) Cnat_rel = Cnat / I_0 si I_0 > 0 ; non défini sinon
 
-(A37-4) Cnat_30 = I_0,30 - I_1,30
+(A37-4) Cnat_30 = I_0,30 - I_1,30 + ΔI_ch
 
 (A37-5) Inat = Inat_clim + Inat_bois + Inat_carr [G1]
 
@@ -42,7 +42,7 @@ Sur un site sans valeur initiale (I_0 = 0), Cnat est négatif ou nul et Cnat_rel
 
 **Cas élémentaire**
 
-Annexe C : Cnat = 1 468,3 ; Cnat_rel = 0,109 ; Inat = 141 843 ; Snat = -143 311 m²HE·an.
+Annexe C : Cnat = 3 217,2 ; Cnat_rel = 0,242 ; Inat = 141 843 ; Snat = -145 060 m²HE·an. Volume d'arrosage annuel moyen : 0 m³ (aucune unité arrosée).
 
 **Renvois**
 
@@ -180,7 +180,7 @@ L'attestation au permis ne porte que sur les données du plan masse ; elle n'aff
 
 **Cas élémentaire**
 
-Bnat = 59,0, Bnat_min = 45, PT = 0,425, PT_min = 0,15, PLU sans exigence : conformité au permis. Cnat = 1 468,3 > 0 : niveau 0 à l'achèvement.
+Bnat = 59,0, Bnat_min = 45, PT = 0,425, PT_min = 0,15, PLU sans exigence : conformité au permis. Cnat = 3 217,2 > 0 : niveau 0 à l'achèvement.
 
 **Renvois**
 

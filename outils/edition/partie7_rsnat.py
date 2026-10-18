@@ -104,7 +104,10 @@ def exemple():
     ent = sub(r, 'Entree_Projet')
     p = sub(ent, 'Projet')
     for k, v in (('identifiant', 'EX-ANNEXE-C'), ('nom', 'Résidence sur friche urbaine'),
-                 ('zone_biogeographique', 'continentale'), ('typologie', 'logement'), ('date_etude', '2026-10-18')):
+                 ('zone_biogeographique', 'continentale'), ('departement', '78'), ('zone_climatique', 'H1a'),
+                 ('texture_sol', 'limon'), ('profondeur_sol', 1.0), ('annee_debut_chantier', 2027),
+                 ('mois_debut_chantier', 9), ('mois_destruction', 9), ('plan_gestion_annees', 10),
+                 ('typologie', 'logement'), ('date_etude', '2026-10-18')):
         sub(p, k, v)
     par = sub(ent, 'Parcelle')
     sub(par, 'surface', 2000)
@@ -202,6 +205,9 @@ def exemple():
     s = sub(vr, 'Site')
     for k, val in (('valeur_initiale', r1(rc['v0'])), ('i0', r1(rc['i0'])), ('i1', r1(rc['i1'])),
                    ('i0_30', r1(rc['i0_30'])), ('i1_30', r1(rc['i1_30'])), ('dette_maturite', r1(rc['dm'])),
+                   ('supplement_destruction', r1(rc['faune'])), ('arrosage_annuel', r1(rc['arrosage_m3_an'])),
+                   ('rang_plantation', 17), ('annees_periode', f"{rc['annees'][0]} {rc['annees'][-1]}"),
+                   ('trajectoire_reference', ' '.join(f'{x:.1f}' for x in rc['ref'])),
                    ('trajectoire_site', ' '.join(f'{x:.1f}' for x in rc['site'])),
                    ('pleine_terre', round(rc['pt'], 3)), ('pleine_terre_initiale', round(rc['pt0'], 3)),
                    ('impermeable_initial', r1(rc['aimp0'])), ('impermeable_projet', r1(rc['aimp1'])),
