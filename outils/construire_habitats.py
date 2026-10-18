@@ -79,11 +79,19 @@ def lire_uk():
         haies[r[2]] = {'distinctivite': r[4], 'mauvais': r[5], 'moyen': r[7], 'bon': r[9],
                        'difficulte': next((x for x in r[30:] if x in DIFFICULTE), ''),
                        'ligne_g6': r[0]}
+    g5 = {}
+    lignes_g5 = lire_extrait('G-5 Enhancement Temporal')
+    entete = lignes_g5[2]
+    colonnes = {'mauvais_moyen': entete.index('Poor - Moderate'), 'mauvais_bon': entete.index('Poor - Good'),
+                'moyen_bon': entete.index('Moderate - Good')}
+    for r in lignes_g5[3:]:
+        if len(r) > 23 and r[3]:
+            g5.setdefault(r[3], dict({k: r[i] for k, i in colonnes.items()}, ligne_g5=r[0]))
     arbres = {}
     for r in lire_extrait('G-3 Multipliers'):
         if len(r) > 27 and r[24] in ('Small', 'Medium', 'Large', 'Very large'):
             arbres[r[24]] = {'diametre_m': r[25], 'rpa_ha': r[27], 'ligne_g3': r[0]}
-    return g1, g3, g4, haies, arbres
+    return g1, g3, g4, g5, haies, arbres
 
 
 def annees(texte):
@@ -111,7 +119,7 @@ def ligne(cle, parametre, valeur, unite, classe, source, ref, url, licence, typ,
 
 def main():
     bk = lire_bkompv()
-    g1, g3, g4, haies, arbres = lire_uk()
+    g1, g3, g4, g5, haies, arbres = lire_uk()
     with open(os.path.join(DON, 'nomenclature_habitats.csv'), encoding='utf-8') as f:
         nomen = list(csv.DictReader(f, delimiter=';'))
 
@@ -205,6 +213,15 @@ def main():
                                      'Statutory Biodiversity Metric 1.0.4',
                                      f'onglet G-4, ligne {t["ligne_g4"]}, « {uk} », {libelle}',
                                      URL_UK, LIC_UK, 'transposition', conv))
+        if uk in g5:
+            for trajet in ('mauvais_moyen', 'mauvais_bon', 'moyen_bon'):
+                a, conv = annees(g5[uk][trajet])
+                if a is not None:
+                    sorties.append(ligne(cle, f'delai_amelioration_{trajet}', a, 'an', 'reglement',
+                                         'Statutory Biodiversity Metric 1.0.4',
+                                         f'onglet G-5, ligne {g5[uk]["ligne_g5"]}, « {uk} », '
+                                         f'amélioration {trajet.replace("_", " vers ")}', URL_UK,
+                                         LIC_UK, 'transposition', conv))
         m = g3[uk]
         for nature, cle_g3 in (('creation', 'creation'), ('amelioration', 'amelioration')):
             sorties.append(ligne(cle, f'difficulte_{nature}', float(m[cle_g3]), 'sans unité',

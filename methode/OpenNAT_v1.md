@@ -361,7 +361,7 @@ Paramètres : `habitats.csv` (délais, difficultés), `contexte.csv`.
 
 d_u est le délai de maturité du type pour la classe d'état visée (C-T1, C-T2), multiplié par le multiplicateur de zone (C-E2) ; pour un type sans évaluation d'état dans la métrique anglaise, le délai « sans état » ; pour un type minéral, 0 (C-T3). D_u est la difficulté de création (C-T7).
 
-(T4) Unité améliorée : V_u(t) = V_u,0 + (D_u x V_u - V_u,0) x g(t) si D_u x V_u > V_u,0, et V_u,0 sinon, où V_u,0 est la valeur à l'état initial de l'unité liée et D_u la difficulté d'amélioration.
+(T4) Unité améliorée : V_u(t) = V_u,0 + (D_u x V_u - V_u,0) x g(t) si D_u x V_u > V_u,0, et V_u,0 sinon, où V_u,0 est la valeur à l'état initial de l'unité liée, D_u la difficulté d'amélioration et d_u le délai d'amélioration de la classe d'état initiale à la classe visée (mauvais vers moyen, mauvais vers bon, moyen vers bon), lu dans l'onglet G-5 de la métrique anglaise (`habitats.csv`, paramètres `delai_amelioration_*`).
 
 (T5) Renouvellement prévu l'année R : V_u(t) = 0 de R à R + 1 (convention C-T6), puis maturation selon (T3) depuis R + 1.
 
