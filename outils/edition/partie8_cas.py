@@ -7,6 +7,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import carnet_reference as C  # noqa: E402
 from cas_validation import CAS, ANNEXE_C  # noqa: E402
+from cas_complementaires import CAS_SUPP  # noqa: E402
 from commun import ecrire, nombre, tableau  # noqa: E402
 
 ANNEES = (1, 2, 3, 5, 10, 15, 20, 30, 40, 50)
@@ -142,6 +143,34 @@ def main():
             'attributionnelle qui compte toute la forêt de production comme une perte par rapport à la forêt '
             'naturelle (C-G5), et l\'absence de prise en compte de l\'occupation des usines et des carrières de '
             'ciment pour les autres matériaux (C-G7), qui avantage le béton. Ce cas est le premier à recalibrer.', '']
+    out += ['### Cas complémentaires', '',
+            "Trente et un cas complémentaires déclinent une même opération type (part d'emprise bâtie, 15 % de "
+            "voirie, jardins, prairie urbaine et haie sur le reste, toiture extensive sur la moitié de l'emprise, "
+            "arbres plantés) sur cinq sites initiaux, trois tailles de parcelle, trois emprises, deux typologies, "
+            "trois durées de chantier, trois situations, trois éclairages et quatre zones. Ils forment, avec les huit "
+            "cas précédents, le jeu de référence du banc de validation du moteur (lot 4).", '']
+    rs = [(cas, C.calculer(cas)) for cas in CAS_SUPP]
+    out += ['#### Synthèse des cas complémentaires', '',
+            tableau(['Cas', 'V_0', 'Cnat', 'Cnat relatif', 'Dette', 'Inat', 'Snat', 'Bnat', 'Niveau'],
+                    [[c['nom'].split('. ')[0], n(r['v0'], 1), n(r['cnat'], 0),
+                      n(r['cnat_rel'], 3) if r['cnat_rel'] is not None else 'non défini', n(r['dm'], 0),
+                      n(r['inat'], 0), n(r['snat'], 0), n(r['bnat'], 1), str(r['niveau'])] for c, r in rs]), '',
+            'Lecture :', '',
+            "- La taille de la parcelle change peu la consommation relative (C04 à C06 : 0,63 à 0,64) : l'effet de "
+            "taille des taches touche l'état initial comme l'état projet.",
+            "- La prairie de fauche et la chênaie-charmaie de stade moyen donnent les mêmes résultats (C04 à C06 et "
+            "C10 à C12) : leurs valeurs de biotope allemandes sont égales (20 sur 24) et leurs grilles d'état sont "
+            "remplies de la même façon. La méthode ne distingue ici un boisement d'une prairie que par son stade.",
+            "- Plus l'emprise augmente, plus Cnat et Inat augmentent et plus Bnat baisse (C05, C16, C17).",
+            "- Un chantier plus long creuse la perte (C19, C08, C20 : 6, 18 et 36 mois).",
+            "- La situation en corridor ou en réservoir augmente la perte dans le rapport des multiplicateurs "
+            "(C05, C21, C22).",
+            "- L'éclairage de la prairie créée réduit le gain (C02, C23, C24).",
+            "- La zone biogéographique ne change rien en v1 (C25 à C27, convention C-E2).",
+            "- Un parking revêtu transformé en résidence avec jardins gagne toujours de la nature (C13 à C15, C30, "
+            "C31) ; sa valeur initiale nulle laisse Cnat relatif non défini et le niveau 2 se juge sur Cnat < 0.", '']
+    for cas, r in rs:
+        out += derouler(cas, r)
     print(ecrire('08_cas_validation.md', '\n'.join(out)))
 
 
