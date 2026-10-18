@@ -51257,7 +51257,7 @@ Taches de l'état projet :
 Propriétés vérifiées par ces cas :
 
 - Une friche imperméabilisée transformée en résidence avec jardin gagne de la nature : Cnat = -25 922 m²HE·an (cas 1).
-- La construction d'une prairie riche fait perdre l'essentiel de sa valeur au site : Cnat relatif = 0,845 (cas 2).
+- La construction d'une prairie riche fait perdre au site la plus grande part de sa valeur : Cnat relatif = 0,845 (cas 2).
 - La même opération en réservoir perd davantage : 383 880 contre 333 809 m²HE·an, soit le rapport du multiplicateur de situation (cas 5).
 - Les bureaux sur dalle atteignent le seuil de Bnat du tertiaire grâce à la dalle et à la toiture, mais pas celui de la pleine terre, nulle (cas 3).
 - La réhabilitation gagne un peu de nature par la cour désimperméabilisée et le jardin amélioré (cas 4).

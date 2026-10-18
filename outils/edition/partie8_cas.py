@@ -160,7 +160,7 @@ def main():
     out += ['Propriétés vérifiées par ces cas :', '',
             f'- Une friche imperméabilisée transformée en résidence avec jardin gagne de la nature : Cnat = '
             f'{n(res[CAS[0]["nom"]]["cnat"], 0)} m²HE·an (cas 1).',
-            f'- La construction d\'une prairie riche fait perdre l\'essentiel de sa valeur au site : Cnat relatif = '
+            f'- La construction d\'une prairie riche fait perdre au site la plus grande part de sa valeur : Cnat relatif = '
             f'{n(r2["cnat_rel"], 3)} (cas 2).',
             f'- La même opération en réservoir perd davantage : {n(r5["cnat"], 0)} contre {n(r2["cnat"], 0)} '
             f'm²HE·an, soit le rapport du multiplicateur de situation (cas 5).',
