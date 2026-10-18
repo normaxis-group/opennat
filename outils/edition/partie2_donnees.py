@@ -159,6 +159,7 @@ def main():
             'température moyenne, la pluie après recalage sur la normale 1991-2020 (fiche A45) et '
             'l\'évapotranspiration de référence calculée par la fiche A44, à l\'altitude de la station.', '']
     noms = {'2_0': '+2', '2_7': '+2,7', '4_0': '+4'}
+    NOMS_STATIONS = {'MACON': 'Mâcon'}
     mois = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']
     for zone, (station, lat, lon, alt) in climat.STATIONS.items():
         rows = []
@@ -169,9 +170,9 @@ def main():
                 vals = [fonc([h[cle] for h in an if h['mois'] == m]) for m in range(1, 13)]
                 tot = fonc([h[cle] for h in an])
                 rows.append([f'{nom_g} {noms[niv]}'] + [f'{v:.{d}f}'.replace('.', ',') for v in vals + [tot]])
-        out += [f'#### Zone {zone}, station de {station.capitalize()} ({nombre(alt)} m)', '',
-                tableau(['Grandeur'] + mois + ['An'], rows), '']
-    out += ['T : température moyenne (°C) ; P : pluie recalée (mm) ; ET0 : évapotranspiration de référence (mm). '
+        out += [f'#### Zone {zone}, station de {NOMS_STATIONS.get(station, station.capitalize())} ({nombre(alt)} m)', '',
+                tableau(['Var.'] + mois + ['An'], rows), '']
+    out += ['Var. : variable. T : température moyenne (°C) ; P : pluie recalée (mm) ; ET0 : évapotranspiration de référence (mm). '
             '+2, +2,7, +4 : niveau de réchauffement de l\'année type (°C). Mois de janvier (J) à décembre (D).', '']
     k += 1
     # extraits des sources

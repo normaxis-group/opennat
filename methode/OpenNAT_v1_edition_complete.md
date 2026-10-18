@@ -4828,7 +4828,7 @@ Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures 
 
 #### Zone H1a, station de Trappes (167 m)
 
-| Grandeur | J | F | M | A | M | J | J | A | S | O | N | D | An |
+| Var. | J | F | M | A | M | J | J | A | S | O | N | D | An |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | T +2 | 6,9 | 3,0 | 8,8 | 9,2 | 13,4 | 17,8 | 19,5 | 18,7 | 16,0 | 12,8 | 8,9 | 5,5 | 11,8 |
 | P +2 | 56 | 49 | 50 | 50 | 66 | 57 | 56 | 56 | 50 | 62 | 61 | 72 | 685 |
@@ -4842,7 +4842,7 @@ Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures 
 
 #### Zone H1b, station de Nancy (212 m)
 
-| Grandeur | J | F | M | A | M | J | J | A | S | O | N | D | An |
+| Var. | J | F | M | A | M | J | J | A | S | O | N | D | An |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | T +2 | 3,2 | 4,4 | 7,9 | 12,7 | 14,6 | 17,3 | 20,4 | 20,9 | 15,7 | 13,4 | 6,8 | 5,7 | 12,0 |
 | P +2 | 64 | 55 | 54 | 44 | 68 | 56 | 63 | 67 | 61 | 66 | 69 | 78 | 746 |
@@ -4854,9 +4854,9 @@ Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures 
 | P +4 | 64 | 55 | 54 | 44 | 68 | 56 | 63 | 67 | 61 | 66 | 69 | 78 | 746 |
 | ET0 +4 | 17 | 28 | 44 | 74 | 104 | 123 | 133 | 119 | 82 | 37 | 18 | 14 | 793 |
 
-#### Zone H1c, station de Macon (219 m)
+#### Zone H1c, station de Mâcon (219 m)
 
-| Grandeur | J | F | M | A | M | J | J | A | S | O | N | D | An |
+| Var. | J | F | M | A | M | J | J | A | S | O | N | D | An |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | T +2 | 7,0 | 7,1 | 9,6 | 13,5 | 15,6 | 23,1 | 23,2 | 22,2 | 18,7 | 13,7 | 8,6 | 4,8 | 14,0 |
 | P +2 | 58 | 49 | 49 | 66 | 76 | 70 | 72 | 73 | 71 | 91 | 93 | 67 | 834 |
@@ -4870,7 +4870,7 @@ Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures 
 
 #### Zone H2a, station de Rennes (36 m)
 
-| Grandeur | J | F | M | A | M | J | J | A | S | O | N | D | An |
+| Var. | J | F | M | A | M | J | J | A | S | O | N | D | An |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | T +2 | 7,3 | 8,8 | 9,7 | 13,4 | 14,4 | 17,7 | 18,7 | 20,9 | 18,3 | 15,5 | 11,3 | 7,5 | 13,6 |
 | P +2 | 67 | 52 | 49 | 51 | 58 | 51 | 44 | 44 | 57 | 73 | 73 | 73 | 691 |
@@ -4884,7 +4884,7 @@ Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures 
 
 #### Zone H2b, station de Tours (108 m)
 
-| Grandeur | J | F | M | A | M | J | J | A | S | O | N | D | An |
+| Var. | J | F | M | A | M | J | J | A | S | O | N | D | An |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | T +2 | 6,6 | 5,7 | 9,3 | 12,8 | 15,8 | 21,3 | 22,8 | 21,0 | 17,8 | 14,5 | 9,6 | 6,5 | 13,7 |
 | P +2 | 63 | 52 | 49 | 53 | 58 | 53 | 47 | 44 | 52 | 66 | 69 | 72 | 678 |
@@ -4898,7 +4898,7 @@ Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures 
 
 #### Zone H2c, station de Agen (58 m)
 
-| Grandeur | J | F | M | A | M | J | J | A | S | O | N | D | An |
+| Var. | J | F | M | A | M | J | J | A | S | O | N | D | An |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | T +2 | 7,2 | 8,3 | 10,9 | 14,0 | 16,7 | 20,6 | 22,4 | 23,2 | 20,9 | 15,7 | 9,3 | 7,7 | 14,8 |
 | P +2 | 60 | 44 | 49 | 70 | 73 | 62 | 49 | 50 | 61 | 59 | 70 | 61 | 708 |
@@ -4912,7 +4912,7 @@ Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures 
 
 #### Zone H2d, station de Carpentras (98 m)
 
-| Grandeur | J | F | M | A | M | J | J | A | S | O | N | D | An |
+| Var. | J | F | M | A | M | J | J | A | S | O | N | D | An |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | T +2 | 7,1 | 7,6 | 11,1 | 15,5 | 19,3 | 23,9 | 24,5 | 25,4 | 22,3 | 16,0 | 10,7 | 6,1 | 15,8 |
 | P +2 | 46 | 34 | 43 | 61 | 56 | 42 | 26 | 41 | 99 | 88 | 91 | 42 | 667 |
@@ -4926,7 +4926,7 @@ Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures 
 
 #### Zone H3, station de Marignane (9 m)
 
-| Grandeur | J | F | M | A | M | J | J | A | S | O | N | D | An |
+| Var. | J | F | M | A | M | J | J | A | S | O | N | D | An |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | T +2 | 8,9 | 10,6 | 11,7 | 16,0 | 21,1 | 22,8 | 27,8 | 26,1 | 21,2 | 17,8 | 13,3 | 8,4 | 17,2 |
 | P +2 | 47 | 30 | 29 | 52 | 38 | 28 | 11 | 26 | 82 | 73 | 76 | 41 | 533 |
@@ -4938,7 +4938,7 @@ Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures 
 | P +4 | 47 | 30 | 30 | 52 | 38 | 28 | 11 | 26 | 82 | 73 | 76 | 41 | 533 |
 | ET0 +4 | 38 | 52 | 88 | 119 | 160 | 203 | 247 | 179 | 138 | 73 | 41 | 33 | 1371 |
 
-T : température moyenne (°C) ; P : pluie recalée (mm) ; ET0 : évapotranspiration de référence (mm). +2, +2,7, +4 : niveau de réchauffement de l'année type (°C). Mois de janvier (J) à décembre (D).
+Var. : variable. T : température moyenne (°C) ; P : pluie recalée (mm) ; ET0 : évapotranspiration de référence (mm). +2, +2,7, +4 : niveau de réchauffement de l'année type (°C). Mois de janvier (J) à décembre (D).
 
 ### 2.17 Extraits des sources primaires utilisés
 
