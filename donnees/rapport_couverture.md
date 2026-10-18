@@ -4,18 +4,23 @@ Produit par `outils/controle_donnees.py`. Une ligne = une valeur.
 
 | Table | Lignes | Primaire | Transposition | Secondaire | Convention |
 |---|---|---|---|---|---|
+| `chantier.csv` | 51 | 0 | 12 | 0 | 39 |
+| `climat.csv` | 128 | 128 | 0 | 0 | 0 |
 | `connectivite.csv` | 11 | 1 | 4 | 1 | 5 |
 | `contexte.csv` | 15 | 2 | 3 | 0 | 10 |
 | `eau.csv` | 3 | 0 | 0 | 0 | 3 |
+| `eclairage.csv` | 18 | 7 | 1 | 0 | 10 |
 | `etat_criteres.csv` | 100 | 2 | 94 | 0 | 4 |
 | `habitats.csv` | 1732 | 0 | 1725 | 0 | 7 |
+| `hydrique.csv` | 75 | 28 | 23 | 0 | 24 |
 | `materiaux.csv` | 20 | 10 | 1 | 1 | 8 |
 | `nuisances.csv` | 10 | 0 | 0 | 5 | 5 |
 | `seuils.csv` | 7 | 0 | 6 | 0 | 1 |
 | `sols.csv` | 13 | 0 | 2 | 0 | 11 |
-| **Total** | 1911 | 15 | 1835 | 7 | 54 |
+| `succession.csv` | 19 | 11 | 1 | 0 | 7 |
+| **Total** | 2202 | 189 | 1872 | 7 | 134 |
 
-Part des valeurs lues dans une source primaire ou transposées d'une source primaire : 97 %. Sources secondaires : 0 %. Conventions : 3 %.
+Part des valeurs lues dans une source primaire ou transposées d'une source primaire : 94 %. Sources secondaires : 0 %. Conventions : 6 %.
 
 Types : primaire = valeur lue telle quelle dans la source ; transposition = valeur lue dans une source primaire et appliquée à OpenNAT par une correspondance ou un changement d'échelle écrit en convention ; secondaire = valeur lue dans une source qui en cite une autre, à remplacer par la source primaire ; convention = valeur fixée par OpenNAT et justifiée.
 
@@ -47,6 +52,15 @@ Types : primaire = valeur lue telle quelle dans la source ; transposition = vale
 | C-H6 | 85 |
 | C-H7 | 1 |
 | C-H8 | 10 |
+| C-K1 | 37 |
+| C-K2 | 13 |
+| C-K3 | 1 |
+| C-L1 | 1 |
+| C-L2 | 3 |
+| C-L3 | 2 |
+| C-L4 | 12 |
+| C-M1 | 4 |
+| C-M2 | 15 |
 | C-N1 | 4 |
 | C-N2 | 3 |
 | C-N3 | 3 |
@@ -56,5 +70,17 @@ Types : primaire = valeur lue telle quelle dans la source ; transposition = vale
 | C-T4 | 1 |
 | C-T5 | 1 |
 | C-T6 | 1 |
+| C-W1 | 24 |
+| C-W10 | 1 |
+| C-W11 | 6 |
+| C-W12 | 1 |
+| C-W2 | 8 |
+| C-W3 | 96 |
+| C-W4 | 19 |
+| C-W5 | 1 |
+| C-W6 | 34 |
+| C-W7 | 2 |
+| C-W8 | 1 |
+| C-W9 | 10 |
 
-Conventions de `conventions.md` sans ligne de données (elles portent sur l'algorithme) : C-B1, C-G1, C-H4, C-I1, C-I2, C-P1, C-R1, C-R2, C-R3, C-R4, C-R5, C-S2, C-T3, C-T7.
+Conventions de `conventions.md` sans ligne de données (elles portent sur l'algorithme) : C-B1, C-G1, C-H4, C-I1, C-I2, C-M3, C-P1, C-R1, C-R2, C-R3, C-R4, C-R5, C-S2, C-T3, C-T7, C-W13.

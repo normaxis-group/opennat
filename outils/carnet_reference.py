@@ -2,15 +2,20 @@
 # Copyright (C) 2026 NORMATYS
 """Carnet de calcul de référence de la méthode OpenNAT.
 
-Ce carnet n'est pas le moteur (lot 2). Il applique les fiches algorithmes A02 à A40 de la façon la plus
+Ce carnet n'est pas le moteur (lot 2). Il applique les fiches algorithmes A02 à A58 de la façon la plus
 directe possible, sans Monte-Carlo, pour produire les calculs de référence du banc de validation (lot 4,
 § 7 du cahier des charges) : le moteur devra retrouver ces résultats. Il lit tous ses coefficients dans
-donnees/ et imprime chaque grandeur intermédiaire.
+donnees/ et imprime chaque grandeur intermédiaire. Les modules dynamiques (bilan hydrique et éclairage
+horaires, maturation et succession, chantier au pas mensuel, climat futur) sont dans outils/dynamique.py et
+outils/climat.py.
 
 Un cas est un dictionnaire : voir outils/edition/cas_validation.py.
 """
 import csv
 import os
+
+import climat
+import dynamique as DY
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -109,8 +114,7 @@ def evaluer_etat(unites, taches, contexte):
         vh = u['surface'] * v * f * fsol * m                                 # fiche A13
         t = u.get('tache')
         k_c = kc[t][4] if t in kc else 1.0                                  # fiche A19
-        klum = NUI[({'L0': 'lumiere_aucune', 'L1': 'lumiere_conforme', 'L2': 'lumiere_non_conforme'}
-                    [u.get('eclairage', 'L0')], 'facteur_lumiere')]
+        klum, lum = DY.k_lumiere(u, contexte)                                # fiches A51 à A53
         seuil = (NUI[('*', 'seuil_bruit_milieu_boise')] if u['code'].startswith(BOISE)
                  else NUI[('*', 'seuil_bruit_milieu_ouvert')])
         kbr = NUI[('*', 'facteur_bruit_au_dela_seuil')] if u.get('bruit', 0) > seuil else 1.0
@@ -121,7 +125,7 @@ def evaluer_etat(unites, taches, contexte):
         vmax = CTX[('*', 'plafond_valeur_unitaire')] * u['surface']
         V = min(vmax, vh * k_c * kn * ke)
         res.append(dict(u, nature=n, c=c, f_sol=fsol, v=v, S=s, f=f, classe=cl, m=m, VH=vh, kC=k_c,
-                        kN=kn, kE=ke, V=V))
+                        kL=klum, lumiere=lum, kN=kn, kE=ke, V=V))
     return res, kc
 
 
@@ -137,13 +141,37 @@ def delai(u, cl, contexte):                                        # fiche A28
     return 0.0, 'aucun délai (C-T3)'
 
 
-def trajectoires(projet, initial_par_id, d_ch, contexte):
+def facteurs_hydriques(unites, sol, contexte):                     # fiches A47 à A50
+    """Facteur hydrique de chaque unité aux trois niveaux de réchauffement, et arrosage annuel en m³."""
+    for u in unites:
+        u['kW_niveaux'], u['bilan'], u['arrosage_m3'] = {}, {}, {}
+        for niv in climat.NIVEAUX:
+            k, r = DY.k_hydrique(u, sol, contexte, niv)
+            u['kW_niveaux'][niv] = k
+            u['bilan'][niv] = r
+            u['arrosage_m3'][niv] = (r or {}).get('arrosage_mm', 0.0) * u['surface'] / 1000
+    return unites
+
+
+def par_annee(u, cle, annees):
+    """Grandeur donnée par niveau de réchauffement, ramenée à chaque année civile de la période (A46)."""
+    return [sum(w * u[cle][n] for n, w in climat.ponderation(a).items()) for a in annees]
+
+
+def trajectoires(projet, initial_par_id, cas, contexte, annees):
+    """Fiches A26 à A30 et A54 à A58 : trajectoire de chaque unité du projet au pas mensuel, moyennée par
+    année de la période, puis multipliée par le facteur hydrique de l'année (A50) et par le facteur de
+    gestion (A56)."""
+    d_mois = int(round(cas['duree_chantier_mois']))
+    m_deb = cas.get('mois_debut', 1)
+    rang_pl = DY.mois_plantation(m_deb, d_mois)
+    plan = cas.get('plan_gestion_annees', 0)
     r_ch = CTX[('*', 'reduction_chantier_sans_protection')]
     d_ind = CTX[('*', 'duree_indisponibilite_renouvellement')]
+    v9 = H[('VB.9', 'valeur_intrinseque')]
     for u in projet:
         statut = u.get('statut', 'creee')
         D = H.get((u['code'], 'difficulte_creation' if statut == 'creee' else 'difficulte_amelioration'), 1.0)
-        traj = []
         if statut == 'creee':
             d, src = delai(u, u['classe'], contexte)
         elif statut == 'amelioree':
@@ -153,28 +181,62 @@ def trajectoires(projet, initial_par_id, d_ch, contexte):
             src = f'delai_amelioration_{trajet}'
         else:
             d, src = 0.0, 'conservée'
-        u.update(D=D if statut != 'conservee' else 1.0, d=d, source_delai=src)
+        forme = DY.forme_maturation(u)
+        # A58 : un milieu sans délai de maturité est livré en fin de chantier ; un milieu planté ou semé
+        # commence sa maturation au premier mois favorable aux plantations
+        depart = d_mois if d == 0 else rang_pl - 1
+        u.update(D=D if statut != 'conservee' else 1.0, d=d, source_delai=src, forme=forme, mois_depart=depart)
         renouv = sorted(u.get('renouvellements', []))
+        r = 0.0 if u.get('protection') else r_ch
+        base = []
         for t in range(1, N + 1):
-            phi = min(1.0, max(0.0, d_ch - (t - 1)))                     # fiche A26
-            tau = t - d_ch
-            g = 0.0 if tau <= 0 else (1.0 if d == 0 else min(1.0, tau / d))
-            r = 0.0 if u.get('protection') else r_ch
-            if statut == 'conservee':
-                x = u['V'] * (1 - r * phi)                                   # A27
-            elif statut == 'amelioree':
-                v0 = initial_par_id[u['liee']]['V']
-                x = v0 * (1 - r * phi) + max(0.0, D * u['V'] - v0) * g       # A29
+            somme = 0.0
+            for mm in range(12 * (t - 1) + 1, 12 * t + 1):
+                phi = 1.0 if mm <= d_mois else 0.0                           # A26 au pas mensuel
+                tau = (mm - depart) / 12
+                g = 0.0 if tau <= 0 else DY.maturation(tau, d, forme)        # A54
+                if statut == 'conservee':
+                    x = u['V'] * (1 - r * phi)                                   # A27
+                elif statut == 'amelioree':
+                    v0 = initial_par_id[u['liee']]['V']
+                    x = v0 * (1 - r * phi) + max(0.0, D * u['V'] - v0) * g       # A29
+                else:
+                    x = D * u['V'] * g                                           # A28
+                for R in renouv:                                                 # A30
+                    if 12 * R < mm <= 12 * (R + d_ind):
+                        x = 0.0
+                    elif mm > 12 * (R + d_ind):
+                        x = D * u['V'] * DY.maturation((mm - 12 * (R + d_ind)) / 12, d, forme)
+                somme += x
+            base.append(somme / 12)
+        kw = par_annee(u, 'kW_niveaux', annees)
+        traj, gest = [], []
+        for t in range(1, N + 1):
+            ans_livr = t - 1 - d_mois / 12
+            if statut == 'conservee' or ans_livr < 0:
+                fg = 1.0
             else:
-                x = D * u['V'] * g                                           # A28
-            for R in renouv:                                                 # A30
-                if R <= t < R + d_ind:
-                    x = 0.0
-                elif t >= R + d_ind:
-                    x = D * u['V'] * (1.0 if d == 0 else min(1.0, (t - R - d_ind + 1) / d))
-            traj.append(x)
-        u['traj'] = traj
+                reg, duree = DY.regime_gestion(u, ans_livr, plan)
+                fg = DY.facteur_gestion(u, reg, duree, v9)                     # A55 et A56
+            gest.append(fg)
+            traj.append(base[t - 1] * kw[t - 1] * fg)
+        u.update(traj_base=base, kW=kw, f_gestion=gest, traj=traj)
     return projet
+
+
+def chantier_faune(initial, projet, cas):                            # fiche A57
+    """Supplément de Cnat pour les unités initiales détruites en période sensible."""
+    gardees = {u.get('liee') for u in projet if u.get('statut') in ('conservee', 'amelioree')}
+    m_dest = cas.get('mois_destruction', cas.get('mois_debut', 1))
+    perte = DY.CHA[('*', 'perte_destruction_sensible')]
+    detail = []
+    for u in initial:
+        if u['id'] in gardees or u['V'] == 0:
+            continue
+        sens = DY.sensibilite(u, m_dest)
+        if sens:
+            detail.append((u['id'], DY.groupes_faune(u), sens, u['V'] * sens * perte))
+    return sum(x[3] for x in detail), detail
 
 
 def materiaux(cas):                                                # fiches A32 à A36
@@ -207,7 +269,9 @@ def seuil_bnat(typologie, e):                                      # fiche A02
 
 
 def calculer(cas):
-    ctx = cas['contexte']
+    ctx = dict(cas['contexte'])
+    ctx.setdefault('zone_climatique', 'H1a')
+    sol = cas.get('sol', {})
     sp = cas['parcelle']
     ferm = {}
     for etat in ('initial', 'projet'):                              # fiche A03
@@ -215,17 +279,25 @@ def calculer(cas):
                   ('sol_pleine_terre', 'sol_sur_dalle', 'eau', 'lineaire'))
         tol = max(CTX[('*', 'tolerance_fermeture_absolue')], CTX[('*', 'tolerance_fermeture_relative')] * sp)
         ferm[etat] = (som, abs(som - sp), abs(som - sp) <= tol)
-    ini, kc0 = evaluer_etat(cas['initial'], cas.get('taches', {}), ctx)
-    pro, kc1 = evaluer_etat(cas['projet'], cas.get('taches', {}), ctx)
+    ini, kc0 = evaluer_etat([dict(u) for u in cas['initial']], cas.get('taches', {}), ctx)
+    pro, kc1 = evaluer_etat([dict(u) for u in cas['projet']], cas.get('taches', {}), ctx)
+    an0 = cas.get('annee_debut', int(DY.CHA[('*', 'annee_debut_defaut')]))
+    annees = [an0 + t for t in range(N)]                            # fiche A46
+    facteurs_hydriques(ini, sol, ctx)
+    facteurs_hydriques(pro, sol, ctx)
     par_id = {u['id']: u for u in ini}
     d_ch = cas['duree_chantier_mois'] / 12
-    trajectoires(pro, par_id, d_ch, ctx)
+    trajectoires(pro, par_id, cas, ctx, annees)
     v0 = sum(u['V'] for u in ini)
+    for u in ini:
+        u['kW'] = par_annee(u, 'kW_niveaux', annees)
+    ref = [sum(u['V'] * u['kW'][t] for u in ini) for t in range(N)]   # référence sans projet, même climat
     site = [sum(u['traj'][t] for u in pro) for t in range(N)]
-    i0, i1 = N * v0, sum(site)
-    i0_30, i1_30 = 30 * v0, sum(site[:30])
+    i0, i1 = sum(ref), sum(site)
+    i0_30, i1_30 = sum(ref[:30]), sum(site[:30])
     dm = sum(u['D'] * u['V'] - x for u in pro if u.get('statut', 'creee') in ('creee', 'amelioree')
-             for x in u['traj'])
+             for x in u['traj_base'])
+    faune, faune_detail = chantier_faune(ini, pro, cas)
     mat = materiaux(cas)
     b, num = bnat(pro, sp, cas.get('infiltration', 0.0))
     pt = sum(u['surface'] for u in pro if u['nature'] == 'S08') / sp
@@ -234,11 +306,13 @@ def calculer(cas):
     aimp1 = sum(u['surface'] for u in pro if u['nature'] == 'S01')
     e = cas.get('emprise', 0.0) / sp
     bmin = seuil_bnat(ctx['typologie'], round(e, 2))
-    cnat = i0 - i1
+    cnat = i0 - i1 + faune
     gain_net = (i0 > 0 and cnat <= -0.10 * i0) or (i0 == 0 and cnat < 0)
     niveau = 2 if gain_net else 1 if cnat <= 0 else 0
-    return dict(fermeture=ferm, initial=ini, projet=pro, kc0=kc0, kc1=kc1, v0=v0, site=site, i0=i0, i1=i1,
-                i0_30=i0_30, i1_30=i1_30, dm=dm, cnat=cnat, cnat_rel=cnat / i0 if i0 else None,
-                cnat_30=i0_30 - i1_30, mat=mat, inat=mat['inat'], snat=-(cnat + mat['inat']), bnat=b,
-                bnat_num=num, pt=pt, pt0=pt0, aimp0=aimp0, aimp1=aimp1, e=e, bnat_min=bmin,
-                pt_min=SEU[('*', 'pleine_terre_min')], niveau=niveau, d_ch=d_ch)
+    arrosage = sum(sum(par_annee(u, 'arrosage_m3', annees)) for u in pro) / N
+    return dict(fermeture=ferm, initial=ini, projet=pro, kc0=kc0, kc1=kc1, v0=v0, ref=ref, site=site, i0=i0,
+                i1=i1, i0_30=i0_30, i1_30=i1_30, dm=dm, faune=faune, faune_detail=faune_detail, cnat=cnat,
+                cnat_rel=cnat / i0 if i0 else None, cnat_30=i0_30 - i1_30 + faune, mat=mat, inat=mat['inat'],
+                snat=-(cnat + mat['inat']), bnat=b, bnat_num=num, pt=pt, pt0=pt0, aimp0=aimp0, aimp1=aimp1, e=e,
+                bnat_min=bmin, pt_min=SEU[('*', 'pleine_terre_min')], niveau=niveau, d_ch=d_ch, annees=annees,
+                arrosage_m3_an=arrosage, contexte=ctx)

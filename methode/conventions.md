@@ -2,7 +2,7 @@
 
 Une convention est une règle ou une valeur que OpenNAT fixe parce qu'aucune source ne la donne telle quelle. Chacune est numérotée, citée dans le texte de la méthode et dans la colonne `convention` des tables de `donnees/`, et soumise au Biodiversity Standard Council avec la méthode. Toutes sont « proposées, en attente de validation ».
 
-Familles : H habitats, S sols, E contexte, eau et seuils, C connectivité, N nuisances, T temps, G biodiversité grise, R relevés, I incertitude, B Bnat, P attestation au permis de construire.
+Familles : H habitats, S sols, E contexte, eau et seuils, C connectivité, N nuisances, T temps, G biodiversité grise, R relevés, I incertitude, B Bnat, P attestation au permis de construire, W bilan hydrique et climat, L éclairage, M maturation et gestion, K calendrier du chantier.
 
 Les conventions jouent le rôle des fiches d'application de la méthode Th-BCE : elles disent comment appliquer la méthode là où les sources se taisent. Le registre suit les trois catégories du registre des lectures d'OpenBCE : source muette (aucune source ne traite le point), convention de transposition (une source traite le point dans un autre cadre et la valeur est transposée), valeur de secours (une valeur est posée faute de mieux, avec une plage large).
 
@@ -215,3 +215,103 @@ Bnat = 100 x (somme des surfaces x coefficient de sol + bonus d'infiltration) / 
 ### C-P1
 Catégorie : convention de transposition.
 Comme l'attestation de la RE2020 au dépôt du permis de construire, qui ne demande que le Bbio, l'attestation OpenNAT au permis porte sur les seules données du plan masse : Bnat et son seuil, le taux de pleine terre et, quand le PLU impose un coefficient de biotope ou une part de pleine terre, la comparaison avec ce minimum. Si le projet ne respecte pas le minimum du PLU, l'attestation le dit et ne conclut pas à la conformité. Les indicateurs Cnat, Inat et Snat sont attestés à l'achèvement des travaux.
+
+## Bilan hydrique et climat
+
+### C-W1
+Catégorie : convention de transposition.
+Le climat du calcul est l'année type horaire des fichiers climatiques prospectifs publiés en juin 2025 par l'ADEME, Météo-France, le CSTB et la DHUP (Licence Ouverte 2.0), à la station de référence de la zone climatique RE2020 du projet (H1a Trappes, H1b Nancy, H1c Mâcon, H2a Rennes, H2b Tours, H2c Agen, H2d Carpentras, H3 Marignane). La zone est celle du récapitulatif RE2020. Les fichiers météorologiques conventionnels de la RE2020 ne sont pas utilisés : le ministère en réserve l'usage au calcul réglementaire RE2020. La température est corrigée de l'altitude du site par le gradient de l'atmosphère type (0,0065 K par mètre, norme ISO 2533) et la pression ramenée à cette altitude.
+
+### C-W2
+Catégorie : convention de transposition.
+L'évapotranspiration de référence horaire suit l'équation 53 de la FAO-56 (gazon de référence, résistance de surface de 70 s/m). Le rayonnement net suit les équations 37 à 40, la hauteur du soleil étant celle du fichier climatique ; la nuit, le rapport du rayonnement global au rayonnement par ciel clair garde la dernière valeur relevée avec un soleil à plus de 10° au-dessus de l'horizon. Contrôle : sur l'année type France +2 °C, l'évapotranspiration annuelle calculée vaut de 0,86 à 1,00 fois l'ETP Penman normale 1991-2020 de Météo-France aux huit stations (0,93 en moyenne), écart attendu entre la formule Penman de Météo-France et celle de Penman-Monteith. L'ETP de Météo-France sert au contrôle et n'entre pas dans le calcul.
+
+### C-W3
+Catégorie : valeur de secours.
+La note technique des fichiers prospectifs indique que leurs cumuls de pluie sont proches des maxima des simulations, pas des médianes. Les pluies horaires de chaque année type sont donc recalées, mois par mois, sur la normale 1991-2020 de la station (données climatologiques de base mensuelles de Météo-France, Licence Ouverte 2.0) ; la chronologie des averses est conservée. Le cumul de pluie ne varie pas avec le réchauffement, la carte de la TRACC laissant incertain le signe de son évolution sur la plupart du territoire : le réchauffement agit par l'évapotranspiration. Cette convention sous-estime probablement les sécheresses d'été futures ; elle sera revue avec le conseil quand un jeu de pluies médianes par niveau de réchauffement sera publié.
+
+### C-W4
+Catégorie : valeur de secours.
+La réserve utile d'un sol en pleine terre se calcule avec les teneurs en eau à la capacité au champ et au point de flétrissement du tableau 19 de la FAO-56 (milieu de plage) pour la classe de texture déclarée par le bureau d'études, et avec la profondeur explorée par les racines, bornée par la profondeur de sol. À défaut de déclaration, le sol est un limon d'un mètre.
+
+### C-W5
+Catégorie : valeur de secours.
+L'eau utile d'un substrat de toiture ou de dalle vaut 0,20 m³ par m³ (plage 0,12 à 0,30) quand le fabricant ne la déclare pas. La réserve vaut l'épaisseur du substrat multipliée par cette valeur ; la couche de drainage n'est pas comptée.
+
+### C-W6
+Catégorie : convention de transposition.
+Chaque unité végétalisée appartient à un groupe hydrique (fiche A47) : gazon, prairie, végétation xérophile, arbustif, arboré, conifères, toiture extensive, milieu humide alimenté par la pluie, mare. Les coefficients culturaux en saison et hors saison, la profondeur racinaire et la fraction de réserve consommée sans réduction de la transpiration viennent des tableaux 12 et 22 de la FAO-56, par la culture la plus proche (gazon de saison fraîche, pâturage extensif, petits fruits arbustifs, vergers avec couvert, conifères, roselière, eau libre de moins de 2 m). Les milieux humides et les cours d'eau alimentés par une nappe ou un cours d'eau, les surfaces minérales, les façades et les bassins à eau traitée n'ont pas de bilan. La toiture extensive reçoit des valeurs de secours, la FAO-56 n'en donnant pas.
+
+### C-W7
+Catégorie : convention de transposition.
+La saison de végétation est l'ensemble des heures où la moyenne des températures des six jours précédents dépasse 5 °C, d'après l'indice de durée de la saison de croissance de l'ETCCDI. Le coefficient cultural de saison s'applique pendant la saison, celui de repos en dehors.
+
+### C-W8
+Catégorie : convention de transposition.
+Le stress hydrique d'une unité est l'indice de Granier et al. (1999), établi pour les peuplements forestiers : somme, sur la saison de végétation, de (0,4 - REW) / 0,4 quand la réserve extractible relative REW passe sous 0,4. Il est calculé au pas horaire et exprimé en jours-équivalents. Il est étendu à tous les groupes hydriques.
+
+### C-W9
+Catégorie : valeur de secours.
+Le facteur hydrique vaut k_W = max(0,5 ; 1 - beta x (IS - IS_ref - 5) / 100), où IS_ref est l'indice du même groupe dans la situation de référence de la zone : limon d'un mètre (substrat de 10 cm pour une toiture extensive), sans arrosage ni apport, année type France +2 °C. La végétation d'une zone est adaptée à son climat : seul compte le stress que le projet ajoute par ses choix (substrat mince, sol pauvre ou peu profond) et que le réchauffement ajoute au fil de la période. La sensibilité beta va de 0,3 (végétation xérophile, toiture extensive) à 1,0 (milieu humide alimenté par la pluie) par 100 jours-équivalents ; la tolérance est de 5 jours-équivalents ; le plancher de 0,5 est celui du facteur d'état (C-H2).
+
+### C-W10
+Catégorie : valeur de secours.
+Une unité déclarée arrosée reçoit chaque nuit, en saison de végétation, l'eau qui ramène sa réserve à la capacité au champ dès que la réserve extractible relative passe sous 0,5. Le volume d'arrosage annuel moyen de la période, en m³, est un indicateur complémentaire du RSNat ; il n'entre ni dans Cnat ni dans Snat.
+
+### C-W11
+Catégorie : valeur de secours.
+Une mare a par défaut 0,8 m de profondeur et un fond argileux qui laisse s'infiltrer 0,3 mm par jour (fond étanche : 0 ; fond naturel : 1 mm par jour). Elle reçoit la pluie tombée sur elle, 90 % de celle tombée sur les surfaces imperméables raccordées et 10 % de celle tombée sur les sols perméables raccordés ; elle perd par évaporation 1,05 fois l'évapotranspiration de référence (eau libre de moins de 2 m, FAO-56). La noue et le jardin de pluie reçoivent les mêmes apports dans leur réserve en eau.
+
+### C-W12
+Catégorie : valeur de secours.
+Une mare à sec à un moment quelconque entre le 1er mars et le 30 juin manque la reproduction des amphibiens de l'année : sa valeur est multipliée par 0,5 pour l'année type concernée. Un assec de fin d'été n'est pas pénalisé, il reproduit le fonctionnement des mares temporaires.
+
+### C-W13
+Catégorie : convention de transposition.
+Chaque année civile de la période reçoit le niveau de réchauffement de la trajectoire de référence pour l'adaptation au changement climatique (TRACC, arrêté du 23 janvier 2026) : +2 °C en 2030, +2,7 °C en 2050, +4 °C en 2100, interpolation linéaire entre ces jalons, +2 °C avant 2030. Les grandeurs calculées sur les trois années types (facteur hydrique, arrosage) sont interpolées linéairement en niveau de réchauffement. La période commence l'année de début du chantier (C-K3). Le climat agit sur l'état initial comme sur le projet : la référence sans projet subit le même réchauffement.
+
+## Éclairage
+
+### C-L1
+Catégorie : valeur de secours.
+Le facteur d'éclairage d'une unité vaut k_L = 1 - 0,25 x x_nuit x s x g, où x_nuit est la part des heures de nuit de la saison d'activité des chiroptères pendant lesquelles l'éclairage est allumé, s le facteur spectral et g le facteur de distance. La perte maximale de 0,25 reproduit le facteur de 0,75 de l'éclairage non conforme de la v1 (C-N1) : un éclairage froid allumé toute la nuit au pied de l'unité. Un éclairage conforme à l'arrêté du 27 décembre 2018 (3 000 K, extinction à 1 h) donne 0,916, contre 0,9 en v1. Une détection de présence multiplie x_nuit par la part de temps allumé déclarée.
+
+### C-L2
+Catégorie : valeur de secours.
+La saison d'activité des chiroptères va d'avril à octobre. Une heure est de nuit quand le soleil est sous l'horizon à la station de référence (hauteur du soleil du fichier climatique). L'heure légale vaut l'heure universelle plus deux heures d'avril à octobre et plus une heure le reste de l'année, à une semaine près des dates du changement d'heure.
+
+### C-L3
+Catégorie : convention de transposition.
+Le facteur de distance vaut 1 jusqu'à 10 m du luminaire le plus proche, 0 au-delà de 50 m, et décroît linéairement entre les deux, d'après les distances d'attraction et d'évitement mesurées par Azam et al. (2018) sur six espèces et deux genres de chiroptères.
+
+### C-L4
+Catégorie : valeur de secours.
+Le facteur spectral croît avec la température de couleur : 0,5 en ambre (1 800 K), 0,6 à 2 200 K, 0,7 à 2 400 K, 0,8 à 2 700 K, 0,9 à 3 000 K, 1 à 4 000 K et au-delà, interpolé entre ces points. Les points de 2 400, 2 700 et 3 000 K sont les plafonds de l'arrêté du 27 décembre 2018 ; la croissance suit le constat de Longcore et al. (2018), qui attribuent plus d'effets aux sources riches en bleu ; l'échelonnement est conventionnel.
+
+## Maturation et gestion
+
+### C-M1
+Catégorie : convention de transposition.
+La maturation d'un milieu créé suit une courbe de Chapman-Richards (Richards, 1959 ; Pienaar et Turnbull, 1973) ramenée à 1 au délai de maturité d de la métrique anglaise : g(tau) = [(1 - e^(-3 tau / d)) / (1 - e^(-3))]^c. L'exposant c vaut 1 pour un milieu herbacé (courbe concave : une prairie semée donne vite l'essentiel de sa valeur), 2 pour un milieu arbustif, 3 pour un milieu arboré (courbe en S : un boisement planté vaut peu les premières années). Cette courbe remplace la droite de la première rédaction ; le délai et la difficulté restent ceux de la métrique anglaise.
+
+### C-M2
+Catégorie : convention de transposition.
+Un milieu herbacé dont l'entretien cesse prend, après deux ans, la valeur de sa variante abandonnée dans l'annexe 2 de la BKompV (rapport du type « brachgefallen » au type exploité, onze couples de 0,73 à 0,91, moyenne appliquée aux types sans couple), puis devient après quinze ans une friche arbustive (VB.9) en état moyen (score 0,75). Les milieux ligneux et aquatiques ne sont pas soumis à cette succession dans la présente version.
+
+### C-M3
+Catégorie : valeur de secours.
+Le plan de gestion écologique déclaré couvre un nombre d'années compté depuis la livraison. Pendant le plan, chaque unité garde sa valeur. Ensuite, sauf déclaration d'un autre régime, l'unité passe en gestion courante : une prairie ou une pelouse sèche est tondue comme une pelouse d'agrément et prend la valeur intrinsèque de VB.5 ; une haie est taillée chaque année et garde la valeur du stade jeune de la BKompV ; les jardins, les pelouses, les toitures et les autres milieux ne changent pas. L'état initial garde sa gestion actuelle sur toute la période.
+
+## Calendrier du chantier
+
+### C-K1
+Catégorie : valeur de secours.
+La destruction d'une unité de l'état initial pendant une période sensible ajoute à Cnat sa valeur pendant une année, multipliée par la sensibilité du mois de destruction : oiseaux nicheurs (ligneux, prairies et friches) du 16 mars au 15 août, d'après la BCAE 8 de la conditionnalité de la PAC ; chiroptères (arbres âgés, gîtes déclarés) de novembre à février (hibernation) et de mai à août (mise bas) ; amphibiens (mares, fossés, milieux humides) de février à juin. Le mois de destruction est celui déclaré, à défaut le premier mois du chantier.
+
+### C-K2
+Catégorie : valeur de secours.
+Les plantations et les semis se font de novembre à mars, au plus tôt deux mois avant la fin du chantier : la maturation d'un milieu planté ou semé commence au premier mois favorable. Un milieu sans délai de maturité (revêtement, jardin d'un an et moins) est livré à la fin du chantier.
+
+### C-K3
+Catégorie : valeur de secours.
+La période de 50 ans commence au premier mois du chantier, déclaré par son année et son mois (à défaut, janvier 2027). Les trajectoires se calculent au pas mensuel puis se moyennent par année.

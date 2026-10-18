@@ -5,11 +5,27 @@
 def U(id, code, position, surface, **k):
     return dict(id=id, code=code, position=position, surface=surface, **k)
 
+
+# Zone climatique RE2020 (station de référence des fichiers prospectifs) retenue pour chaque zone
+# biogéographique dans les cas : continentale, Trappes ; atlantique, Rennes ; méditerranéenne, Marignane ;
+# alpine, Mâcon à 900 m d'altitude
+CLIMAT = {'continentale': dict(zone_climatique='H1a'), 'atlantique': dict(zone_climatique='H2a'),
+          'mediterraneenne': dict(zone_climatique='H3'), 'alpine': dict(zone_climatique='H1c', altitude=900)}
+
+
+def ctx(zone, typologie, **k):
+    return dict(zone=zone, typologie=typologie, **CLIMAT[zone], **k)
+
+
+# Données des modules dynamiques communes aux cas : chantier commencé en septembre 2027 (abattages et
+# défrichements hors période sensible), plan de gestion écologique de dix ans, sol limoneux d'un mètre
+DYN = dict(annee_debut=2027, mois_debut=9, plan_gestion_annees=10, sol={'texture': 'limon', 'profondeur': 1.0})
+
 PT = 'sol_pleine_terre'
 
 ANNEXE_C = dict(
     nom='Exemple de l\'annexe C', parcelle=2000, emprise=700, duree_chantier_mois=18, sref=1400,
-    contexte=dict(zone='continentale', typologie='logement'),
+    contexte=ctx('continentale', 'logement'), **DYN,
     taches={'P1': {}, 'P2': {}, 'P3': {}},
     initial=[U('U0-1', 'VB.8', PT, 1200, tache='P1', criteres=(3, 4, True)), U('U0-2', 'VB.2', PT, 600),
              U('U0-3', 'VB.9', PT, 200, tache='P1', criteres=(2, 5, False)),
@@ -28,7 +44,7 @@ ANNEXE_C = dict(
 CAS1 = dict(
     nom='Cas 1. Friche urbaine imperméabilisée devenue résidence avec jardin',
     attendu='gain : Cnat négatif', parcelle=3000, emprise=900, duree_chantier_mois=20, sref=2200,
-    contexte=dict(zone='atlantique', typologie='logement'),
+    contexte=ctx('atlantique', 'logement'), **DYN,
     taches={'F': {}, 'J': {'connexion': 'moyenne'}, 'T': {}},
     initial=[U('I1', 'VB.2', PT, 2400), U('I2', 'VB.1', PT, 300),
              U('I3', 'VB.8', PT, 300, tache='F', criteres=(1, 4, True))],
@@ -47,7 +63,7 @@ CAS1 = dict(
 CAS2 = dict(
     nom='Cas 2. Prairie naturelle en périphérie construite en logements',
     attendu='forte perte : Cnat positif et élevé', parcelle=10000, emprise=3000, duree_chantier_mois=24,
-    sref=6000, contexte=dict(zone='continentale', typologie='logement'),
+    sref=6000, contexte=ctx('continentale', 'logement'), **DYN,
     taches={'PR': {'connexion': 'forte', 'exterieur': 20000}, 'H': {'connexion': 'forte'},
             'JA': {'connexion': 'moyenne'}},
     initial=[U('I1', 'E2.2', PT, 9700, tache='PR', criteres=(5, 6, False)),
@@ -64,7 +80,7 @@ CAS3 = dict(
     nom='Cas 3. Bureaux sur dalle avec toiture végétalisée',
     attendu='Bnat porté par la dalle et la toiture ; Cnat négatif sur un site déjà imperméable',
     parcelle=4000, emprise=2400, duree_chantier_mois=22, sref=9000,
-    contexte=dict(zone='continentale', typologie='tertiaire'),
+    contexte=ctx('continentale', 'tertiaire'), **DYN,
     taches={'D': {}, 'T': {}, 'A': {}},
     initial=[U('I1', 'VB.2', PT, 3600), U('I2', 'VB.5', PT, 400, tache='A', criteres=(1, 7, True)),
              U('I3', 'VB.18b', 'arbre', 326, tache='A', stade='M', criteres=(2, 6, False))],
@@ -80,7 +96,7 @@ CAS4 = dict(
     nom='Cas 4. Réhabilitation sans emprise nouvelle',
     attendu="petit gain par la désimperméabilisation de la cour et l'amélioration du jardin",
     parcelle=1500, emprise=900, duree_chantier_mois=14, sref=1600,
-    contexte=dict(zone='continentale', typologie='logement'),
+    contexte=ctx('continentale', 'logement'), **DYN,
     taches={'J': {}},
     initial=[U('I1', 'VB.1', PT, 900), U('I2', 'VB.2', PT, 400),
              U('I3', 'VB.7', PT, 200, tache='J', criteres=(1, 3, False))],
@@ -100,7 +116,7 @@ CAS5 = dict(CAS2, nom='Cas 5. Projet en réservoir de biodiversité',
 CAS6 = dict(
     nom='Cas 6. Mare et haies créées sur une culture intensive',
     attendu='gain à maturité, dette de maturité élevée', parcelle=5000, emprise=0, duree_chantier_mois=6,
-    sref=0, contexte=dict(zone='continentale', typologie='amenagement'),
+    sref=0, contexte=ctx('continentale', 'amenagement'), **DYN,
     taches={'N': {'connexion': 'moyenne'}},
     initial=[U('I1', 'I1.1', PT, 5000)],
     projet=[U('P1', 'VB.20', 'eau', 300, tache='N', criteres=(7, 9, False)),
@@ -112,7 +128,7 @@ CAS6 = dict(
 
 # Cas 7 : bâtiment bois face au même bâtiment béton (module G)
 _BASE7 = dict(parcelle=3000, emprise=1000, duree_chantier_mois=18, sref=4000,
-              contexte=dict(zone='continentale', typologie='logement'),
+              contexte=ctx('continentale', 'logement'), **DYN,
               taches={'J': {}},
               initial=[U('I1', 'E2.6', PT, 3000, tache='J', criteres=(4, 7, False))],
               projet=[U('P1', 'VB.1', PT, 1000), U('P2', 'VB.2', PT, 600),
@@ -129,13 +145,14 @@ CAS7_BOIS_GERE = dict(CAS7_BOIS, nom='Cas 7c. Même bâtiment en bois issu de co
 
 # Cas 8 : même site en zone méditerranéenne et en zone continentale
 CAS8_CONT = dict(CAS6, nom='Cas 8a. Aménagement en zone continentale', attendu='référence',
-                 contexte=dict(zone='continentale', typologie='amenagement'))
+                 contexte=ctx('continentale', 'amenagement'))
 CAS8_MED = dict(CAS6, nom='Cas 8b. Même aménagement en zone méditerranéenne',
-                attendu='identique en v1 (convention C-E2)',
-                contexte=dict(zone='mediterraneenne', typologie='amenagement'))
+                attendu='délais identiques (convention C-E2) ; bilan hydrique et tenue de la mare propres au climat '
+                        'méditerranéen',
+                contexte=ctx('mediterraneenne', 'amenagement'))
 CAS8_MED_SENS = dict(CAS6, nom='Cas 8c. Zone méditerranéenne, délais allongés de 25 % (borne haute de C-E2)',
                      attendu='perte de valeur intégrée par allongement des délais',
-                     contexte=dict(zone='mediterraneenne', typologie='amenagement', k_delai_etude=1.25))
+                     contexte=ctx('mediterraneenne', 'amenagement', k_delai_etude=1.25))
 
 CAS = [CAS1, CAS2, CAS3, CAS4, CAS5, CAS6, CAS7_BETON, CAS7_BOIS, CAS7_BOIS_GERE, CAS8_CONT, CAS8_MED,
        CAS8_MED_SENS]

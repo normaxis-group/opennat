@@ -8,7 +8,7 @@ et haie champêtre (15 %) en pleine terre, une toiture extensive sur la moitié 
 couvrant 10 % des espaces verts. Émissions par m² de S_ref de 480 (A1-A5), 330 (B) et 50 (C) kg CO2 éq. ;
 S_ref = 2,2 x emprise ; 0,02 m³ de bois et 1,5 t de granulats par m² de S_ref.
 """
-from cas_validation import U
+from cas_validation import DYN, U, ctx
 
 PT = 'sol_pleine_terre'
 
@@ -49,7 +49,7 @@ def cas(num, site, s, e=0.30, typo='logement', mois=18, zone='continentale', ecl
             (f', {situation}' if situation != 'hors_trame' else '') +
             (f', éclairage {eclairage}' if eclairage != 'L0' else '') + (f', zone {zone}' if zone != 'continentale' else ''),
         attendu='voir la synthèse des cas complémentaires', parcelle=s, emprise=e * s, duree_chantier_mois=mois, sref=sref,
-        contexte=dict(zone=zone, typologie=typo), taches={'I': {}, 'J': {}, 'T': {}},
+        contexte=ctx(zone, typo), **DYN, taches={'I': {}, 'J': {}, 'T': {}},
         initial=ini, projet=projet(s, e, eclairage, situation),
         ges={'phase_A1_A5': 480, 'phase_B': 330, 'phase_C': 50},
         bois=[('coupe_rase', 0.02 * sref, 0)], granulats=1.5 * sref)
