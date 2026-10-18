@@ -6,7 +6,7 @@
 
 ## Demandes traitées
 
-1. « On complète l'édition (listes complètes des fiches habitats, calculs des fiches d'application, cas supplémentaires) avant le moteur. » Fait : l'édition est passée de 949 à 1 857 pages, au-delà des 1 854 pages de l'annexe III de la RE2020.
+1. « On complète l'édition (listes complètes des fiches habitats, calculs des fiches d'application, cas supplémentaires) avant le moteur. » Fait : l'édition est passée de 949 à 1 857 pages, puis à 2 095 pages avec les modules dynamiques, au-delà des 1 854 pages de l'annexe III de la RE2020.
 2. « Y'a pas moyen de complexifier le calcul comme en re2020 ? », avec les quatre mécanismes retenus : bilan hydrique horaire, éclairage horaire, maturation et succession, chantier et climat futur. Fait : quatre modules dynamiques, seize fiches algorithmes A43 à A58, 23 conventions, cinq tables sourcées, 29 cas dynamiques.
 
 ## Ce que le calcul simule désormais
@@ -46,7 +46,21 @@ Ce que les 29 cas dynamiques montrent (partie 8) :
 
 ## Volume
 
-VOLUME_A_COMPLETER
+L'édition complète rendue par LibreOffice fait **2 095 pages**, contre 1 854 pour l'annexe III de la RE2020 :
+
+| Partie | Pages |
+|---|---|
+| Page de titre, organisation, partie 1 (texte de la méthode, annexe C recalculée) | 23 |
+| 2. Données conventionnelles, dont les cinq nouvelles tables et la synthèse mensuelle des années types (8 stations, 3 niveaux) | 470 |
+| 3. Fiches algorithmes A01 à A58, pseudo-code et seconds cas | 67 |
+| 4. Fiches habitats H001 à H191, listes complètes | 1 219 |
+| 5. Fiches d'application F01 à F30 et exemples chiffrés | 17 |
+| 6. Protocoles de relevé | 8 |
+| 7. RSNat (312 éléments) | 26 |
+| 8. Cas de validation : 8 du cahier des charges, 31 complémentaires, 29 dynamiques | 247 |
+| 9 et 10. Conventions (70) et bibliographie | 18 |
+
+Le texte de la méthode seul fait 23 pages (`livraison/Méthode de calcul OpenNAT v1.docx`).
 
 ## Fichiers
 
