@@ -8,12 +8,12 @@ Produit par `outils/controle_donnees.py`. Une ligne = une valeur.
 | `contexte.csv` | 15 | 2 | 3 | 0 | 10 |
 | `eau.csv` | 3 | 0 | 0 | 0 | 3 |
 | `etat_criteres.csv` | 100 | 2 | 94 | 0 | 4 |
-| `habitats.csv` | 1728 | 0 | 1721 | 0 | 7 |
+| `habitats.csv` | 1732 | 0 | 1725 | 0 | 7 |
 | `materiaux.csv` | 20 | 10 | 1 | 1 | 8 |
 | `nuisances.csv` | 10 | 0 | 0 | 5 | 5 |
 | `seuils.csv` | 7 | 0 | 6 | 0 | 1 |
 | `sols.csv` | 13 | 0 | 2 | 0 | 11 |
-| **Total** | 1907 | 15 | 1831 | 7 | 54 |
+| **Total** | 1911 | 15 | 1835 | 7 | 54 |
 
 Part des valeurs lues dans une source primaire ou transposées d'une source primaire : 97 %. Sources secondaires : 0 %. Conventions : 3 %.
 
@@ -43,7 +43,7 @@ Types : primaire = valeur lue telle quelle dans la source ; transposition = vale
 | C-H1 | 185 |
 | C-H2 | 3 |
 | C-H3 | 7 |
-| C-H5 | 138 |
+| C-H5 | 142 |
 | C-H6 | 85 |
 | C-H7 | 1 |
 | C-H8 | 10 |

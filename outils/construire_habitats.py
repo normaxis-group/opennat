@@ -89,8 +89,8 @@ def lire_uk():
             g5.setdefault(r[3], dict({k: r[i] for k, i in colonnes.items()}, ligne_g5=r[0]))
     arbres = {}
     for r in lire_extrait('G-3 Multipliers'):
-        if len(r) > 27 and r[24] in ('Small', 'Medium', 'Large', 'Very large'):
-            arbres[r[24]] = {'diametre_m': r[25], 'rpa_ha': r[27], 'ligne_g3': r[0]}
+        if len(r) > 26 and r[23] in ('Small', 'Medium', 'Large', 'Very large'):
+            arbres[r[23]] = {'diametre_m': r[24], 'rpa_ha': r[26], 'ligne_g3': r[0]}
     return g1, g3, g4, g5, haies, arbres
 
 
@@ -231,7 +231,7 @@ def main():
 
     # surfaces de référence des arbres par classe de diamètre (point P11, convention C-H5)
     for taille, a in arbres.items():
-        sorties.append(ligne('VB.18', f'surface_defaut_houppier_{taille.lower().replace(" ", "_")}',
+        sorties.append(ligne('VB.18', 'surface_defaut_houppier_' + {'Small': 'petit', 'Medium': 'moyen', 'Large': 'grand', 'Very large': 'tres_grand'}[taille],
                              float(a['rpa_ha']) * 10000, 'm²', 'reglement',
                              'Statutory Biodiversity Metric 1.0.4',
                              f'onglet G-3, table Individual trees, ligne {a["ligne_g3"]}, '
