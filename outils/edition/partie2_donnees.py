@@ -58,8 +58,9 @@ def registre(lignes, avec_cle=True):
     rows = []
     for r in lignes:
         rows.append(([r['cle']] if avec_cle else []) + [
-            PARAM.get(r['parametre'], r['parametre'].replace('_', ' ')), nombre(r['valeur']), r['unite'],
-            plage(r), TYPES[r['type']], r['convention'], f'{r["source"]}, {r["reference_precise"]}'])
+            PARAM.get(r['parametre'], r['parametre'].replace('_', ' ')),
+            r['valeur'] if r['unite'] == 'année' else nombre(r['valeur']), r['unite'],
+            (f"{r['incertitude_min']} à {r['incertitude_max']}" if r['unite'] == 'année' else plage(r)), TYPES[r['type']], r['convention'], f'{r["source"]}, {r["reference_precise"]}'])
     return tableau(ent, rows)
 
 
@@ -157,19 +158,21 @@ def main():
             '`donnees/climat/` aux variables utilisées. Le tableau de chaque station donne, mois par mois, la '
             'température moyenne, la pluie après recalage sur la normale 1991-2020 (fiche A45) et '
             'l\'évapotranspiration de référence calculée par la fiche A44, à l\'altitude de la station.', '']
-    noms = {'2_0': '+2 °C', '2_7': '+2,7 °C', '4_0': '+4 °C'}
-    mois = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.']
+    noms = {'2_0': '+2', '2_7': '+2,7', '4_0': '+4'}
+    mois = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']
     for zone, (station, lat, lon, alt) in climat.STATIONS.items():
         rows = []
         for niv in climat.NIVEAUX:
             an = climat.annee(zone, niv)
-            for nom_g, cle, fonc in (('T (°C)', 't', lambda v: sum(v) / len(v)), ('Pluie (mm)', 'rr', sum),
-                                     ('ET0 (mm)', 'et0', sum)):
+            for nom_g, cle, fonc, d in (('T', 't', lambda v: sum(v) / len(v), 1), ('P', 'rr', sum, 0),
+                                        ('ET0', 'et0', sum, 0)):
                 vals = [fonc([h[cle] for h in an if h['mois'] == m]) for m in range(1, 13)]
                 tot = fonc([h[cle] for h in an])
-                rows.append([noms[niv], nom_g] + [nombre(round(v, 1)) for v in vals] + [nombre(round(tot, 1))])
+                rows.append([f'{nom_g} {noms[niv]}'] + [f'{v:.{d}f}'.replace('.', ',') for v in vals + [tot]])
         out += [f'#### Zone {zone}, station de {station.capitalize()} ({nombre(alt)} m)', '',
-                tableau(['Niveau', 'Grandeur'] + mois + ['Année'], rows), '']
+                tableau(['Grandeur'] + mois + ['An'], rows), '']
+    out += ['T : température moyenne (°C) ; P : pluie recalée (mm) ; ET0 : évapotranspiration de référence (mm). '
+            '+2, +2,7, +4 : niveau de réchauffement de l\'année type (°C). Mois de janvier (J) à décembre (D).', '']
     k += 1
     # extraits des sources
     out += [f'### 2.{k} Extraits des sources primaires utilisés', '',

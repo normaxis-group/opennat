@@ -12,7 +12,7 @@ Méthode de calcul biodiversité **OpenNAT** et son moteur libre, qui porte le m
 | Lot | Objet | État |
 |---|---|---|
 | 0 | Audit et état de l'art (`audit/`) | livré le 17/10/2026, go le 18/10/2026 |
-| 1 | Méthode OpenNAT v1 (`methode/`) et tables sourcées (`donnees/`) | version noyau livrée le 18/10/2026 ; édition complète (949 pages) livrée le même jour (lot 1 bis) |
+| 1 | Méthode OpenNAT v1 (`methode/`) et tables sourcées (`donnees/`) | version noyau livrée le 18/10/2026 ; édition complète livrée le même jour (lot 1 bis, 949 pages), complétée et dotée des modules dynamiques (lot 1 ter, `livraison_lot1ter.md`) |
 | 2 | Moteur | à venir |
 | 3 | Utilitaire | à venir |
 | 4 | Banc de validation et documentation | à venir |
@@ -24,5 +24,5 @@ L'audit du lot 0 emploie encore l'ancien nom de travail « Vi-BCN » ; le nom re
 - `audit/` : cahier des charges, audit du lot 0, fiches de sources A à E.
 - `methode/` : texte de la méthode, conventions, bibliographie.
 - `donnees/` : tables de coefficients, une ligne par valeur avec sa source.
-- `outils/` : contrôle des tables et rapport de couverture.
+- `outils/` : contrôle des tables, rapport de couverture, constructeurs des tables, carnet de calcul de référence, modules dynamiques (`climat.py` : climat horaire TRACC et ET0 ; `dynamique.py` : bilan hydrique, éclairage, maturation, gestion, chantier), génération de l'édition (`edition/`).
 - `sources/` : copies de travail des documents sources (hors dépôt).
