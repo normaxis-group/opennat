@@ -21,7 +21,7 @@ Outils livrés avec les tables : `outils/construire_habitats.py` (lit la BKompV 
 - [x] Le texte de méthode contient les douze chapitres du § 4.1.
 - [x] Chaque équation est numérotée (1, 2, S1 à S4, H1 à H5, C1 à C3, N1, E1, T1 à T7, G1 à G6, A1 à A4, I1, I2) et ses unités sont données ; le contrôle dimensionnel automatique viendra avec le moteur (exigence E12).
 - [x] Chaque ligne de `donnees/` a une source ou une convention : contrôle automatique sans défaut.
-- [x] Le rapport de couverture indique la part de valeurs sourcées : 95 % de valeurs primaires ou transposées d'une source primaire, 1 % secondaires, 4 % conventions. Le chiffre est flatteur : 1 216 lignes viennent de la seule table des habitats. Les conventions sont peu nombreuses en lignes mais portent les modules les moins documentés (connectivité, nuisances, eau, temps).
+- [x] Le rapport de couverture indique la part de valeurs sourcées : 96 % de valeurs primaires ou transposées d'une source primaire, 1 % secondaires, 4 % conventions. Le chiffre est flatteur : 1 216 lignes viennent de la seule table des habitats. Les conventions sont peu nombreuses en lignes mais portent les modules les moins documentés (connectivité, nuisances, eau, temps).
 - [x] L'exemple de calcul complet est déroulé à la main (annexe C).
 
 ## Ce que le calcul de l'exemple montre
