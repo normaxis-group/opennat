@@ -538,16 +538,28 @@ Valeur du site sans projet : 270,39 m²HE. I_0 = 50 x 270,39 = 13 519,3 m²HE·a
 
 **C.3 État projet, modules S, H, C et N.**
 
-| Unité | Type, statut | A_u | v_u | Critères visés | S_u | f_u | k_C | k_N | V_u | d_u | D_u |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| U1-1 bâtiment | VB.1, créée | 700 | 0 | | | 1 | 1 | 1 | 0 | 0 | 1 |
-| U1-2 voirie, stationnement | VB.2, créée | 300 | 0 | | | 1 | 1 | 1 | 0 | 0 | 1 |
-| U1-3 cheminements stabilisés | VB.3, créée | 150 | 0,1667 | sans grille | | 1 | 1 | 1 | 25,00 | 0 (C-T3) | 1 |
-| U1-4 prairie urbaine extensive | VB.26, créée | 450 | 0,6250 | EP2 : 4 sur 6 | 0,6667 | 0,8333 | 0,4197 | 0,9 (L1) | 88,53 | 5 (moyen) | 1 |
-| U1-5 jardins privatifs | VB.7, créée | 320 | 0,4583 | EU1 : 2 sur 3 | 0,6667 | 0,8333 | 0,4197 | 1 | 51,29 | 1 (sans état) | 1 |
-| U1-6 haie champêtre 40 m x 2 m | FA.3, stade M, créée | 80 | 0,6667 | EH1 : 6 sur 8 | 0,75 | 0,875 | 0,4197 | 1 | 19,59 | 5 (moyen) | 1 |
-| U1-7 deux arbres | VB.18a, conservée, protégée | 100 | 0,6250 | EA1 : 5 sur 6 | 0,8333 | 0,9167 | 0,4197 | 1 | 24,04 | | |
-| U1-8 toiture biodiverse, 15 cm | VB.12, créée, hors-sol | 500 | 0,5278 | EU1 + G : 4 sur 4 | 1 | 1 | 0,3734 | 1 | 98,55 | 10 (bon) | 0,67 |
+| Unité | Type, statut | A_u | Critères visés | d_u | D_u |
+|---|---|---|---|---|---|
+| U1-1 bâtiment | VB.1, créée | 700 | sans grille | 0 | 1 |
+| U1-2 voirie, stationnement | VB.2, créée | 300 | sans grille | 0 | 1 |
+| U1-3 cheminements stabilisés | VB.3, créée | 150 | sans grille | 0 (C-T3) | 1 |
+| U1-4 prairie urbaine extensive | VB.26, créée | 450 | EP2 : 4 sur 6 | 5 (moyen) | 1 |
+| U1-5 jardins privatifs | VB.7, créée | 320 | EU1 : 2 sur 3 | 1 (sans état) | 1 |
+| U1-6 haie champêtre de 40 m x 2 m | FA.3, stade M, créée | 80 | EH1 : 6 sur 8 | 5 (moyen) | 1 |
+| U1-7 deux arbres | VB.18a, conservée, protégée | 100 | EA1 : 5 sur 6 | | |
+| U1-8 toiture biodiverse, 15 cm | VB.12, créée, hors-sol | 500 | EU1 et G : 4 sur 4 | 10 (bon) | 0,67 |
+
+Valeurs à maturité, équation H5 :
+
+| Unité | v_u | S_u | f_u | k_C | k_N | V_u |
+|---|---|---|---|---|---|---|
+| U1-1, U1-2 | 0 | | 1 | 1 | 1 | 0 |
+| U1-3 | 0,1667 | | 1 | 1 | 1 | 25,00 |
+| U1-4 | 0,6250 | 0,6667 | 0,8333 | 0,4197 | 0,9 (L1) | 88,53 |
+| U1-5 | 0,4583 | 0,6667 | 0,8333 | 0,4197 | 1 | 51,29 |
+| U1-6 | 0,6667 | 0,75 | 0,875 | 0,4197 | 1 | 19,59 |
+| U1-7 | 0,6250 | 0,8333 | 0,9167 | 0,4197 | 1 | 24,04 |
+| U1-8 | 0,5278 | 1 | 1 | 0,3734 | 1 | 98,55 |
 
 Taches : prairie, jardins et haie, contiguës : 450 + 320 + 80 = 850 m², k_taille = (850 / 44 000)^0,22 = 0,4197 ; toiture isolée : 500 m², k_taille = 0,3734. La prairie est éclairée par l'éclairage du stationnement, conforme à l'arrêté de 2018 et éteint la nuit : k_lum = 0,9.
 
@@ -557,7 +569,7 @@ Exemple de ligne : prairie, V_u = 450 x 0,6250 x 0,8333 x 1 x 1 x 0,4197 x 0,9 =
 
 | Année | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 10 | 11 | 12 à 50 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Valeur du site V_1(t), m²HE | 24,04 | 88,81 | 142,68 | 170,90 | 199,13 | 227,35 | 244,76 | 251,37 | 264,57 | 271,18 | 274,48 |
+| V_1(t), m²HE | 24,0 | 88,8 | 142,7 | 170,9 | 199,1 | 227,4 | 244,8 | 251,4 | 264,6 | 271,2 | 274,5 |
 
 I_1 = 12 847,4 m²HE·an. Valeur à maturité : 274,48 m²HE. Dette de maturité (T7) : 876,5 m²HE·an.
 

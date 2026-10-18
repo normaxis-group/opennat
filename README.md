@@ -12,7 +12,7 @@ Méthode de calcul biodiversité **OpenNAT** et son moteur libre, qui porte le m
 | Lot | Objet | État |
 |---|---|---|
 | 0 | Audit et état de l'art (`audit/`) | livré le 17/10/2026, go le 18/10/2026 |
-| 1 | Méthode OpenNAT v1 (`methode/`) et tables sourcées (`donnees/`) | en cours |
+| 1 | Méthode OpenNAT v1 (`methode/`) et tables sourcées (`donnees/`) | version noyau livrée le 18/10/2026 |
 | 2 | Moteur | à venir |
 | 3 | Utilitaire | à venir |
 | 4 | Banc de validation et documentation | à venir |
