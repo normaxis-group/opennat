@@ -3,7 +3,7 @@
 """Construit donnees/habitats.csv depuis les sources primaires.
 
 Entrées :
-- donnees/nomenclature_habitats.csv : correspondances écrites à la main (types Vi-NAT,
+- donnees/nomenclature_habitats.csv : correspondances écrites à la main (types OpenNAT,
   code BKompV, ligne de la métrique anglaise, justification) ;
 - sources/biotopwert_de/bkompv_anlage2.csv : extraction de l'annexe 2 de la BKompV ;
 - sources/uk_metric/extraits/*.csv : onglets G-1, G-3, G-4 et G-6 du tableur statutaire 1.0.4.
@@ -30,6 +30,8 @@ LIC_UK = 'Open Government Licence v3.0'
 COLONNES = ['cle', 'parametre', 'valeur', 'unite', 'incertitude_min', 'incertitude_max',
             'source', 'reference_precise', 'url', 'licence', 'type', 'convention',
             'justification']
+
+DIFFICULTE = {'Low': 1.0, 'Medium': 0.67, 'High': 0.33, 'Very High': 0.1}
 
 # Convention C-I1 (plages d'incertitude par classe de source, point P18 de l'audit)
 PLAGE = {'reglement': 0.10, 'expert': 0.25, 'convention': 0.50}
@@ -75,15 +77,13 @@ def lire_uk():
         if r[0] in ('1', '2') or not r[2]:
             continue
         haies[r[2]] = {'distinctivite': r[4], 'mauvais': r[5], 'moyen': r[7], 'bon': r[9],
-                       'difficulte': r[34] if len(r) > 34 else '', 'ligne_g6': r[0]}
+                       'difficulte': next((x for x in r[30:] if x in DIFFICULTE), ''),
+                       'ligne_g6': r[0]}
     arbres = {}
     for r in lire_extrait('G-3 Multipliers'):
         if len(r) > 27 and r[24] in ('Small', 'Medium', 'Large', 'Very large'):
             arbres[r[24]] = {'diametre_m': r[25], 'rpa_ha': r[27], 'ligne_g3': r[0]}
     return g1, g3, g4, haies, arbres
-
-
-DIFFICULTE = {'Low': 1.0, 'Medium': 0.67, 'High': 0.33, 'Very High': 0.1}
 
 
 def annees(texte):
@@ -100,8 +100,11 @@ def ligne(cle, parametre, valeur, unite, classe, source, ref, url, licence, typ,
           convention='', justification=''):
     p = PLAGE[classe]
     v = float(valeur)
+    haut = v * (1 + p)
+    if parametre.startswith(('difficulte', 'valeur_intrinseque')):
+        haut = min(haut, 1.0)  # un multiplicateur de risque et une valeur ramenée à 1 ne dépassent pas 1
     return {'cle': cle, 'parametre': parametre, 'valeur': round(v, 4), 'unite': unite,
-            'incertitude_min': round(v * (1 - p), 4), 'incertitude_max': round(v * (1 + p), 4),
+            'incertitude_min': round(v * (1 - p), 4), 'incertitude_max': round(haut, 4),
             'source': source, 'reference_precise': ref, 'url': url, 'licence': licence,
             'type': typ, 'convention': convention, 'justification': justification}
 

@@ -25,7 +25,7 @@ COLONNES = ['cle', 'parametre', 'valeur', 'unite', 'incertitude_min', 'incertitu
             'source', 'reference_precise', 'url', 'licence', 'type', 'convention',
             'justification']
 TYPES = ('primaire', 'secondaire', 'transposition', 'convention')
-HORS_CONTROLE = ('nomenclature_habitats.csv',)
+HORS_CONTROLE = ('nomenclature_habitats.csv', 'conventions.csv')
 
 
 def conventions_definies():
@@ -88,7 +88,7 @@ def rapport(stats, conv_utilisees, conv_def):
     total = Counter()
     for c in stats.values():
         total.update(c)
-    lignes = ['# Rapport de couverture des tables de données Vi-NAT', '',
+    lignes = ['# Rapport de couverture des tables de données OpenNAT', '',
               'Produit par `outils/controle_donnees.py`. Une ligne = une valeur.', '',
               '| Table | Lignes | Primaire | Transposition | Secondaire | Convention |',
               '|---|---|---|---|---|---|']
@@ -104,10 +104,10 @@ def rapport(stats, conv_utilisees, conv_def):
                    f'primaire : {100 * (total["primaire"] + total["transposition"]) / n:.0f} %. '
                    f'Sources secondaires : {part("secondaire")}. Conventions : {part("convention")}.',
                '', 'Types : primaire = valeur lue telle quelle dans la source ; transposition = '
-                   'valeur lue dans une source primaire et appliquée à Vi-NAT par une '
+                   'valeur lue dans une source primaire et appliquée à OpenNAT par une '
                    'correspondance ou un changement d\'échelle écrit en convention ; secondaire = '
                    'valeur lue dans une source qui en cite une autre, à remplacer par la source '
-                   'primaire ; convention = valeur fixée par Vi-NAT et justifiée.', '',
+                   'primaire ; convention = valeur fixée par OpenNAT et justifiée.', '',
                '## Conventions citées par les tables', '',
                '| Convention | Lignes |', '|---|---|']
     for c, k in sorted(conv_utilisees.items()):
@@ -120,9 +120,38 @@ def rapport(stats, conv_utilisees, conv_def):
         f.write('\n'.join(lignes) + '\n')
 
 
+def index_conventions(conv_utilisees):
+    """Écrit donnees/conventions.csv, index des conventions de methode/conventions.md."""
+    chemin = os.path.join(RACINE, 'methode', 'conventions.md')
+    with open(chemin, encoding='utf-8') as f:
+        texte = f.read()
+    blocs = re.split(r'^### ', texte, flags=re.M)[1:]
+    familles = {'H': 'habitats', 'S': 'sols', 'E': 'contexte, eau et seuils',
+                'C': 'connectivité', 'N': 'nuisances', 'T': 'temps',
+                'G': 'biodiversité grise', 'I': 'incertitude', 'B': 'Bnat',
+                'P': 'attestation au permis de construire'}
+    lignes = []
+    for b in blocs:
+        num, reste = b.split('\n', 1)
+        num = num.strip()
+        cat = re.search(r'Catégorie : ([^.]+)\.', reste)
+        corps = re.sub(r'Catégorie : [^.]+\.\s*', '', reste).strip()
+        premiere = re.split(r'(?<=\.)\s', corps.replace('\n', ' '), maxsplit=1)[0]
+        lignes.append({'numero': num, 'famille': familles[num[2]],
+                       'categorie': cat.group(1) if cat else '',
+                       'enonce': premiere.strip(), 'lignes_de_donnees': conv_utilisees.get(num, 0),
+                       'statut': 'proposée, en attente de validation du Biodiversity Standard Council'})
+    with open(os.path.join(DON, 'conventions.csv'), 'w', newline='', encoding='utf-8') as f:
+        w = csv.DictWriter(f, fieldnames=list(lignes[0]), delimiter=';')
+        w.writeheader()
+        w.writerows(lignes)
+    return len(lignes)
+
+
 def main():
     defauts, stats, conv_utilisees, conv_def = controler()
     rapport(stats, conv_utilisees, conv_def)
+    print(f'conventions.csv : {index_conventions(conv_utilisees)} conventions')
     for nom, c in stats.items():
         print(f'{nom:24} {sum(c.values()):5} lignes  {dict(c)}')
     if defauts:
