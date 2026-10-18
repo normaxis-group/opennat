@@ -1,0 +1,1591 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:documentation>Récapitulatif standardisé RSNat (nom provisoire) de la méthode OpenNAT, version 1. NORMATYS, CC BY 4.0. Généré par outils/edition/partie7_rsnat.py.</xs:documentation>
+  </xs:annotation>
+  <xs:simpleType name="zone">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="atlantique"/>
+      <xs:enumeration value="continentale"/>
+      <xs:enumeration value="mediterraneenne"/>
+      <xs:enumeration value="alpine"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="typologie">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="logement"/>
+      <xs:enumeration value="tertiaire"/>
+      <xs:enumeration value="industrie"/>
+      <xs:enumeration value="amenagement"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="position">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="sol_pleine_terre"/>
+      <xs:enumeration value="sol_sur_dalle"/>
+      <xs:enumeration value="hors_sol_toiture"/>
+      <xs:enumeration value="hors_sol_facade"/>
+      <xs:enumeration value="eau"/>
+      <xs:enumeration value="arbre"/>
+      <xs:enumeration value="lineaire"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="situation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="reservoir"/>
+      <xs:enumeration value="corridor"/>
+      <xs:enumeration value="hors_trame"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="eclairage">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="L0"/>
+      <xs:enumeration value="L1"/>
+      <xs:enumeration value="L2"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="alimentation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="naturelle"/>
+      <xs:enumeration value="artificielle"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="statut">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="conservee"/>
+      <xs:enumeration value="creee"/>
+      <xs:enumeration value="amelioree"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="stade">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="J"/>
+      <xs:enumeration value="M"/>
+      <xs:enumeration value="A"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="classe_diametre">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="petit"/>
+      <xs:enumeration value="moyen"/>
+      <xs:enumeration value="grand"/>
+      <xs:enumeration value="tres_grand"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="reponse">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="oui"/>
+      <xs:enumeration value="non"/>
+      <xs:enumeration value="sans_objet"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="connexion">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="forte"/>
+      <xs:enumeration value="moyenne"/>
+      <xs:enumeration value="faible"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="cloture">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="aucune"/>
+      <xs:enumeration value="permeable"/>
+      <xs:enumeration value="etanche"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="regime">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="plantation"/>
+      <xs:enumeration value="coupe_rase"/>
+      <xs:enumeration value="coupe_selective"/>
+      <xs:enumeration value="faible_impact"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="phase">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="A1-A3"/>
+      <xs:enumeration value="A4-A5"/>
+      <xs:enumeration value="B"/>
+      <xs:enumeration value="C"/>
+      <xs:enumeration value="D"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="etat">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="initial"/>
+      <xs:enumeration value="projet"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="classe_etat">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="bon"/>
+      <xs:enumeration value="moyen"/>
+      <xs:enumeration value="mauvais"/>
+      <xs:enumeration value="sans_etat"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RSNat">
+    <xs:annotation>
+      <xs:documentation>Récapitulatif standardisé de l'étude nature OpenNAT</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="version_methode" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Version de la méthode (OpenNAT 1)</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="version_donnees" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Empreinte SHA-256 des tables de donnees/</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="graine" type="xs:integer">
+          <xs:annotation>
+            <xs:documentation>Graine du générateur aléatoire</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="date_calcul" type="xs:date">
+          <xs:annotation>
+            <xs:documentation>Date du calcul</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="Entree_Projet">
+          <xs:annotation>
+            <xs:documentation>Données d'entrée (partie 1, chapitre 4)</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Projet">
+                <xs:annotation>
+                  <xs:documentation>Identification et contexte</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="identifiant" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>Identifiant du projet</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="nom" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>Nom de l'opération</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="adresse" minOccurs="0" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>Adresse</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="commune_insee" minOccurs="0" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>Code INSEE de la commune</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="latitude" minOccurs="0" type="xs:decimal">
+                      <xs:annotation>
+                        <xs:documentation>Latitude WGS 84 (°)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="longitude" minOccurs="0" type="xs:decimal">
+                      <xs:annotation>
+                        <xs:documentation>Longitude WGS 84 (°)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="zone_biogeographique" type="zone">
+                      <xs:annotation>
+                        <xs:documentation>Zone biogéographique (fiche A02)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="typologie" type="typologie">
+                      <xs:annotation>
+                        <xs:documentation>Typologie de l'opération</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="rsee_empreinte" minOccurs="0" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>Empreinte SHA-256 du RSEE repris, s'il y en a un</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="date_etude" type="xs:date">
+                      <xs:annotation>
+                        <xs:documentation>Date de l'étude</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Parcelle">
+                <xs:annotation>
+                  <xs:documentation>Parcelle ou unité foncière</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="surface" type="xs:decimal">
+                      <xs:annotation>
+                        <xs:documentation>Surface de la parcelle S_p (m²)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="surface_vegetalisee_rsee" minOccurs="0" type="xs:decimal">
+                      <xs:annotation>
+                        <xs:documentation>Surface végétalisée déclarée au RSEE (contrôle) (m²)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="surface_impermeable_rsee" minOccurs="0" type="xs:decimal">
+                      <xs:annotation>
+                        <xs:documentation>Surface imperméabilisée déclarée au RSEE (contrôle) (m²)</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="cbs_plu" minOccurs="0" type="xs:decimal">
+                      <xs:annotation>
+                        <xs:documentation>Coefficient de biotope imposé par le PLU</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="pleine_terre_plu" minOccurs="0" type="xs:decimal">
+                      <xs:annotation>
+                        <xs:documentation>Part de pleine terre imposée par le PLU</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Batiment_Collection" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Bâtiments de l'opération</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Batiment" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation>Bâtiment</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="index" type="xs:integer">
+                            <xs:annotation>
+                              <xs:documentation>Index du bâtiment</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="nom" minOccurs="0" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>Nom</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="sref" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Surface de référence (m²)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="emprise_au_sol" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Emprise au sol (m²)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="duree_chantier" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Durée du chantier (mois)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="Ges_Collection">
+                            <xs:annotation>
+                              <xs:documentation>Émissions des contributeurs composants et chantier (indicateur 101)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Ges" maxOccurs="unbounded">
+                                  <xs:annotation>
+                                    <xs:documentation>Émission d'une phase</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="phase" type="phase">
+                                        <xs:annotation>
+                                          <xs:documentation>Phase du cycle de vie</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="valeur" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Valeur de l'indicateur 101 (kg CO2 éq./m² Sref)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Pollution_Collection" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Indicateurs 106 à 109 et 116</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Pollution" minOccurs="0" maxOccurs="unbounded">
+                                  <xs:annotation>
+                                    <xs:documentation>Indicateur de pollution d'une phase</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="code" type="xs:integer">
+                                        <xs:annotation>
+                                          <xs:documentation>Code de l'indicateur (106, 107, 108, 109, 116)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="phase" type="phase">
+                                        <xs:annotation>
+                                          <xs:documentation>Phase</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="valeur" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Valeur (unité de l'annexe II par m² Sref)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Tache_Collection" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Taches d'habitat et leur contexte (fiches A17 à A19)</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Tache" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation>Tache</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="identifiant" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>Identifiant de tache</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="surface_exterieure" minOccurs="0" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Surface végétalisée extérieure contiguë (m²)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="connexion" minOccurs="0" type="connexion">
+                            <xs:annotation>
+                              <xs:documentation>Connexion déclarée</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="distance_espace_naturel" minOccurs="0" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Distance bord à bord à l'espace naturel le plus proche (m)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="surface_espace_naturel" minOccurs="0" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Surface de cet espace (m²)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="cloture" minOccurs="0" type="cloture">
+                            <xs:annotation>
+                              <xs:documentation>Clôture de la tache</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Etat_Initial">
+                <xs:annotation>
+                  <xs:documentation>État initial du site</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Unite_Collection">
+                      <xs:annotation>
+                        <xs:documentation>Unités</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Unite" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                              <xs:documentation>Unité d'habitat</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="identifiant" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>Identifiant unique de l'unité dans le projet</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="identifiant_geometrique" minOccurs="0" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>Identifiant de l'objet géométrique correspondant (import futur)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="code_habitat" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>Code de nomenclature_habitats.csv ou code EUNIS rattaché (fiche A04)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="position" type="position">
+                                  <xs:annotation>
+                                    <xs:documentation>Position de saisie (fiche A04)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="surface" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Surface ; houppier pour un arbre, longueur x largeur pour une haie (fiches A13 à A16) (m²)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="epaisseur_substrat" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Épaisseur de substrat, sur dalle ou hors-sol (cm)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="hauteur_facade" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Hauteur végétalisée d'une façade (m)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="longueur" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Longueur d'une haie ou d'une façade (m)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="largeur" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Largeur d'une haie (m)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="nombre_arbres" minOccurs="0" type="xs:integer">
+                                  <xs:annotation>
+                                    <xs:documentation>Nombre d'arbres d'une unité arbre</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="classe_diametre" minOccurs="0" type="classe_diametre">
+                                  <xs:annotation>
+                                    <xs:documentation>Classe de diamètre des arbres</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="stade" minOccurs="0" type="stade">
+                                  <xs:annotation>
+                                    <xs:documentation>Stade d'un type ligneux</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="situation" minOccurs="0" type="situation">
+                                  <xs:annotation>
+                                    <xs:documentation>Situation dans la trame verte et bleue (fiche A02)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="tache" minOccurs="0" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>Identifiant de tache (fiche A17)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="eclairage" minOccurs="0" type="eclairage">
+                                  <xs:annotation>
+                                    <xs:documentation>Classe d'éclairage (fiche A20)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="distance_lumiere" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Distance au point lumineux le plus proche (m)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="niveau_sonore" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Niveau sonore à l'unité (fiche A21) (dB(A))</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="exposition_vitrage" minOccurs="0" type="xs:boolean">
+                                  <xs:annotation>
+                                    <xs:documentation>À moins de 15 m d'une façade vitrée non traitée de plus de 10 m² (fiche A22)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="alimentation_eau" minOccurs="0" type="alimentation">
+                                  <xs:annotation>
+                                    <xs:documentation>Alimentation d'une unité en eau (fiche A23)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="statut" minOccurs="0" type="statut">
+                                  <xs:annotation>
+                                    <xs:documentation>Statut à l'état projet (fiches A27 à A29)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="unite_liee" minOccurs="0" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>Identifiant de l'unité initiale liée, pour une unité conservée ou améliorée</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="protection_chantier" minOccurs="0" type="xs:boolean">
+                                  <xs:annotation>
+                                    <xs:documentation>Protection prévue pendant le chantier (fiche A27)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="Critere_Collection" minOccurs="0">
+                                  <xs:annotation>
+                                    <xs:documentation>Réponses à la grille d'état</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="Critere" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:annotation>
+                                          <xs:documentation>Réponse à un critère de la grille d'état du type</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="code" type="xs:string">
+                                              <xs:annotation>
+                                                <xs:documentation>Code du critère dans la grille (A, B, A1, indicateur_bois_mort...)</xs:documentation>
+                                              </xs:annotation>
+                                            </xs:element>
+                                            <xs:element name="reponse" minOccurs="0" type="reponse">
+                                              <xs:annotation>
+                                                <xs:documentation>Réponse à un critère binaire</xs:documentation>
+                                              </xs:annotation>
+                                            </xs:element>
+                                            <xs:element name="note" minOccurs="0" type="xs:integer">
+                                              <xs:annotation>
+                                                <xs:documentation>Note d'un indicateur de la grille des boisements (note 1 à 3)</xs:documentation>
+                                              </xs:annotation>
+                                            </xs:element>
+                                            <xs:element name="preuve" minOccurs="0" type="xs:string">
+                                              <xs:annotation>
+                                                <xs:documentation>Référence de la pièce qui justifie la réponse</xs:documentation>
+                                              </xs:annotation>
+                                            </xs:element>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="Renouvellement_Collection" minOccurs="0">
+                                  <xs:annotation>
+                                    <xs:documentation>Années de réfection (fiche A30)</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="annee" minOccurs="0" maxOccurs="unbounded" type="xs:integer">
+                                        <xs:annotation>
+                                          <xs:documentation>Année de réfection, de 2 à 50 (an)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Variante_Collection">
+                <xs:annotation>
+                  <xs:documentation>Variantes de l'état projet (fiche A41)</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Variante" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation>Variante</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="index" type="xs:integer">
+                            <xs:annotation>
+                              <xs:documentation>Index de la variante</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="nom" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>Nom</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="reference" type="xs:boolean">
+                            <xs:annotation>
+                              <xs:documentation>Variante de référence</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="Unite_Collection">
+                            <xs:annotation>
+                              <xs:documentation>Unités de l'état projet</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Unite" minOccurs="0" maxOccurs="unbounded">
+                                  <xs:annotation>
+                                    <xs:documentation>Unité d'habitat</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="identifiant" type="xs:string">
+                                        <xs:annotation>
+                                          <xs:documentation>Identifiant unique de l'unité dans le projet</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="identifiant_geometrique" minOccurs="0" type="xs:string">
+                                        <xs:annotation>
+                                          <xs:documentation>Identifiant de l'objet géométrique correspondant (import futur)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="code_habitat" type="xs:string">
+                                        <xs:annotation>
+                                          <xs:documentation>Code de nomenclature_habitats.csv ou code EUNIS rattaché (fiche A04)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="position" type="position">
+                                        <xs:annotation>
+                                          <xs:documentation>Position de saisie (fiche A04)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="surface" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Surface ; houppier pour un arbre, longueur x largeur pour une haie (fiches A13 à A16) (m²)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="epaisseur_substrat" minOccurs="0" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Épaisseur de substrat, sur dalle ou hors-sol (cm)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="hauteur_facade" minOccurs="0" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Hauteur végétalisée d'une façade (m)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="longueur" minOccurs="0" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Longueur d'une haie ou d'une façade (m)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="largeur" minOccurs="0" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Largeur d'une haie (m)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="nombre_arbres" minOccurs="0" type="xs:integer">
+                                        <xs:annotation>
+                                          <xs:documentation>Nombre d'arbres d'une unité arbre</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="classe_diametre" minOccurs="0" type="classe_diametre">
+                                        <xs:annotation>
+                                          <xs:documentation>Classe de diamètre des arbres</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="stade" minOccurs="0" type="stade">
+                                        <xs:annotation>
+                                          <xs:documentation>Stade d'un type ligneux</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="situation" minOccurs="0" type="situation">
+                                        <xs:annotation>
+                                          <xs:documentation>Situation dans la trame verte et bleue (fiche A02)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="tache" minOccurs="0" type="xs:string">
+                                        <xs:annotation>
+                                          <xs:documentation>Identifiant de tache (fiche A17)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="eclairage" minOccurs="0" type="eclairage">
+                                        <xs:annotation>
+                                          <xs:documentation>Classe d'éclairage (fiche A20)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="distance_lumiere" minOccurs="0" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Distance au point lumineux le plus proche (m)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="niveau_sonore" minOccurs="0" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Niveau sonore à l'unité (fiche A21) (dB(A))</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="exposition_vitrage" minOccurs="0" type="xs:boolean">
+                                        <xs:annotation>
+                                          <xs:documentation>À moins de 15 m d'une façade vitrée non traitée de plus de 10 m² (fiche A22)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="alimentation_eau" minOccurs="0" type="alimentation">
+                                        <xs:annotation>
+                                          <xs:documentation>Alimentation d'une unité en eau (fiche A23)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="statut" minOccurs="0" type="statut">
+                                        <xs:annotation>
+                                          <xs:documentation>Statut à l'état projet (fiches A27 à A29)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="unite_liee" minOccurs="0" type="xs:string">
+                                        <xs:annotation>
+                                          <xs:documentation>Identifiant de l'unité initiale liée, pour une unité conservée ou améliorée</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="protection_chantier" minOccurs="0" type="xs:boolean">
+                                        <xs:annotation>
+                                          <xs:documentation>Protection prévue pendant le chantier (fiche A27)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="Critere_Collection" minOccurs="0">
+                                        <xs:annotation>
+                                          <xs:documentation>Réponses à la grille d'état</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="Critere" minOccurs="0" maxOccurs="unbounded">
+                                              <xs:annotation>
+                                                <xs:documentation>Réponse à un critère de la grille d'état du type</xs:documentation>
+                                              </xs:annotation>
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="code" type="xs:string">
+                                                    <xs:annotation>
+                                                      <xs:documentation>Code du critère dans la grille (A, B, A1, indicateur_bois_mort...)</xs:documentation>
+                                                    </xs:annotation>
+                                                  </xs:element>
+                                                  <xs:element name="reponse" minOccurs="0" type="reponse">
+                                                    <xs:annotation>
+                                                      <xs:documentation>Réponse à un critère binaire</xs:documentation>
+                                                    </xs:annotation>
+                                                  </xs:element>
+                                                  <xs:element name="note" minOccurs="0" type="xs:integer">
+                                                    <xs:annotation>
+                                                      <xs:documentation>Note d'un indicateur de la grille des boisements (note 1 à 3)</xs:documentation>
+                                                    </xs:annotation>
+                                                  </xs:element>
+                                                  <xs:element name="preuve" minOccurs="0" type="xs:string">
+                                                    <xs:annotation>
+                                                      <xs:documentation>Référence de la pièce qui justifie la réponse</xs:documentation>
+                                                    </xs:annotation>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="Renouvellement_Collection" minOccurs="0">
+                                        <xs:annotation>
+                                          <xs:documentation>Années de réfection (fiche A30)</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="annee" minOccurs="0" maxOccurs="unbounded" type="xs:integer">
+                                              <xs:annotation>
+                                                <xs:documentation>Année de réfection, de 2 à 50 (an)</xs:documentation>
+                                              </xs:annotation>
+                                            </xs:element>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Bois_Collection" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Bois mis en œuvre (fiche A34)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Bois" minOccurs="0" maxOccurs="unbounded">
+                                  <xs:annotation>
+                                    <xs:documentation>Lot de bois</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="regime" type="regime">
+                                        <xs:annotation>
+                                          <xs:documentation>Régime forestier déclaré</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="volume" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Volume mis en œuvre (m³)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="remplacements" minOccurs="0" type="xs:integer">
+                                        <xs:annotation>
+                                          <xs:documentation>Nombre de remplacements en 50 ans</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="justification" minOccurs="0" type="xs:string">
+                                        <xs:annotation>
+                                          <xs:documentation>Pièce qui justifie le régime</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Granulats" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Granulats, sables et roches (fiche A35)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="masse" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Masse mise en œuvre (t)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="remplacements" minOccurs="0" type="xs:integer">
+                                  <xs:annotation>
+                                    <xs:documentation>Nombre de remplacements en 50 ans</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Ouvrage_Pluvial_Collection" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Ouvrages de gestion des eaux pluviales (fiche A24)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Ouvrage_Pluvial" minOccurs="0" maxOccurs="unbounded">
+                                  <xs:annotation>
+                                    <xs:documentation>Ouvrage</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="surface_drainee" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Surface imperméable conduite vers l'ouvrage (m²)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="infiltration_surface" type="xs:boolean">
+                                        <xs:annotation>
+                                          <xs:documentation>Infiltration en surface</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Facade_Vitree_Collection" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Façades vitrées exposées (fiche A22)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Facade_Vitree" minOccurs="0" maxOccurs="unbounded">
+                                  <xs:annotation>
+                                    <xs:documentation>Façade</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="surface" type="xs:decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>Surface vitrée exposée (m²)</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="traitee" type="xs:boolean">
+                                        <xs:annotation>
+                                          <xs:documentation>Vitrage traité contre les collisions</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Sortie_Projet">
+          <xs:annotation>
+            <xs:documentation>Résultats (partie 1, chapitre 11)</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Variante_Resultat" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>Résultats d'une variante</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="index" type="xs:integer">
+                      <xs:annotation>
+                        <xs:documentation>Index de la variante</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Contexte">
+                      <xs:annotation>
+                        <xs:documentation>Sorties de l'étape E1 (fiche A02)</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="part_emprise" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Part d'emprise du bâti e</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="bnat_min" minOccurs="0" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Seuil de Bnat applicable (points)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="pleine_terre_min" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Seuil de pleine terre applicable</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="multiplicateur_delai" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Multiplicateur de délai de la zone</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Fermeture_Collection">
+                      <xs:annotation>
+                        <xs:documentation>Contrôle de fermeture (fiche A03)</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Fermeture" minOccurs="2" maxOccurs="2">
+                            <xs:annotation>
+                              <xs:documentation>Contrôle d'un état</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="etat" type="etat">
+                                  <xs:annotation>
+                                    <xs:documentation>État</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="somme" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Somme des surfaces au sol (m²)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="ecart" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Écart avec S_p (m²)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="conforme" type="xs:boolean">
+                                  <xs:annotation>
+                                    <xs:documentation>Contrôle satisfait</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Unite_Resultat_Collection">
+                      <xs:annotation>
+                        <xs:documentation>Résultats par unité</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Unite_Resultat" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                              <xs:documentation>Résultats d'une unité</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="identifiant" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>Identifiant de l'unité</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="etat" type="etat">
+                                  <xs:annotation>
+                                    <xs:documentation>État</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="type" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>Type OpenNAT retenu h_u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="nature_surface" minOccurs="0" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>Nature S01 à S12</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="coefficient_sol" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>c_u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="facteur_support" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>f_sol,u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="valeur_intrinseque" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>v_u (m²HE/m²)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="score_etat" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>S_u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="facteur_etat" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>f_u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="classe_etat" type="classe_etat">
+                                  <xs:annotation>
+                                    <xs:documentation>cl_u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="multiplicateur_situation" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>m_u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="facteur_taille" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>k_taille</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="facteur_connectivite" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>k_C,u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="facteur_nuisances" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>k_N,u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="facteur_eau" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>k_E,u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="valeur_habitat" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>V^H_u (m²HE)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="valeur_maturite" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>V_u (m²HE)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="delai" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>d_u (an)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="difficulte" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>D_u</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="trajectoire" minOccurs="0" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>50 valeurs annuelles V_u(t) séparées par des espaces (m²HE)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="valeur_integree" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Somme de la trajectoire (m²HE·an)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Site">
+                      <xs:annotation>
+                        <xs:documentation>Sorties des modules S et T (fiches A08, A24, A31)</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="valeur_initiale" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>V_0 (m²HE)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="i0" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>I_0 (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="i1" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>I_1 (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="i0_30" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>I_0,30 (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="i1_30" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>I_1,30 (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="dette_maturite" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>DM (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="trajectoire_site" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>50 valeurs annuelles V_1(t) (m²HE)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="pleine_terre" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>PT</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="pleine_terre_initiale" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>PT_0</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="impermeable_initial" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>A_imp,0 (m²)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="impermeable_projet" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>A_imp,1 (m²)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="impermeabilisation_nette" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>ΔA_imp (m²)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="part_pluvial_infiltre" minOccurs="0" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>P_inf</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="surface_vitree_non_traitee" minOccurs="0" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>A_vit,nt (m²)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Materiaux">
+                      <xs:annotation>
+                        <xs:documentation>Sorties du module G (fiches A32 à A36)</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="facteur_climat" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>CF (m²HE/kg CO2 éq./an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="inat_climat" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Inat_clim (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="Inat_Climat_Phase" minOccurs="0" maxOccurs="5">
+                            <xs:annotation>
+                              <xs:documentation>Inat_clim par phase</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="phase" type="phase">
+                                  <xs:annotation>
+                                    <xs:documentation>Phase</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="valeur" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Inat_clim,p (m²HE·an)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="inat_bois" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Inat_bois (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="inat_carrieres" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Inat_carr (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="Pollution_Resultat" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                              <xs:documentation>Indicateurs de pollution</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="code" type="xs:integer">
+                                  <xs:annotation>
+                                    <xs:documentation>Code</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="valeur" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>POL_i (unité de l'annexe II)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Indicateurs">
+                      <xs:annotation>
+                        <xs:documentation>Indicateurs de l'opération (fiches A37, A38)</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="cnat" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Consommation de nature sur 50 ans (fiche A37) (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="cnat_moyen" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Consommation moyenne annuelle (m²HE)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="cnat_relatif" minOccurs="0" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Cnat / I_0</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="cnat_30" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Consommation sur 30 ans (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="inat" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Biodiversité grise (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="snat" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Solde de nature (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="bnat" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Besoin de nature de la conception (fiche A38) (points)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="cbs" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Coefficient de biotope équivalent</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="cnat_par_m2_parcelle" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Cnat / S_p (m²HE·an/m²)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="inat_par_m2_sref" minOccurs="0" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Inat / S_ref (m²HE·an/m²)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Incertitude" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>Analyse d'incertitude (fiche A39)</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="tirages" type="xs:integer">
+                            <xs:annotation>
+                              <xs:documentation>Nombre de tirages</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="Intervalle" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                              <xs:documentation>Intervalle d'un indicateur</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="indicateur" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>Nom de l'indicateur</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="p5" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Centile 5</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="p50" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Centile 50</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="p95" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>Centile 95</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Parametre_Influent" minOccurs="0" maxOccurs="5">
+                            <xs:annotation>
+                              <xs:documentation>Paramètre parmi les cinq plus influents</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="rang" type="xs:integer">
+                                  <xs:annotation>
+                                    <xs:documentation>Rang</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="table" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>Table de donnees/</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="cle" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>Clé</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="parametre" type="xs:string">
+                                  <xs:annotation>
+                                    <xs:documentation>Paramètre</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="correlation" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>ρ de Spearman avec Snat</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Conformite">
+                      <xs:annotation>
+                        <xs:documentation>Conformité (fiche A40)</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="bnat_conforme" minOccurs="0" type="xs:boolean">
+                            <xs:annotation>
+                              <xs:documentation>conf_Bnat</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="pleine_terre_conforme" type="xs:boolean">
+                            <xs:annotation>
+                              <xs:documentation>conf_PT</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="plu_conforme" minOccurs="0" type="xs:boolean">
+                            <xs:annotation>
+                              <xs:documentation>conf_PLU</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="niveau_cnat" type="xs:integer">
+                            <xs:annotation>
+                              <xs:documentation>Niveau 0, 1 ou 2</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Attestation_Permis">
+          <xs:annotation>
+            <xs:documentation>Attestation de prise en compte de la biodiversité au dépôt du permis de construire (fiche A40, convention C-P1)</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="variante" type="xs:integer">
+                <xs:annotation>
+                  <xs:documentation>Index de la variante attestée</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="bnat" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Bnat (points)</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="bnat_min" minOccurs="0" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Seuil de Bnat (points)</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="pleine_terre" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Taux de pleine terre</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="pleine_terre_min" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Seuil</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="cbs_plu" minOccurs="0" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Coefficient de biotope du PLU</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="pleine_terre_plu" minOccurs="0" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Pleine terre du PLU</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="conforme" type="xs:boolean">
+                <xs:annotation>
+                  <xs:documentation>Conclusion de conformité</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="mention" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>Mention, notamment l'écart au minimum du PLU</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Attestation_Achevement" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Attestation à l'achèvement (fiche A40)</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="variante" type="xs:integer">
+                <xs:annotation>
+                  <xs:documentation>Index de la variante réalisée</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="cnat" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Consommation de nature sur 50 ans (fiche A37) (m²HE·an)</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="cnat_moyen" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Consommation moyenne annuelle (m²HE)</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="cnat_relatif" minOccurs="0" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Cnat / I_0</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="cnat_30" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Consommation sur 30 ans (m²HE·an)</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="inat" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Biodiversité grise (m²HE·an)</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="snat" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Solde de nature (m²HE·an)</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="bnat" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Besoin de nature de la conception (fiche A38) (points)</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="cbs" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Coefficient de biotope équivalent</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="cnat_par_m2_parcelle" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Cnat / S_p (m²HE·an/m²)</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="inat_par_m2_sref" minOccurs="0" type="xs:decimal">
+                <xs:annotation>
+                  <xs:documentation>Inat / S_ref (m²HE·an/m²)</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="niveau_cnat" type="xs:integer">
+                <xs:annotation>
+                  <xs:documentation>Niveau atteint</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Empreinte">
+          <xs:annotation>
+            <xs:documentation>Empreintes de contrôle (fiche A42)</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="entrees" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>SHA-256 de Entree_Projet</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="sorties" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>SHA-256 de Sortie_Projet</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
