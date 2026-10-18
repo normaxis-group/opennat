@@ -3485,6 +3485,10 @@ Une case vide signifie que la métrique anglaise ne prévoit pas ce délai (« N
 | Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
 |---|---|---|---|---|---|---|---|
 | * | rapport transposition uk | 1,0556 | sans unité | 0,5278 à 1,5833 | convention | C-H3 | BKompV Anlage 2 ; Statutory Biodiversity Metric 1.0.4, G-1, médiane sur 175 types appariés de la nomenclature |
+| VB.18 | surface defaut houppier petit | 40,715 | m² | 36,6435 à 44,7865 | transposée | C-H5 | Statutory Biodiversity Metric 1.0.4, onglet G-3, table Individual trees, ligne 4, Small, diamètre 0.3 m, RPA 0.004071504079052367 ha |
+| VB.18 | surface defaut houppier moyen | 162,8602 | m² | 146,5741 à 179,1462 | transposée | C-H5 | Statutory Biodiversity Metric 1.0.4, onglet G-3, table Individual trees, ligne 5, Medium, diamètre 0.6 m, RPA 0.01628601631620947 ha |
+| VB.18 | surface defaut houppier grand | 366,4354 | m² | 329,7918 à 403,0789 | transposée | C-H5 | Statutory Biodiversity Metric 1.0.4, onglet G-3, table Individual trees, ligne 6, Large, diamètre 0.9 m, RPA 0.03664353671147131 ha |
+| VB.18 | surface defaut houppier tres grand | 764,538 | m² | 688,0842 à 840,9918 | transposée | C-H5 | Statutory Biodiversity Metric 1.0.4, onglet G-3, table Individual trees, ligne 7, Very large, diamètre 1.3 m, RPA 0.07645379881776114 ha |
 
 ### 2.3 Contexte, période et temps (`contexte.csv`)
 
@@ -3693,6 +3697,14 @@ Critères et règles des onze grilles d'état (module H).
 | EZ1 | critere E | 1 | poids | 1 | transposée | C-H6 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 23A, critère E |
 | EZ1 | critere F | 1 | poids | 1 | transposée | C-H8 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 23A, critère F |
 | EZ1 | critere G | 1 | poids | 1 | transposée | C-H6 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 23A, critère G |
+| EV1 | critere A essentiel | 1 | poids | 1 | transposée | C-H6 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 17A Orchard, critère A |
+| EV1 | critere B essentiel | 1 | poids | 1 | transposée | C-H6 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 17A Orchard, critère B |
+| EV1 | critere C | 1 | poids | 1 | transposée | C-H6 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 17A Orchard, critère C |
+| EV1 | critere D | 1 | poids | 1 | transposée | C-H6 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 17A Orchard, critère D |
+| EV1 | critere E | 1 | poids | 1 | transposée | C-H6 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 17A Orchard, critère E |
+| EV1 | critere F | 1 | poids | 1 | transposée | C-H6 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 17A Orchard, critère F |
+| EV1 | critere G | 1 | poids | 1 | transposée | C-H6 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 17A Orchard, critère G |
+| EV1 | critere H | 1 | poids | 1 | transposée | C-H8 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 17A Orchard, critère H |
 | EB1 | indicateur age peuplement | 1 | score 1 à 3 | 1 | transposée | C-H6 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 24A Woodland, indicateur A |
 | EB1 | indicateur degats herbivores | 1 | score 1 à 3 | 1 | transposée | C-H6 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 24A, indicateur B |
 | EB1 | indicateur especes envahissantes | 1 | score 1 à 3 | 1 | transposée | C-H8 | Statutory Biodiversity Metric, Condition Assessments (juillet 2025), fiche 24A, indicateur C |
@@ -3790,6 +3802,14 @@ Le libellé de chaque critère est dans la colonne « justification » de la tab
 | EZ1 | E | Sol nu sur moins de 5 % |
 | EZ1 | F | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol |
 | EZ1 | G | Litière continue empêchant la régénération sur 25 % au plus de la surface |
+| EV1 | A (essentiel) | Présence d'arbres anciens ou vétérans |
+| EV1 | B (essentiel) | Bois mort dans ou sur les arbres, ou au sol, pour au moins 20 % des arbres mûrs |
+| EV1 | C | Moins de 5 % des arbres fruitiers étouffés par les fourrés, fourrés sur moins de 10 % du sol |
+| EV1 | D | Taille de formation ou de restauration qui prolonge la vie des arbres |
+| EV1 | E | Au moins 95 % des arbres exempts de dégâts d'origine humaine ou animale (abroutissement, écorçage, liens non ajustés) |
+| EV1 | F | Prairie non surpâturée, piétinement sous le houppier de 10 % des arbres au plus |
+| EV1 | G | Prairie d'une richesse en espèces équivalente à une prairie de valeur moyenne ou plus |
+| EV1 | H | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 10 % du sol |
 | EB1 | indicateur age peuplement | Répartition des âges des arbres, chaque indicateur est noté de 1 à 3 selon les seuils de la fiche |
 | EB1 | indicateur degats herbivores | Dégâts d'herbivores sauvages ou domestiques |
 | EB1 | indicateur especes envahissantes | Espèces végétales envahissantes |

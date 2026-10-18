@@ -81,11 +81,21 @@ def convertir(source, sortie):
         if not l.strip() or l.strip() == '---':
             i += 1
             continue
+        if l.strip().startswith('```'):
+            i += 1
+            while i < len(lignes) and not lignes[i].strip().startswith('```'):
+                ecrire(doc.add_paragraph(), lignes[i].rstrip())
+                i += 1
+            i += 1
+            continue
         if l.startswith('#'):
             niveau = len(l) - len(l.lstrip('#'))
             texte = l[niveau:].strip()
             style = {1: 'Title', 2: 'Heading 1', 3: 'Heading 2'}.get(niveau, 'Heading 3')
-            ecrire(doc.add_paragraph(style=style), texte)
+            par = doc.add_paragraph(style=style)
+            ecrire(par, texte)
+            if niveau == 2 and texte.startswith('Partie'):
+                par.paragraph_format.page_break_before = True
             i += 1
             continue
         if l.lstrip().startswith('|'):
@@ -125,7 +135,7 @@ def convertir(source, sortie):
     papier(doc, 'normatys')
     for t in doc.tables:
         largeurs(t)
-    doc.core_properties.title = 'Méthode de calcul OpenNAT, version 1'
+    doc.core_properties.title = 'Méthode de calcul OpenNAT, version 1' + (', édition complète' if 'complete' in sortie else '')
     doc.core_properties.author = 'NORMATYS'
     doc.core_properties.language = 'fr-FR'
     doc.save(sortie)
@@ -134,7 +144,8 @@ def convertir(source, sortie):
 
 if __name__ == '__main__':
     s = convertir(sys.argv[1], sys.argv[2])
-    sauts_de_page(s)
+    if '--sans-sauts' not in sys.argv:
+        sauts_de_page(s)
     print(controler(s))
     pdf = rendre_pdf(s)
     print(pdf, remplissage(s))

@@ -498,7 +498,7 @@ Les tables sont dans `donnees/`, une ligne par valeur, avec les colonnes `cle`, 
 |---|---|---|
 | `nomenclature_habitats.csv` | 191 types : 165 types EUNIS 2012 de niveau 3 présents en France et 26 types urbains et hors-sol VB, avec leur correspondance BKompV et anglaise | écrite à la main, une justification par ligne |
 | `habitats.csv` | valeurs intrinsèques, stades, délais de maturité, difficultés | `outils/construire_habitats.py`, depuis la BKompV et la métrique anglaise |
-| `etat_criteres.csv` | 11 grilles d'état, règles de score | transposition des fiches anglaises de juillet 2025 |
+| `etat_criteres.csv` | 12 grilles d'état, règles de score | transposition des fiches anglaises de juillet 2025 |
 | `sols.csv` | 13 natures de surface | `outils/construire_sols.py`, médiane de six grilles |
 | `contexte.csv` | période, actualisation, fermeture, situation, zones, chantier | |
 | `connectivite.csv` | effet de taille, connectivité, clôtures | |
@@ -506,7 +506,7 @@ Les tables sont dans `donnees/`, une ligne par valeur, avec les colonnes `cle`, 
 | `eau.csv` | alimentation des milieux en eau | |
 | `materiaux.csv` | facteur climat, bois, carrières, pollution | |
 | `seuils.csv` | seuils proposés | |
-| `conventions.csv` | index des 42 conventions | généré depuis `methode/conventions.md` |
+| `conventions.csv` | index des 47 conventions | généré depuis `methode/conventions.md` |
 
 ### Annexe B : correspondances de nomenclatures
 

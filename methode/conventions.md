@@ -92,7 +92,7 @@ Multiplicateur de connectivité de la métrique anglaise : 1,15 pour une tache c
 
 ### C-C3
 Catégorie : source muette.
-Une tache entièrement close par une clôture sans passage pour la petite faune voit sa valeur multipliée par 0,9. Une clôture est perméable si elle offre au moins un passage de 15 x 15 cm tous les 20 m.
+Une tache entièrement close par une clôture sans passage pour la petite faune voit sa valeur multipliée par 0,9. Une clôture est perméable si elle offre au moins un passage de 15 x 15 cm tous les 20 m. Un muret plein de plus de 20 cm de haut est une clôture étanche.
 
 ## Nuisances
 
@@ -189,6 +189,10 @@ Les indicateurs de la grille des boisements se notent sur placettes de 10 m de r
 ### C-R4
 Catégorie : valeur de secours.
 Les jardins privatifs d'une même opération se relèvent par échantillon d'au moins un jardin sur cinq ; les haies, par tronçons homogènes de 100 m au plus.
+
+### C-R5
+Catégorie : valeur de secours.
+Un état initial dégradé volontairement dans les deux ans précédant le dépôt du permis (débroussaillage, labour, décapage) se saisit avec l'état antérieur documenté, pour ne pas récompenser une destruction préalable.
 
 ## Incertitude
 
