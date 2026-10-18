@@ -133,6 +133,10 @@ def convertir(source, sortie):
     appliquer(doc, nature='note', detecter_titres=False)
     aerer(doc)
     papier(doc, 'normatys')
+    # un intertitre en gras (paragraphe entièrement gras et court) reste avec ce qui le suit
+    for par in doc.paragraphs:
+        if par.runs and len(par.text) < 120 and all(r.bold for r in par.runs if r.text.strip()):
+            par.paragraph_format.keep_with_next = True
     for t in doc.tables:
         largeurs(t)
     doc.core_properties.title = 'Méthode de calcul OpenNAT, version 1' + (', édition complète' if 'complete' in sortie else '')
