@@ -23,6 +23,19 @@ L'édition complète suit le plan de l'annexe III de la RE2020 : texte général
 
 Assemblage : `outils/edition/assembler.py` produit `methode/OpenNAT_v1_edition_complete.md`, que `outils/methode_docx.py` convertit en Word au papier NORMATYS : `livraison/Méthode de calcul OpenNAT v1, édition complète.docx` et son PDF.
 
+## Volume
+
+L'édition complète rendue par LibreOffice fait **949 pages** : partie 1, 17 pages ; partie 2, 346 ; partie 3, 42 ; partie 4, 467 ; partie 5, 5 ; partie 6, 8 ; partie 7, 21 ; partie 8, 30 ; parties 9 et 10, 12. C'est la moitié de l'annexe III (1 854 pages), et moins que les 1 400 à 1 500 pages annoncées au lot 1 : les fiches algorithmes, les fiches d'application, les protocoles et les cas de validation sont plus courts que prévu, parce que chacun dit ce qu'il a à dire sans remplissage.
+
+Ce qui peut encore s'ajouter, avec du contenu réel :
+- partie 4 : listes complètes des espèces, des correspondances CORINE et des habitats d'intérêt communautaire, variantes sur dalle de chaque trajectoire, exemple de saisie par fiche (environ 200 pages) ;
+- partie 5 : un calcul chiffré par fiche d'application, fait par le carnet de référence (environ 100 pages) ;
+- partie 8 : une trentaine de cas supplémentaires (typologies, tailles de parcelle, zones, chantiers phasés), qui serviront aussi au banc du lot 4 (environ 120 pages) ;
+- partie 3 : pseudo-code et deuxième cas élémentaire par fiche (environ 80 pages) ;
+- partie 2 : liste allemande complète (668 valeurs) et onglets anglais complets (environ 40 pages).
+
+Soit environ 1 500 pages. Atteindre 1 854 pages demanderait d'ajouter du volume qui n'apporte rien au calcul.
+
 ## Ajouts aux données depuis le lot 1
 
 - Délais d'amélioration de la métrique anglaise (onglet G-5) : 501 valeurs ; l'équation T4 les utilise au lieu des délais de création.
