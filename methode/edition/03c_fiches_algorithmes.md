@@ -244,7 +244,7 @@ Option d'étude inactive (convention C-T5) : avec un taux d'actualisation a, cha
 
 **Cas élémentaire**
 
-Voir l'annexe C de la partie 1 : V_0 = 270,39 ; I_0 = 13 519,3 ; I_1 = 12 847,4 ; DM = 876,5 m²HE·an.
+Voir l'annexe C de la partie 1 : V_0 = 270,39 ; I_0 = 13 519,3 ; I_1 = 12 051,0 ; DM = 860,2 m²HE·an.
 
 **Renvois**
 

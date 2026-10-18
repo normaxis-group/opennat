@@ -68,11 +68,12 @@ print(f'V0 site = {v0:.2f} m²HE, I0 = {N} x V0 = {N * v0:.1f} m²HE·an')
 
 print('\n== État projet, modules H, C, N')
 kt2, kt3 = k_taille(850), k_taille(500)
-print(f'k_taille(850 m²) = {kt2:.4f}   k_taille(500 m²) = {kt3:.4f}')
+kt4 = k_taille(150)
+print(f'k_taille(850 m²) = {kt2:.4f}   k_taille(500 m²) = {kt3:.4f}   k_taille(150 m²) = {kt4:.4f}')
 klum = NUI[('lumiere_conforme', 'facteur_lumiere')]
 pro = []
 #            nom, A, v, S, f, kC, kN, statut, délai, difficulté
-pro.append(('U1-3 VB.3 stabilisé', 150, H[('VB.3', 'valeur_intrinseque')], None, 1.0, 1.0, 1.0,
+pro.append(('U1-3 VB.3 stabilisé', 150, H[('VB.3', 'valeur_intrinseque')], None, 1.0, kt4, 1.0,
             'cree', 0.0, 1.0))
 s, f = f_etat(4, 6)
 pro.append(('U1-4 VB.26 prairie', 450, H[('VB.26', 'valeur_intrinseque')], s, f, kt2, klum,

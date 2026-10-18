@@ -289,11 +289,11 @@
       <Site>
         <valeur_initiale>270.4</valeur_initiale>
         <i0>13519.3</i0>
-        <i1>12847.4</i1>
-        <i0_30>8111.7</i0_30>
-        <i1_30>7357.8</i1_30>
-        <dette_maturite>876.5</dette_maturite>
-        <trajectoire_site>24.0 88.8 142.7 170.9 199.1 227.4 244.8 251.4 258.0 264.6 271.2 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5 274.5</trajectoire_site>
+        <i1>12051.0</i1>
+        <i0_30>8111.6</i0_30>
+        <i1_30>6886.5</i1_30>
+        <dette_maturite>860.2</dette_maturite>
+        <trajectoire_site>24.0 72.6 126.4 154.6 182.9 211.1 228.5 235.1 241.7 248.3 254.9 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2 258.2</trajectoire_site>
         <pleine_terre>0.425</pleine_terre>
         <pleine_terre_initiale>0.7</pleine_terre_initiale>
         <impermeable_initial>600</impermeable_initial>
@@ -307,15 +307,15 @@
         <inat_carrieres>1539.0</inat_carrieres>
       </Materiaux>
       <Indicateurs>
-        <cnat>671.9</cnat>
-        <cnat_moyen>13.4</cnat_moyen>
-        <cnat_relatif>0.05</cnat_relatif>
-        <cnat_30>753.7</cnat_30>
+        <cnat>1468.3</cnat>
+        <cnat_moyen>29.4</cnat_moyen>
+        <cnat_relatif>0.109</cnat_relatif>
+        <cnat_30>1225.1</cnat_30>
         <inat>141842.9</inat>
-        <snat>-142514.8</snat>
+        <snat>-143311.2</snat>
         <bnat>59.0</bnat>
         <cbs>0.59</cbs>
-        <cnat_par_m2_parcelle>0.34</cnat_par_m2_parcelle>
+        <cnat_par_m2_parcelle>0.734</cnat_par_m2_parcelle>
         <inat_par_m2_sref>101.3</inat_par_m2_sref>
       </Indicateurs>
       <Conformite>

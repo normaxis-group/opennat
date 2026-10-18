@@ -66,15 +66,25 @@ def charger_habref():
             if r['VALIDITE'] == 'true':
                 corr[(r['CD_TYPO_ENTRE'], r['CD_TYPO_SORTIE'])].append((r['CD_HAB_ENTRE'], r['CD_HAB_SORTIE']))
     taxons = collections.defaultdict(collections.Counter)
+    relation = {}
+    libelles = {'19': 'caractéristique', '20': 'diagnostique', '21': 'dominante', '32': 'indicatrice'}
+    garder = ('subsp.', 'var.', 'sp.', 'f.', 'agg.', 'x', 'ssp.')
     with open(os.path.join(HABREF, 'HABREF_CORRESP_TAXON_70.csv'), encoding='utf-8-sig') as f:
         for r in csv.DictReader(f, delimiter=';'):
-            if r['VALIDITE'] == 'true' and r['CD_TYPE_RELATION'] in ('19', '20', '21', '32'):
-                nom = r['NOM_CITE'].split(' (')[0]
-                # nom sans auteur : genre, espèce et rang infraspécifique éventuel
-                mots = nom.split()
-                coupe = [m for m in mots if not (m[:1].isupper() and mots.index(m) > 0) and ',' not in m]
-                taxons[r['CD_HAB_ENTRE']][' '.join(coupe[:4]) if coupe else nom] += 1
-    return hab, par_code, enfants, corr, taxons
+            if r['VALIDITE'] == 'true' and r['CD_TYPE_RELATION'] in libelles:
+                mots = r['NOM_CITE'].split()
+                if not mots:
+                    continue
+                nom = [mots[0]]
+                for m in mots[1:]:
+                    if m in garder or (m[:1].islower() and ',' not in m):
+                        nom.append(m)
+                    else:
+                        break
+                cle = ' '.join(nom)
+                taxons[r['CD_HAB_ENTRE']][cle] += 1
+                relation.setdefault(cle, set()).add(libelles[r['CD_TYPE_RELATION']])
+    return hab, par_code, enfants, corr, (taxons, relation)
 
 
 def correspondances(cds, hab, corr, entree, sortie, sens='direct'):
@@ -100,7 +110,7 @@ def trajectoire(v, d, D, d_ch=1.0, annees=(1, 2, 3, 5, 10, 15, 20, 30, 50)):
 
 
 def main():
-    hab, par_code, enfants, corr, taxons = charger_habref()
+    hab, par_code, enfants, corr, (taxons, relation) = charger_habref()
     nomen = list(csv.DictReader(open(os.path.join(DON, 'nomenclature_habitats.csv'), encoding='utf-8'),
                                 delimiter=';'))
     defs = {r['code']: r['definition'] for r in csv.DictReader(
@@ -160,26 +170,29 @@ def main():
                     tableau(['Élément', 'Valeur'], [
                         ['Code OpenNAT', c],
                         ['EUNIS 2012', ', '.join(codes_eunis)],
-                        ['EUNIS 2022 (HabRef)', ', '.join(f'{k} {l}' for k, l in e2022[:8]) +
-                         (f', et {len(e2022) - 8} autres' if len(e2022) > 8 else '') or 'aucune correspondance'],
-                        ['CORINE Biotopes (HabRef)', ', '.join(f'{k} {l}' for k, l in cb[:10]) +
-                         (f', et {len(cb) - 10} autres' if len(cb) > 10 else '') or 'aucune correspondance'],
-                        ['Habitats d\'intérêt communautaire (HabRef)',
-                         ', '.join(f'{k} {l}' for k, l in hic[:6]) + (f', et {len(hic) - 6} autres'
-                                                                      if len(hic) > 6 else '') or 'aucun'],
                         ['Position de saisie', POSITION[n['position']]],
-                        ['Grille d\'état', f'{grille} ({GRILLES[grille]})' if grille else 'aucune (f = 1)']]),
+                        ["Grille d'état", f'{grille} ({GRILLES[grille]})' if grille else 'aucune (f = 1)'],
+                        ['Correspondances HabRef', f'{len(e2022)} type(s) EUNIS 2022, {len(cb)} type(s) CORINE '
+                                                   f"Biotopes, {len(hic)} habitat(s) d'intérêt communautaire"]]),
                     '', '**Définition**', '', defs.get(c, ''), '']
+            for titre_c, liste in (('EUNIS 2022', e2022), ('CORINE Biotopes', cb),
+                                   ("Habitats d'intérêt communautaire (annexe I de la directive 92/43/CEE)", hic)):
+                if liste:
+                    out += [f'**Correspondances {titre_c} (HabRef v7)**', '',
+                            tableau(['Code', 'Libellé'], [[k, l] for k, l in liste]), '']
             # espèces
             cpt = collections.Counter()
             for cd in cds:
                 cpt.update(taxons.get(cd, {}))
             if cpt:
-                noms = [k for k, _ in cpt.most_common(40)]
-                out += ['**Espèces caractéristiques**', '',
-                        f'Espèces que HabRef donne comme caractéristiques, diagnostiques, dominantes ou indicatrices '
-                        f'du type et de ses subdivisions ({len(cpt)} taxons ; les 40 plus cités) : '
-                        + ', '.join(noms) + '.', '']
+                out += ['**Espèces citées par HabRef**', '',
+                        f'Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou indicateurs du '
+                        f'type et de ses subdivisions ({len(cpt)} taxons), classés par nombre de subdivisions qui les '
+                        "citent. La liste sert à la reconnaissance du type et au critère A des grilles d'état ; elle "
+                        'ne vaut pas inventaire.', '',
+                        tableau(['Taxon', 'Statut dans HabRef', 'Citations'],
+                                [[k, ', '.join(sorted(relation.get(k, []))), str(v)]
+                                 for k, v in sorted(cpt.items(), key=lambda x: (-x[1], x[0]))]), '']
             # valeur intrinsèque
             vi = v.get('valeur_intrinseque')
             lignes = [['Valeur intrinsèque', nombre(vi['valeur']) + ' m²HE/m²',
@@ -251,6 +264,36 @@ def main():
                         'sur 50 ans en m²HE·an.', '',
                         tableau(['État visé', 'An 1', 'An 2', 'An 3', 'An 5', 'An 10', 'An 15', 'An 20', 'An 30',
                                  'An 50', 'Intégrée'], traj), '']
+            if traj and n['position'] == 'sol' and grille and c not in ('VB.10',) and 'delai_maturite_bon' in v:
+                dal = []
+                for snat_c, lib in (('S04', 'moins de 15 cm'), ('S05', '15 à 30 cm'), ('S06', '30 à 80 cm'),
+                                    ('S07', '80 cm et plus')):
+                    vals, tot = trajectoire(100 * x * sols[snat_c], float(v['delai_maturite_bon']['valeur']), D)
+                    dal.append([lib] + [nombre(y, 1) for y in vals] + [nombre(tot, 0)])
+                out += ['**Trajectoire de 100 m² créés sur dalle, bon état visé (équations S2 et T3)**', '',
+                        tableau(['Substrat', 'An 1', 'An 2', 'An 3', 'An 5', 'An 10', 'An 15', 'An 20', 'An 30',
+                                 'An 50', 'Intégrée'], dal), '']
+            pos_x = {'sol': 'sol_pleine_terre', 'eau': 'eau', 'arbre': 'arbre', 'lineaire': 'lineaire',
+                     'hors_sol_toiture': 'hors_sol_toiture', 'hors_sol_facade': 'hors_sol_facade'}[n['position']]
+            xml = ['<Unite>', f'  <identifiant>U-{c}</identifiant>', f'  <code_habitat>{c}</code_habitat>',
+                   f'  <position>{pos_x}</position>', '  <surface>100</surface>']
+            if n['position'] == 'hors_sol_toiture':
+                xml.append('  <epaisseur_substrat>20</epaisseur_substrat>')
+            if 'valeur_intrinseque_stade_M' in v:
+                xml.append('  <stade>M</stade>')
+            xml.append('  <statut>creee</statut>')
+            if grille:
+                xml.append('  <Critere_Collection>')
+                for r_c in crit[grille]:
+                    code_c = (r_c['parametre'].replace('critere_', '').replace('_essentiel', ''))
+                    if code_c.startswith('indicateur_'):
+                        xml += ['    <Critere>', f'      <code>{code_c}</code>', '      <note>2</note>', '    </Critere>']
+                    else:
+                        xml += ['    <Critere>', f'      <code>{code_c}</code>', '      <reponse>oui</reponse>',
+                                '    </Critere>']
+                xml.append('  </Critere_Collection>')
+            xml.append('</Unite>')
+            out += ['**Exemple de saisie dans le fichier projet (partie 7)**', '', '```'] + xml + ['```', '']
             # Bnat
             if n['position'] in ('sol', 'eau', 'hors_sol_toiture', 'hors_sol_facade'):
                 out += ['**Contribution à Bnat**', '',

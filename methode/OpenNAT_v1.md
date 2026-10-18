@@ -322,7 +322,7 @@ Paramètres : `connectivite.csv`.
 
 (C3) k_C,k = k_taille,k x m_conn,k x k_clot,k, avec m_conn,k = 1,15, 1,10 ou 1 (convention C-C2) et k_clot,k = 0,9 pour une tache close par une clôture étanche, 1 sinon (convention C-C3).
 
-Toute unité de la tache k reçoit k_C,u = k_C,k. Les unités minérales et scellées ne forment pas de tache : k_C,u = 1.
+Toute unité de la tache k reçoit k_C,u = k_C,k. Toute unité de valeur non nulle relève d'une tache, y compris un revêtement perméable : une unité qui n'est contiguë à aucune autre forme sa propre tache. Seules les surfaces scellées (S01), de valeur nulle, n'en forment pas.
 
 Cas limites : une voirie interne coupe la contiguïté ; une toiture végétalisée isolée forme sa propre tache.
 
@@ -554,14 +554,14 @@ Valeurs à maturité, équation H5 :
 | Unité | v_u | S_u | f_u | k_C | k_N | V_u |
 |---|---|---|---|---|---|---|
 | U1-1, U1-2 | 0 | | 1 | 1 | 1 | 0 |
-| U1-3 | 0,1667 | | 1 | 1 | 1 | 25,00 |
+| U1-3 | 0,1667 | | 1 | 0,35 | 1 | 8,75 |
 | U1-4 | 0,6250 | 0,6667 | 0,8333 | 0,4197 | 0,9 (L1) | 88,53 |
 | U1-5 | 0,4583 | 0,6667 | 0,8333 | 0,4197 | 1 | 51,29 |
 | U1-6 | 0,6667 | 0,75 | 0,875 | 0,4197 | 1 | 19,59 |
 | U1-7 | 0,6250 | 0,8333 | 0,9167 | 0,4197 | 1 | 24,04 |
 | U1-8 | 0,5278 | 1 | 1 | 0,3734 | 1 | 98,55 |
 
-Taches : prairie, jardins et haie, contiguës : 450 + 320 + 80 = 850 m², k_taille = (850 / 44 000)^0,22 = 0,4197 ; toiture isolée : 500 m², k_taille = 0,3734. La prairie est éclairée par l'éclairage du stationnement, conforme à l'arrêté de 2018 et éteint la nuit : k_lum = 0,9.
+Taches : prairie, jardins et haie, contiguës : 450 + 320 + 80 = 850 m², k_taille = (850 / 44 000)^0,22 = 0,4197 ; toiture isolée : 500 m², k_taille = 0,3734 ; cheminements stabilisés isolés : 150 m², k_taille au plancher de 0,35. La prairie est éclairée par l'éclairage du stationnement, conforme à l'arrêté de 2018 et éteint la nuit : k_lum = 0,9.
 
 Exemple de ligne : prairie, V_u = 450 x 0,6250 x 0,8333 x 1 x 1 x 0,4197 x 0,9 = 88,53 m²HE.
 
@@ -569,11 +569,11 @@ Exemple de ligne : prairie, V_u = 450 x 0,6250 x 0,8333 x 1 x 1 x 0,4197 x 0,9 =
 
 | Année | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 10 | 11 | 12 à 50 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 24,0 | 88,8 | 142,7 | 170,9 | 199,1 | 227,4 | 244,8 | 251,4 | 264,6 | 271,2 | 274,5 |
+| V_1(t), m²HE | 24,0 | 72,6 | 126,4 | 154,6 | 182,9 | 211,1 | 228,5 | 235,1 | 248,3 | 254,9 | 258,2 |
 
-I_1 = 12 847,4 m²HE·an. Valeur à maturité : 274,48 m²HE. Dette de maturité (T7) : 876,5 m²HE·an.
+I_1 = 12 051,0 m²HE·an. Valeur à maturité : 258,22 m²HE. Dette de maturité (T7) : 860,2 m²HE·an.
 
-**C.5 Agrégation du site.** Cnat = 13 519,3 - 12 847,4 = 671,9 m²HE·an (A1), soit 5,0 % de I_0 et 13,4 m²HE en moyenne annuelle. Sur 30 ans : 753,7 m²HE·an. À maturité, le site projet (274,48 m²HE) vaut un peu plus que le site initial (270,39) ; la perte nette sur 50 ans vient des années de chantier et de maturation. Le niveau 1 (Cnat <= 0) n'est pas atteint.
+**C.5 Agrégation du site.** Cnat = 13 519,3 - 12 051,0 = 1 468,3 m²HE·an (A1), soit 10,9 % de I_0 et 29,4 m²HE en moyenne annuelle. Sur 30 ans : 1 225,1 m²HE·an. Même à maturité, le site projet (258,22 m²HE) vaut moins que le site initial (270,39) ; les années de chantier et de maturation creusent l'écart. Le niveau 1 (Cnat <= 0) n'est pas atteint.
 
 **C.6 Module G.** Données du RSEE : S_ref = 1 400 m² ; indicateur 101 des contributeurs composants et chantier : A1-A3 350, A4-A5 120, B 400, C 55, D -40 kg CO2 éq. par m².
 Somme des GES_p x a_p = (350 + 120) x 50 + 400 x 25 + 55 x 0 + (-40) x 0 = 33 500 kg·an par m².
@@ -582,8 +582,8 @@ Bois : 30 m³, régime non justifié, donc coupe rase (MSA 0,50) : occupation = 
 Granulats : 1 800 t ; Inat_carrières = 1 800 x 0,9 x 0,95 = 1 539 m²HE·an (G5).
 Inat = 84 748 + 55 556 + 1 539 = 141 843 m²HE·an, soit 101,3 m²HE·an par m² de S_ref.
 
-**C.7 Solde.** Snat = -(671,9 + 141 843) = -142 515 m²HE·an.
+**C.7 Solde.** Snat = -(1 468,3 + 141 843) = -143 311 m²HE·an.
 
 **C.8 Bnat.** Bâtiment et voirie : 1 000 m² x 0 ; cheminements : 150 x 0,2 = 30 ; pleine terre : 850 x 1 = 850 ; toiture de 15 cm (S05) : 500 x 0,6 = 300. Bnat = 100 x 1 180 / 2 000 = 59,0 (A3). Emprise 700 / 2 000 = 35 %, seuil 45 : atteint. Pleine terre 850 / 2 000 = 42,5 %, seuil 15 % : atteint.
 
-**C.9 Lecture.** L'attestation au permis porte Bnat = 59,0 (seuil 45) et une pleine terre de 42,5 % (seuil 15 %) : le plan masse est conforme. À l'achèvement, le site reste en légère perte nette (5 % de sa valeur intégrée) : la friche herbacée initiale, même dégradée par une espèce envahissante, valait autant que les aménagements une fois mûrs. La biodiversité grise pèse plus de 200 fois la perte du site et dix fois la valeur intégrée du site entier : 60 % par le climat, 39 % par le bois d'origine non justifiée. Justifier une coupe sélective (MSA 0,70) ramènerait Inat_bois de 55 556 à 33 333 m²HE·an.
+**C.9 Lecture.** L'attestation au permis porte Bnat = 59,0 (seuil 45) et une pleine terre de 42,5 % (seuil 15 %) : le plan masse est conforme. À l'achèvement, le site reste en perte nette (11 % de sa valeur intégrée) : la friche herbacée initiale, même dégradée par une espèce envahissante, valait plus que les aménagements une fois mûrs. La biodiversité grise pèse près de 100 fois la perte du site et dix fois la valeur intégrée du site entier : 60 % par le climat, 39 % par le bois d'origine non justifiée. Justifier une coupe sélective (MSA 0,70) ramènerait Inat_bois de 55 556 à 33 333 m²HE·an.

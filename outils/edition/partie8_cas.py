@@ -99,7 +99,7 @@ def main():
            'grandeurs intermédiaires et les indicateurs : le moteur devra les retrouver à 0,1 % près (exigence E10). '
            'Les cas 7 et 8 se déclinent en variantes.', '',
            'Le carnet a d\'abord été contrôlé sur l\'exemple de l\'annexe C de la partie 1, qu\'il retrouve à '
-           'l\'identique : V_0 = 270,39 ; I_0 = 13 519,3 ; I_1 = 12 847,4 ; Cnat = 671,9 ; dette de maturité 876,5 ; '
+           'l\'identique : V_0 = 270,39 ; I_0 = 13 519,3 ; I_1 = 12 051,0 ; Cnat = 1 468,3 ; dette de maturité 860,2 ; '
            'Inat = 141 842,9 ; Bnat = 59,0.', '']
     res = {}
     for cas in CAS:

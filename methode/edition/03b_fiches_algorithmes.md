@@ -235,7 +235,7 @@ Sorties :
 
 **Description mathématique**
 
-(A17-1) Une unité appartient à une tache si n_u n'est ni S01 ni S02 ni S03 et si p_u n'est pas « arbre ».
+(A17-1) Toute unité dont la nature n'est pas S01 et dont la position n'est pas « arbre » appartient à une tache, revêtements perméables (S02, S03) compris.
 
 (A17-2) Les unités de même identifiant tache_u forment une tache ; une unité sans identifiant forme sa propre tache.
 
@@ -245,7 +245,7 @@ Sorties :
 
 **Cas limites et contrôles**
 
-Une toiture végétalisée isolée forme sa propre tache, même sur un bâtiment entouré d'espaces verts : le bâti rompt la continuité au sol. Une façade enracinée rejoint la tache du sol où elle s'enracine.
+Une toiture végétalisée isolée forme sa propre tache, même sur un bâtiment entouré d'espaces verts : le bâti rompt la continuité au sol. Un cheminement stabilisé isolé forme aussi la sienne : sans cette règle, un revêtement minéral échapperait à l'effet de taille et vaudrait plus qu'une petite pelouse. Une façade enracinée rejoint la tache du sol où elle s'enracine.
 
 **Cas élémentaire**
 
@@ -337,7 +337,7 @@ Sorties :
 
 (A19-3) k_C,k = k_taille,k x m_conn,k x (k_clot si clot_k = étanche, 1 sinon) [C3]
 
-(A19-4) k_C,u = k_C,k pour toute unité u de la tache k ; k_C,u = 1 pour une unité hors tache.
+(A19-4) k_C,u = k_C,k pour toute unité u de la tache k ; k_C,u = 1 pour une unité scellée (S01), de valeur nulle.
 
 **Cas limites et contrôles**
 

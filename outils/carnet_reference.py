@@ -83,9 +83,13 @@ def k_taille(a):                                                   # fiche A18
 
 def evaluer_etat(unites, taches, contexte):
     """Applique les fiches A06 à A25 à un état. Renvoie la liste des unités enrichies."""
+    # fiche A17 : toute unité de valeur non nulle relève d'une tache ; sans identifiant, elle forme la sienne
+    for u in unites:
+        if not u.get('tache') and u['position'] != 'arbre' and nature(u) != 'S01':
+            u['tache'] = 'isolee_' + u['id']
     surf_tache = {}
     for u in unites:
-        if u.get('tache') and u['position'] != 'arbre' and nature(u) not in ('S01', 'S02', 'S03'):
+        if u.get('tache') and u['position'] != 'arbre' and nature(u) != 'S01':
             surf_tache[u['tache']] = surf_tache.get(u['tache'], 0) + u['surface']
     kc = {}
     for t, a in surf_tache.items():
@@ -104,7 +108,7 @@ def evaluer_etat(unites, taches, contexte):
         m = CTX[(f'situation_{u.get("situation", "hors_trame")}', 'multiplicateur_situation')]
         vh = u['surface'] * v * f * fsol * m                                 # fiche A13
         t = u.get('tache')
-        k_c = kc[t][4] if (t in kc and u['code'] not in MINERAUX) else 1.0   # fiche A19
+        k_c = kc[t][4] if t in kc else 1.0                                  # fiche A19
         klum = NUI[({'L0': 'lumiere_aucune', 'L1': 'lumiere_conforme', 'L2': 'lumiere_non_conforme'}
                     [u.get('eclairage', 'L0')], 'facteur_lumiere')]
         seuil = (NUI[('*', 'seuil_bruit_milieu_boise')] if u['code'].startswith(BOISE)

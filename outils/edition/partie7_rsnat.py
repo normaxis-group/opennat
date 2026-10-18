@@ -193,21 +193,30 @@ def exemple():
         for k, val in (('etat', etat), ('somme', 2000), ('ecart', 0), ('conforme', 'true')):
             sub(f, k, val)
     sub(vr, 'Unite_Resultat_Collection')
+    import sys as _s
+    _s.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    import carnet_reference as CR
+    from cas_validation import ANNEXE_C
+    rc = CR.calculer(ANNEXE_C)
+    r1 = lambda x: round(x, 1)
     s = sub(vr, 'Site')
-    traj = '24.0 88.8 142.7 170.9 199.1 227.4 244.8 251.4 258.0 264.6 271.2 ' + ' '.join(['274.5'] * 39)
-    for k, val in (('valeur_initiale', 270.4), ('i0', 13519.3), ('i1', 12847.4), ('i0_30', 8111.7),
-                   ('i1_30', 7357.8), ('dette_maturite', 876.5), ('trajectoire_site', traj),
-                   ('pleine_terre', 0.425), ('pleine_terre_initiale', 0.7), ('impermeable_initial', 600),
-                   ('impermeable_projet', 1000), ('impermeabilisation_nette', 400)):
+    for k, val in (('valeur_initiale', r1(rc['v0'])), ('i0', r1(rc['i0'])), ('i1', r1(rc['i1'])),
+                   ('i0_30', r1(rc['i0_30'])), ('i1_30', r1(rc['i1_30'])), ('dette_maturite', r1(rc['dm'])),
+                   ('trajectoire_site', ' '.join(f'{x:.1f}' for x in rc['site'])),
+                   ('pleine_terre', round(rc['pt'], 3)), ('pleine_terre_initiale', round(rc['pt0'], 3)),
+                   ('impermeable_initial', r1(rc['aimp0'])), ('impermeable_projet', r1(rc['aimp1'])),
+                   ('impermeabilisation_nette', r1(rc['aimp1'] - rc['aimp0']))):
         sub(s, k, val)
     m = sub(vr, 'Materiaux')
-    for k, val in (('facteur_climat', 0.001807), ('inat_climat', 84748.3), ('inat_bois', 55555.6),
-                   ('inat_carrieres', 1539.0)):
+    for k, val in (('facteur_climat', rc['mat']['CF']), ('inat_climat', r1(rc['mat']['inat_clim'])),
+                   ('inat_bois', r1(rc['mat']['inat_bois'])), ('inat_carrieres', r1(rc['mat']['inat_carr']))):
         sub(m, k, val)
     ind = sub(vr, 'Indicateurs')
-    for k, val in (('cnat', 671.9), ('cnat_moyen', 13.4), ('cnat_relatif', 0.050), ('cnat_30', 753.7),
-                   ('inat', 141842.9), ('snat', -142514.8), ('bnat', 59.0), ('cbs', 0.59),
-                   ('cnat_par_m2_parcelle', 0.34), ('inat_par_m2_sref', 101.3)):
+    for k, val in (('cnat', r1(rc['cnat'])), ('cnat_moyen', r1(rc['cnat'] / 50)),
+                   ('cnat_relatif', round(rc['cnat_rel'], 3)), ('cnat_30', r1(rc['cnat_30'])),
+                   ('inat', r1(rc['inat'])), ('snat', r1(rc['snat'])), ('bnat', r1(rc['bnat'])),
+                   ('cbs', round(rc['bnat'] / 100, 3)), ('cnat_par_m2_parcelle', round(rc['cnat'] / 2000, 3)),
+                   ('inat_par_m2_sref', r1(rc['inat'] / 1400))):
         sub(ind, k, val)
     co = sub(vr, 'Conformite')
     for k, val in (('bnat_conforme', 'true'), ('pleine_terre_conforme', 'true'), ('niveau_cnat', 0)):

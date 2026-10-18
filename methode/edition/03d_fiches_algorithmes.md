@@ -42,7 +42,7 @@ Sur un site sans valeur initiale (I_0 = 0), Cnat est négatif ou nul et Cnat_rel
 
 **Cas élémentaire**
 
-Annexe C : Cnat = 671,9 ; Cnat_rel = 0,050 ; Inat = 141 843 ; Snat = -142 515 m²HE·an.
+Annexe C : Cnat = 1 468,3 ; Cnat_rel = 0,109 ; Inat = 141 843 ; Snat = -143 311 m²HE·an.
 
 **Renvois**
 
@@ -180,7 +180,7 @@ L'attestation au permis ne porte que sur les données du plan masse ; elle n'aff
 
 **Cas élémentaire**
 
-Bnat = 59,0, Bnat_min = 45, PT = 0,425, PT_min = 0,15, PLU sans exigence : conformité au permis. Cnat = 671,9 > 0 : niveau 0 à l'achèvement.
+Bnat = 59,0, Bnat_min = 45, PT = 0,425, PT_min = 0,15, PLU sans exigence : conformité au permis. Cnat = 1 468,3 > 0 : niveau 0 à l'achèvement.
 
 **Renvois**
 
