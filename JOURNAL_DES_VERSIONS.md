@@ -7,10 +7,10 @@ Trois objets ont chacun leur version : le texte de la méthode, les tables de do
 | Objet | Version | Date |
 |---|---|---|
 | Méthode | OpenNAT 1, révision du 19 octobre 2026 | 19/10/2026 |
-| Données | 1.2.1 | 19/10/2026 |
+| Données | 1.2.2 | 19/10/2026 |
 | Moteur | 0.2.0 | 19/10/2026 |
 
-Empreinte des tables de la version 1.2.1 : `b320e8edd30696e070f202454ebece37b96b7b7f38f8bb0c6463f52db555c6de`
+Empreinte des tables de la version 1.2.2 : `a8eafaca6188b665864b424f480fd3b19a01d3cb244f8adbbb61862aab4ddcbd`
 
 `python -m opennat controle` affiche l'empreinte des tables présentes ; si elle ne figure pas dans ce journal, les tables ont été modifiées sans être versionnées.
 
@@ -35,6 +35,7 @@ Empreinte des tables de la version 1.2.1 : `b320e8edd30696e070f202454ebece37b96b
 | 1.1 | 19/10/2026 | 1 ter | Grille d'état de chaque type dans la nomenclature ; fourrés notés sur la grille EF1 et non EL1 | `85500bf80d089f8c998fabc1e4f7d723d569b161f6661a7506fc3a818e34f1db` |
 | 1.2 | 19/10/2026 | 2 | Constantes des équations publiées et valeurs de règle lues par le moteur (`constantes.csv`, 70 lignes : FAO-56, ISO 2533, raccourcis d'éclairage, heure légale, contrôles, incertitude) ; bornes des classes d'emprise (`seuils.csv`) ; part de valeurs primaires ou transposées : 92 % | `1e8f76c435feb0332e70096dff7f082f43f3498e4c163bee84a3e6cd2aefada0` |
 | 1.2.1 | 19/10/2026 | 4 | `materiaux.csv`, climat, facteur de caractérisation : unité « m²HE par kg CO2 éq. » au lieu de « m²HE par kg CO2 éq. et par an », valeur inchangée (1,807 × 10⁻³). Effet sur les 73 cas du banc : aucun (instantané de non-régression identique hors empreinte) | `b320e8edd30696e070f202454ebece37b96b7b7f38f8bb0c6463f52db555c6de` |
+| 1.2.2 | 19/10/2026 | 5 | `conventions.csv` : sept énoncés tronqués complétés (C-H7, C-E1, C-C1, C-N2, C-G2, C-W8, C-L3), le générateur coupant à toute abréviation (« article R. ») ; aucune valeur ne change. Effet sur les 73 cas du banc : aucun | `a8eafaca6188b665864b424f480fd3b19a01d3cb244f8adbbb61862aab4ddcbd` |
 
 ## Moteur
 

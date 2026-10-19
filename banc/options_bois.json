@@ -1,0 +1,161 @@
+{
+ "rapports": {
+  "LC-IMPACT v2, France (forest, intensive / mineral extraction site), PDF par m²": 0.22943011988832318,
+  "ReCiPe 2016 (managed forest / artificial area), équivalent culture annuelle": 0.410958904109589,
+  "EF 3.1, France (forest, intensive / mineral extraction site), points par m²·a": 0.3803982819211246
+ },
+ "rapport_median": 0.3803982819211246,
+ "multiplicateur": 0.7227567356501368,
+ "msa": {
+  "foret_plantation": 0.49407028504490424,
+  "foret_coupe_rase": 0.6386216321749316,
+  "foret_selective": 0.7831729793049589,
+  "foret_impact_reduit": 0.8915864896524794
+ },
+ "options": {
+  "O0": {
+   "libelle": "référence (R = 2, régimes GLOBIO)",
+   "cas_7a": {
+    "inat": 301753.537037037,
+    "clim": 256594.0,
+    "bois": 37037.03703703704,
+    "carr": 8122.5
+   },
+   "cas_7b": {
+    "inat": 1867574.1666666665,
+    "clim": 198770.0,
+    "bois": 1666666.6666666665,
+    "carr": 2137.5
+   },
+   "cas_7c": {
+    "inat": 1200907.5,
+    "clim": 198770.0,
+    "bois": 1000000.0,
+    "carr": 2137.5
+   },
+   "exemple_de_l_annexe_c": {
+    "inat": 141842.85555555555,
+    "clim": 84748.29999999999,
+    "bois": 55555.555555555555,
+    "carr": 1539.0
+   },
+   "inat_par_m3_coupe_rase": 1851.8518518518517,
+   "rapport_7b_7a": 6.1890713361793726,
+   "rapport_7c_7a": 3.9797627951337033,
+   "volume_equivalent_carbone4": 29.6244,
+   "parquet_par_m2": [
+    20.74074074074074,
+    29.629629629629626
+   ],
+   "beton_inchange": 0.0
+  },
+  "O1": {
+   "libelle": "rendement alloué (R = 1.15)",
+   "cas_7a": {
+    "inat": 286012.7962962963,
+    "clim": 256594.0,
+    "bois": 21296.296296296292,
+    "carr": 8122.5
+   },
+   "cas_7b": {
+    "inat": 1159240.833333333,
+    "clim": 198770.0,
+    "bois": 958333.3333333331,
+    "carr": 2137.5
+   },
+   "cas_7c": {
+    "inat": 775907.5,
+    "clim": 198770.0,
+    "bois": 575000.0,
+    "carr": 2137.5
+   },
+   "exemple_de_l_annexe_c": {
+    "inat": 118231.74444444443,
+    "clim": 84748.29999999999,
+    "bois": 31944.444444444438,
+    "carr": 1539.0
+   },
+   "inat_par_m3_coupe_rase": 1064.8148148148146,
+   "rapport_7b_7a": 4.053108281674265,
+   "rapport_7c_7a": 2.7128419079410526,
+   "volume_equivalent_carbone4": 51.52069565217393,
+   "parquet_par_m2": [
+    11.925925925925924,
+    17.03703703703703
+   ],
+   "beton_inchange": 0.05216422944135605
+  },
+  "O2": {
+   "libelle": "pondération relative (perte de la coupe rase 0.361)",
+   "cas_7a": {
+    "inat": 291486.8703703704,
+    "clim": 256594.0,
+    "bois": 26770.370370370372,
+    "carr": 8122.5
+   },
+   "cas_7b": {
+    "inat": 1405574.1666666667,
+    "clim": 198770.0,
+    "bois": 1204666.6666666667,
+    "carr": 2137.5
+   },
+   "cas_7c": {
+    "inat": 923574.1666666666,
+    "clim": 198770.0,
+    "bois": 722666.6666666666,
+    "carr": 2137.5
+   },
+   "exemple_de_l_annexe_c": {
+    "inat": 126442.85555555555,
+    "clim": 84748.29999999999,
+    "bois": 40155.55555555556,
+    "carr": 1539.0
+   },
+   "inat_par_m3_coupe_rase": 1338.5185185185187,
+   "rapport_7b_7a": 4.822083975448739,
+   "rapport_7c_7a": 3.1684932000304182,
+   "volume_equivalent_carbone4": 40.98561151079136,
+   "parquet_par_m2": [
+    14.991407407407412,
+    21.4162962962963
+   ],
+   "beton_inchange": 0.03402335153210318
+  },
+  "O3": {
+   "libelle": "O1 et O2",
+   "cas_7a": {
+    "inat": 280109.462962963,
+    "clim": 256594.0,
+    "bois": 15392.962962962962,
+    "carr": 8122.5
+   },
+   "cas_7b": {
+    "inat": 893590.8333333333,
+    "clim": 198770.0,
+    "bois": 692683.3333333333,
+    "carr": 2137.5
+   },
+   "cas_7c": {
+    "inat": 616440.8333333333,
+    "clim": 198770.0,
+    "bois": 415533.33333333326,
+    "carr": 2137.5
+   },
+   "exemple_de_l_annexe_c": {
+    "inat": 109376.74444444443,
+    "clim": 84748.29999999999,
+    "bois": 23089.44444444444,
+    "carr": 1539.0
+   },
+   "inat_par_m3_coupe_rase": 769.648148148148,
+   "rapport_7b_7a": 3.190148679309299,
+   "rapport_7c_7a": 2.2007140594705334,
+   "volume_equivalent_carbone4": 71.2793243665937,
+   "parquet_par_m2": [
+    8.620059259259259,
+    12.31437037037037
+   ],
+   "beton_inchange": 0.07172765657231539
+  }
+ }
+}

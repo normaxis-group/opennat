@@ -137,8 +137,10 @@ def index_conventions(conv_utilisees):
         num, reste = b.split('\n', 1)
         num = num.strip()
         cat = re.search(r'Catégorie : ([^.]+)\.', reste)
-        corps = re.sub(r'Catégorie : [^.]+\.\s*', '', reste).strip()
-        premiere = re.split(r'(?<=\.)\s', corps.replace('\n', ' '), maxsplit=1)[0]
+        corps = re.sub(r'Catégorie : [^.]+\.\s*', '', reste)
+        corps = re.split(r'^#', corps, flags=re.M)[0].strip()                  # sans le titre de section suivant
+        # première phrase : un point suivi d'une majuscule, sauf après une initiale isolée (« article R. 371-19 »)
+        premiere = re.split(r'(?<![ (][A-Z]\.)(?<=\.)\s+(?=[A-ZÀ-Ý«])', corps.replace('\n', ' '), maxsplit=1)[0]
         lignes.append({'numero': num, 'famille': familles[num[2]],
                        'categorie': cat.group(1) if cat else '',
                        'enonce': premiere.strip(), 'lignes_de_donnees': conv_utilisees.get(num, 0),
