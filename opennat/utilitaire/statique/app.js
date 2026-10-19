@@ -608,7 +608,7 @@ function ongletResultats() {
     el('div', { class: 'carte' }, el('h3', {}, 'Attestation au permis de construire (variante de référence)'),
       el('p', {}, s.permis ? 'Le plan masse respecte les seuils proposés.' : 'Le plan masse ne respecte pas tous les seuils proposés ; l\'attestation ne conclut pas à la conformité.'),
       el('div', { class: 'note' }, `Part d'emprise ${pct(s.part_emprise)} ; règles du PLU : ${s.plu_conforme === null ? 'sans objet' : s.plu_conforme ? 'respectées' : 'non respectées'}.`)),
-    el('div', { class: 'carte' }, el('h3', {}, 'Trajectoire du site sur 50 ans'), courbe(v.trajectoire)),
+    el('div', { class: 'carte' }, el('h3', {}, 'Trajectoire du site sur 50 ans'), courbe(v.trajectoire, v.site)),
     el('div', { class: 'carte' }, el('h3', {}, 'Détail du site (modules S, W, T)'), tableauLecture([
       ['Valeur du site sans projet (m²HE)', nb(si.v0)], ['I_0, valeur intégrée sans projet, même climat (m²HE·an)', nb(si.i0)],
       ['I_1, valeur intégrée avec projet (m²HE·an)', nb(si.i1)], ['Dette de maturité (m²HE·an)', nb(si.dette)],
@@ -643,17 +643,30 @@ function barres(lignes) {
   return el('div', { class: 'barres' }, lignes.map(([n, x]) => el('div', { class: 'b' }, el('span', {}, n),
     el('div', { class: 'piste' }, el('div', { class: 'rempli', style: `width:${100 * Math.abs(x || 0) / max}%` })), el('span', { class: 'n' }, nb(x, 0)))));
 }
-function courbe(tr) {
+function pasRond(max, cible) {
+  const brut = max / cible, p = Math.pow(10, Math.floor(Math.log10(brut)));
+  return [1, 2, 2.5, 5, 10].map(k => k * p).find(k => k >= brut);
+}
+function courbe(tr, site) {
   const W = 760, H = 260, g = 46, d = 16, h = 16, b = 30;
-  const toutes = [...tr.site, ...tr.reference], ymax = Math.max(...toutes, 1) * 1.08, n = tr.site.length;
-  const x = i => g + (W - g - d) * i / (n - 1), y = v => H - b - (H - b - h) * v / ymax;
+  const toutes = [...tr.site, ...tr.reference], n = tr.site.length;
+  const pas = pasRond(Math.max(...toutes, 1), 6), ymax = Math.ceil(Math.max(...toutes, 1) * 1.04 / pas) * pas;
+  const x = t => g + (W - g - d) * t / (n - 1), y = v => H - b - (H - b - h) * v / ymax;
   const ligne = (s, coul, tiret) => `<polyline fill="none" stroke="${coul}" stroke-width="2.2" ${tiret ? 'stroke-dasharray="6 4"' : ''} points="${s.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ')}"/>`;
-  let axes = `<line x1="${g}" y1="${H - b}" x2="${W - d}" y2="${H - b}" stroke="#CFD6D9"/>`;
-  for (let k = 0; k <= 4; k++) { const v = ymax * k / 4; axes += `<line x1="${g}" y1="${y(v)}" x2="${W - d}" y2="${y(v)}" stroke="#EEF3F6"/><text x="${g - 6}" y="${y(v) + 4}" text-anchor="end">${nb(v, 0)}</text>`; }
+  let axes = '';
+  const ch = site && site.chantier, duree = ch ? (ch.duree_mois || 0) / 12 : 0;
+  if (duree > 0) axes += `<rect x="${x(0)}" y="${h}" width="${Math.max(0, x(Math.min(duree, n - 1)) - x(0))}" height="${H - b - h}" fill="#E4EBEF"/>`;
+  axes += `<line x1="${g}" y1="${H - b}" x2="${W - d}" y2="${H - b}" stroke="#CFD6D9"/>`;
+  for (let v = 0; v <= ymax + 1e-9; v += pas) axes += `<line x1="${g}" y1="${y(v)}" x2="${W - d}" y2="${y(v)}" stroke="#EEF3F6"/><text x="${g - 6}" y="${y(v) + 4}" text-anchor="end">${nb(v, 0)}</text>`;
   for (let i = 0; i < n; i += 10) axes += `<text x="${x(i)}" y="${H - 10}" text-anchor="middle">${tr.annees[i]}</text>`;
+  const finPlan = site && site.plan > 0 ? duree + site.plan : null;
+  if (finPlan !== null && finPlan < n - 1) axes += `<line x1="${x(finPlan)}" y1="${h}" x2="${x(finPlan)}" y2="${H - b}" stroke="#157F8C" stroke-dasharray="2 3"/>`;
   const svg = `<svg class="courbe" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Trajectoire du site">${axes}${ligne(tr.reference, '#0FA36A', true)}${ligne(tr.site, '#2871B7')}</svg>`;
-  return el('div', {}, el('div', { html: svg }), el('div', { class: 'legende' }, el('span', {}, el('i', { style: 'background:#2871B7' }), 'avec projet (m²HE)'),
-    el('span', {}, el('i', { style: 'background:#0FA36A' }), 'site sans projet, même climat')));
+  const legende = [el('span', {}, el('i', { style: 'background:#2871B7' }), 'avec projet (m²HE)'),
+    el('span', {}, el('i', { style: 'background:#0FA36A' }), 'site sans projet, même climat')];
+  if (duree > 0) legende.push(el('span', {}, el('i', { style: 'background:#E4EBEF' }), `chantier (${nb(ch.duree_mois, 0)} mois)`));
+  if (finPlan !== null && finPlan < n - 1) legende.push(el('span', {}, el('i', { style: 'background:#157F8C' }), `fin du plan de gestion (${nb(site.plan, 0)} ans après la livraison)`));
+  return el('div', {}, el('div', { html: svg }), el('div', { class: 'legende' }, ...legende));
 }
 function ongletComparaison() {
   if (!S.resultats) return sansResultats();

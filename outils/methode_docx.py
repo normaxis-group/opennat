@@ -3,7 +3,7 @@
 """Produit la version Word du texte de la méthode (pour le Biodiversity Standard Council) et des documents
 d'accompagnement (guides, journal des versions, notes).
 
-    python outils/methode_docx.py methode/OpenNAT_v1.md <sortie.docx>
+    python outils/methode_docx.py methode/OpenNAT_v1.md <sortie.docx> [--papier normatys|irice-hors-portee]
 
 Convertit le Markdown du dépôt (titres #, ##, ###, paragraphes, listes « - », tableaux, gras **)
 puis applique le gabarit de Cédric PLANTAZ (Calibri 10, styles de titres, français, pagination)
@@ -73,7 +73,7 @@ def largeurs(table, total_cm=17.0):
             pr.append(OxmlElement('w:cantSplit'))
 
 
-def convertir(source, sortie):
+def convertir(source, sortie, societe='normatys'):
     doc = Document()
     with open(source, encoding='utf-8') as f:
         lignes = f.read().splitlines()
@@ -134,7 +134,7 @@ def convertir(source, sortie):
         ecrire(doc.add_paragraph(), ' '.join(texte))
     appliquer(doc, nature='note', detecter_titres=False)
     aerer(doc)
-    papier(doc, 'normatys')
+    papier(doc, societe)
     # un intertitre en gras (paragraphe entièrement gras et court) reste avec ce qui le suit
     for par in doc.paragraphs:
         if par.runs and len(par.text) < 120 and all(r.bold for r in par.runs if r.text.strip()):
@@ -156,14 +156,15 @@ def convertir(source, sortie):
     if 'OpenNAT_v1' in source or not titre:
         titre = 'Méthode de calcul OpenNAT, version 1' + (', édition complète' if 'complete' in sortie else '')
     doc.core_properties.title = titre
-    doc.core_properties.author = 'NORMATYS'
+    doc.core_properties.author = 'IRICE' if societe.startswith('irice') else 'NORMATYS'
     doc.core_properties.language = 'fr-FR'
     doc.save(sortie)
     return sortie
 
 
 if __name__ == '__main__':
-    s = convertir(sys.argv[1], sys.argv[2])
+    societe = sys.argv[sys.argv.index('--papier') + 1] if '--papier' in sys.argv else 'normatys'
+    s = convertir(sys.argv[1], sys.argv[2], societe)
     if '--sans-sauts' not in sys.argv:
         sauts_de_page(s)
     print(controler(s))

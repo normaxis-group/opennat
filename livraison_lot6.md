@@ -29,7 +29,7 @@ Bulle et al. 2019, IMPACT World+ (article et supplément, Polytechnique Montréa
 
 ## Écarts
 
-1. Les facteurs EF du dépassement cumulé (1,31, 0,74 et 3,02 mol H+ éq. par kg de SO2, NOx et NH3) sont repris de valeurs couramment citées, non relues sur le tableur du JRC ; le pont 106 en dépend peu (7,0 à 10,9).
+1. Les facteurs EF du dépassement cumulé (1,31, 0,74 et 3,02 mol H+ éq. par kg de SO2, NOx et NH3) ont été relus le 19/10/2026 sur la méthode EF publiée par ÖKOBAU.DAT (version 01.03.010) : réserve levée.
 2. Le pont 116 applique la conversion d'IMPACT World+ à des CTUe de la variante EF d'USEtox : ordre de grandeur seulement.
 3. Les médianes viennent de neuf bâtiments ; un cas de banc portant ces indicateurs serait à ajouter si P5 est retenue.
 

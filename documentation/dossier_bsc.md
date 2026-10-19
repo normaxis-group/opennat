@@ -36,7 +36,7 @@ L'analyse d'incertitude de l'exemple de l'annexe C désigne les paramètres qui 
 | D4 | Facteur de caractérisation du climat | C-G2 | confirmer, avec sa plage |
 | D5 | Seuils de Bnat, de pleine terre et de niveau ; pas de seuil d'Inat ni de Snat | C-E6, C-E7 | confirmer pour une période d'essai de deux ans |
 | D6 | Valeurs d'habitat et grilles d'état | C-H1 à C-H8 | confirmer sous réserve de la relecture par un écologue |
-| D7 | Maturation et gestion | C-M1 à C-M3 | confirmer |
+| D7 | Maturation et gestion | C-M1 à C-M3 | confirmer ; fin de plan étalée sur deux ans |
 | D8 | Climat futur | C-W1, C-W3, C-W13 | confirmer |
 | D9 | Période de 50 ans sans actualisation | C-T1, C-T5 | confirmer |
 | D10 | Gouvernance des versions et des contributions | | adopter les règles du guide du contributeur |
@@ -75,7 +75,7 @@ Une note dédiée, « Pollution et biodiversité grise : ponts depuis les indica
 
 Les 51 % de Carbone 4 viennent d'un autre modèle : inventaires ecoinvent mis à l'échelle du carbone de chaque fiche et facteurs à long terme d'IMPACT World+ pour les métaux. Ce modèle ne se reconstruit pas à partir des données d'une étude RE2020, ecoinvent n'étant pas ouvert et la licence du service INIES interdisant la notation des fiches. Un forfait calé sur Carbone 4 (pollution égale à 1,34 fois le climat) reposerait sur une seule étude, sans licence, et rendrait la pollution proportionnelle au carbone : il est écarté.
 
-Recommandation : option P5 de la note, c'est-à-dire convertir les cinq indicateurs par ces ponts, chacun avec sa plage d'incertitude, et les ajouter à Inat ; dire en clair que l'écotoxicité à long terme des métaux n'est pas comptée ; vérifier avant adoption les facteurs EF de l'acidification. La note donne la transposition prête à appliquer (convention, cinq lignes de table, une équation).
+Recommandation : option P5 de la note, c'est-à-dire convertir les cinq indicateurs par ces ponts, chacun avec sa plage d'incertitude, et les ajouter à Inat ; dire en clair que l'écotoxicité à long terme des métaux n'est pas comptée. La note donne la transposition prête à appliquer (convention, cinq lignes de table, une équation).
 
 ### D4. Facteur de caractérisation du climat
 
@@ -99,7 +99,9 @@ Recommandation : confirmer, sous réserve de la relecture des 191 fiches habitat
 
 Un milieu créé mûrit selon une courbe de Chapman-Richards ramenée à 1 au délai de la métrique anglaise (C-M1) ; un milieu herbacé abandonné prend la valeur de sa variante non entretenue de la BKompV (C-M2) ; sans plan de gestion déclaré, la gestion courante commence à la livraison (C-M3), une prairie tondue valant comme un gazon d'agrément. Sur l'exemple de l'annexe C, un plan de gestion de 50 ans ramène Cnat de 3 217 à 1 476 m²HE·an, sur chacun des tirages : la gestion pèse plus que le choix des espèces.
 
-Recommandation : confirmer ; c'est la décision qui a le plus d'effet sur les projets, et elle récompense un engagement vérifiable à l'achèvement.
+Une option affine C-M3 : à la fin du plan, la perte de valeur se fait aujourd'hui en une année, ce qui dessine une marche sur la trajectoire du site. Étalée sur deux ans, durée que C-M2 retient déjà pour un milieu herbacé abandonné, elle ramène Cnat de 3 217 à 3 171 m²HE·an sur l'exemple de l'annexe C ; sur trois ans, à 3 147. Sur les 65 cas du banc concernés, la baisse médiane est de 61 m²HE·an sur deux ans (`python -m banc.options_gestion`).
+
+Recommandation : confirmer C-M1 et C-M2, et adopter pour C-M3 une fin de plan étalée sur deux ans ; c'est la décision qui a le plus d'effet sur les projets, et elle récompense un engagement vérifiable à l'achèvement.
 
 ### D8. Climat futur
 
@@ -124,7 +126,7 @@ Recommandation : adopter ces règles.
 | Étape | Contenu |
 |---|---|
 | Séance 1 | présentation de la méthode et des vérifications ; décisions D4, D6 à D9 |
-| Entre les séances | lecture des sources du rendement alloué ; relecture écologue des fiches habitats ; vérification des facteurs EF de l'acidification |
+| Entre les séances | lecture des sources du rendement alloué ; relecture écologue des fiches habitats |
 | Séance 2 | décisions D1 à D3, D5 et D10 ; validation de la version OpenNAT 1 avec les données qui en résultent |
 | Après validation | publication de la méthode, des tables et du moteur ; période d'essai des seuils |
 
@@ -220,3 +222,4 @@ Statut de chacune : proposée, en attente de validation du Biodiversity Standard
 | Carbone 4, « La biodiversité grise dans le bâtiment », octobre 2026 | ordre de grandeur et parts par pression | lu en entier par l'audit |
 | Bulle et al. 2019, IMPACT World+, Int J LCA 24, 1653-1674, article et supplément (CC BY 4.0) | conversion de l'écotoxicité et eutrophisation marine | lu |
 | ReCiPe 2016, rapport RIVM 2017-0028 | densités d'espèces terrestres et d'eau douce | lu |
+| ÖKOBAU.DAT, méthode EF d'acidification par dépassement cumulé, version 01.03.010 | facteurs du SO2, des NOx et du NH3 | lu |

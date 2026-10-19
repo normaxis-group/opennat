@@ -1,6 +1,6 @@
 # Guide utilisateur d'OpenNAT
 
-Méthode OpenNAT 1, moteur 0.2.0, données 1.2.1. 19 octobre 2026. Méthode éditée par NORMATYS, en attente de validation du Biodiversity Standard Council : tant qu'elle n'est pas validée, ses seuils et ses résultats ne sont pas opposables.
+Outil de calcul OpenNAT édité par IRICE. Méthode OpenNAT 1, moteur 0.2.0, données 1.2.2. 19 octobre 2026. Méthode éditée par NORMATYS, en attente de validation du Biodiversity Standard Council : tant qu'elle n'est pas validée, ses seuils et ses résultats ne sont pas opposables.
 
 Ce guide s'adresse au bureau d'études ou à l'écologue qui calcule un projet. Il dit quelles données réunir, comment les saisir, comment lancer le calcul et comment lire les résultats. Le détail des calculs est dans le texte de la méthode (fiches algorithmes de la partie 3) ; les valeurs employées sont dans les tables de données (partie 2).
 
@@ -143,7 +143,7 @@ Une donnée facultative absente prend une valeur conventionnelle, toujours inscr
 
 ## Limites de la version 1
 
-- La biodiversité grise ne compte pas la pollution : les indicateurs du RSEE sont affichés sans conversion (point P19). D'après l'étude Carbone 4, la pollution fait la moitié de la biodiversité grise d'un bâtiment béton ; Inat en mesure donc environ la moitié (voir le contrôle d'ordre de grandeur du module G).
+- La biodiversité grise ne compte pas encore la pollution : les cinq indicateurs du RSEE sont affichés sans conversion (convention C-G8). Convertis par des facteurs ouverts, ils pèseraient de 4 à 13 % du climat ; leur ajout à Inat est proposé au Biodiversity Standard Council (note « Pollution et biodiversité grise »). L'étude Carbone 4, avec un autre modèle de l'écotoxicité des métaux, trouve une part bien plus forte.
 - Le bois est fortement pénalisé par les conventions C-G4 et C-G5, premières à recalibrer.
 - La biodiversité grise n'est pas donnée par lot de la RE2020.
 - La zone climatique n'est pas déduite du département : la saisir ou la reprendre du RSEE.

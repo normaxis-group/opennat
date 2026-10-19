@@ -12,8 +12,8 @@ Ponts (sources dans le dépôt, sauf mention) :
 - 116, écotoxicité (CTUe = PAF·m³·jour) : IMPACT World+ (Bulle et al. 2019, supplément, CC BY 4.0) convertit
   PAF en PDF par un facteur de gravité de 0,5 et les m³ en m² par une profondeur moyenne de 2,5 m ;
 - 106, acidification (dépassement cumulé, mol H+ éq.) : passage en kg SO2 éq. par la composition du flux acide
-  (facteurs EF de 1,31, 0,74 et 3,02 mol H+ éq. par kg de SO2, NOx et NH3, couramment cités, non vérifiés sur le
-  tableur du JRC ; facteurs ReCiPe 2016 de 1, 0,36 et 1,96 kg SO2 éq. par kg), puis ReCiPe 2016 : 2,12e-7
+  (facteurs EF de 1,31, 0,74 et 3,02 mol H+ éq. par kg de SO2, NOx et NH3, relus sur la méthode EF
+  d'acidification par dépassement cumulé publiée par ÖKOBAU.DAT, version 01.03.010 ; facteurs ReCiPe 2016 de 1, 0,36 et 1,96 kg SO2 éq. par kg), puis ReCiPe 2016 : 2,12e-7
   espèce·an par kg SO2 éq., divisé par la densité d'espèces terrestres de 1,48e-8 espèce par m² ;
 - 109, eutrophisation terrestre (dépassement cumulé, mol N éq.) : GLOBIO 3.5, tableau 4.1, pente de 0,220 MSA
   par g d'azote en excès par m² et par an (forêts), soit 0,220 × 14,007 m²HE·an par mol N éq. ; bornée par la
@@ -41,7 +41,7 @@ UNITES = {'101': 'kg CO2 éq.', '106': 'mol H+ éq.', '107': 'kg P éq.', '108':
 
 # Facteurs publiés
 IW_GRAVITE, IW_PROFONDEUR, JOURS_PAR_AN = 0.5, 2.5, 365.0
-EF_AE = {'SO2': 1.31, 'NOx': 0.74, 'NH3': 3.02}                  # mol H+ éq. par kg, hypothèse à vérifier
+EF_AE = {'SO2': 1.31, 'NOx': 0.74, 'NH3': 3.02}                  # mol H+ éq. par kg, méthode EF (ÖKOBAU.DAT 01.03.010)
 RECIPE_AP = {'SO2': 1.0, 'NOx': 0.36, 'NH3': 1.96}               # kg SO2 éq. par kg
 RECIPE_ACIDE = 2.12e-7                                           # espèce·an par kg SO2 éq.
 RECIPE_CLIMAT_TERRESTRE = 2.8e-9                                 # espèce·an par kg CO2 éq. (hiérarchiste)

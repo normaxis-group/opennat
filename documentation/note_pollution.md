@@ -29,12 +29,12 @@ Une fraction d'espèces perdue (PDF) sur un m² pendant un an est rapprochée d'
 | Code | Pont | Facteur, en PDF·m²·an par unité |
 |---|---|---|
 | 116 | IMPACT World+ : un CTUe vaut une fraction d'espèces affectées (PAF) par m³ et par jour ; facteur de gravité de 0,5 pour passer de PAF à PDF ; profondeur moyenne de 2,5 m pour passer des m³ aux m² ; 365 jours | 5,5 × 10⁻⁴ |
-| 106 | Passage du dépassement cumulé en kg SO2 éq. par la composition du flux acide (facteurs EF de 1,31, 0,74 et 3,02 mol H+ éq. par kg de SO2, NOx et NH3, couramment cités, à vérifier sur le tableur du JRC ; facteurs ReCiPe de 1, 0,36 et 1,96 kg SO2 éq.), puis ReCiPe : 2,12 × 10⁻⁷ espèce·an par kg SO2 éq., divisé par la densité d'espèces terrestres de 1,48 × 10⁻⁸ par m² | 7,0 à 10,9 |
+| 106 | Passage du dépassement cumulé en kg SO2 éq. par la composition du flux acide (facteurs EF de 1,31, 0,74 et 3,02 mol H+ éq. par kg de SO2, NOx et NH3, méthode EF d'acidification par dépassement cumulé (Seppälä et al. 2006, Posch et al. 2008), jeu de données ÖKOBAU.DAT 01.03.010, émissions dans l'air ; facteurs ReCiPe de 1, 0,36 et 1,96 kg SO2 éq.), puis ReCiPe : 2,12 × 10⁻⁷ espèce·an par kg SO2 éq., divisé par la densité d'espèces terrestres de 1,48 × 10⁻⁸ par m² | 7,0 à 10,9 |
 | 109 | GLOBIO 3.5, tableau 4.1 : MSA = 1 - 0,220 ln(NE + 1) en forêt, NE étant l'azote déposé au-delà de la charge critique en g/m²/an ; le dépassement cumulé mesure ce même excès ; pente à l'origine, puis là où la charge critique est déjà dépassée d'1 g/m²/an | 1,5 à 3,1 |
 | 107 | ReCiPe : 6,71 × 10⁻⁷ espèce·an par kg P éq., divisé par la densité d'espèces d'eau douce (7,89 × 10⁻¹⁰ par m³) et la profondeur de 2,5 m ; borne basse : facteur d'effet d'IMPACT World+, 11,4 par kg PO4 éq. | 35 à 340 |
 | 108 | IMPACT World+ : facteur d'effet empirique de 12,5 par kg d'azote déposé en zone côtière | 12,5 |
 
-Trois réserves. Le pont 106 dépend de facteurs EF non relus sur leur source, mais il bouge peu avec la composition du flux (de 7,0 à 10,9). Le pont 107 couvre un facteur dix, selon qu'on suit ReCiPe ou IMPACT World+. Le pont 116 applique la conversion d'IMPACT World+ à des CTUe calculés selon la variante EF d'USEtox, qui ne fixe pas les facteurs d'effet sur la même base. Il donne donc un ordre de grandeur, pas une valeur.
+Deux réserves, et un point vérifié. Le pont 106 dépend de la composition du flux acide, mais il en bouge peu (de 7,0 à 10,9) ; ses facteurs EF ont été relus sur le jeu de données de la méthode publié par ÖKOBAU.DAT. Le pont 107 couvre un facteur dix, selon qu'on suit ReCiPe ou IMPACT World+. Le pont 116 applique la conversion d'IMPACT World+ à des CTUe calculés selon la variante EF d'USEtox, qui ne fixe pas les facteurs d'effet sur la même base. Il donne donc un ordre de grandeur, pas une valeur.
 
 ## Ce que pèse la pollution
 
@@ -67,7 +67,7 @@ Carbone 4 ne part pas des indicateurs de pollution des fiches. Pour les pression
 | P6, modèle Carbone 4 | inventaires ecoinvent et facteurs IMPACT World+ par produit | impossible : ecoinvent n'est pas ouvert, et la licence du service INIES interdit la notation des fiches |
 | P4, forfait | pollution = 1,34 fois le climat | écarté : une seule étude, sans licence, et la pollution deviendrait proportionnelle au carbone |
 
-Recommandation de l'éditeur : adopter P5. Inat couvrirait alors toutes les pressions que décrit le RSEE, avec des facteurs ouverts et reproductibles, et une incertitude affichée. La note de méthode dirait en clair que l'écotoxicité à long terme des métaux n'est pas comptée. P5 remplace la recommandation de la première version du dossier, qui n'intégrait que l'eutrophisation terrestre : elle la contient. Elle lève aussi la réserve qui bloquait les seuils d'Inat et de Snat, puisque la pollution calculable est connue et faible. Reste à vérifier les facteurs EF de l'acidification avant l'adoption.
+Recommandation de l'éditeur : adopter P5. Inat couvrirait alors toutes les pressions que décrit le RSEE, avec des facteurs ouverts et reproductibles, et une incertitude affichée. La note de méthode dirait en clair que l'écotoxicité à long terme des métaux n'est pas comptée. P5 remplace la recommandation de la première version du dossier, qui n'intégrait que l'eutrophisation terrestre : elle la contient. Elle lève aussi la réserve qui bloquait les seuils d'Inat et de Snat, puisque la pollution calculable est connue et faible.
 
 ## Annexe. Transposition prête à appliquer
 
@@ -79,7 +79,7 @@ Lignes de `donnees/materiaux.csv` (valeur centrale, bornes ; type transposition,
 
 | Clé | Unité | Valeur | Borne basse | Borne haute | Source |
 |---|---|---|---|---|---|
-| pollution_106 | m²HE·an par mol H+ éq. | 8,7 | 7,0 | 10,9 | ReCiPe 2016 v1.1 (acidification terrestre, densité d'espèces) ; facteurs EF de dépassement cumulé |
+| pollution_106 | m²HE·an par mol H+ éq. | 8,7 | 7,0 | 10,9 | ReCiPe 2016 v1.1 (acidification terrestre, densité d'espèces) ; facteurs EF de dépassement cumulé (ÖKOBAU.DAT 01.03.010) |
 | pollution_107 | m²HE·an par kg P éq. | 109 | 35 | 340 | ReCiPe 2016 v1.1 ; IMPACT World+ (Bulle et al. 2019) |
 | pollution_108 | m²HE·an par kg N éq. | 12,5 | 9,4 | 15,6 | IMPACT World+, supplément, eutrophisation marine ; bornes de ± 25 % (convention C-I1) |
 | pollution_109 | m²HE·an par mol N éq. | 2,2 | 1,5 | 3,1 | GLOBIO 3.5, tableau 4.1 |
