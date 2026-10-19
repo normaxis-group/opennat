@@ -72,6 +72,8 @@ Les versions Word et PDF des documents sont dans `livraison/`.
 
 ## Installation et emploi
 
+**Version en ligne** : l'outil de calcul tourne sur https://opennat.irice-certification.com, sans compte (mode public : identifiants de calcul aléatoires, tirages et calculs simultanés bornés, projets et résultats effacés après 24 heures, fiche de synthèse en Word). Pour des projets confidentiels, installer l'outil sur son poste :
+
 Python 3.11 ou plus, numpy et lxml ; python-docx pour la fiche de synthèse, LibreOffice pour sa version PDF, pytest
 pour les tests.
 
