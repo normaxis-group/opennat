@@ -1,14 +1,16 @@
-/* Utilitaire OpenNAT, charte NORMATYS : encre, bleu et vert de la fleur, pollen en accent. */
+/* Utilitaire OpenNAT, édité par IRICE : charte IRICE indice C (niveau plateformes : Jost), encre et marine, dégradé
+   biodiversité, sarcelle #157f8c pour l'accent sur fond blanc (#188E9D ne donne que 3,9:1). */
 :root {
-  --encre: #202335; --encre-2: #161826; --bleu: #1A4F9C; --vert: #34A05F; --vert-sombre: #1E7A4A;
-  --pollen: #F2B73D; --voile: #EEF3F6; --filet: #C9D6DE; --texte: #202335; --doux: #5B6276;
+  --encre: #202335; --marine: #0C3342; --marine-2: #082530; --bleu: #2871B7; --sarcelle: #157f8c; --vert: #0FA36A;
+  --vert-sombre: #157f8c; --voile: #EEF3F6; --filet: #CFD6D9; --texte: #202335; --doux: #5B6276;
   --rouge: #B3261E; --fond: #FFFFFF;
-  --degrade: linear-gradient(90deg, #1A4F9C, #34A05F);
+  --degrade: linear-gradient(90deg, #2871B7, #188E9D, #0FA36A);
+  --police: Jost, "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; }
-body { font: 14px/1.45 Calibri, "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--texte); background: var(--voile); }
-h1, h2, h3, h4 { font-family: Poppins, "Segoe UI", system-ui, sans-serif; margin: 0 0 .5em; }
+body { font: 14px/1.45 var(--police); color: var(--texte); background: var(--voile); }
+h1, h2, h3, h4 { font-family: var(--police); margin: 0 0 .5em; }
 h2 { color: var(--bleu); font-size: 20px; }
 h3 { color: var(--vert-sombre); font-size: 15px; margin-top: 1.2em; }
 h4 { color: var(--encre); font-size: 13px; margin-top: 1em; }
@@ -16,24 +18,27 @@ button { font: inherit; border: 1px solid var(--filet); background: #fff; color:
   padding: 5px 12px; cursor: pointer; }
 button:hover { border-color: var(--bleu); }
 button.principal { background: var(--bleu); color: #fff; border-color: var(--bleu); }
-button.vert { background: var(--vert); color: #fff; border-color: var(--vert); }
+button.vert { background: var(--sarcelle); color: #fff; border-color: var(--sarcelle); }
 button.danger { color: var(--rouge); }
 button:disabled { opacity: .5; cursor: default; }
 input, select, textarea { font: inherit; border: 1px solid var(--filet); border-radius: 5px; padding: 4px 6px;
   background: #fff; color: var(--texte); min-width: 0; }
-input:focus, select:focus { outline: 2px solid rgba(26, 79, 156, .25); border-color: var(--bleu); }
+input:focus, select:focus { outline: 2px solid rgba(40, 113, 183, .25); border-color: var(--bleu); }
 input[type=number] { text-align: right; }
 .barre { display: flex; align-items: center; gap: 18px; padding: 10px 18px; color: #fff;
-  background: radial-gradient(circle at 85% -40%, rgba(52,160,95,.45), transparent 45%),
-              radial-gradient(circle at 20% 160%, rgba(26,79,156,.6), transparent 50%), var(--encre); position: relative; }
+  background: radial-gradient(circle at 85% -40%, rgba(15,163,106,.35), transparent 45%),
+              radial-gradient(circle at 20% 160%, rgba(40,113,183,.5), transparent 50%), var(--marine); position: relative; }
 .barre::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--degrade); }
-.logo { height: 30px; }
-.titre-app { font-family: Poppins, "Segoe UI", sans-serif; font-weight: 600; font-size: 18px; }
+.logo { height: 34px; }
+.titre-app { font-family: var(--police); font-weight: 600; font-size: 18px; }
 .titre-app span { font-weight: 400; opacity: .75; font-size: 14px; margin-left: 4px; }
+.titre-app .nom-opennat { font-weight: 600; opacity: 1; font-size: 18px; margin-left: 0; }
+.titre-app img.logo-opennat { height: 26px; vertical-align: middle; }
+.edition { margin-top: 24px; padding-top: 10px; border-top: 1px solid var(--filet); font-size: 11.5px; color: var(--doux); }
 .nom-projet { flex: 1; opacity: .9; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .actions { display: flex; gap: 6px; }
 .actions button { background: transparent; color: #fff; border-color: rgba(255,255,255,.35); }
-.actions button.principal { background: var(--vert); border-color: var(--vert); }
+.actions button.principal { background: var(--sarcelle); border-color: var(--sarcelle); }
 .cadre { display: grid; grid-template-columns: 210px minmax(0, 1fr) 280px; height: calc(100% - 53px); }
 nav { background: #fff; border-right: 1px solid var(--filet); overflow-y: auto; padding: 10px 0; }
 nav .groupe { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--doux); padding: 12px 16px 4px; }
@@ -54,9 +59,9 @@ aside h3 { margin-top: 0; }
 .champ .aide { font-size: 11px; color: var(--doux); }
 .ligne { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .note { color: var(--doux); font-size: 12.5px; }
-.mention { border-left: 3px solid var(--pollen); background: #FFF8E8; padding: 8px 12px; border-radius: 4px; font-size: 13px; margin: 8px 0 14px; }
+.mention { border-left: 3px solid var(--sarcelle); background: #E9F4F5; padding: 8px 12px; border-radius: 4px; font-size: 13px; margin: 8px 0 14px; }
 table.t { border-collapse: collapse; width: 100%; background: #fff; font-size: 13px; }
-table.t th { background: var(--encre); color: #fff; font-weight: 600; text-align: left; padding: 6px 8px; position: sticky; top: 0; z-index: 1; }
+table.t th { background: var(--marine); color: #fff; font-weight: 600; text-align: left; padding: 6px 8px; position: sticky; top: 0; z-index: 1; }
 table.t td { border-bottom: 1px solid var(--filet); padding: 4px 6px; vertical-align: middle; }
 table.t td.n, table.t th.n { text-align: center; }
 table.t td.actes { white-space: nowrap; }
@@ -78,7 +83,7 @@ table.t input[type=checkbox] { width: auto; }
 .ind { background: #fff; border: 1px solid var(--filet); border-radius: 10px; padding: 12px 14px; position: relative; overflow: hidden; }
 .ind::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--degrade); }
 .ind .nom { font-size: 12px; color: var(--doux); }
-.ind .val { font-family: Poppins, "Segoe UI", sans-serif; font-size: 22px; font-weight: 600; color: var(--encre); }
+.ind .val { font-family: var(--police); font-size: 22px; font-weight: 600; color: var(--encre); }
 .ind .sous { font-size: 12px; color: var(--doux); }
 .barres .b { display: grid; grid-template-columns: 220px 1fr 110px; gap: 8px; align-items: center; margin: 4px 0; font-size: 13px; }
 .barres .piste { background: var(--voile); border-radius: 4px; height: 12px; overflow: hidden; }
@@ -89,7 +94,7 @@ table.t input[type=checkbox] { width: auto; }
 .etape.cours { background: var(--bleu); color: #fff; }
 .progression { height: 10px; background: var(--voile); border-radius: 6px; overflow: hidden; }
 .progression div { height: 100%; background: var(--degrade); transition: width .4s; }
-pre.journal { background: var(--encre-2); color: #DDE6EE; padding: 10px 12px; border-radius: 8px; max-height: 280px;
+pre.journal { background: var(--marine-2); color: #DDE6EE; padding: 10px 12px; border-radius: 8px; max-height: 280px;
   overflow: auto; font-size: 12px; white-space: pre-wrap; }
 pre.fichier { background: #fff; border: 1px solid var(--filet); padding: 10px; border-radius: 8px; max-height: 65vh;
   overflow: auto; font-size: 12px; }
@@ -102,7 +107,7 @@ pre.fichier { background: #fff; border: 1px solid var(--filet); padding: 10px; b
 .crit .ess { color: var(--rouge); font-size: 11px; }
 .radios { display: flex; gap: 6px; font-size: 12px; }
 .radios label { display: flex; gap: 3px; align-items: center; }
-svg.courbe text { font: 11px Calibri, "Segoe UI", sans-serif; fill: var(--doux); }
+svg.courbe text { font: 11px var(--police); fill: var(--doux); }
 .legende { display: flex; gap: 16px; font-size: 12px; color: var(--doux); }
 .legende i { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 4px; }
 .vide { color: var(--doux); font-style: italic; padding: 10px 0; }

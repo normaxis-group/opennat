@@ -91,7 +91,7 @@ Pour lire un résultat, partir de la trajectoire. Un Cnat positif s'explique pre
 
 ## Fiche de synthèse et RSNat
 
-Chaque calcul produit le récapitulatif standardisé (RSNat), en XML et en JSON, validé contre ses schémas (`schemas/rsnat.xsd`, `schemas/rsnat.schema.json`). La fiche de synthèse en Word, au papier NORMATYS, et en PDF reprend les indicateurs, la conformité, l'incertitude et les versions de la méthode, du moteur et des données, avec les empreintes de contrôle des entrées et des tables. Ces empreintes permettent à un tiers de vérifier qu'un résultat a bien été calculé sur le projet et les tables déclarés.
+Chaque calcul produit le récapitulatif standardisé (RSNat), en XML et en JSON, validé contre ses schémas (`schemas/rsnat.xsd`, `schemas/rsnat.schema.json`). La fiche de synthèse en Word, au papier d'IRICE, éditeur de l'outil, et en PDF reprend les indicateurs, la conformité, l'incertitude et les versions de la méthode, du moteur et des données, avec les empreintes de contrôle des entrées et des tables. Ces empreintes permettent à un tiers de vérifier qu'un résultat a bien été calculé sur le projet et les tables déclarés.
 
 ## Ligne de commande
 

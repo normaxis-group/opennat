@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026 NORMATYS
+# Copyright (C) 2026 IRICE
 """Utilitaire de calcul OpenNAT : serveur local, sans dépendance hors bibliothèque standard et moteur.
 
     python -m opennat.utilitaire [--port 8770] [--dossier resultats] [--sans-navigateur]
@@ -266,7 +266,7 @@ class Gestionnaire(BaseHTTPRequestHandler):
         ch = unquote(u.path)
         try:
             if ch in ('/', '/index.html'):
-                return self._statique('index.html')
+                return self._page()
             if ch.startswith('/statique/'):
                 return self._statique(ch[len('/statique/'):])
             if ch == '/api/referentiel':
@@ -336,6 +336,15 @@ class Gestionnaire(BaseHTTPRequestHandler):
             self._json(dict(erreur=f'JSON illisible : {x}'), 400)
         except Exception as x:
             self._json(dict(erreur=str(x)), 400)
+
+    def _page(self):
+        """Page de l'utilitaire. Le logo OpenNAT, quand il est déposé dans statique/opennat.svg, remplace le nom écrit."""
+        with open(os.path.join(STATIQUE, 'index.html'), encoding='utf-8') as f:
+            html = f.read()
+        if os.path.exists(os.path.join(STATIQUE, 'opennat.svg')):
+            html = html.replace('<!--MARQUE_OPENNAT--><span class="nom-opennat">OpenNAT</span>',
+                                '<img class="logo-opennat" src="/statique/opennat.svg" alt="OpenNAT">')
+        self._envoyer(200, html.encode('utf-8'), 'text/html; charset=utf-8')
 
     def _statique(self, nom):
         c = _dans(STATIQUE, nom)

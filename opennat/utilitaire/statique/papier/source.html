@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Papier à en-tête IRICE, hors portée d'accréditation</title>
+<!-- Papier à en-tête IRICE pour les documents hors portée d'accréditation (fiche de synthèse de l'utilitaire OpenNAT) :
+     même papier que celui de la plateforme de marque IRICE, sans le bloc d'accréditation Cofrac de l'en-tête, OpenNAT
+     n'étant pas dans la portée (garde-fou GEN REF 11). Rendu en PNG 300 dpi par generer.cjs (largeur 794 px = 21 cm),
+     ancré à la page par opennat/utilitaire/fiche.py. -->
+<link href="https://fonts.bunny.net/css?family=poppins:500,600|jost:400,500|source-serif-4:400i&display=swap" rel="stylesheet">
+<style>
+  :root { --encre:#202335; --marine:#0C3342; --b1:#2871B7; --b2:#188E9D; --b3:#0FA36A; --gris:#5b6070; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Jost',sans-serif; color:var(--encre); background:#fff; }
+  /* En-tête : 794 × 150 px (21 × 3,97 cm) */
+  #entete { width:794px; height:150px; position:relative; background:#fff; margin-bottom:60px; }  /* marge : évite que la dernière rangée de pixels prenne la couleur du bandeau */
+  #entete .interieur { position:absolute; left:76px; right:76px; top:48px; display:flex; justify-content:space-between; align-items:flex-start; }
+  #entete .logo { height:44px; }
+  #entete .droite { display:flex; align-items:flex-start; gap:14px; }
+  #entete .coord { text-align:right; font-size:8.5px; line-height:1.55; color:var(--gris); }
+  #entete .filet { position:absolute; left:76px; right:76px; top:118px; height:1px; background:#e3e6ea; }
+  /* Pied : bandeau Marine 794 × 112 px (21 × 2,96 cm) */
+  #pied { width:794px; height:112px; position:relative; background:var(--marine); overflow:hidden; box-shadow:0 30px 0 var(--marine); }  /* ombre : la rangée de pixels arrondie reste Marine */
+  #pied::before { content:''; position:absolute; left:0; right:0; top:0; height:3px; background:linear-gradient(90deg,var(--b1),var(--b2),var(--b3)); }
+  #pied .fleur { position:absolute; right:-40px; top:-70px; width:260px; opacity:.13; }
+  #pied .interieur { position:absolute; left:76px; right:76px; top:26px; display:flex; justify-content:space-between; align-items:flex-end; gap:24px; }
+  #pied img { height:30px; }
+  #pied .devise { font-family:'Source Serif 4',serif; font-style:italic; font-size:13px; color:#fff; margin-top:8px; }
+  #pied .mentions { font-size:7.5px; line-height:1.5; color:rgba(255,255,255,.72); text-align:right; }
+  /* Pages suivantes : page entière 794 × 1123 px, légère (petit logo, filigrane, liseré), sans les mentions */
+  #suite { width:794px; height:1124px; position:relative; background:#fff; overflow:hidden; margin-top:60px; }  /* 1 px de plus que la page : la rangée arrondie tombe hors page */
+  #suite .logo { position:absolute; left:76px; top:36px; height:26px; }
+  #suite .filet { position:absolute; left:76px; right:76px; top:76px; height:1px; background:#e3e6ea; }
+  #suite .fleur { position:absolute; right:-170px; bottom:-150px; width:620px; opacity:.06; }
+  #suite .bas { position:absolute; left:0; right:0; bottom:0; height:8px; background:var(--marine); }
+  #suite .bas::before { content:''; position:absolute; left:0; right:0; top:0; height:3px; background:linear-gradient(90deg,var(--b1),var(--b2),var(--b3)); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="emblem" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2871B7"/><stop offset=".5" stop-color="#188E9D"/><stop offset="1" stop-color="#0FA36A"/></linearGradient>
+    <symbol id="fleur" viewBox="-4.5 -4.5 83.62 83.62"><path d="M74.66,58.41c-1.98-7.38-7.88-15.71-15.16-19.81-4-2.260-8.33-3.61-12.65-4.02,3.54-2.6,6.59-6.04,8.88-10.09,4.1-7.27,4.86-17.15,2.740-24.49l-3.05.94s-.07.02-.1.03h-.03s0,0,0,0c-6.8,2.25-12.81,7.33-16.65,14.14-2.26,4-3.61,8.34-4.02,12.65-2.6-3.54-6.04-6.59-10.1-8.88-7.27-4.1-17.2-5-24.54-2.88l.99,3.18s.02.08.04.12v.02s0,0,0,0c2.25,6.8,7.33,12.81,14.14,16.65,4,2.26,8.34,3.6,12.66,4.01-3.54,2.6-6.6,6.04-8.89,10.1-4.1,7.27-4.73,17.2-2.61,24.54l2.99-1.02c6.82-2.24,12.85-7.330,16.7-14.16,2.26-4,3.61-8.34,4.02-12.65,2.6,3.54,6.04,6.59,10.1,8.88,4.87,2.74,10.23,4.16,15.44,4.16,1.96,0,3.9-.2,5.78-.61,0,0,0,0,0,0l3.29-.82ZM41.52,16.74c3.37-5.99,8.59-10.47,14.48-12.51.9,6-.04,13.16-3.13,18.64-3.05,5.42-7.62,9.6-12.83,11.87-.52.08-1.04.17-1.55.27-.16-.44-.32-.87-.5-1.31-.72-5.58.51-11.59,3.53-16.96ZM16.79,33.11c-5.98-3.37-10.46-8.59-12.51-14.47,6-.9,13.16.04,18.64,3.12,5.42,3.06,9.6,7.62,11.87,12.830.08.52.17,1.04.27,1.55-.44.16-.88.32-1.31.5-5.58.72-11.6-.51-16.96-3.53ZM33.16,57.83c-3.38,6-8.61,10.49-14.52,12.53-.89-6,.09-13.18,3.17-18.66,3.05-5.42,7.61-9.6,12.82-11.86.52-.08,1.05-.17,1.56-.27.16.44.32.87.5,1.31.71,5.58-.51,11.59-3.53,16.96ZM51.75,52.82c-5.42-3.05-9.6-7.62-11.87-12.83-.08-.52-.17-1.04-.27-1.55.44-.16.88-.32,1.31-.5,5.58-.71,11.59.51,16.96,3.53,5.49,3.09,10.04,8.95,12.4,14.62-6.01,1.190-12.65.03-18.52-3.28Z"/></symbol>
+  </defs>
+</svg>
+
+<div id="entete">
+  <div class="interieur">
+    <img class="logo" src="IRICE_horizontal_couleur.svg" alt="IRICE">
+    <div class="droite">
+      <div class="coord">10 rue du Lieutenant Parayre<br>Espace Wagner, Bâtiment A2<br>13290 Aix-en-Provence<br>09 70 70 75 35 · irice-certification.com</div>
+    </div>
+  </div>
+  <div class="filet"></div>
+</div>
+
+<div id="pied">
+  <svg class="fleur" viewBox="-4.5 -4.5 83.62 83.62"><use href="#fleur" fill="#ffffff"/></svg>
+  <div class="interieur">
+    <div><img src="IRICE_horizontal_blanc.svg" alt="IRICE"><div class="devise">La preuve, pas la promesse.</div></div>
+    <div class="mentions">Société par actions simplifiée au capital de 20 000 €<br>RCS Aix-en-Provence 835 324 112<br>Société du groupe NORMAXIS</div>
+  </div>
+</div>
+<div id="suite">
+  <img class="logo" src="IRICE_horizontal_couleur.svg" alt="IRICE">
+  <div class="filet"></div>
+  <svg class="fleur" viewBox="-4.5 -4.5 83.62 83.62"><use href="#fleur" fill="url(#emblem)"/></svg>
+  <div class="bas"></div>
+</div>
+</body>
+</html>

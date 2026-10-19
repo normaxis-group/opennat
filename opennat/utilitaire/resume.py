@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026 NORMATYS
+# Copyright (C) 2026 IRICE
 """Résumé des résultats d'un calcul pour l'utilitaire et la fiche de synthèse (valeurs centrales, intervalles)."""
 from __future__ import annotations
 

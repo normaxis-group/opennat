@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Copyright (C) 2026 NORMATYS
+// Copyright (C) 2026 IRICE
 // Utilitaire OpenNAT : saisie du fichier projet, contrôles en direct, calcul, résultats, fiche et RSNat.
 'use strict';
 
@@ -648,12 +648,12 @@ function courbe(tr) {
   const toutes = [...tr.site, ...tr.reference], ymax = Math.max(...toutes, 1) * 1.08, n = tr.site.length;
   const x = i => g + (W - g - d) * i / (n - 1), y = v => H - b - (H - b - h) * v / ymax;
   const ligne = (s, coul, tiret) => `<polyline fill="none" stroke="${coul}" stroke-width="2.2" ${tiret ? 'stroke-dasharray="6 4"' : ''} points="${s.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ')}"/>`;
-  let axes = `<line x1="${g}" y1="${H - b}" x2="${W - d}" y2="${H - b}" stroke="#C9D6DE"/>`;
+  let axes = `<line x1="${g}" y1="${H - b}" x2="${W - d}" y2="${H - b}" stroke="#CFD6D9"/>`;
   for (let k = 0; k <= 4; k++) { const v = ymax * k / 4; axes += `<line x1="${g}" y1="${y(v)}" x2="${W - d}" y2="${y(v)}" stroke="#EEF3F6"/><text x="${g - 6}" y="${y(v) + 4}" text-anchor="end">${nb(v, 0)}</text>`; }
   for (let i = 0; i < n; i += 10) axes += `<text x="${x(i)}" y="${H - 10}" text-anchor="middle">${tr.annees[i]}</text>`;
-  const svg = `<svg class="courbe" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Trajectoire du site">${axes}${ligne(tr.reference, '#34A05F', true)}${ligne(tr.site, '#1A4F9C')}</svg>`;
-  return el('div', {}, el('div', { html: svg }), el('div', { class: 'legende' }, el('span', {}, el('i', { style: 'background:#1A4F9C' }), 'avec projet (m²HE)'),
-    el('span', {}, el('i', { style: 'background:#34A05F' }), 'site sans projet, même climat')));
+  const svg = `<svg class="courbe" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Trajectoire du site">${axes}${ligne(tr.reference, '#0FA36A', true)}${ligne(tr.site, '#2871B7')}</svg>`;
+  return el('div', {}, el('div', { html: svg }), el('div', { class: 'legende' }, el('span', {}, el('i', { style: 'background:#2871B7' }), 'avec projet (m²HE)'),
+    el('span', {}, el('i', { style: 'background:#0FA36A' }), 'site sans projet, même climat')));
 }
 function ongletComparaison() {
   if (!S.resultats) return sansResultats();

@@ -1,11 +1,14 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026 NORMATYS
-"""Fiche de synthèse d'un calcul (cahier des charges, § 6.5) : document Word au papier de l'éditeur de la méthode,
-converti en PDF par LibreOffice quand il est installé.
+# Copyright (C) 2026 IRICE
+"""Fiche de synthèse d'un calcul (cahier des charges, § 6.5) : document Word au papier d'IRICE, éditeur de l'outil de
+calcul, converti en PDF par LibreOffice quand il est installé.
 
-Mise en forme : Calibri 10 points, langue française dans les styles et les passages, titres portés par les styles
-Titre, Titre 1 et Titre 2 aux couleurs de NORMATYS, pagination « Page X sur Y », tableaux à colonnes fixes, cellules
-centrées verticalement, nombres centrés."""
+Papier : celui de la plateforme de marque IRICE, dans sa variante hors portée d'accréditation (sans le bloc Cofrac,
+OpenNAT n'étant pas dans la portée) : en-tête et bandeau en première page, fond léger et pagination ensuite (images
+de `statique/papier/`, rendues depuis `source.html`). Mise en forme : Calibri 10 points, langue française dans les
+styles et les passages, titres portés par les styles Titre, Titre 1 et Titre 2 en Poppins marine, pagination
+« Page X sur Y », tableaux à colonnes fixes, en-tête en aplat marine, cellules centrées verticalement, nombres
+centrés."""
 from __future__ import annotations
 
 import os
@@ -14,7 +17,8 @@ import subprocess
 import tempfile
 
 STATIQUE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'statique')
-BLEU, VERT, ENCRE, VOILE = '1A4F9C', '1E7A4A', '202335', 'EEF3F6'
+MARINE, SARCELLE, VOILE = '0C3342', '157F8C', 'EEF3F6'
+PAPIER = os.path.join(STATIQUE, 'papier')
 MENTION = ('Méthode, conventions et seuils proposés, en attente de validation du Biodiversity Standard Council : '
            'les résultats ne sont pas opposables.')
 NIVEAUX = {0: 'perte nette', 1: 'absence de perte nette', 2: 'gain net'}
@@ -69,6 +73,61 @@ def _champ(par, code):
     return r
 
 
+def _taille_png(chemin) -> tuple[int, int]:
+    with open(chemin, 'rb') as f:
+        tete = f.read(24)
+    return int.from_bytes(tete[16:20], 'big'), int.from_bytes(tete[20:24], 'big')
+
+
+def _image_ancree(par, image, largeur, y):
+    """Image ancrée au bord gauche de la page, à y du haut, derrière le texte."""
+    from docx.oxml import parse_xml
+    from docx.oxml.ns import qn
+    r = par.add_run()
+    r.add_picture(image, width=largeur)
+    inline = r._r.find('.//' + qn('wp:inline'))
+    ext = inline.find(qn('wp:extent'))
+    ancre = parse_xml(
+        '<wp:anchor xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" distT="0" '
+        'distB="0" distL="0" distR="0" simplePos="0" relativeHeight="0" behindDoc="1" locked="1" layoutInCell="1" '
+        'allowOverlap="1"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="page"><wp:posOffset>0</wp:posOffset>'
+        '</wp:positionH><wp:positionV relativeFrom="page"><wp:posOffset>%d</wp:posOffset></wp:positionV>'
+        '<wp:extent cx="%s" cy="%s"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:wrapNone/></wp:anchor>'
+        % (int(y), ext.get('cx'), ext.get('cy')))
+    for nom in ('wp:docPr', 'wp:cNvGraphicFramePr', 'a:graphic'):
+        e = inline.find(qn(nom))
+        if e is not None:
+            ancre.append(e)
+    inline.getparent().replace(inline, ancre)
+
+
+def _papier(doc):
+    """Papier IRICE hors portée : en-tête complet et bandeau en première page, fond léger sur les suivantes."""
+    from docx.enum.text import WD_LINE_SPACING
+    from docx.shared import Cm, Emu, Pt
+    entete, pied, suite = (os.path.join(PAPIER, n + '.png') for n in ('entete', 'pied', 'suite'))
+    hauteur = lambda f: Cm(21 * _taille_png(f)[1] / _taille_png(f)[0])          # noqa: E731
+
+    def reserve(par, h):
+        f = par.paragraph_format
+        f.space_before = f.space_after = Pt(0)
+        f.line_spacing, f.line_spacing_rule = Emu(int(h)), WD_LINE_SPACING.EXACTLY
+
+    sec = doc.sections[0]
+    sec.page_width, sec.page_height = Cm(21), Cm(29.7)
+    sec.left_margin = sec.right_margin = Cm(2.0)
+    sec.top_margin, sec.header_distance = Cm(2.8), Cm(0.5)
+    sec.bottom_margin, sec.footer_distance = Cm(2.2), Cm(1.0)
+    sec.different_first_page_header_footer = True
+    ph = sec.first_page_header.paragraphs[0]
+    _image_ancree(ph, entete, Cm(21), 0)
+    reserve(ph, hauteur(entete) + Cm(0.6) - sec.header_distance)
+    pf = sec.first_page_footer.paragraphs[0]
+    _image_ancree(pf, pied, Cm(21), Cm(29.7) - hauteur(pied))
+    reserve(pf, hauteur(pied) + Cm(1.3) - sec.footer_distance)
+    _image_ancree(sec.header.paragraphs[0], suite, Cm(21), 0)
+
+
 def _ombrage(cellule, couleur):
     from docx.oxml import OxmlElement
     from docx.oxml.ns import qn
@@ -100,7 +159,7 @@ def _tableau(doc, entetes, lignes, largeurs, numeriques=()):
             if i == 0:
                 run.bold = True
                 run.font.color.rgb = RGBColor.from_string('FFFFFF')
-                _ombrage(c, ENCRE)
+                _ombrage(c, MARINE)
             if i == 0 and j in numeriques or (i > 0 and j in numeriques):
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             p.paragraph_format.keep_with_next = i < len(lignes)          # le tableau reste d'un bloc
@@ -124,27 +183,21 @@ def construire_docx(res: dict, chemin: str):
     except ImportError as x:
         raise ErreurFiche('la bibliothèque python-docx est nécessaire à la fiche de synthèse') from x
     doc = Document()
-    sec = doc.sections[0]
-    sec.page_height, sec.page_width = Cm(29.7), Cm(21.0)
-    sec.left_margin = sec.right_margin = Cm(2.0)
-    sec.top_margin, sec.bottom_margin = Cm(2.2), Cm(2.0)
     st = doc.styles['Normal']
     st.font.name, st.font.size = 'Calibri', Pt(10)
     st.paragraph_format.space_before = st.paragraph_format.space_after = Cm(0.2)
     st.paragraph_format.line_spacing = 1.0
     _langue(st.element)
-    for nom, taille, coul in (('Title', 16, BLEU), ('Heading 1', 13, BLEU), ('Heading 2', 11, VERT)):
-        s = doc.styles[nom]
-        s.font.name, s.font.size, s.font.bold = 'Calibri', Pt(taille), True
-        s.font.color.rgb = RGBColor.from_string(coul)
-        s.paragraph_format.space_before, s.paragraph_format.space_after = Cm(0.4), Cm(0.2)
-        s.paragraph_format.keep_with_next = True
-        _langue(s.element)
-    # en-tête : logo de l'éditeur ; pied : pagination
-    en = sec.header.paragraphs[0]
-    en.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    en.add_run().add_picture(os.path.join(STATIQUE, 'normatys.png'), width=Cm(4.2))
-    pied = sec.footer.paragraphs[0]
+    for nom, taille in (('Title', 16), ('Heading 1', 13), ('Heading 2', 11)):
+        s_ = doc.styles[nom]
+        s_.font.name, s_.font.size, s_.font.bold = 'Poppins', Pt(taille), True
+        s_.font.color.rgb = RGBColor.from_string(MARINE)
+        s_.paragraph_format.space_before, s_.paragraph_format.space_after = Cm(0.4), Cm(0.2)
+        s_.paragraph_format.keep_with_next = True
+        _langue(s_.element)
+    _papier(doc)
+    # pages suivantes : référence et pagination ; la première porte le bandeau d'IRICE
+    pied = doc.sections[0].footer.paragraphs[0]
     pied.alignment = WD_ALIGN_PARAGRAPH.CENTER
     pied.add_run('OpenNAT · Fiche de synthèse · Page ')
     _champ(pied, 'PAGE')
@@ -160,7 +213,7 @@ def construire_docx(res: dict, chemin: str):
     m = doc.add_paragraph()
     r = m.add_run(MENTION)
     r.italic = True
-    r.font.color.rgb = RGBColor.from_string(VERT)
+    r.font.color.rgb = RGBColor.from_string(SARCELLE)
 
     doc.add_paragraph('Identification du calcul', style='Heading 1')
     _tableau(doc, ['Élément', 'Valeur'], [
@@ -199,8 +252,8 @@ def construire_docx(res: dict, chemin: str):
     _tableau(doc, ['Variante', 'Cnat (m²HE·an)', 'Cnat relatif', 'Inat (m²HE·an)', 'Snat (m²HE·an)', 'Bnat',
                    'Niveau du site'], lignes, [3.6, 2.3, 1.8, 2.5, 2.5, 1.5, 2.8], numeriques=(1, 2, 3, 4, 5, 6))
     doc.add_paragraph('Cnat : consommation de nature sur le site, intégrée sur 50 ans (positive : perte). Inat : '
-                      'biodiversité grise des matériaux et du chantier. Snat = -(Cnat + Inat). Bnat : besoin de nature '
-                      'de la conception, comparable au coefficient de biotope du PLU.')
+                      'biodiversité grise des matériaux et du chantier. Snat = -(Cnat + Inat). Bnat : coefficient '
+                      'de biotope de l\'état projet, en points, comparable à celui du PLU.')
 
     for x in res['variantes']:
         doc.add_paragraph(f'Variante {x["index"]} : {x["nom"]}', style='Heading 1')
@@ -233,7 +286,7 @@ def construire_docx(res: dict, chemin: str):
             _langue(run._r)
     doc.core_properties.language = 'fr-FR'
     doc.core_properties.title = f'Fiche de synthèse OpenNAT, {p["identifiant"]}'
-    doc.core_properties.author = 'Utilitaire OpenNAT (NORMATYS)'
+    doc.core_properties.author = 'IRICE, utilitaire de calcul OpenNAT'
     doc.save(chemin)
 
 
