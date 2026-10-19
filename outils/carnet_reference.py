@@ -249,8 +249,10 @@ def materiaux(cas):                                                # fiches A32 
            'coupe_selective': 'foret_selective', 'faible_impact': 'foret_impact_reduit'}
     bois = sum(q * (1 + n) * occ * (1 - MAT[(cle[r], 'msa_usage')]) for r, q, n in cas.get('bois', []))
     gran = cas.get('granulats', 0.0) * MAT[('carriere', 'occupation_par_tonne')] * (1 - MAT[('carriere', 'msa_usage')])
-    return dict(CF=cf, clim=clim, inat_clim=sum(clim.values()), inat_bois=bois, inat_carr=gran,
-                inat=sum(clim.values()) + bois + gran, occ_bois=occ)
+    # A36 : indicateurs de pollution (par m² de S_ref, phases A à C) convertis en habitat équivalent perdu (C-G8)
+    pol = {code: sref * x * MAT[(f'pollution_{code}', 'facteur_biodiversite')] for code, x in cas.get('pollution', {}).items()}
+    return dict(CF=cf, clim=clim, inat_clim=sum(clim.values()), inat_bois=bois, inat_carr=gran, inat_pol=sum(pol.values()),
+                pol=pol, inat=sum(clim.values()) + bois + gran + sum(pol.values()), occ_bois=occ)
 
 
 def bnat(projet, sp, a_inf=0.0):                                   # fiche A38

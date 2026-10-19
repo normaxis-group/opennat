@@ -2,7 +2,7 @@
 
 Les huit situations types du cahier des charges (§ 7) sont calculées ci-dessous par le carnet de calcul de référence (`outils/carnet_reference.py`), qui applique les fiches algorithmes de la partie 3 sans Monte-Carlo et sans rien partager avec le futur moteur. Chaque cas donne ses hypothèses, toutes les grandeurs intermédiaires et les indicateurs : le moteur devra les retrouver à 0,1 % près (exigence E10). Les cas 7 et 8 se déclinent en variantes.
 
-Le carnet a d'abord été contrôlé sur l'exemple de l'annexe C de la partie 1, qu'il retrouve à l'identique : V_0 = 270,39 ; I_0 = 13 277,1 ; I_1 = 10 059,9 ; Cnat = 3 217,2 ; dette de maturité 673,1 ; Inat = 141 842,9 ; Bnat = 59. Les grandeurs des modules dynamiques (bilan hydrique horaire, éclairage horaire, maturation, gestion, calendrier) sont données par unité dans chaque cas.
+Le carnet a d'abord été contrôlé sur l'exemple de l'annexe C de la partie 1, qu'il retrouve à l'identique : V_0 = 270,39 ; I_0 = 13 277,1 ; I_1 = 10 106,5 ; Cnat = 3 170,5 ; dette de maturité 673,1 ; Inat = 126 398,4 ; Bnat = 59. Les grandeurs des modules dynamiques (bilan hydrique horaire, éclairage horaire, maturation, gestion, calendrier) sont données par unité dans chaque cas.
 
 ### Cas 1. Friche urbaine imperméabilisée devenue résidence avec jardin
 
@@ -132,18 +132,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 1 623 | m²HE·an |
-| I_1 | 27 545 | m²HE·an |
-| Cnat | -25 921,9 | m²HE·an |
-| Cnat relatif | -15,971 |  |
-| Cnat sur 30 ans | -14 087,4 | m²HE·an |
+| I_1 | 27 653,1 | m²HE·an |
+| Cnat | -26 030 | m²HE·an |
+| Cnat relatif | -16,038 |  |
+| Cnat sur 30 ans | -14 195,5 | m²HE·an |
 | Dette de maturité | 5 059,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 141 126,7 | m²HE·an |
-| Inat bois | 74 074,1 | m²HE·an |
+| Inat bois | 53 481,5 | m²HE·an |
 | Inat carrières | 2 736 | m²HE·an |
-| Inat | 217 936,8 | m²HE·an |
-| Snat | -192 014,8 | m²HE·an |
+| Inat | 197 344,2 | m²HE·an |
+| Snat | -171 314,1 | m²HE·an |
 | Bnat | 66,7 | points |
 | Pleine terre | 0,467 |  |
 | Imperméabilisation nette | -1 500 | m² |
@@ -266,10 +266,10 @@ Taches de l'état projet :
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 355 075,5 | m²HE·an |
-| Inat bois | 222 222,2 | m²HE·an |
+| Inat bois | 160 444,4 | m²HE·an |
 | Inat carrières | 7 695 | m²HE·an |
-| Inat | 584 992,7 | m²HE·an |
-| Snat | -918 801,7 | m²HE·an |
+| Inat | 523 214,9 | m²HE·an |
+| Snat | -857 024 | m²HE·an |
 | Bnat | 50 | points |
 | Pleine terre | 0,5 |  |
 | Imperméabilisation nette | 5 000 | m² |
@@ -527,10 +527,10 @@ Taches de l'état projet :
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 44 813,6 | m²HE·an |
-| Inat bois | 16 666,7 | m²HE·an |
+| Inat bois | 12 055,6 | m²HE·an |
 | Inat carrières | 256,5 | m²HE·an |
-| Inat | 61 736,8 | m²HE·an |
-| Snat | -59 345,1 | m²HE·an |
+| Inat | 57 125,7 | m²HE·an |
+| Snat | -54 734 | m²HE·an |
 | Bnat | 32 | points |
 | Pleine terre | 0,3 |  |
 | Imperméabilisation nette | -400 | m² |
@@ -653,10 +653,10 @@ Taches de l'état projet :
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 355 075,5 | m²HE·an |
-| Inat bois | 222 222,2 | m²HE·an |
+| Inat bois | 160 444,4 | m²HE·an |
 | Inat carrières | 7 695 | m²HE·an |
-| Inat | 584 992,7 | m²HE·an |
-| Snat | -968 873,1 | m²HE·an |
+| Inat | 523 214,9 | m²HE·an |
+| Snat | -907 095,3 | m²HE·an |
 | Bnat | 50 | points |
 | Pleine terre | 0,5 |  |
 | Imperméabilisation nette | 5 000 | m² |
@@ -769,10 +769,10 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 37 950,4 | m²HE·an |
-| I_1 | 50 370 | m²HE·an |
-| Cnat | -12 419,6 | m²HE·an |
-| Cnat relatif | -0,327 |  |
-| Cnat sur 30 ans | -8 103,6 | m²HE·an |
+| I_1 | 50 916 | m²HE·an |
+| Cnat | -12 965,6 | m²HE·an |
+| Cnat relatif | -0,342 |  |
+| Cnat sur 30 ans | -8 649,6 | m²HE·an |
 | Dette de maturité | 4 439,5 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
@@ -780,7 +780,7 @@ Taches de l'état projet :
 | Inat bois | 0 | m²HE·an |
 | Inat carrières | 171 | m²HE·an |
 | Inat | 171 | m²HE·an |
-| Snat | 12 248,6 | m²HE·an |
+| Snat | 12 794,6 | m²HE·an |
 | Bnat | 92,8 | points |
 | Pleine terre | 0,88 |  |
 | Imperméabilisation nette | 0 | m² |
@@ -894,10 +894,10 @@ Taches de l'état projet :
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 256 594 | m²HE·an |
-| Inat bois | 37 037 | m²HE·an |
+| Inat bois | 26 740,7 | m²HE·an |
 | Inat carrières | 8 122,5 | m²HE·an |
-| Inat | 301 753,5 | m²HE·an |
-| Snat | -311 196,4 | m²HE·an |
+| Inat | 291 457,2 | m²HE·an |
+| Snat | -300 900,1 | m²HE·an |
 | Bnat | 46,7 | points |
 | Pleine terre | 0,467 |  |
 | Imperméabilisation nette | 1 600 | m² |
@@ -1011,10 +1011,10 @@ Taches de l'état projet :
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 198 770 | m²HE·an |
-| Inat bois | 1 666 666,7 | m²HE·an |
+| Inat bois | 1 203 333,3 | m²HE·an |
 | Inat carrières | 2 137,5 | m²HE·an |
-| Inat | 1 867 574,2 | m²HE·an |
-| Snat | -1 877 017,1 | m²HE·an |
+| Inat | 1 404 240,8 | m²HE·an |
+| Snat | -1 413 683,7 | m²HE·an |
 | Bnat | 46,7 | points |
 | Pleine terre | 0,467 |  |
 | Imperméabilisation nette | 1 600 | m² |
@@ -1128,10 +1128,10 @@ Taches de l'état projet :
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 198 770 | m²HE·an |
-| Inat bois | 1 000 000 | m²HE·an |
+| Inat bois | 723 333,3 | m²HE·an |
 | Inat carrières | 2 137,5 | m²HE·an |
-| Inat | 1 200 907,5 | m²HE·an |
-| Snat | -1 210 350,4 | m²HE·an |
+| Inat | 924 240,8 | m²HE·an |
+| Snat | -933 683,7 | m²HE·an |
 | Bnat | 46,7 | points |
 | Pleine terre | 0,467 |  |
 | Imperméabilisation nette | 1 600 | m² |
@@ -1244,10 +1244,10 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 37 950,4 | m²HE·an |
-| I_1 | 50 370 | m²HE·an |
-| Cnat | -12 419,6 | m²HE·an |
-| Cnat relatif | -0,327 |  |
-| Cnat sur 30 ans | -8 103,6 | m²HE·an |
+| I_1 | 50 916 | m²HE·an |
+| Cnat | -12 965,6 | m²HE·an |
+| Cnat relatif | -0,342 |  |
+| Cnat sur 30 ans | -8 649,6 | m²HE·an |
 | Dette de maturité | 4 439,5 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
@@ -1255,7 +1255,7 @@ Taches de l'état projet :
 | Inat bois | 0 | m²HE·an |
 | Inat carrières | 171 | m²HE·an |
 | Inat | 171 | m²HE·an |
-| Snat | 12 248,6 | m²HE·an |
+| Snat | 12 794,6 | m²HE·an |
 | Bnat | 92,8 | points |
 | Pleine terre | 0,88 |  |
 | Imperméabilisation nette | 0 | m² |
@@ -1368,10 +1368,10 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 38 616,6 | m²HE·an |
-| I_1 | 48 230,1 | m²HE·an |
-| Cnat | -9 613,5 | m²HE·an |
-| Cnat relatif | -0,249 |  |
-| Cnat sur 30 ans | -6 442,4 | m²HE·an |
+| I_1 | 48 779,4 | m²HE·an |
+| Cnat | -10 162,8 | m²HE·an |
+| Cnat relatif | -0,263 |  |
+| Cnat sur 30 ans | -6 991,7 | m²HE·an |
 | Dette de maturité | 4 439,5 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
@@ -1379,7 +1379,7 @@ Taches de l'état projet :
 | Inat bois | 0 | m²HE·an |
 | Inat carrières | 171 | m²HE·an |
 | Inat | 171 | m²HE·an |
-| Snat | 9 442,5 | m²HE·an |
+| Snat | 9 991,8 | m²HE·an |
 | Bnat | 92,8 | points |
 | Pleine terre | 0,88 |  |
 | Imperméabilisation nette | 0 | m² |
@@ -1492,10 +1492,10 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 38 616,6 | m²HE·an |
-| I_1 | 47 245,9 | m²HE·an |
-| Cnat | -8 629,3 | m²HE·an |
-| Cnat relatif | -0,223 |  |
-| Cnat sur 30 ans | -5 550,2 | m²HE·an |
+| I_1 | 47 795,2 | m²HE·an |
+| Cnat | -9 178,6 | m²HE·an |
+| Cnat relatif | -0,238 |  |
+| Cnat sur 30 ans | -6 099,5 | m²HE·an |
 | Dette de maturité | 5 436,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
@@ -1503,7 +1503,7 @@ Taches de l'état projet :
 | Inat bois | 0 | m²HE·an |
 | Inat carrières | 171 | m²HE·an |
 | Inat | 171 | m²HE·an |
-| Snat | 8 458,3 | m²HE·an |
+| Snat | 9 007,6 | m²HE·an |
 | Bnat | 92,8 | points |
 | Pleine terre | 0,88 |  |
 | Imperméabilisation nette | 0 | m² |
@@ -1514,29 +1514,29 @@ Taches de l'état projet :
 
 | Cas | Attendu | Cnat | Inat | Snat | Bnat | Niveau |
 |---|---|---|---|---|---|---|
-| Cas 1. Friche urbaine imperméabilisée devenue résidence avec jardin | gain : Cnat négatif | -25 922 | 217 937 | -192 015 | 66,7 | 2 |
-| Cas 2. Prairie naturelle en périphérie construite en logements | forte perte : Cnat positif et élevé | 333 809 | 584 993 | -918 802 | 50 | 0 |
+| Cas 1. Friche urbaine imperméabilisée devenue résidence avec jardin | gain : Cnat négatif | -26 030 | 197 344 | -171 314 | 66,7 | 2 |
+| Cas 2. Prairie naturelle en périphérie construite en logements | forte perte : Cnat positif et élevé | 333 809 | 523 215 | -857 024 | 50 | 0 |
 | Cas 3. Bureaux sur dalle avec toiture végétalisée | Bnat porté par la dalle et la toiture ; Cnat négatif sur un site déjà imperméable | -10 348 | 635 531 | -625 183 | 46 | 2 |
-| Cas 4. Réhabilitation sans emprise nouvelle | petit gain par la désimperméabilisation de la cour et l'amélioration du jardin | -2 392 | 61 737 | -59 345 | 32 | 2 |
-| Cas 5. Projet en réservoir de biodiversité | perte plus forte que le cas 2, du fait du multiplicateur de situation | 383 880 | 584 993 | -968 873 | 50 | 0 |
-| Cas 6. Mare et haies créées sur une culture intensive | gain à maturité, dette de maturité élevée | -12 420 | 171 | 12 249 | 92,8 | 2 |
-| Cas 7a. Bâtiment en béton | Inat climat dominant | 9 443 | 301 754 | -311 196 | 46,7 | 0 |
-| Cas 7b. Même bâtiment en bois, origine non justifiée | climat plus faible, occupation des forêts plus forte | 9 443 | 1 867 574 | -1 877 017 | 46,7 | 0 |
-| Cas 7c. Même bâtiment en bois issu de coupe sélective justifiée | Inat le plus faible des trois | 9 443 | 1 200 908 | -1 210 350 | 46,7 | 0 |
-| Cas 8a. Aménagement en zone continentale | référence | -12 420 | 171 | 12 249 | 92,8 | 2 |
-| Cas 8b. Même aménagement en zone méditerranéenne | délais identiques (convention C-E2) ; bilan hydrique et tenue de la mare propres au climat méditerranéen | -9 614 | 171 | 9 443 | 92,8 | 2 |
-| Cas 8c. Zone méditerranéenne, délais allongés de 25 % (borne haute de C-E2) | perte de valeur intégrée par allongement des délais | -8 629 | 171 | 8 458 | 92,8 | 2 |
+| Cas 4. Réhabilitation sans emprise nouvelle | petit gain par la désimperméabilisation de la cour et l'amélioration du jardin | -2 392 | 57 126 | -54 734 | 32 | 2 |
+| Cas 5. Projet en réservoir de biodiversité | perte plus forte que le cas 2, du fait du multiplicateur de situation | 383 880 | 523 215 | -907 095 | 50 | 0 |
+| Cas 6. Mare et haies créées sur une culture intensive | gain à maturité, dette de maturité élevée | -12 966 | 171 | 12 795 | 92,8 | 2 |
+| Cas 7a. Bâtiment en béton | Inat climat dominant | 9 443 | 291 457 | -300 900 | 46,7 | 0 |
+| Cas 7b. Même bâtiment en bois, origine non justifiée | climat plus faible, occupation des forêts plus forte | 9 443 | 1 404 241 | -1 413 684 | 46,7 | 0 |
+| Cas 7c. Même bâtiment en bois issu de coupe sélective justifiée | Inat le plus faible des trois | 9 443 | 924 241 | -933 684 | 46,7 | 0 |
+| Cas 8a. Aménagement en zone continentale | référence | -12 966 | 171 | 12 795 | 92,8 | 2 |
+| Cas 8b. Même aménagement en zone méditerranéenne | délais identiques (convention C-E2) ; bilan hydrique et tenue de la mare propres au climat méditerranéen | -10 163 | 171 | 9 992 | 92,8 | 2 |
+| Cas 8c. Zone méditerranéenne, délais allongés de 25 % (borne haute de C-E2) | perte de valeur intégrée par allongement des délais | -9 179 | 171 | 9 008 | 92,8 | 2 |
 
 Propriétés vérifiées par ces cas :
 
-- Une friche imperméabilisée transformée en résidence avec jardin gagne de la nature : Cnat = -25 922 m²HE·an (cas 1).
+- Une friche imperméabilisée transformée en résidence avec jardin gagne de la nature : Cnat = -26 030 m²HE·an (cas 1).
 - La construction d'une prairie riche fait perdre au site la plus grande part de sa valeur : Cnat relatif = 0,845 (cas 2).
 - La même opération en réservoir perd davantage : 383 880 contre 333 809 m²HE·an, soit le rapport du multiplicateur de situation (cas 5).
 - Les bureaux sur dalle atteignent le seuil de Bnat du tertiaire grâce à la dalle et à la toiture, mais pas celui de la pleine terre, nulle (cas 3).
 - La réhabilitation gagne un peu de nature par la cour désimperméabilisée et le jardin amélioré (cas 4).
 - La mare, les haies et le boisement créés sur une culture laissent une dette de maturité de 4 440 m²HE·an (cas 6).
-- Bois et béton (cas 7) : Inat vaut 301 754 pour le béton, 1 867 574 pour le bois d'origine non justifiée et 1 200 908 pour le bois de coupe sélective justifiée.
-- Zone méditerranéenne (cas 8) : les délais sont les mêmes (C-E2), mais la mare non raccordée s'assèche au printemps sous le climat de Marignane ; Cnat passe de -12 420 à -9 614 m²HE·an, et à -8 629 avec des délais allongés de 25 %.
+- Bois et béton (cas 7) : Inat vaut 291 457 pour le béton, 1 404 241 pour le bois d'origine non justifiée et 924 241 pour le bois de coupe sélective justifiée.
+- Zone méditerranéenne (cas 8) : les délais sont les mêmes (C-E2), mais la mare non raccordée s'assèche au printemps sous le climat de Marignane ; Cnat passe de -12 966 à -10 163 m²HE·an, et à -9 179 avec des délais allongés de 25 %.
 
 ### Lecture du cas 7
 
@@ -1554,37 +1554,37 @@ Trente et un cas complémentaires déclinent une même opération type (part d'e
 
 | Cas | V_0 | Cnat | Cnat relatif | Dette | Inat | Snat | Bnat | Niveau |
 |---|---|---|---|---|---|---|---|---|
-| Cas C01 | 108,7 | 702 | 0,132 | 404 | 63 753 | -64 455 | 62,5 | 0 |
-| Cas C02 | 774,7 | 5 723 | 0,151 | 2 857 | 318 764 | -324 487 | 62,5 | 0 |
-| Cas C03 | 4 203,8 | 31 054 | 0,151 | 15 504 | 1 275 058 | -1 306 111 | 62,5 | 0 |
-| Cas C04 | 302 | 10 171 | 0,687 | 404 | 63 753 | -73 924 | 62,5 | 0 |
-| Cas C05 | 2 151,8 | 73 186 | 0,694 | 2 857 | 318 764 | -391 950 | 62,5 | 0 |
-| Cas C06 | 11 676,6 | 397 137 | 0,694 | 15 504 | 1 275 058 | -1 672 195 | 62,5 | 0 |
-| Cas C07 | 123,2 | 1 408 | 0,233 | 404 | 63 753 | -65 161 | 62,5 | 0 |
-| Cas C08 | 877,4 | 10 753 | 0,25 | 2 857 | 318 764 | -329 517 | 62,5 | 0 |
-| Cas C09 | 4 761 | 58 350 | 0,25 | 15 504 | 1 275 058 | -1 333 408 | 62,5 | 0 |
-| Cas C10 | 302 | 10 298 | 0,69 | 404 | 63 753 | -74 050 | 62,5 | 0 |
-| Cas C11 | 2 151,8 | 74 086 | 0,697 | 2 857 | 318 764 | -392 850 | 62,5 | 0 |
-| Cas C12 | 11 676,6 | 402 019 | 0,697 | 15 504 | 1 275 058 | -1 677 077 | 62,5 | 0 |
-| Cas C13 | 0 | -4 625 | non défini | 404 | 63 753 | -59 128 | 62,5 | 2 |
-| Cas C14 | 0 | -32 228 | non défini | 2 857 | 318 764 | -286 537 | 62,5 | 2 |
-| Cas C15 | 0 | -174 881 | non défini | 15 504 | 1 275 058 | -1 100 177 | 62,5 | 2 |
-| Cas C16 | 2 151,8 | 80 424 | 0,763 | 2 039 | 478 147 | -558 571 | 51,2 | 0 |
-| Cas C17 | 2 151,8 | 86 747 | 0,823 | 1 298 | 637 529 | -724 276 | 40 | 0 |
-| Cas C18 | 2 151,8 | 82 644 | 0,784 | 1 783 | 531 274 | -613 918 | 47,5 | 0 |
-| Cas C19 | 877,4 | 10 078 | 0,234 | 2 023 | 318 764 | -328 843 | 62,5 | 0 |
-| Cas C20 | 877,4 | 12 122 | 0,282 | 4 385 | 318 764 | -330 887 | 62,5 | 0 |
-| Cas C21 | 2 367 | 80 831 | 0,697 | 3 132 | 318 764 | -399 595 | 62,5 | 0 |
-| Cas C22 | 2 474,6 | 84 653 | 0,698 | 3 270 | 318 764 | -403 417 | 62,5 | 0 |
-| Cas C23 | 774,7 | 6 386 | 0,168 | 2 795 | 318 764 | -325 151 | 62,5 | 0 |
-| Cas C24 | 774,7 | 7 699 | 0,203 | 2 673 | 318 764 | -326 463 | 62,5 | 0 |
-| Cas C25 | 774,7 | 5 921 | 0,155 | 2 857 | 318 764 | -324 686 | 62,5 | 0 |
-| Cas C26 | 774,7 | 5 976 | 0,155 | 2 857 | 318 764 | -324 740 | 62,5 | 0 |
-| Cas C27 | 774,7 | 5 982 | 0,154 | 2 857 | 318 764 | -324 746 | 62,5 | 0 |
-| Cas C28 | 2 151,8 | 81 324 | 0,765 | 2 039 | 478 147 | -559 471 | 51,2 | 0 |
-| Cas C29 | 2 151,8 | 87 647 | 0,824 | 1 298 | 637 529 | -725 176 | 40 | 0 |
-| Cas C30 | 0 | -24 989 | non défini | 2 039 | 478 147 | -453 157 | 51,2 | 2 |
-| Cas C31 | 0 | -18 666 | non défini | 1 298 | 637 529 | -618 863 | 40 | 2 |
+| Cas C01 | 108,7 | 680 | 0,128 | 404 | 56 957 | -57 637 | 62,5 | 0 |
+| Cas C02 | 774,7 | 5 564 | 0,147 | 2 857 | 284 787 | -290 350 | 62,5 | 0 |
+| Cas C03 | 4 203,8 | 30 192 | 0,147 | 15 504 | 1 139 147 | -1 169 338 | 62,5 | 0 |
+| Cas C04 | 302 | 10 149 | 0,686 | 404 | 56 957 | -67 106 | 62,5 | 0 |
+| Cas C05 | 2 151,8 | 73 027 | 0,693 | 2 857 | 284 787 | -357 814 | 62,5 | 0 |
+| Cas C06 | 11 676,6 | 396 275 | 0,693 | 15 504 | 1 139 147 | -1 535 421 | 62,5 | 0 |
+| Cas C07 | 123,2 | 1 386 | 0,23 | 404 | 56 957 | -58 343 | 62,5 | 0 |
+| Cas C08 | 877,4 | 10 594 | 0,246 | 2 857 | 284 787 | -295 381 | 62,5 | 0 |
+| Cas C09 | 4 761 | 57 488 | 0,246 | 15 504 | 1 139 147 | -1 196 635 | 62,5 | 0 |
+| Cas C10 | 302 | 10 275 | 0,689 | 404 | 56 957 | -67 233 | 62,5 | 0 |
+| Cas C11 | 2 151,8 | 73 927 | 0,695 | 2 857 | 284 787 | -358 713 | 62,5 | 0 |
+| Cas C12 | 11 676,6 | 401 157 | 0,695 | 15 504 | 1 139 147 | -1 540 304 | 62,5 | 0 |
+| Cas C13 | 0 | -4 647 | non défini | 404 | 56 957 | -52 310 | 62,5 | 2 |
+| Cas C14 | 0 | -32 387 | non défini | 2 857 | 284 787 | -252 400 | 62,5 | 2 |
+| Cas C15 | 0 | -175 743 | non défini | 15 504 | 1 139 147 | -963 403 | 62,5 | 2 |
+| Cas C16 | 2 151,8 | 80 317 | 0,762 | 2 039 | 427 180 | -507 497 | 51,2 | 0 |
+| Cas C17 | 2 151,8 | 86 687 | 0,822 | 1 298 | 569 573 | -656 260 | 40 | 0 |
+| Cas C18 | 2 151,8 | 82 552 | 0,783 | 1 783 | 474 644 | -557 196 | 47,5 | 0 |
+| Cas C19 | 877,4 | 9 919 | 0,231 | 2 023 | 284 787 | -294 706 | 62,5 | 0 |
+| Cas C20 | 877,4 | 11 884 | 0,276 | 4 385 | 284 787 | -296 671 | 62,5 | 0 |
+| Cas C21 | 2 367 | 80 656 | 0,696 | 3 132 | 284 787 | -365 442 | 62,5 | 0 |
+| Cas C22 | 2 474,6 | 84 470 | 0,697 | 3 270 | 284 787 | -369 257 | 62,5 | 0 |
+| Cas C23 | 774,7 | 6 238 | 0,164 | 2 795 | 284 787 | -291 025 | 62,5 | 0 |
+| Cas C24 | 774,7 | 7 571 | 0,2 | 2 673 | 284 787 | -292 358 | 62,5 | 0 |
+| Cas C25 | 774,7 | 5 762 | 0,15 | 2 857 | 284 787 | -290 548 | 62,5 | 0 |
+| Cas C26 | 774,7 | 5 816 | 0,151 | 2 857 | 284 787 | -290 602 | 62,5 | 0 |
+| Cas C27 | 774,7 | 5 822 | 0,15 | 2 857 | 284 787 | -290 609 | 62,5 | 0 |
+| Cas C28 | 2 151,8 | 81 216 | 0,764 | 2 039 | 427 180 | -508 396 | 51,2 | 0 |
+| Cas C29 | 2 151,8 | 87 586 | 0,824 | 1 298 | 569 573 | -657 160 | 40 | 0 |
+| Cas C30 | 0 | -25 097 | non défini | 2 039 | 427 180 | -402 083 | 51,2 | 2 |
+| Cas C31 | 0 | -18 727 | non défini | 1 298 | 569 573 | -550 846 | 40 | 2 |
 
 Lecture :
 
@@ -1709,18 +1709,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 5 326,9 | m²HE·an |
-| I_1 | 4 625 | m²HE·an |
-| Cnat | 701,9 | m²HE·an |
-| Cnat relatif | 0,132 |  |
-| Cnat sur 30 ans | 484,1 | m²HE·an |
+| I_1 | 4 647,3 | m²HE·an |
+| Cnat | 679,6 | m²HE·an |
+| Cnat relatif | 0,128 |  |
+| Cnat sur 30 ans | 461,8 | m²HE·an |
 | Dette de maturité | 404,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 38 462 | m²HE·an |
-| Inat bois | 24 444,4 | m²HE·an |
+| Inat bois | 17 648,9 | m²HE·an |
 | Inat carrières | 846,4 | m²HE·an |
-| Inat | 63 752,9 | m²HE·an |
-| Snat | -64 454,8 | m²HE·an |
+| Inat | 56 957,3 | m²HE·an |
+| Snat | -57 636,9 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 450 | m² |
@@ -1839,18 +1839,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 37 950,4 | m²HE·an |
-| I_1 | 32 227,7 | m²HE·an |
-| Cnat | 5 722,7 | m²HE·an |
-| Cnat relatif | 0,151 |  |
-| Cnat sur 30 ans | 3 872,9 | m²HE·an |
+| I_1 | 32 386,6 | m²HE·an |
+| Cnat | 5 563,8 | m²HE·an |
+| Cnat relatif | 0,147 |  |
+| Cnat sur 30 ans | 3 714 | m²HE·an |
 | Dette de maturité | 2 857,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -324 487,1 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -290 350,5 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -1969,18 +1969,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 205 934,7 | m²HE·an |
-| I_1 | 174 881,1 | m²HE·an |
-| Cnat | 31 053,6 | m²HE·an |
-| Cnat relatif | 0,151 |  |
-| Cnat sur 30 ans | 21 015,7 | m²HE·an |
+| I_1 | 175 743,2 | m²HE·an |
+| Cnat | 30 191,5 | m²HE·an |
+| Cnat relatif | 0,147 |  |
+| Cnat sur 30 ans | 20 153,6 | m²HE·an |
 | Dette de maturité | 15 503,8 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 769 239,9 | m²HE·an |
-| Inat bois | 488 888,9 | m²HE·an |
+| Inat bois | 352 977,8 | m²HE·an |
 | Inat carrières | 16 929 | m²HE·an |
-| Inat | 1 275 057,8 | m²HE·an |
-| Snat | -1 306 111,4 | m²HE·an |
+| Inat | 1 139 146,7 | m²HE·an |
+| Snat | -1 169 338,2 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 9 000 | m² |
@@ -2099,18 +2099,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 14 796,3 | m²HE·an |
-| I_1 | 4 625 | m²HE·an |
-| Cnat | 10 171,3 | m²HE·an |
-| Cnat relatif | 0,687 |  |
-| Cnat sur 30 ans | 6 226,5 | m²HE·an |
+| I_1 | 4 647,3 | m²HE·an |
+| Cnat | 10 149 | m²HE·an |
+| Cnat relatif | 0,686 |  |
+| Cnat sur 30 ans | 6 204,2 | m²HE·an |
 | Dette de maturité | 404,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 38 462 | m²HE·an |
-| Inat bois | 24 444,4 | m²HE·an |
+| Inat bois | 17 648,9 | m²HE·an |
 | Inat carrières | 846,4 | m²HE·an |
-| Inat | 63 752,9 | m²HE·an |
-| Snat | -73 924,2 | m²HE·an |
+| Inat | 56 957,3 | m²HE·an |
+| Snat | -67 106,3 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 450 | m² |
@@ -2229,18 +2229,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 105 413,6 | m²HE·an |
-| I_1 | 32 227,7 | m²HE·an |
-| Cnat | 73 185,8 | m²HE·an |
-| Cnat relatif | 0,694 |  |
-| Cnat sur 30 ans | 44 783,7 | m²HE·an |
+| I_1 | 32 386,6 | m²HE·an |
+| Cnat | 73 027 | m²HE·an |
+| Cnat relatif | 0,693 |  |
+| Cnat sur 30 ans | 44 624,8 | m²HE·an |
 | Dette de maturité | 2 857,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -391 950,3 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -357 813,6 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -2359,18 +2359,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 572 018 | m²HE·an |
-| I_1 | 174 881,1 | m²HE·an |
-| Cnat | 397 136,9 | m²HE·an |
-| Cnat relatif | 0,694 |  |
-| Cnat sur 30 ans | 243 014,8 | m²HE·an |
+| I_1 | 175 743,2 | m²HE·an |
+| Cnat | 396 274,8 | m²HE·an |
+| Cnat relatif | 0,693 |  |
+| Cnat sur 30 ans | 242 152,7 | m²HE·an |
 | Dette de maturité | 15 503,8 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 769 239,9 | m²HE·an |
-| Inat bois | 488 888,9 | m²HE·an |
+| Inat bois | 352 977,8 | m²HE·an |
 | Inat carrières | 16 929 | m²HE·an |
-| Inat | 1 275 057,8 | m²HE·an |
-| Snat | -1 672 194,7 | m²HE·an |
+| Inat | 1 139 146,7 | m²HE·an |
+| Snat | -1 535 421,5 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 9 000 | m² |
@@ -2492,18 +2492,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 6 033 | m²HE·an |
-| I_1 | 4 625 | m²HE·an |
-| Cnat | 1 408 | m²HE·an |
-| Cnat relatif | 0,233 |  |
-| Cnat sur 30 ans | 912,3 | m²HE·an |
+| I_1 | 4 647,3 | m²HE·an |
+| Cnat | 1 385,7 | m²HE·an |
+| Cnat relatif | 0,23 |  |
+| Cnat sur 30 ans | 890 | m²HE·an |
 | Dette de maturité | 404,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 38 462 | m²HE·an |
-| Inat bois | 24 444,4 | m²HE·an |
+| Inat bois | 17 648,9 | m²HE·an |
 | Inat carrières | 846,4 | m²HE·an |
-| Inat | 63 752,9 | m²HE·an |
-| Snat | -65 160,9 | m²HE·an |
+| Inat | 56 957,3 | m²HE·an |
+| Snat | -58 343 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 150 | m² |
@@ -2625,18 +2625,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 42 980,8 | m²HE·an |
-| I_1 | 32 227,7 | m²HE·an |
-| Cnat | 10 753 | m²HE·an |
-| Cnat relatif | 0,25 |  |
-| Cnat sur 30 ans | 6 923,3 | m²HE·an |
+| I_1 | 32 386,6 | m²HE·an |
+| Cnat | 10 594,2 | m²HE·an |
+| Cnat relatif | 0,246 |  |
+| Cnat sur 30 ans | 6 764,5 | m²HE·an |
 | Dette de maturité | 2 857,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -329 517,5 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -295 380,8 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 750 | m² |
@@ -2758,18 +2758,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 233 231,5 | m²HE·an |
-| I_1 | 174 881,1 | m²HE·an |
-| Cnat | 58 350,4 | m²HE·an |
-| Cnat relatif | 0,25 |  |
-| Cnat sur 30 ans | 37 568,9 | m²HE·an |
+| I_1 | 175 743,2 | m²HE·an |
+| Cnat | 57 488,3 | m²HE·an |
+| Cnat relatif | 0,246 |  |
+| Cnat sur 30 ans | 36 706,8 | m²HE·an |
 | Dette de maturité | 15 503,8 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 769 239,9 | m²HE·an |
-| Inat bois | 488 888,9 | m²HE·an |
+| Inat bois | 352 977,8 | m²HE·an |
 | Inat carrières | 16 929 | m²HE·an |
-| Inat | 1 275 057,8 | m²HE·an |
-| Snat | -1 333 408,2 | m²HE·an |
+| Inat | 1 139 146,7 | m²HE·an |
+| Snat | -1 196 635 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 3 000 | m² |
@@ -2888,18 +2888,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 14 922,6 | m²HE·an |
-| I_1 | 4 625 | m²HE·an |
-| Cnat | 10 297,6 | m²HE·an |
-| Cnat relatif | 0,69 |  |
-| Cnat sur 30 ans | 6 304,2 | m²HE·an |
+| I_1 | 4 647,3 | m²HE·an |
+| Cnat | 10 275,3 | m²HE·an |
+| Cnat relatif | 0,689 |  |
+| Cnat sur 30 ans | 6 281,9 | m²HE·an |
 | Dette de maturité | 404,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 38 462 | m²HE·an |
-| Inat bois | 24 444,4 | m²HE·an |
+| Inat bois | 17 648,9 | m²HE·an |
 | Inat carrières | 846,4 | m²HE·an |
-| Inat | 63 752,9 | m²HE·an |
-| Snat | -74 050,5 | m²HE·an |
+| Inat | 56 957,3 | m²HE·an |
+| Snat | -67 232,6 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 450 | m² |
@@ -3018,18 +3018,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 106 313,3 | m²HE·an |
-| I_1 | 32 227,7 | m²HE·an |
-| Cnat | 74 085,6 | m²HE·an |
-| Cnat relatif | 0,697 |  |
-| Cnat sur 30 ans | 45 337 | m²HE·an |
+| I_1 | 32 386,6 | m²HE·an |
+| Cnat | 73 926,7 | m²HE·an |
+| Cnat relatif | 0,695 |  |
+| Cnat sur 30 ans | 45 178,1 | m²HE·an |
 | Dette de maturité | 2 857,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -392 850 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -358 713,4 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -3148,18 +3148,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 576 900,3 | m²HE·an |
-| I_1 | 174 881,1 | m²HE·an |
-| Cnat | 402 019,2 | m²HE·an |
-| Cnat relatif | 0,697 |  |
-| Cnat sur 30 ans | 246 017,3 | m²HE·an |
+| I_1 | 175 743,2 | m²HE·an |
+| Cnat | 401 157,1 | m²HE·an |
+| Cnat relatif | 0,695 |  |
+| Cnat sur 30 ans | 245 155,2 | m²HE·an |
 | Dette de maturité | 15 503,8 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 769 239,9 | m²HE·an |
-| Inat bois | 488 888,9 | m²HE·an |
+| Inat bois | 352 977,8 | m²HE·an |
 | Inat carrières | 16 929 | m²HE·an |
-| Inat | 1 275 057,8 | m²HE·an |
-| Snat | -1 677 077 | m²HE·an |
+| Inat | 1 139 146,7 | m²HE·an |
+| Snat | -1 540 303,8 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 9 000 | m² |
@@ -3276,18 +3276,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 0 | m²HE·an |
-| I_1 | 4 625 | m²HE·an |
-| Cnat | -4 625 | m²HE·an |
+| I_1 | 4 647,3 | m²HE·an |
+| Cnat | -4 647,3 | m²HE·an |
 | Cnat relatif | non défini |  |
-| Cnat sur 30 ans | -2 746,2 | m²HE·an |
+| Cnat sur 30 ans | -2 768,5 | m²HE·an |
 | Dette de maturité | 404,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 38 462 | m²HE·an |
-| Inat bois | 24 444,4 | m²HE·an |
+| Inat bois | 17 648,9 | m²HE·an |
 | Inat carrières | 846,4 | m²HE·an |
-| Inat | 63 752,9 | m²HE·an |
-| Snat | -59 127,9 | m²HE·an |
+| Inat | 56 957,3 | m²HE·an |
+| Snat | -52 310 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | -550 | m² |
@@ -3404,18 +3404,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 0 | m²HE·an |
-| I_1 | 32 227,7 | m²HE·an |
-| Cnat | -32 227,7 | m²HE·an |
+| I_1 | 32 386,6 | m²HE·an |
+| Cnat | -32 386,6 | m²HE·an |
 | Cnat relatif | non défini |  |
-| Cnat sur 30 ans | -19 140,9 | m²HE·an |
+| Cnat sur 30 ans | -19 299,8 | m²HE·an |
 | Dette de maturité | 2 857,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -286 536,7 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -252 400,1 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | -2 750 | m² |
@@ -3532,18 +3532,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 0 | m²HE·an |
-| I_1 | 174 881,1 | m²HE·an |
-| Cnat | -174 881,1 | m²HE·an |
+| I_1 | 175 743,2 | m²HE·an |
+| Cnat | -175 743,2 | m²HE·an |
 | Cnat relatif | non défini |  |
-| Cnat sur 30 ans | -103 866,6 | m²HE·an |
+| Cnat sur 30 ans | -104 728,7 | m²HE·an |
 | Dette de maturité | 15 503,8 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 769 239,9 | m²HE·an |
-| Inat bois | 488 888,9 | m²HE·an |
+| Inat bois | 352 977,8 | m²HE·an |
 | Inat carrières | 16 929 | m²HE·an |
-| Inat | 1 275 057,8 | m²HE·an |
-| Snat | -1 100 176,7 | m²HE·an |
+| Inat | 1 139 146,7 | m²HE·an |
+| Snat | -963 403,5 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | -11 000 | m² |
@@ -3662,18 +3662,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 105 413,6 | m²HE·an |
-| I_1 | 24 989,2 | m²HE·an |
-| Cnat | 80 424,4 | m²HE·an |
-| Cnat relatif | 0,763 |  |
-| Cnat sur 30 ans | 49 104,6 | m²HE·an |
+| I_1 | 25 096,9 | m²HE·an |
+| Cnat | 80 316,7 | m²HE·an |
+| Cnat relatif | 0,762 |  |
+| Cnat sur 30 ans | 48 996,8 | m²HE·an |
 | Dette de maturité | 2 039,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 288 465 | m²HE·an |
-| Inat bois | 183 333,3 | m²HE·an |
+| Inat bois | 132 366,7 | m²HE·an |
 | Inat carrières | 6 348,4 | m²HE·an |
-| Inat | 478 146,7 | m²HE·an |
-| Snat | -558 571,1 | m²HE·an |
+| Inat | 427 180 | m²HE·an |
+| Snat | -507 496,7 | m²HE·an |
 | Bnat | 51,2 | points |
 | Pleine terre | 0,4 |  |
 | Imperméabilisation nette | 3 000 | m² |
@@ -3792,18 +3792,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 105 413,6 | m²HE·an |
-| I_1 | 18 666,3 | m²HE·an |
-| Cnat | 86 747,3 | m²HE·an |
-| Cnat relatif | 0,823 |  |
-| Cnat sur 30 ans | 52 882,2 | m²HE·an |
+| I_1 | 18 727 | m²HE·an |
+| Cnat | 86 686,6 | m²HE·an |
+| Cnat relatif | 0,822 |  |
+| Cnat sur 30 ans | 52 821,5 | m²HE·an |
 | Dette de maturité | 1 298,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 384 619,9 | m²HE·an |
-| Inat bois | 244 444,4 | m²HE·an |
+| Inat bois | 176 488,9 | m²HE·an |
 | Inat carrières | 8 464,5 | m²HE·an |
-| Inat | 637 528,9 | m²HE·an |
-| Snat | -724 276,2 | m²HE·an |
+| Inat | 569 573,3 | m²HE·an |
+| Snat | -656 259,9 | m²HE·an |
 | Bnat | 40 | points |
 | Pleine terre | 0,25 |  |
 | Imperméabilisation nette | 3 750 | m² |
@@ -3922,18 +3922,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 105 413,6 | m²HE·an |
-| I_1 | 22 770 | m²HE·an |
-| Cnat | 82 643,5 | m²HE·an |
-| Cnat relatif | 0,784 |  |
-| Cnat sur 30 ans | 50 430 | m²HE·an |
+| I_1 | 22 861,6 | m²HE·an |
+| Cnat | 82 552 | m²HE·an |
+| Cnat relatif | 0,783 |  |
+| Cnat sur 30 ans | 50 338,4 | m²HE·an |
 | Dette de maturité | 1 782,7 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 320 516,6 | m²HE·an |
-| Inat bois | 203 703,7 | m²HE·an |
+| Inat bois | 147 074,1 | m²HE·an |
 | Inat carrières | 7 053,8 | m²HE·an |
-| Inat | 531 274,1 | m²HE·an |
-| Snat | -613 917,6 | m²HE·an |
+| Inat | 474 644,4 | m²HE·an |
+| Snat | -557 196,5 | m²HE·an |
 | Bnat | 47,5 | points |
 | Pleine terre | 0,35 |  |
 | Imperméabilisation nette | 3 250 | m² |
@@ -4055,18 +4055,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 42 980,8 | m²HE·an |
-| I_1 | 32 902,3 | m²HE·an |
-| Cnat | 10 078,4 | m²HE·an |
-| Cnat relatif | 0,234 |  |
-| Cnat sur 30 ans | 6 248,7 | m²HE·an |
+| I_1 | 33 061,3 | m²HE·an |
+| Cnat | 9 919,5 | m²HE·an |
+| Cnat relatif | 0,231 |  |
+| Cnat sur 30 ans | 6 089,8 | m²HE·an |
 | Dette de maturité | 2 023,5 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -328 842,9 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -294 706,1 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 750 | m² |
@@ -4180,7 +4180,7 @@ Taches de l'état projet :
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 0 | 0 | 0 | 556,8 | 765 | 625,7 | 643,8 | 661,4 | 654,7 | 647,1 |
+| V_1(t), m²HE | 0 | 0 | 0 | 556,8 | 765 | 705 | 643,8 | 661,4 | 654,7 | 647,1 |
 | V_0 x k_W, m²HE | 877,4 | 877,4 | 877,4 | 876,7 | 873,1 | 869,5 | 866 | 856,8 | 846,3 | 835,9 |
 
 **Indicateurs (fiches A33 à A38)**
@@ -4188,18 +4188,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 42 980,8 | m²HE·an |
-| I_1 | 30 858,6 | m²HE·an |
-| Cnat | 12 122,2 | m²HE·an |
-| Cnat relatif | 0,282 |  |
-| Cnat sur 30 ans | 8 292,5 | m²HE·an |
+| I_1 | 31 096,7 | m²HE·an |
+| Cnat | 11 884 | m²HE·an |
+| Cnat relatif | 0,276 |  |
+| Cnat sur 30 ans | 8 054,4 | m²HE·an |
 | Dette de maturité | 4 385,5 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -330 886,6 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -296 670,7 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 750 | m² |
@@ -4318,18 +4318,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 115 954,9 | m²HE·an |
-| I_1 | 35 124,4 | m²HE·an |
-| Cnat | 80 830,5 | m²HE·an |
-| Cnat relatif | 0,697 |  |
-| Cnat sur 30 ans | 49 453,4 | m²HE·an |
+| I_1 | 35 299,2 | m²HE·an |
+| Cnat | 80 655,8 | m²HE·an |
+| Cnat relatif | 0,696 |  |
+| Cnat sur 30 ans | 49 278,7 | m²HE·an |
 | Dette de maturité | 3 132,2 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -399 595 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -365 442,4 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -4448,18 +4448,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 121 225,6 | m²HE·an |
-| I_1 | 36 572,7 | m²HE·an |
-| Cnat | 84 652,9 | m²HE·an |
-| Cnat relatif | 0,698 |  |
-| Cnat sur 30 ans | 51 788,3 | m²HE·an |
+| I_1 | 36 755,4 | m²HE·an |
+| Cnat | 84 470,2 | m²HE·an |
+| Cnat relatif | 0,697 |  |
+| Cnat sur 30 ans | 51 605,6 | m²HE·an |
 | Dette de maturité | 3 269,8 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -403 417,3 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -369 256,8 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -4578,18 +4578,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 37 950,4 | m²HE·an |
-| I_1 | 31 564,1 | m²HE·an |
-| Cnat | 6 386,3 | m²HE·an |
-| Cnat relatif | 0,168 |  |
-| Cnat sur 30 ans | 4 301,3 | m²HE·an |
+| I_1 | 31 712,4 | m²HE·an |
+| Cnat | 6 238,1 | m²HE·an |
+| Cnat relatif | 0,164 |  |
+| Cnat sur 30 ans | 4 153 | m²HE·an |
 | Dette de maturité | 2 795,4 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -325 150,8 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -291 024,7 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -4708,18 +4708,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 37 950,4 | m²HE·an |
-| I_1 | 30 251,9 | m²HE·an |
-| Cnat | 7 698,5 | m²HE·an |
-| Cnat relatif | 0,203 |  |
-| Cnat sur 30 ans | 5 148,5 | m²HE·an |
+| I_1 | 30 379,2 | m²HE·an |
+| Cnat | 7 571,2 | m²HE·an |
+| Cnat relatif | 0,2 |  |
+| Cnat sur 30 ans | 5 021,2 | m²HE·an |
 | Dette de maturité | 2 673,5 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -326 463 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -292 357,9 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -4838,18 +4838,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 38 318,5 | m²HE·an |
-| I_1 | 32 397,3 | m²HE·an |
-| Cnat | 5 921,2 | m²HE·an |
-| Cnat relatif | 0,155 |  |
-| Cnat sur 30 ans | 3 964,4 | m²HE·an |
+| I_1 | 32 556,8 | m²HE·an |
+| Cnat | 5 761,6 | m²HE·an |
+| Cnat relatif | 0,15 |  |
+| Cnat sur 30 ans | 3 804,9 | m²HE·an |
 | Dette de maturité | 2 857,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -324 685,6 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -290 548,3 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -4968,18 +4968,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 38 616,6 | m²HE·an |
-| I_1 | 32 641 | m²HE·an |
-| Cnat | 5 975,6 | m²HE·an |
-| Cnat relatif | 0,155 |  |
-| Cnat sur 30 ans | 3 964,4 | m²HE·an |
+| I_1 | 32 800,9 | m²HE·an |
+| Cnat | 5 815,7 | m²HE·an |
+| Cnat relatif | 0,151 |  |
+| Cnat sur 30 ans | 3 804,6 | m²HE·an |
 | Dette de maturité | 2 857,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -324 740 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -290 602,4 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -5098,18 +5098,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 38 734,1 | m²HE·an |
-| I_1 | 32 752,2 | m²HE·an |
-| Cnat | 5 981,9 | m²HE·an |
-| Cnat relatif | 0,154 |  |
-| Cnat sur 30 ans | 3 964,8 | m²HE·an |
+| I_1 | 32 912,1 | m²HE·an |
+| Cnat | 5 822,1 | m²HE·an |
+| Cnat relatif | 0,15 |  |
+| Cnat sur 30 ans | 3 805 | m²HE·an |
 | Dette de maturité | 2 857,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 192 310 | m²HE·an |
-| Inat bois | 122 222,2 | m²HE·an |
+| Inat bois | 88 244,4 | m²HE·an |
 | Inat carrières | 4 232,2 | m²HE·an |
-| Inat | 318 764,4 | m²HE·an |
-| Snat | -324 746,3 | m²HE·an |
+| Inat | 284 786,7 | m²HE·an |
+| Snat | -290 608,7 | m²HE·an |
 | Bnat | 62,5 | points |
 | Pleine terre | 0,55 |  |
 | Imperméabilisation nette | 2 250 | m² |
@@ -5228,18 +5228,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 106 313,3 | m²HE·an |
-| I_1 | 24 989,2 | m²HE·an |
-| Cnat | 81 324,1 | m²HE·an |
-| Cnat relatif | 0,765 |  |
-| Cnat sur 30 ans | 49 657,9 | m²HE·an |
+| I_1 | 25 096,9 | m²HE·an |
+| Cnat | 81 216,4 | m²HE·an |
+| Cnat relatif | 0,764 |  |
+| Cnat sur 30 ans | 49 550,2 | m²HE·an |
 | Dette de maturité | 2 039,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 288 465 | m²HE·an |
-| Inat bois | 183 333,3 | m²HE·an |
+| Inat bois | 132 366,7 | m²HE·an |
 | Inat carrières | 6 348,4 | m²HE·an |
-| Inat | 478 146,7 | m²HE·an |
-| Snat | -559 470,8 | m²HE·an |
+| Inat | 427 180 | m²HE·an |
+| Snat | -508 396,4 | m²HE·an |
 | Bnat | 51,2 | points |
 | Pleine terre | 0,4 |  |
 | Imperméabilisation nette | 3 000 | m² |
@@ -5358,18 +5358,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 106 313,3 | m²HE·an |
-| I_1 | 18 666,3 | m²HE·an |
-| Cnat | 87 647 | m²HE·an |
+| I_1 | 18 727 | m²HE·an |
+| Cnat | 87 586,3 | m²HE·an |
 | Cnat relatif | 0,824 |  |
-| Cnat sur 30 ans | 53 435,5 | m²HE·an |
+| Cnat sur 30 ans | 53 374,8 | m²HE·an |
 | Dette de maturité | 1 298,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 384 619,9 | m²HE·an |
-| Inat bois | 244 444,4 | m²HE·an |
+| Inat bois | 176 488,9 | m²HE·an |
 | Inat carrières | 8 464,5 | m²HE·an |
-| Inat | 637 528,9 | m²HE·an |
-| Snat | -725 175,9 | m²HE·an |
+| Inat | 569 573,3 | m²HE·an |
+| Snat | -657 159,7 | m²HE·an |
 | Bnat | 40 | points |
 | Pleine terre | 0,25 |  |
 | Imperméabilisation nette | 3 750 | m² |
@@ -5486,18 +5486,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 0 | m²HE·an |
-| I_1 | 24 989,2 | m²HE·an |
-| Cnat | -24 989,2 | m²HE·an |
+| I_1 | 25 096,9 | m²HE·an |
+| Cnat | -25 096,9 | m²HE·an |
 | Cnat relatif | non défini |  |
-| Cnat sur 30 ans | -14 820 | m²HE·an |
+| Cnat sur 30 ans | -14 927,7 | m²HE·an |
 | Dette de maturité | 2 039,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 288 465 | m²HE·an |
-| Inat bois | 183 333,3 | m²HE·an |
+| Inat bois | 132 366,7 | m²HE·an |
 | Inat carrières | 6 348,4 | m²HE·an |
-| Inat | 478 146,7 | m²HE·an |
-| Snat | -453 157,5 | m²HE·an |
+| Inat | 427 180 | m²HE·an |
+| Snat | -402 083,1 | m²HE·an |
 | Bnat | 51,2 | points |
 | Pleine terre | 0,4 |  |
 | Imperméabilisation nette | -2 000 | m² |
@@ -5614,18 +5614,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 0 | m²HE·an |
-| I_1 | 18 666,3 | m²HE·an |
-| Cnat | -18 666,3 | m²HE·an |
+| I_1 | 18 727 | m²HE·an |
+| Cnat | -18 727 | m²HE·an |
 | Cnat relatif | non défini |  |
-| Cnat sur 30 ans | -11 042,4 | m²HE·an |
+| Cnat sur 30 ans | -11 103,1 | m²HE·an |
 | Dette de maturité | 1 298,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 384 619,9 | m²HE·an |
-| Inat bois | 244 444,4 | m²HE·an |
+| Inat bois | 176 488,9 | m²HE·an |
 | Inat carrières | 8 464,5 | m²HE·an |
-| Inat | 637 528,9 | m²HE·an |
-| Snat | -618 862,6 | m²HE·an |
+| Inat | 569 573,3 | m²HE·an |
+| Snat | -550 846,4 | m²HE·an |
 | Bnat | 40 | points |
 | Pleine terre | 0,25 |  |
 | Imperméabilisation nette | -1 250 | m² |
@@ -5634,51 +5634,52 @@ Taches de l'état projet :
 
 ### Cas dynamiques
 
-Vingt-neuf cas reprennent l'exemple de l'annexe C (et le cas 6 pour la mare) en ne changeant qu'une donnée des modules dynamiques : calendrier du chantier, substrat de la toiture, sol, arrosage, zone climatique, éclairage, plan de gestion, année de début, raccordement et fond de la mare, abattage d'arbres à gîtes. L'écart se lit par rapport à l'exemple de l'annexe C (Cnat = 3 217,2) ou au cas 6 en zone H3 pour D25 à D27 (Cnat du cas 6 en zone H1a : -12 419,6).
+Vingt-neuf cas reprennent l'exemple de l'annexe C (et le cas 6 pour la mare) en ne changeant qu'une donnée des modules dynamiques : calendrier du chantier, substrat de la toiture, sol, arrosage, zone climatique, éclairage, plan de gestion, année de début, raccordement et fond de la mare, abattage d'arbres à gîtes. L'écart se lit par rapport à l'exemple de l'annexe C (Cnat = 3 170,5) ou au cas 6 en zone H3 pour D25 à D27 (Cnat du cas 6 en zone H1a : -12 965,6).
 
 #### Synthèse des cas dynamiques
 
 | Cas | Donnée changée | I_1 | Cnat | Écart | ΔI_ch | Arrosage (m³/an) |
 |---|---|---|---|---|---|---|
-| Cas D01 | Chantier commencé en mai : défrichement pendant la nidification | 10 023 | 3 497 | 280 | 243,6 | 0 |
-| Cas D02 | Chantier commencé en janvier : plantations reportées à novembre de l'année suivante | 9 950 | 3 327 | 110 | 0 | 0 |
-| Cas D03 | Toiture extensive de 8 cm au lieu de 15 cm | 9 762 | 3 515 | 298 | 0 | 0 |
-| Cas D04 | Toiture semi-intensive de 30 cm | 10 153 | 3 124 | -93 | 0 | 0 |
-| Cas D05 | Toiture intensive de 50 cm (gazon et massifs, type VB.13) | 9 603 | 3 674 | 457 | 0 | 0 |
-| Cas D06 | Prairie urbaine arrosée | 10 110 | 3 167 | -50 | 0 | 34,3 |
-| Cas D07 | Sol sableux | 9 756 | 2 926 | -291 | 0 | 0 |
-| Cas D08 | Sol argileux | 10 098 | 3 256 | 39 | 0 | 0 |
-| Cas D09 | Sol limoneux de 40 cm sur dalle rocheuse | 9 608 | 2 795 | -422 | 0 | 0 |
-| Cas D10 | Zone climatique H1b (Nancy) | 10 226 | 3 233 | 16 | 0 | 0 |
-| Cas D11 | Zone climatique H1c (Mâcon) | 10 329 | 3 190 | -27 | 0 | 0 |
-| Cas D12 | Zone climatique H2a (Rennes) | 10 198 | 3 193 | -24 | 0 | 0 |
-| Cas D13 | Zone climatique H2b (Tours) | 10 246 | 3 183 | -34 | 0 | 0 |
-| Cas D14 | Zone climatique H2c (Agen) | 10 248 | 3 246 | 29 | 0 | 0 |
-| Cas D15 | Zone climatique H2d (Carpentras) | 10 235 | 3 284 | 67 | 0 | 0 |
-| Cas D16 | Zone climatique H3 (Marignane) | 10 189 | 3 290 | 73 | 0 | 0 |
-| Cas D17 | Prairie éclairée toute la nuit en 4 000 K | 9 586 | 3 691 | 474 | 0 | 0 |
-| Cas D18 | Prairie éclairée jusqu'à 23 h en 2 700 K, luminaires à 20 m | 10 225 | 3 052 | -165 | 0 | 0 |
-| Cas D19 | Prairie éclairée toute la nuit en ambre avec détection de présence (30 % du temps) | 10 193 | 3 085 | -133 | 0 | 0 |
-| Cas D20 | Sans plan de gestion écologique | 9 633 | 3 644 | 426 | 0 | 0 |
-| Cas D21 | Plan de gestion de trente ans | 10 985 | 2 292 | -926 | 0 | 0 |
-| Cas D22 | Plan de gestion couvrant les cinquante ans | 11 801 | 1 476 | -1 741 | 0 | 0 |
-| Cas D23 | Abandon de l'entretien à la fin du plan de dix ans | 11 044 | 2 233 | -984 | 0 | 0 |
-| Cas D24 | Chantier commencé en 2045 | 9 879 | 3 141 | -77 | 0 | 0 |
-| Cas D25 | Cas 6 en zone H3, mare sans bassin versant | 48 230 | -9 614 | 2 806 | 0 | 0 |
-| Cas D26 | Cas 6 en zone H3, mare raccordée à 3 000 m² de prairie | 50 575 | -11 959 | 461 | 0 | 0 |
-| Cas D27 | Cas 6 en zone H3, mare à fond étanche raccordée à 3 000 m² de prairie | 50 969 | -12 352 | 68 | 0 | 0 |
-| Cas D28 | Arbres âgés à gîtes abattus en janvier | 9 588 | 3 986 | 769 | 32,2 | 0 |
-| Cas D29 | Arbres âgés à gîtes abattus en octobre | 9 711 | 3 832 | 614 | 0 | 0 |
+| Cas D01 | Chantier commencé en mai : défrichement pendant la nidification | 10 070 | 3 451 | 280 | 243,6 | 0 |
+| Cas D02 | Chantier commencé en janvier : plantations reportées à novembre de l'année suivante | 9 996 | 3 281 | 110 | 0 | 0 |
+| Cas D03 | Toiture extensive de 8 cm au lieu de 15 cm | 9 809 | 3 468 | 298 | 0 | 0 |
+| Cas D04 | Toiture semi-intensive de 30 cm | 10 200 | 3 077 | -93 | 0 | 0 |
+| Cas D05 | Toiture intensive de 50 cm (gazon et massifs, type VB.13) | 9 650 | 3 627 | 457 | 0 | 0 |
+| Cas D06 | Prairie urbaine arrosée | 10 157 | 3 120 | -50 | 0 | 34,3 |
+| Cas D07 | Sol sableux | 9 801 | 2 881 | -289 | 0 | 0 |
+| Cas D08 | Sol argileux | 10 144 | 3 210 | 39 | 0 | 0 |
+| Cas D09 | Sol limoneux de 40 cm sur dalle rocheuse | 9 651 | 2 752 | -419 | 0 | 0 |
+| Cas D10 | Zone climatique H1b (Nancy) | 10 272 | 3 186 | 16 | 0 | 0 |
+| Cas D11 | Zone climatique H1c (Mâcon) | 10 376 | 3 143 | -27 | 0 | 0 |
+| Cas D12 | Zone climatique H2a (Rennes) | 10 245 | 3 146 | -25 | 0 | 0 |
+| Cas D13 | Zone climatique H2b (Tours) | 10 293 | 3 136 | -35 | 0 | 0 |
+| Cas D14 | Zone climatique H2c (Agen) | 10 295 | 3 199 | 29 | 0 | 0 |
+| Cas D15 | Zone climatique H2d (Carpentras) | 10 282 | 3 238 | 67 | 0 | 0 |
+| Cas D16 | Zone climatique H3 (Marignane) | 10 236 | 3 243 | 73 | 0 | 0 |
+| Cas D17 | Prairie éclairée toute la nuit en 4 000 K | 9 625 | 3 652 | 481 | 0 | 0 |
+| Cas D18 | Prairie éclairée jusqu'à 23 h en 2 700 K, luminaires à 20 m | 10 274 | 3 003 | -167 | 0 | 0 |
+| Cas D19 | Prairie éclairée toute la nuit en ambre avec détection de présence (30 % du temps) | 10 241 | 3 036 | -135 | 0 | 0 |
+| Cas D20 | Sans plan de gestion écologique | 9 660 | 3 617 | 446 | 0 | 0 |
+| Cas D21 | Plan de gestion de trente ans | 11 031 | 2 246 | -925 | 0 | 0 |
+| Cas D22 | Plan de gestion couvrant les cinquante ans | 11 801 | 1 476 | -1 694 | 0 | 0 |
+| Cas D23 | Abandon de l'entretien à la fin du plan de dix ans | 11 049 | 2 228 | -942 | 0 | 0 |
+| Cas D24 | Chantier commencé en 2045 | 9 925 | 3 095 | -76 | 0 | 0 |
+| Cas D25 | Cas 6 en zone H3, mare sans bassin versant | 48 779 | -10 163 | 2 803 | 0 | 0 |
+| Cas D26 | Cas 6 en zone H3, mare raccordée à 3 000 m² de prairie | 51 124 | -12 508 | 458 | 0 | 0 |
+| Cas D27 | Cas 6 en zone H3, mare à fond étanche raccordée à 3 000 m² de prairie | 51 518 | -12 901 | 64 | 0 | 0 |
+| Cas D28 | Arbres âgés à gîtes abattus en janvier | 9 635 | 3 939 | 769 | 32,2 | 0 |
+| Cas D30 | Indicateurs de pollution médians de neuf bâtiments réels | 10 107 | 3 171 | 0 | 0 | 0 |
+| Cas D29 | Arbres âgés à gîtes abattus en octobre | 9 757 | 3 785 | 614 | 0 | 0 |
 
 Lecture :
 
 - Calendrier : un défrichement en mai ajoute 243,6 m²HE·an pour la nidification ; un début en janvier reporte les plantations à novembre et coûte 110 m²HE·an ; l'abattage d'arbres âgés à gîtes en janvier ajoute 32,2 m²HE·an que l'abattage en octobre évite.
 - Substrat : la toiture de 8 cm coûte 298 m²HE·an, celle de 30 cm en rend 93.
-- Sol : sur un sable, Cnat baisse de 291 m²HE·an. L'état initial, sur le même sol, perd lui aussi, et davantage : la friche herbacée initiale est plus étendue que les milieux créés. Le sol pauvre pénalise le projet dans l'absolu (I_1 plus faible), pas face à l'état initial.
-- Éclairage : la prairie éclairée toute la nuit en 4 000 K coûte 474 m²HE·an ; éteinte à 23 h, en 2 700 K, à 20 m, elle en rend 165.
-- Gestion : sans plan, Cnat monte de 426 ; un plan de trente ans le baisse de 926, un plan de cinquante ans de 1 741. L'abandon après le plan vaut mieux que la tonte d'une pelouse : la friche abandonnée garde plus de valeur que la pelouse (BKompV).
-- Climat : d'une zone à l'autre, l'écart reste sous 73 m²HE·an, parce que la végétation de chaque zone est jugée sur son propre climat ; un début en 2045 décale la période vers un climat plus chaud et baisse Cnat de 77 m²HE·an, l'état initial perdant davantage que le projet.
-- Mare en zone H3 : sans bassin versant, elle s'assèche au printemps ; raccordée à 3 000 m² de prairie, elle tient mieux (Cnat -11 959) ; avec un fond étanche, elle reste en eau (Cnat -12 352, contre -9 614).
+- Sol : sur un sable, Cnat baisse de 289 m²HE·an. L'état initial, sur le même sol, perd lui aussi, et davantage : la friche herbacée initiale est plus étendue que les milieux créés. Le sol pauvre pénalise le projet dans l'absolu (I_1 plus faible), pas face à l'état initial.
+- Éclairage : la prairie éclairée toute la nuit en 4 000 K coûte 481 m²HE·an ; éteinte à 23 h, en 2 700 K, à 20 m, elle en rend 167.
+- Gestion : sans plan, Cnat monte de 446 ; un plan de trente ans le baisse de 925, un plan de cinquante ans de 1 694. L'abandon après le plan vaut mieux que la tonte d'une pelouse : la friche abandonnée garde plus de valeur que la pelouse (BKompV).
+- Climat : d'une zone à l'autre, l'écart reste sous 73 m²HE·an, parce que la végétation de chaque zone est jugée sur son propre climat ; un début en 2045 décale la période vers un climat plus chaud et baisse Cnat de 76 m²HE·an, l'état initial perdant davantage que le projet.
+- Mare en zone H3 : sans bassin versant, elle s'assèche au printemps ; raccordée à 3 000 m² de prairie, elle tient mieux (Cnat -12 508) ; avec un fond étanche, elle reste en eau (Cnat -12 901, contre -10 163).
 
 ### Cas D01. Chantier commencé en mai : défrichement pendant la nidification
 
@@ -5805,18 +5806,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 277,1 | m²HE·an |
-| I_1 | 10 023,2 | m²HE·an |
-| Cnat | 3 497,5 | m²HE·an |
-| Cnat relatif | 0,263 |  |
-| Cnat sur 30 ans | 2 268,4 | m²HE·an |
+| I_1 | 10 069,8 | m²HE·an |
+| Cnat | 3 450,8 | m²HE·an |
+| Cnat relatif | 0,26 |  |
+| Cnat sur 30 ans | 2 221,8 | m²HE·an |
 | Dette de maturité | 710,9 | m²HE·an |
 | Supplément pour destruction en période sensible | 243,6 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 340,3 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 849,2 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -5948,18 +5949,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 277,1 | m²HE·an |
-| I_1 | 9 949,7 | m²HE·an |
-| Cnat | 3 327,4 | m²HE·an |
-| Cnat relatif | 0,251 |  |
-| Cnat sur 30 ans | 2 098,4 | m²HE·an |
+| I_1 | 9 996,3 | m²HE·an |
+| Cnat | 3 280,8 | m²HE·an |
+| Cnat relatif | 0,247 |  |
+| Cnat sur 30 ans | 2 051,7 | m²HE·an |
 | Dette de maturité | 786,6 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 170,3 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 679,2 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -6091,18 +6092,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 277,1 | m²HE·an |
-| I_1 | 9 762,1 | m²HE·an |
-| Cnat | 3 515 | m²HE·an |
-| Cnat relatif | 0,265 |  |
-| Cnat sur 30 ans | 2 113,4 | m²HE·an |
+| I_1 | 9 808,7 | m²HE·an |
+| Cnat | 3 468,3 | m²HE·an |
+| Cnat relatif | 0,261 |  |
+| Cnat sur 30 ans | 2 066,8 | m²HE·an |
 | Dette de maturité | 479,9 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 357,8 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 866,7 | m²HE·an |
 | Bnat | 56,5 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -6234,18 +6235,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 277,1 | m²HE·an |
-| I_1 | 10 153 | m²HE·an |
-| Cnat | 3 124 | m²HE·an |
-| Cnat relatif | 0,235 |  |
-| Cnat sur 30 ans | 1 929,7 | m²HE·an |
+| I_1 | 10 199,7 | m²HE·an |
+| Cnat | 3 077,4 | m²HE·an |
+| Cnat relatif | 0,232 |  |
+| Cnat sur 30 ans | 1 883 | m²HE·an |
 | Dette de maturité | 673,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -144 966,9 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 475,8 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -6377,18 +6378,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 277,1 | m²HE·an |
-| I_1 | 9 603,1 | m²HE·an |
-| Cnat | 3 674 | m²HE·an |
-| Cnat relatif | 0,277 |  |
-| Cnat sur 30 ans | 2 213,3 | m²HE·an |
+| I_1 | 9 649,7 | m²HE·an |
+| Cnat | 3 627,3 | m²HE·an |
+| Cnat relatif | 0,273 |  |
+| Cnat sur 30 ans | 2 166,6 | m²HE·an |
 | Dette de maturité | 535,2 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 516,8 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -130 025,7 | m²HE·an |
 | Bnat | 61,5 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -6520,18 +6521,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 277,1 | m²HE·an |
-| I_1 | 10 109,7 | m²HE·an |
-| Cnat | 3 167,4 | m²HE·an |
-| Cnat relatif | 0,239 |  |
-| Cnat sur 30 ans | 1 972,9 | m²HE·an |
+| I_1 | 10 156,7 | m²HE·an |
+| Cnat | 3 120,4 | m²HE·an |
+| Cnat relatif | 0,235 |  |
+| Cnat sur 30 ans | 1 925,9 | m²HE·an |
 | Dette de maturité | 673,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 34,3 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 010,2 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 518,8 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -6663,18 +6664,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 12 682 | m²HE·an |
-| I_1 | 9 756,3 | m²HE·an |
-| Cnat | 2 925,8 | m²HE·an |
-| Cnat relatif | 0,231 |  |
-| Cnat sur 30 ans | 1 825,3 | m²HE·an |
+| I_1 | 9 800,9 | m²HE·an |
+| Cnat | 2 881,1 | m²HE·an |
+| Cnat relatif | 0,227 |  |
+| Cnat sur 30 ans | 1 780,7 | m²HE·an |
 | Dette de maturité | 673,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -144 768,6 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 279,6 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -6806,18 +6807,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 354,1 | m²HE·an |
-| I_1 | 10 097,6 | m²HE·an |
-| Cnat | 3 256,4 | m²HE·an |
-| Cnat relatif | 0,244 |  |
-| Cnat sur 30 ans | 2 005,6 | m²HE·an |
+| I_1 | 10 144,5 | m²HE·an |
+| Cnat | 3 209,6 | m²HE·an |
+| Cnat relatif | 0,24 |  |
+| Cnat sur 30 ans | 1 958,7 | m²HE·an |
 | Dette de maturité | 673,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 099,3 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 608 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -6949,18 +6950,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 12 403,2 | m²HE·an |
-| I_1 | 9 607,8 | m²HE·an |
-| Cnat | 2 795,4 | m²HE·an |
-| Cnat relatif | 0,225 |  |
-| Cnat sur 30 ans | 1 745,7 | m²HE·an |
+| I_1 | 9 651,4 | m²HE·an |
+| Cnat | 2 751,8 | m²HE·an |
+| Cnat relatif | 0,222 |  |
+| Cnat sur 30 ans | 1 702,1 | m²HE·an |
 | Dette de maturité | 673,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -144 638,3 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 150,2 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -7092,18 +7093,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 458,4 | m²HE·an |
-| I_1 | 10 225,6 | m²HE·an |
-| Cnat | 3 232,8 | m²HE·an |
-| Cnat relatif | 0,24 |  |
-| Cnat sur 30 ans | 1 976,4 | m²HE·an |
+| I_1 | 10 272,3 | m²HE·an |
+| Cnat | 3 186,1 | m²HE·an |
+| Cnat relatif | 0,237 |  |
+| Cnat sur 30 ans | 1 929,7 | m²HE·an |
 | Dette de maturité | 671,8 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 075,7 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 584,5 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -7235,18 +7236,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 519,3 | m²HE·an |
-| I_1 | 10 329,1 | m²HE·an |
-| Cnat | 3 190,2 | m²HE·an |
-| Cnat relatif | 0,236 |  |
-| Cnat sur 30 ans | 1 961,4 | m²HE·an |
+| I_1 | 10 375,9 | m²HE·an |
+| Cnat | 3 143,4 | m²HE·an |
+| Cnat relatif | 0,233 |  |
+| Cnat sur 30 ans | 1 914,6 | m²HE·an |
 | Dette de maturité | 672,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 033,1 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 541,8 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -7378,18 +7379,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 390,8 | m²HE·an |
-| I_1 | 10 197,8 | m²HE·an |
-| Cnat | 3 193 | m²HE·an |
-| Cnat relatif | 0,238 |  |
-| Cnat sur 30 ans | 1 959 | m²HE·an |
+| I_1 | 10 245 | m²HE·an |
+| Cnat | 3 145,8 | m²HE·an |
+| Cnat relatif | 0,235 |  |
+| Cnat sur 30 ans | 1 911,8 | m²HE·an |
 | Dette de maturité | 675,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 035,9 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 544,3 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -7521,18 +7522,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 429,1 | m²HE·an |
-| I_1 | 10 246,1 | m²HE·an |
-| Cnat | 3 183 | m²HE·an |
-| Cnat relatif | 0,237 |  |
-| Cnat sur 30 ans | 1 947,3 | m²HE·an |
+| I_1 | 10 293,2 | m²HE·an |
+| Cnat | 3 135,9 | m²HE·an |
+| Cnat relatif | 0,234 |  |
+| Cnat sur 30 ans | 1 900,2 | m²HE·an |
 | Dette de maturité | 673,8 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 025,8 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 534,3 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -7664,18 +7665,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 494,2 | m²HE·an |
-| I_1 | 10 248,1 | m²HE·an |
-| Cnat | 3 246,1 | m²HE·an |
-| Cnat relatif | 0,241 |  |
-| Cnat sur 30 ans | 1 985,6 | m²HE·an |
+| I_1 | 10 295,1 | m²HE·an |
+| Cnat | 3 199,1 | m²HE·an |
+| Cnat relatif | 0,237 |  |
+| Cnat sur 30 ans | 1 938,5 | m²HE·an |
 | Dette de maturité | 673,8 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 089 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 597,5 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -7807,18 +7808,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 519,3 | m²HE·an |
-| I_1 | 10 234,9 | m²HE·an |
-| Cnat | 3 284,4 | m²HE·an |
-| Cnat relatif | 0,243 |  |
-| Cnat sur 30 ans | 2 000,7 | m²HE·an |
+| I_1 | 10 281,7 | m²HE·an |
+| Cnat | 3 237,6 | m²HE·an |
+| Cnat relatif | 0,239 |  |
+| Cnat sur 30 ans | 1 953,9 | m²HE·an |
 | Dette de maturité | 672,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 127,2 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 636 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -7950,18 +7951,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 479,7 | m²HE·an |
-| I_1 | 10 189,5 | m²HE·an |
-| Cnat | 3 290,2 | m²HE·an |
-| Cnat relatif | 0,244 |  |
-| Cnat sur 30 ans | 1 997,5 | m²HE·an |
+| I_1 | 10 236,3 | m²HE·an |
+| Cnat | 3 243,4 | m²HE·an |
+| Cnat relatif | 0,241 |  |
+| Cnat sur 30 ans | 1 950,7 | m²HE·an |
 | Dette de maturité | 672,4 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 133,1 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 641,8 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -8093,18 +8094,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 277,1 | m²HE·an |
-| I_1 | 9 586,1 | m²HE·an |
-| Cnat | 3 691 | m²HE·an |
-| Cnat relatif | 0,278 |  |
-| Cnat sur 30 ans | 2 294,1 | m²HE·an |
+| I_1 | 9 625,1 | m²HE·an |
+| Cnat | 3 651,9 | m²HE·an |
+| Cnat relatif | 0,275 |  |
+| Cnat sur 30 ans | 2 255 | m²HE·an |
 | Dette de maturité | 629 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 533,9 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -130 050,4 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -8236,18 +8237,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 277,1 | m²HE·an |
-| I_1 | 10 224,7 | m²HE·an |
-| Cnat | 3 052,3 | m²HE·an |
-| Cnat relatif | 0,23 |  |
-| Cnat sur 30 ans | 1 881,7 | m²HE·an |
+| I_1 | 10 274 | m²HE·an |
+| Cnat | 3 003,1 | m²HE·an |
+| Cnat relatif | 0,226 |  |
+| Cnat sur 30 ans | 1 832,5 | m²HE·an |
 | Dette de maturité | 688,4 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -144 895,2 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 401,5 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -8379,18 +8380,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 277,1 | m²HE·an |
-| I_1 | 10 192,5 | m²HE·an |
-| Cnat | 3 084,6 | m²HE·an |
-| Cnat relatif | 0,232 |  |
-| Cnat sur 30 ans | 1 902,5 | m²HE·an |
+| I_1 | 10 241,3 | m²HE·an |
+| Cnat | 3 035,8 | m²HE·an |
+| Cnat relatif | 0,229 |  |
+| Cnat sur 30 ans | 1 853,8 | m²HE·an |
 | Dette de maturité | 685,4 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -144 927,4 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 434,2 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -8514,7 +8515,7 @@ Taches de l'état projet :
 
 | Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| V_1(t), m²HE | 24 | 68,2 | 132,6 | 177,5 | 203,4 | 205 | 204,3 | 202,4 | 200,1 | 197,8 |
+| V_1(t), m²HE | 24 | 68,2 | 150,5 | 177,5 | 203,4 | 205 | 204,3 | 202,4 | 200,1 | 197,8 |
 | V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
 
 **Indicateurs (fiches A33 à A38)**
@@ -8522,18 +8523,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 277,1 | m²HE·an |
-| I_1 | 9 633,5 | m²HE·an |
-| Cnat | 3 643,6 | m²HE·an |
-| Cnat relatif | 0,274 |  |
-| Cnat sur 30 ans | 2 414,6 | m²HE·an |
+| I_1 | 9 660,2 | m²HE·an |
+| Cnat | 3 616,9 | m²HE·an |
+| Cnat relatif | 0,272 |  |
+| Cnat sur 30 ans | 2 387,8 | m²HE·an |
 | Dette de maturité | 673,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 486,5 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -130 015,3 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -8665,18 +8666,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 277,1 | m²HE·an |
-| I_1 | 10 985,5 | m²HE·an |
-| Cnat | 2 291,6 | m²HE·an |
-| Cnat relatif | 0,173 |  |
+| I_1 | 11 031,2 | m²HE·an |
+| Cnat | 2 245,8 | m²HE·an |
+| Cnat relatif | 0,169 |  |
 | Cnat sur 30 ans | 1 154,3 | m²HE·an |
 | Dette de maturité | 673,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -144 134,4 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -128 644,2 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -8816,10 +8817,10 @@ Taches de l'état projet :
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -143 319,2 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -127 874,8 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -8951,18 +8952,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 277,1 | m²HE·an |
-| I_1 | 11 044 | m²HE·an |
-| Cnat | 2 233,1 | m²HE·an |
+| I_1 | 11 048,9 | m²HE·an |
+| Cnat | 2 228,2 | m²HE·an |
 | Cnat relatif | 0,168 |  |
-| Cnat sur 30 ans | 1 680,8 | m²HE·an |
+| Cnat sur 30 ans | 1 676 | m²HE·an |
 | Dette de maturité | 673,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -144 076 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -128 626,6 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -9094,18 +9095,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 019,6 | m²HE·an |
-| I_1 | 9 879,1 | m²HE·an |
-| Cnat | 3 140,6 | m²HE·an |
-| Cnat relatif | 0,241 |  |
-| Cnat sur 30 ans | 1 948,7 | m²HE·an |
+| I_1 | 9 924,9 | m²HE·an |
+| Cnat | 3 094,7 | m²HE·an |
+| Cnat relatif | 0,238 |  |
+| Cnat sur 30 ans | 1 902,9 | m²HE·an |
 | Dette de maturité | 673,1 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -144 983,4 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -129 493,1 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -9218,10 +9219,10 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 38 616,6 | m²HE·an |
-| I_1 | 48 230,1 | m²HE·an |
-| Cnat | -9 613,5 | m²HE·an |
-| Cnat relatif | -0,249 |  |
-| Cnat sur 30 ans | -6 442,4 | m²HE·an |
+| I_1 | 48 779,4 | m²HE·an |
+| Cnat | -10 162,8 | m²HE·an |
+| Cnat relatif | -0,263 |  |
+| Cnat sur 30 ans | -6 991,7 | m²HE·an |
 | Dette de maturité | 4 439,5 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
@@ -9229,7 +9230,7 @@ Taches de l'état projet :
 | Inat bois | 0 | m²HE·an |
 | Inat carrières | 171 | m²HE·an |
 | Inat | 171 | m²HE·an |
-| Snat | 9 442,5 | m²HE·an |
+| Snat | 9 991,8 | m²HE·an |
 | Bnat | 92,8 | points |
 | Pleine terre | 0,88 |  |
 | Imperméabilisation nette | 0 | m² |
@@ -9342,10 +9343,10 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 38 616,6 | m²HE·an |
-| I_1 | 50 575,2 | m²HE·an |
-| Cnat | -11 958,6 | m²HE·an |
-| Cnat relatif | -0,31 |  |
-| Cnat sur 30 ans | -8 036,5 | m²HE·an |
+| I_1 | 51 124,5 | m²HE·an |
+| Cnat | -12 507,9 | m²HE·an |
+| Cnat relatif | -0,324 |  |
+| Cnat sur 30 ans | -8 585,8 | m²HE·an |
 | Dette de maturité | 4 439,5 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
@@ -9353,7 +9354,7 @@ Taches de l'état projet :
 | Inat bois | 0 | m²HE·an |
 | Inat carrières | 171 | m²HE·an |
 | Inat | 171 | m²HE·an |
-| Snat | 11 787,6 | m²HE·an |
+| Snat | 12 336,9 | m²HE·an |
 | Bnat | 92,8 | points |
 | Pleine terre | 0,88 |  |
 | Imperméabilisation nette | 0 | m² |
@@ -9466,10 +9467,10 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 38 616,6 | m²HE·an |
-| I_1 | 50 968,6 | m²HE·an |
-| Cnat | -12 352 | m²HE·an |
-| Cnat relatif | -0,32 |  |
-| Cnat sur 30 ans | -8 060 | m²HE·an |
+| I_1 | 51 517,9 | m²HE·an |
+| Cnat | -12 901,3 | m²HE·an |
+| Cnat relatif | -0,334 |  |
+| Cnat sur 30 ans | -8 609,3 | m²HE·an |
 | Dette de maturité | 4 439,5 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
@@ -9477,7 +9478,7 @@ Taches de l'état projet :
 | Inat bois | 0 | m²HE·an |
 | Inat carrières | 171 | m²HE·an |
 | Inat | 171 | m²HE·an |
-| Snat | 12 181 | m²HE·an |
+| Snat | 12 730,3 | m²HE·an |
 | Bnat | 92,8 | points |
 | Pleine terre | 0,88 |  |
 | Imperméabilisation nette | 0 | m² |
@@ -9609,18 +9610,161 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 542,2 | m²HE·an |
-| I_1 | 9 588,4 | m²HE·an |
-| Cnat | 3 986 | m²HE·an |
-| Cnat relatif | 0,294 |  |
-| Cnat sur 30 ans | 2 652,6 | m²HE·an |
+| I_1 | 9 635,1 | m²HE·an |
+| Cnat | 3 939,4 | m²HE·an |
+| Cnat relatif | 0,291 |  |
+| Cnat sur 30 ans | 2 606 | m²HE·an |
 | Dette de maturité | 1 147,8 | m²HE·an |
 | Supplément pour destruction en période sensible | 32,2 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 828,8 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -130 337,8 | m²HE·an |
+| Bnat | 59 | points |
+| Pleine terre | 0,425 |  |
+| Imperméabilisation nette | 400 | m² |
+
+**Conformité (fiche A40)** : Bnat 59 pour un seuil de 45 : atteint ; pleine terre 42,5 % pour un seuil de 15 % : atteint ; niveau du site : 0.
+
+### Cas D30. Indicateurs de pollution médians de neuf bâtiments réels
+
+**Résultat attendu** : biodiversité grise accrue de la pollution convertie (fiche A36-2, C-G8).
+
+**Hypothèses**
+
+| Donnée | Valeur |
+|---|---|
+| Parcelle | 2 000 m² |
+| Emprise du bâti | 700 m² |
+| Zone biogéographique | continentale |
+| Typologie | logement |
+| Durée du chantier | 18 mois (d_ch = 1,5 an) |
+| Zone climatique, altitude | H1a, altitude de la station |
+| Sol du site | texture limon, profondeur 1.0 |
+| Début du chantier | septembre 2027 ; période 2027 à 2076 |
+| Mois de destruction | septembre |
+| Plan de gestion écologique | 10 ans |
+| Surface de référence | 1 400 m² |
+| Émissions des composants et du chantier | A1-A5 : 470, B : 400, C : 55, D : -40 |
+| Bois | 30 m³ (coupe rase) |
+| Granulats | 1 800 t |
+| Surface infiltrée en surface | 0 m² |
+
+**Étape E2, fermeture (fiche A03)**
+
+| État | Somme au sol (m²) | Écart (m²) | Contrôle |
+|---|---|---|---|
+| initial | 2 000 | 0 | satisfait |
+| projet | 2 000 | 0 | satisfait |
+
+**État initial (fiches A06 à A25)**
+
+| Unité | Type | Position | A (m²) | Nature |
+|---|---|---|---|---|
+| U0-1 | VB.8 | sol pleine terre | 1 200 | S08 |
+| U0-2 | VB.2 | sol pleine terre | 600 | S01 |
+| U0-3 | VB.9 | sol pleine terre | 200 | S08 |
+| U0-4 | VB.18a | arbre | 100 |  |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | 1 | 1 | 0,5 | 0,5 | 0,75 | 1 | 0,4684 | 1 | 1 | 210,77 |
+| U0-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U0-3 | 1 | 1 | 0,5 | 0,4 | 0,7 | 1 | 0,4684 | 1 | 1 | 32,79 |
+| U0-4 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4684 | 1 | 1 | 26,83 |
+
+Taches de l'état initial (fiches A17 à A19) :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P1 | 1 400 | 0,4684 | 1 | 1 | 0,4684 |
+
+Valeur du site sans projet V_0 = 270,39 m²HE ; I_0 = 13 277,1 m²HE·an.
+
+**État projet (fiches A06 à A30)**
+
+| Unité | Type | Position | A (m²) | Nature | Statut | d (an) | D |
+|---|---|---|---|---|---|---|---|
+| U1-1 | VB.1 | sol pleine terre | 700 | S01 | créée | 0 | 1 |
+| U1-2 | VB.2 | sol pleine terre | 300 | S01 | créée | 0 | 1 |
+| U1-3 | VB.3 | sol pleine terre | 150 | S02 | créée | 0 | 1 |
+| U1-4 | VB.26 | sol pleine terre | 450 | S08 | créée | 5 | 1 |
+| U1-5 | VB.7 | sol pleine terre | 320 | S08 | créée | 1 | 1 |
+| U1-6 | FA.3 | lineaire | 80 | S08 | créée | 5 | 1 |
+| U1-7 | VB.18a | arbre | 100 |  | conservée | 0 | 1 |
+| U1-8 | VB.12 | hors sol toiture | 500 | S05 | créée | 10 | 0,67 |
+
+Facteurs de calcul :
+
+| Unité | c | f_sol | v | S | f | m | k_C | k_N | k_E | V (m²HE) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-2 | 0 | 1 | 0 |  | 1 | 1 | 1 | 1 | 1 | 0 |
+| U1-3 | 0,2 | 1 | 0,1667 |  | 1 | 1 | 0,35 | 1 | 1 | 8,75 |
+| U1-4 | 1 | 1 | 0,625 | 0,6667 | 0,8333 | 1 | 0,4197 | 0,916 | 1 | 90,1 |
+| U1-5 | 1 | 1 | 0,4583 | 0,6667 | 0,8333 | 1 | 0,4197 | 1 | 1 | 51,29 |
+| U1-6 | 1 | 1 | 0,6667 | 0,75 | 0,875 | 1 | 0,4197 | 1 | 1 | 19,59 |
+| U1-7 |  | 1 | 0,625 | 0,8333 | 0,9167 | 1 | 0,4197 | 1 | 1 | 24,04 |
+| U1-8 | 0,6 | 1 | 0,5278 | 1 | 1 | 1 | 0,3734 | 1 | 1 | 98,55 |
+
+Taches de l'état projet :
+
+| Tache | A_k (m²) | k_taille | m_conn | k_clot | k_C |
+|---|---|---|---|---|---|
+| P2 | 850 | 0,4197 | 1 | 1 | 0,4197 |
+| P3 | 500 | 0,3734 | 1 | 1 | 0,3734 |
+| isolee_U1-3 | 150 | 0,35 | 1 | 1 | 0,35 |
+
+**Modules dynamiques, état initial (fiches A47 à A53)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum |
+|---|---|---|---|---|---|---|---|---|---|
+| U0-1 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 |
+| U0-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 |
+| U0-3 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 |
+| U0-4 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 |
+
+**Modules dynamiques, état projet (fiches A47 à A58)**
+
+| Unité | Groupe | RU (mm) | IS +2 | IS +2,7 | IS +4 | k_W +2 | k_W +2,7 | k_W +4 | k_lum | Départ (rang) | f_g an 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| U1-1 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-2 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-3 | sans bilan |  |  |  |  | 1 | 1 | 1 | 1 | 18 | 1 |
+| U1-4 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 0,916 | 16 | 0,533 |
+| U1-5 | prairie | 130 | 2,1 | 11,2 | 26,2 | 1 | 0,984 | 0,924 | 1 | 16 | 1 |
+| U1-6 | arbustif | 117 | 33,3 | 37,4 | 47,7 | 1 | 1 | 0,943 | 1 | 16 | 0,75 |
+| U1-7 | arbore | 130 | 45,8 | 48,9 | 61,4 | 1 | 1 | 0,915 | 1 | 18 | 1 |
+| U1-8 | prairie | 30 | 31,6 | 35,3 | 45,7 | 0,902 | 0,887 | 0,846 | 1 | 16 | 1 |
+
+**Trajectoire du site (fiche A31)**
+
+| Année | 1 | 2 | 3 | 5 | 10 | 15 | 20 | 30 | 40 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| V_1(t), m²HE | 24 | 68,2 | 156,5 | 219,1 | 250,1 | 205 | 204,3 | 202,4 | 200,1 | 197,8 |
+| V_0 x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,2 | 269,4 | 268,5 | 267,7 | 265 | 261,6 | 258,3 |
+
+**Indicateurs (fiches A33 à A38)**
+
+| Indicateur | Valeur | Unité |
+|---|---|---|
+| I_0 | 13 277,1 | m²HE·an |
+| I_1 | 10 106,5 | m²HE·an |
+| Cnat | 3 170,5 | m²HE·an |
+| Cnat relatif | 0,239 |  |
+| Cnat sur 30 ans | 1 941,5 | m²HE·an |
+| Dette de maturité | 673,1 | m²HE·an |
+| Supplément pour destruction en période sensible | 0 | m²HE·an |
+| Arrosage annuel moyen | 0 | m³ |
+| Inat climat | 84 748,3 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
+| Inat carrières | 1 539 | m²HE·an |
+| Inat | 131 972,5 | m²HE·an |
+| Snat | -135 143 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |
@@ -9752,18 +9896,18 @@ Taches de l'état projet :
 | Indicateur | Valeur | Unité |
 |---|---|---|
 | I_0 | 13 542,2 | m²HE·an |
-| I_1 | 9 710,7 | m²HE·an |
-| Cnat | 3 831,5 | m²HE·an |
-| Cnat relatif | 0,283 |  |
-| Cnat sur 30 ans | 2 498,2 | m²HE·an |
+| I_1 | 9 757,3 | m²HE·an |
+| Cnat | 3 784,9 | m²HE·an |
+| Cnat relatif | 0,279 |  |
+| Cnat sur 30 ans | 2 451,5 | m²HE·an |
 | Dette de maturité | 1 022,3 | m²HE·an |
 | Supplément pour destruction en période sensible | 0 | m²HE·an |
 | Arrosage annuel moyen | 0 | m³ |
 | Inat climat | 84 748,3 | m²HE·an |
-| Inat bois | 55 555,6 | m²HE·an |
+| Inat bois | 40 111,1 | m²HE·an |
 | Inat carrières | 1 539 | m²HE·an |
-| Inat | 141 842,9 | m²HE·an |
-| Snat | -145 674,4 | m²HE·an |
+| Inat | 126 398,4 | m²HE·an |
+| Snat | -130 183,3 | m²HE·an |
 | Bnat | 59 | points |
 | Pleine terre | 0,425 |  |
 | Imperméabilisation nette | 400 | m² |

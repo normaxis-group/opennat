@@ -6,7 +6,7 @@ Le RSNat (nom provisoire) est au calcul OpenNAT ce que le RSEE est à l'étude R
 
 | Fichier | Contenu |
 |---|---|
-| `schemas/rsnat.xsd` | Schéma XSD, 322 éléments, 23 énumérations |
+| `schemas/rsnat.xsd` | Schéma XSD, 324 éléments, 23 énumérations |
 | `schemas/rsnat.schema.json` | Schéma JSON du même RSNat |
 | `schemas/projet.schema.json` | Schéma du fichier projet, entrée du moteur (section 7.6) |
 | `schemas/exemple_annexe_C.rsnat.xml` et `.json` | RSNat de l'exemple de l'annexe C de la partie 1, écrit par le moteur et validé contre les deux schémas |
@@ -612,6 +612,7 @@ Sorties du module G (fiches A32 à A36).
 | Inat_Climat_Phase | élément composé |  | 0..5 | Inat_clim par phase |  |
 | inat_bois | nombre décimal | m²HE·an | 1..1 | Inat_bois |  |
 | inat_carrieres | nombre décimal | m²HE·an | 1..1 | Inat_carr |  |
+| inat_pollution | nombre décimal | m²HE·an | 0..1 | Inat_pol (fiche A36-2) |  |
 | Pollution_Resultat | élément composé |  | 0..n | Indicateurs de pollution |  |
 
 #### 7.3.47 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Inat_Climat_Phase`
@@ -631,6 +632,7 @@ Indicateurs de pollution.
 |---|---|---|---|---|---|
 | code | entier |  | 1..1 | Code |  |
 | valeur | nombre décimal | unité de l'annexe II | 1..1 | POL_i |  |
+| valeur_convertie | nombre décimal | m²HE·an | 0..1 | POL_i x F_i (fiche A36-2) |  |
 
 #### 7.3.49 `RSNat/Sortie_Projet/Variante_Resultat/Indicateurs`
 
@@ -771,16 +773,16 @@ Extrait du fichier `schemas/exemple_annexe_C.rsnat.xml`, écrit par le moteur, b
 
 ```
 <Indicateurs>
-  <cnat>3217.2</cnat>
-  <cnat_moyen>64.3</cnat_moyen>
-  <cnat_relatif>0.2423</cnat_relatif>
-  <cnat_30>1988.1</cnat_30>
-  <inat>141842.9</inat>
-  <snat>-145060.0</snat>
+  <cnat>3170.5</cnat>
+  <cnat_moyen>63.4</cnat_moyen>
+  <cnat_relatif>0.2388</cnat_relatif>
+  <cnat_30>1941.5</cnat_30>
+  <inat>126398.4</inat>
+  <snat>-129569.0</snat>
   <bnat>59.0</bnat>
   <cbs>0.5900</cbs>
-  <cnat_par_m2_parcelle>1.6086</cnat_par_m2_parcelle>
-  <inat_par_m2_sref>101.3163</inat_par_m2_sref>
+  <cnat_par_m2_parcelle>1.5853</cnat_par_m2_parcelle>
+  <inat_par_m2_sref>90.2846</inat_par_m2_sref>
 </Indicateurs>
 <Attestation_Permis>
   <variante>1</variante>

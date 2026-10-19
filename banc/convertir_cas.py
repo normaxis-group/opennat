@@ -78,6 +78,8 @@ def projet(cas):
         conv = {'phase_A1_A5': 'A1-A3', 'phase_B': 'B', 'phase_C': 'C', 'phase_D': 'D'}
         for k, g in ges.items():
             bat['ges'][conv[k]] = g
+        if cas.get('pollution'):                                     # indicateurs par m² de S_ref, phases A à C
+            bat['pollution'] = {code: {'A1-A3': x} for code, x in cas['pollution'].items()}
         p['batiments'] = [bat]
     else:
         p['parcelle']['emprise'] = cas.get('emprise', 0.0)

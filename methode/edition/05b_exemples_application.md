@@ -9,7 +9,7 @@ Un immeuble de 600 m² d'emprise sur une parcelle de 2 000 m² entièrement rev�
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
 | Variante A | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Variante B | 0 | 0 | 6 098 | -6 098 | 282 | 0 | 45 | 45 |
+| Variante B | 0 | 0 | 6 127 | -6 127 | 282 | 0 | 45 | 45 |
 
 Variante A, unités de l'état projet :
 
@@ -209,7 +209,7 @@ Une haie indigène pauvre de 150 m sur 2 m borde une culture. Variante A : haie 
 |---|---|---|---|---|---|---|---|---|
 | Variante A | 247,1 | 12 130 | 12 130 | -1,819 x 10^-12 | 0 | 0 | 100 | 100 |
 | Variante B | 247,1 | 12 130 | 12 768 | -638 | 13 | 0 | 100 | 100 |
-| Variante C | 247,1 | 12 130 | 12 337 | -207 | 375 | 0 | 100 | 100 |
+| Variante C | 247,1 | 12 130 | 12 339 | -209 | 375 | 0 | 100 | 100 |
 
 Variante A, unités de l'état projet :
 
@@ -238,9 +238,9 @@ Même bâtiment de 1 500 m² de S_ref. Variante A : isolation minérale. Variant
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 0 | 0 | 6 062 | -6 062 | 136 | 145 712 | 40 | 40 |
-| Variante B | 0 | 0 | 6 062 | -6 062 | 136 | 215 720 | 40 | 40 |
-| Variante C | 0 | 0 | 6 062 | -6 062 | 136 | 136 725 | 40 | 40 |
+| Variante A | 0 | 0 | 6 062 | -6 062 | 136 | 130 267 | 40 | 40 |
+| Variante B | 0 | 0 | 6 062 | -6 062 | 136 | 179 683 | 40 | 40 |
+| Variante C | 0 | 0 | 6 062 | -6 062 | 136 | 121 281 | 40 | 40 |
 
 Variante A, unités de l'état projet :
 
@@ -387,9 +387,9 @@ Une prairie urbaine de 1 200 m² est créée à côté d'un stationnement éclai
 
 | Variante | V_0 | I_0 | I_1 | Cnat | Dette | Inat | Bnat | Pleine terre (%) |
 |---|---|---|---|---|---|---|---|---|
-| Variante A | 253,3 | 12 409 | 7 063 | 5 346 | 622 | 0 | 60 | 60 |
-| Variante B | 253,3 | 12 409 | 6 470 | 5 939 | 569 | 0 | 60 | 60 |
-| Variante C | 253,3 | 12 409 | 5 297 | 7 112 | 466 | 0 | 60 | 60 |
+| Variante A | 253,3 | 12 409 | 7 154 | 5 255 | 622 | 0 | 60 | 60 |
+| Variante B | 253,3 | 12 409 | 6 553 | 5 856 | 569 | 0 | 60 | 60 |
+| Variante C | 253,3 | 12 409 | 5 365 | 7 044 | 466 | 0 | 60 | 60 |
 
 Variante A, unités de l'état projet :
 

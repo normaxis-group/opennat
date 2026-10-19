@@ -137,6 +137,21 @@ def test_ges_lineaires(T, ref):
     assert ind(r, 'inat') > ind(ref, 'inat')
 
 
+def test_pollution_croissante_et_lineaire(T, ref):
+    """Option P5 : des indicateurs de pollution ne diminuent jamais Inat, et Inat_pol leur est proportionnel."""
+    med = {'106': 0.207, '107': 0.00805, '108': 0.0369, '109': 0.383, '116': 2.37}
+
+    def avec(k):
+        def m(p):
+            for b in p['batiments']:
+                b['pollution'] = {c: {'A1-A3': k * x} for c, x in med.items()}
+        return m
+    r1, r2 = calcul(T, avec(1)), calcul(T, avec(2))
+    assert ind(r1, 'inat') > ind(ref, 'inat')
+    assert r2['etapes']['G']['inat_pol'] == pytest.approx(2 * r1['etapes']['G']['inat_pol'], rel=1e-12)
+    assert ind(r1, 'cnat') == pytest.approx(ind(ref, 'cnat'), rel=1e-12)          # le site n'en dépend pas
+
+
 def test_bois_justifie_moins_couteux(T, ref):
     sel = calcul(T, lambda p: p['variantes'][0]['materiaux']['bois'][0].update(regime='coupe_selective',
                                                                                 justification='certificat'))
