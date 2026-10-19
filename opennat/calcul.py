@@ -22,6 +22,10 @@ from . import chaine, incertitude, projet, recapitulatif
 from .donnees import Parametres, Tables
 
 
+class CalculInterrompu(RuntimeError):
+    """Calcul arrêté à la demande entre deux blocs de tirages ; l'argument est le dossier à reprendre."""
+
+
 class ErreurReprise(RuntimeError):
     """Reprise refusée : les entrées ou les tables ont changé."""
 
@@ -87,7 +91,10 @@ def _ecrire_variante(dossier: str, r: dict):
 
 
 def calculer(chemin_projet: str, sortie: str | None = None, tirages: int | None = None, graine: int | None = None,
-             reprendre: str | None = None, dire=print) -> dict:
+             reprendre: str | None = None, dire=print, suivi=None, arret=None) -> dict:
+    """Calcul complet. `suivi(variante, étape, avancement)` reçoit la progression ; `arret()` vrai interrompt le
+    calcul entre deux blocs de tirages (le dossier reste reprenable)."""
+    suivi = suivi or (lambda *a: None)
     t0 = time.time()
     T = Tables()
     P = Parametres(T)
@@ -117,7 +124,7 @@ def calculer(chemin_projet: str, sortie: str | None = None, tirages: int | None 
     cache = {}
     for v in e['variantes']:
         t = time.time()
-        r = chaine.calculer(P, e, v, journal, cache)
+        r = chaine.calculer(P, e, v, journal, cache, lambda et, i=v['index']: suivi(i, et, None))
         resultats.append(r)
         _ecrire_variante(os.path.join(dossier, f'variante_{v["index"]}'), r)
         ind = r['etapes']['E3']['indicateurs']
@@ -127,8 +134,15 @@ def calculer(chemin_projet: str, sortie: str | None = None, tirages: int | None 
     if e['options']['tirages'] > 0:
         t = time.time()
         dire(f'E4 incertitude : {e["options"]["tirages"]} tirages, graine {e["options"]["graine"]}')
-        inc = incertitude.analyser(T, e, dossier, lambda a, b: dire(f'  tirages {a} sur {b} ({time.time() - t:.0f} s)'))
+        def prog(a, b):
+            dire(f'  tirages {a} sur {b} ({time.time() - t:.0f} s)')
+            suivi(None, 'E4', a / b)
+            if arret and arret():
+                raise CalculInterrompu(dossier)
+        suivi(None, 'E4', 0.0)
+        inc = incertitude.analyser(T, e, dossier, prog)
         _ecrire_json(os.path.join(dossier, '12_E4_incertitude.json'), inc)
+    suivi(None, 'RSNat', None)
     date = dt.date.today().isoformat()
     emp_rsee = recapitulatif.empreinte_fichier(e['projet']['rsee']) if e['projet'].get('rsee') else None
     d = recapitulatif.construire(e, resultats, inc, T.empreinte, date, emp_rsee)

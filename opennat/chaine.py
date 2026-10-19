@@ -63,8 +63,10 @@ def _module_w(P, unites, ctx, cache):
                  arrosage_m3=w['arrosage_m3'])
 
 
-def calculer(P: Parametres, e: dict, v: dict, journal: list, cache_w: dict | None = None) -> dict:
-    """Calcule une variante. Renvoie les sorties de chaque étape et les grandeurs internes."""
+def calculer(P: Parametres, e: dict, v: dict, journal: list, cache_w: dict | None = None, suivi=None) -> dict:
+    """Calcule une variante. Renvoie les sorties de chaque étape et les grandeurs internes. `suivi(étape)` est
+    appelé au début de chaque étape (progression de l'utilitaire)."""
+    suivi = suivi or (lambda _: None)
     cache_w = {} if cache_w is None else cache_w
     ctx = e['contexte']
     sp = e['parcelle']['surface']
@@ -74,10 +76,12 @@ def calculer(P: Parametres, e: dict, v: dict, journal: list, cache_w: dict | Non
         raise ErreurCalcul(f'emprise du bâti ({emprise:g} m²) supérieure à la parcelle ({sp:g} m²) (fiche A02)')
     out = OrderedDict()
     # E1
+    suivi('E1')
     c1 = conf.contexte(P, e, emprise)
     out['E1'] = dict(c1, zone_biogeographique=ctx['zone_biogeographique'], typologie=ctx['typologie'],
                      zone_climatique=ctx['zone_climatique'], altitude=ctx.get('altitude'), emprise=emprise)
     # E2
+    suivi('E2')
     try:
         ini = _unites_etat(P, e['etat_initial'], journal)
         pro = _unites_etat(P, v['unites'], journal)
@@ -94,30 +98,37 @@ def calculer(P: Parametres, e: dict, v: dict, journal: list, cache_w: dict | Non
             raise ErreurCalcul(f'fermeture des surfaces de l\'état {k} : somme au sol {f["somme"]:g} m², parcelle '
                                f'{sp:g} m², écart {f["ecart"]:g} m² au-delà de la tolérance {f["tolerance"]:g} m² (fiche A03)')
     # S et H
+    suivi('S')
     try:
         _module_s_h(P, ini, journal)
         _module_s_h(P, pro, journal)
     except ErreurSaisie as x:
         raise ErreurCalcul(str(x)) from x
     out['S'] = sol.indicateurs(ini, pro, sp)
+    suivi('H')
     pretraitement.coherence_rsee(P, e['parcelle'], pro, journal)
     out['H'] = dict()
     # C
+    suivi('C')
     infos = dict(e['taches'], **v.get('taches', {}))
     kc0, kc1 = _module_c(P, ini, infos), _module_c(P, pro, infos)
     out['C'] = dict(taches_initiales=kc0, taches_projet=kc1)
     # N et E
+    suivi('N')
     _module_n_e(P, ini, ctx['zone_climatique'])
     _module_n_e(P, pro, ctx['zone_climatique'])
+    suivi('E')
     toitures = sum(u['surface'] for u in pro if u['position'] == 'hors_sol_toiture')
     inf = eau.infiltration(v.get('ouvrages_pluviaux', []), out['S']['impermeable_projet'], toitures)
     out['N'] = dict(surface_vitree_non_traitee=nuisances.surface_vitree_non_traitee(v.get('facades_vitrees', [])))
     out['E'] = inf
     # W
+    suivi('W')
     _module_w(P, ini, ctx, cache_w)
     _module_w(P, pro, ctx, cache_w)
     out['W'] = dict()
     # T
+    suivi('T')
     ch = chantier_variante(e, v, journal)
     n = int(P('*', 'periode_reference'))
     annees = [ch['annee_debut'] + t for t in range(n)]
@@ -130,8 +141,10 @@ def calculer(P: Parametres, e: dict, v: dict, journal: list, cache_w: dict | Non
     out['T'] = dict(chantier=ch, annees=[annees[0], annees[-1]], rang_plantation=rang, plan_gestion_annees=plan,
                     supplement_destruction=faune, destruction=faune_det)
     # G
+    suivi('G')
     out['G'] = materiaux.module_g(P, bats, v.get('materiaux', {}), journal)
     # E3
+    suivi('E3')
     n30 = int(P('*', 'periode_complementaire'))
     it = agregation.integration(ini, pro, n, n30)
     ind = agregation.indicateurs(it, faune, out['G']['inat'], sp, out['G']['sref'], n)
@@ -139,5 +152,6 @@ def calculer(P: Parametres, e: dict, v: dict, journal: list, cache_w: dict | Non
     arrosage = sum(sum(climat.par_annee(P, u['arrosage_m3'], annees)) for u in pro) / n
     out['E3'] = dict(integration=it, indicateurs=ind, bnat=bn, arrosage_m3_an=arrosage)
     # E5
+    suivi('E5')
     out['E5'] = conf.conformite(P, ind, bn, out['S']['pleine_terre'], it['i0'], c1, ctx)
     return dict(etapes=out, initial=ini, projet=pro)

@@ -14,7 +14,7 @@ Méthode de calcul biodiversité **OpenNAT** et son moteur libre, qui porte le m
 | 0 | Audit et état de l'art (`audit/`) | livré le 17/10/2026, go le 18/10/2026 |
 | 1 | Méthode OpenNAT v1 (`methode/`) et tables sourcées (`donnees/`) | version noyau livrée le 18/10/2026 ; édition complète livrée le même jour (lot 1 bis, 949 pages), complétée et dotée des modules dynamiques (lot 1 ter, `livraison_lot1ter.md`) |
 | 2 | Moteur (`opennat/`), banc de 73 cas (`banc/`), tests (`tests/`) | livré le 19/10/2026 (`livraison_lot2.md`) |
-| 3 | Utilitaire | à venir |
+| 3 | Utilitaire (`opennat/utilitaire/`) | livré le 19/10/2026 (`livraison_lot3.md`) |
 | 4 | Banc de validation et documentation | à venir |
 
 L'audit du lot 0 emploie encore l'ancien nom de travail « Vi-BCN » ; le nom retenu par Cédric PLANTAZ le 18/10/2026 est OpenNAT, pour la méthode comme pour le moteur.
@@ -65,3 +65,14 @@ Le calcul écrit `resultats/<projet>/<horodatage>/` : entrées après valeurs pa
 | `incertitude.py` | E4 incertitude | A39 |
 | `chaine.py`, `calcul.py` | ordre des étapes, variantes, journal, reprise | A41, A42 |
 | `rsnat.py`, `recapitulatif.py`, `rsnat_spec.py` | RSNat | partie 7 |
+
+## Utilitaire
+
+```
+python -m opennat.utilitaire                 # ouvre http://127.0.0.1:8770/ dans le navigateur
+python -m opennat.utilitaire --port 8780 --dossier D:/etudes/resultats --sans-navigateur
+```
+
+Un serveur local (bibliothèque standard, n'écoute que sur la machine) et une page web autonome, sans compte : les projets sont des fichiers JSON ouverts et enregistrés depuis le navigateur, les résultats s'écrivent dans le dossier de travail. Onglets de saisie : projet et contexte (avec reprise d'un RSEE), état initial, état projet, sol, connectivité, nuisances, eau, matériaux (avec import d'un tableur CSV), variantes ; contrôles en direct (schéma, fermeture des surfaces, saisie de chaque unité) ; calcul en arrière-plan avec suivi des étapes, arrêt et reprise ; résultats, comparaison des variantes, résultats intermédiaires, RSNat XML et JSON, fiche de synthèse en Word et en PDF (python-docx, et LibreOffice pour le PDF).
+
+Tableur des matériaux : CSV à séparateur point-virgule, colonnes `categorie;regime;quantite;remplacements;justification`, catégorie `bois` (m³, régime forestier) ou `granulats` (t).

@@ -9,9 +9,11 @@ dependencies = ["numpy", "lxml"]
 
 [project.optional-dependencies]
 dev = ["pytest"]
+fiche = ["python-docx"]
 
 [project.scripts]
 opennat = "opennat.__main__:main"
+opennat-utilitaire = "opennat.utilitaire.serveur:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

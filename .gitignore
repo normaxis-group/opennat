@@ -6,3 +6,4 @@ __pycache__/
 
 # dossiers de résultats des calculs
 resultats/
+.claude/

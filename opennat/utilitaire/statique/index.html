@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenNAT, utilitaire de calcul</title>
+<link rel="icon" href="/statique/normatys.svg">
+<link rel="stylesheet" href="/statique/style.css">
+</head>
+<body>
+<header class="barre">
+  <img class="logo" src="/statique/normatys_blanc.svg" alt="NORMATYS">
+  <div class="titre-app">OpenNAT <span>utilitaire de calcul</span></div>
+  <div class="nom-projet" id="nomProjet">Nouveau projet</div>
+  <div class="actions">
+    <button id="bNouveau" title="Nouveau projet">Nouveau</button>
+    <button id="bOuvrir" title="Ouvrir un fichier projet JSON">Ouvrir</button>
+    <button id="bExemple" title="Charger l'exemple de l'annexe C">Exemple</button>
+    <button id="bEnregistrer" class="principal" title="Enregistrer le fichier projet JSON">Enregistrer</button>
+    <input type="file" id="fOuvrir" accept=".json,application/json" hidden>
+  </div>
+</header>
+<div class="cadre">
+  <nav id="onglets" aria-label="Onglets"></nav>
+  <main id="contenu"></main>
+  <aside id="controles" aria-label="Contrôles">
+    <h3>Contrôles</h3>
+    <div id="etatControles">Saisie en cours…</div>
+  </aside>
+</div>
+<div id="tiroir" class="tiroir" hidden></div>
+<script src="/statique/app.js"></script>
+</body>
+</html>
