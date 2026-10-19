@@ -71,7 +71,7 @@ def test_calcul_de_bout_en_bout(url):
     assert '1:W' in e['etapes'] and '1:E5' in e['etapes']
     r = appel(url, f'/api/resultats/{n}')
     v = r['variantes'][0]
-    assert v['indicateurs']['cnat'] == pytest.approx(3217.2, abs=0.1) and len(v['trajectoire']['site']) == 50
+    assert v['indicateurs']['cnat'] == pytest.approx(3170.5, abs=0.1) and len(v['trajectoire']['site']) == 50
     fichiers = [f['chemin'] for f in appel(url, f'/api/fichiers/{n}')]
     assert 'variante_1/08_W_hydrique.json' in fichiers and 'rsnat.xml' in fichiers
     assert b'<RSNat>' in appel(url, f'/api/rsnat/{n}.xml')

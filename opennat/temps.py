@@ -98,11 +98,15 @@ def facteur_gestion(P: Parametres, u: dict, reg: str, duree):
         return 1.0
     g = hydrique.groupe(u)
     if reg == 'courante':                                                                  # (A56-2)
+        cible = 1.0
         if g in PRAIRIES_GEREES and u['code'] not in SANS_CONVERSION and u['position'] != 'hors_sol_toiture':
-            return nm.mini(1.0, P(REFERENCE_GESTION_COURANTE, 'valeur_intrinseque') / u['v'])
-        if u['position'] == 'lineaire' and P.existe(u['code'], 'valeur_intrinseque_stade_J'):
-            return nm.mini(1.0, P(u['code'], 'valeur_intrinseque_stade_J') / u['v'])
-        return 1.0
+            cible = nm.mini(1.0, P(REFERENCE_GESTION_COURANTE, 'valeur_intrinseque') / u['v'])
+        elif u['position'] == 'lineaire' and P.existe(u['code'], 'valeur_intrinseque_stade_J'):
+            cible = nm.mini(1.0, P(u['code'], 'valeur_intrinseque_stade_J') / u['v'])
+        if u.get('gestion') in ('courante', 'abandon'):
+            return cible
+        n = P('*', 'transition_fin_plan')                                                   # (A56-4), C-M3
+        return 1.0 - (1.0 - cible) * nm.mini(1.0, duree / nm.maxi(n, 1e-9))
     if reg == 'abandon' and g in HERBACES:                                                 # (A56-3)
         fmin = P('*', 'facteur_etat_minimum')
         friche = P(FRICHE_ARBUSTIVE, 'valeur_intrinseque') * (fmin + (1 - fmin) * P('*', 'score_friche_embroussaillee'))

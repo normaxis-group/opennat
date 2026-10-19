@@ -1685,6 +1685,11 @@
                               <xs:documentation>Inat_carr (m²HE·an)</xs:documentation>
                             </xs:annotation>
                           </xs:element>
+                          <xs:element name="inat_pollution" minOccurs="0" type="xs:decimal">
+                            <xs:annotation>
+                              <xs:documentation>Inat_pol (fiche A36-2) (m²HE·an)</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
                           <xs:element name="Pollution_Resultat" minOccurs="0" maxOccurs="unbounded">
                             <xs:annotation>
                               <xs:documentation>Indicateurs de pollution</xs:documentation>
@@ -1699,6 +1704,11 @@
                                 <xs:element name="valeur" type="xs:decimal">
                                   <xs:annotation>
                                     <xs:documentation>POL_i (unité de l'annexe II)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                                <xs:element name="valeur_convertie" minOccurs="0" type="xs:decimal">
+                                  <xs:annotation>
+                                    <xs:documentation>POL_i x F_i (fiche A36-2) (m²HE·an)</xs:documentation>
                                   </xs:annotation>
                                 </xs:element>
                               </xs:sequence>

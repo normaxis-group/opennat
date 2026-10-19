@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026 NORMATYS
-"""Module G : biodiversité grise (fiches A32 à A36)."""
+"""Module G : biodiversité grise (fiches A32 à A36) : climat, usage des sols et pollution convertie."""
 from __future__ import annotations
 
 from . import unites as U
@@ -61,13 +61,22 @@ def pollution(sref: float, pol: dict) -> dict:
     return {i: sref * sum(v for p, v in par_phase.items() if p != 'D') for i, par_phase in pol.items()}
 
 
+def pollution_convertie(P: Parametres, pol: dict) -> dict:
+    """Fiche A36-2 : indicateurs de pollution convertis en habitat équivalent perdu (convention C-G8)."""
+    detail = {i: x * P(f'pollution_{i}', 'facteur_biodiversite') for i, x in pol.items()}           # (A36-2)
+    return dict(detail=detail, inat_pol=sum(detail.values()))
+
+
 def module_g(P: Parametres, batiments: list[dict], materiaux: dict, journal: list) -> dict:
     acv = lecture_acv(batiments)
     cl = climat(P, acv['sref'], acv['ges'])
     bo = bois(P, materiaux.get('bois', []), journal)
     ca = carrieres(P, materiaux.get('granulats'))
+    pol = pollution(acv['sref'], acv['pollution'])
+    pc = pollution_convertie(P, pol)
     return dict(sref=acv['sref'], ges=acv['ges'], CF=cl['CF'], inat_clim_phase=cl['par_phase'],
                 inat_clim=cl['inat_clim'], occupation_bois=bo['occupation'], inat_bois=bo['inat_bois'],
                 inat_carr=ca, inat_sols=bo['inat_bois'] + ca,                                    # (A35-2) [G6]
-                inat=cl['inat_clim'] + bo['inat_bois'] + ca,                                     # [G1]
-                pollution=pollution(acv['sref'], acv['pollution']))
+                inat_pol=pc['inat_pol'], inat_pol_detail=pc['detail'],
+                inat=cl['inat_clim'] + bo['inat_bois'] + ca + pc['inat_pol'],                    # [G1]
+                pollution=pol)

@@ -59,6 +59,9 @@ CATALOGUE = {
     '°C par kg CO2': d(M=-1, Θ=1), 'kg CO2 éq./m² Sref': d(L=-2, M=1), 'kg': d(M=1), 't': d(M=1),
     'm²·an par t': d(L=2, M=-1, T=1), 'm²·an par m³': d(L=-1, T=1),
     "unité de l'annexe II": None, "unité de l'annexe II par m² Sref": None,
+    # facteurs de conversion de la pollution (convention C-G8) : l'unité de départ est propre à chaque indicateur
+    "m²HE·an par mol H+ éq.": None, "m²HE·an par kg P éq.": None, "m²HE·an par kg N éq.": None,
+    "m²HE·an par mol N éq.": None, "m²HE·an par CTUe": None,
 }
 
 # Constantes de conversion de `unites.py` : ce sont des changements d'échelle (sans dimension), sauf celles qui

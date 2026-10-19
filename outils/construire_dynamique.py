@@ -219,6 +219,9 @@ def succession():
                'C-M2', 'Rapport appliqué à un milieu herbacé dont la fauche ou le pâturage cesse'))
     t.append(L('*', 'delai_friche_herbacee', 2, 'an', 1, 3, OPENNAT, 'valeur de secours', '', CC, 'convention', 'C-M2',
                'Années sans fauche après lesquelles un milieu herbacé prend la valeur de sa variante abandonnée'))
+    t.append(L('*', 'transition_fin_plan', 2, 'an', 1, 3, OPENNAT, 'valeur de secours', '', CC, 'convention', 'C-M3',
+               "Années pendant lesquelles un milieu sorti de son plan de gestion perd progressivement sa valeur jusqu'à "
+               "celle de la gestion courante (même durée que le délai d'abandon de C-M2)"))
     t.append(L('*', 'delai_embroussaillement', 15, 'an', 10, 30, OPENNAT, 'valeur de secours', '', CC, 'convention',
                'C-M2', 'Années sans gestion après lesquelles un milieu herbacé devient une friche arbustive (VB.9)'))
     t.append(L('*', 'score_friche_embroussaillee', 0.75, 'fraction', 0.65, 0.85, OPENNAT, 'valeur de secours', '', CC,

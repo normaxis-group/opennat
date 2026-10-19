@@ -14,12 +14,12 @@ Produit par `outils/controle_donnees.py`. Une ligne = une valeur.
 | `etat_criteres.csv` | 100 | 2 | 94 | 0 | 4 |
 | `habitats.csv` | 1732 | 0 | 1725 | 0 | 7 |
 | `hydrique.csv` | 75 | 28 | 23 | 0 | 24 |
-| `materiaux.csv` | 20 | 10 | 1 | 1 | 8 |
+| `materiaux.csv` | 25 | 6 | 10 | 1 | 8 |
 | `nuisances.csv` | 10 | 0 | 0 | 5 | 5 |
 | `seuils.csv` | 9 | 0 | 8 | 0 | 1 |
 | `sols.csv` | 13 | 0 | 2 | 0 | 11 |
-| `succession.csv` | 19 | 11 | 1 | 0 | 7 |
-| **Total** | 2274 | 219 | 1874 | 7 | 174 |
+| `succession.csv` | 20 | 11 | 1 | 0 | 8 |
+| **Total** | 2280 | 215 | 1883 | 7 | 175 |
 
 Part des valeurs lues dans une source primaire ou transposées d'une source primaire : 92 %. Sources secondaires : 0 %. Conventions : 8 %.
 
@@ -46,7 +46,7 @@ Types : primaire = valeur lue telle quelle dans la source ; transposition = vale
 | C-G5 | 4 |
 | C-G6 | 2 |
 | C-G7 | 1 |
-| C-G8 | 1 |
+| C-G8 | 6 |
 | C-H1 | 185 |
 | C-H2 | 3 |
 | C-H3 | 9 |
@@ -64,6 +64,7 @@ Types : primaire = valeur lue telle quelle dans la source ; transposition = vale
 | C-L4 | 12 |
 | C-M1 | 4 |
 | C-M2 | 15 |
+| C-M3 | 1 |
 | C-N1 | 4 |
 | C-N2 | 3 |
 | C-N3 | 3 |
@@ -87,4 +88,4 @@ Types : primaire = valeur lue telle quelle dans la source ; transposition = vale
 | C-W8 | 1 |
 | C-W9 | 11 |
 
-Conventions de `conventions.md` sans ligne de données (elles portent sur l'algorithme) : C-G1, C-H4, C-I1, C-M3, C-P1, C-R1, C-R2, C-R3, C-R4, C-R5, C-S2, C-T3, C-T7.
+Conventions de `conventions.md` sans ligne de données (elles portent sur l'algorithme) : C-G1, C-H4, C-I1, C-P1, C-R1, C-R2, C-R3, C-R4, C-R5, C-S2, C-T3, C-T7.

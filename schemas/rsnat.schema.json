@@ -1621,6 +1621,10 @@
             "type": "number",
             "description": "Inat_carr (m²HE·an)"
            },
+           "inat_pollution": {
+            "type": "number",
+            "description": "Inat_pol (fiche A36-2) (m²HE·an)"
+           },
            "Pollution_Resultat": {
             "type": "array",
             "items": {
@@ -1634,6 +1638,10 @@
               "valeur": {
                "type": "number",
                "description": "POL_i (unité de l'annexe II)"
+              },
+              "valeur_convertie": {
+               "type": "number",
+               "description": "POL_i x F_i (fiche A36-2) (m²HE·an)"
               }
              },
              "required": [

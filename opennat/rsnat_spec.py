@@ -276,8 +276,10 @@ SORTIE = e('Sortie_Projet', 'Résultats (partie 1, chapitre 11)', [
             e('Inat_Climat_Phase', 'Inat_clim par phase', [
                 f('phase', 'phase', '', 'Phase'), f('valeur', 'decimal', 'm²HE·an', 'Inat_clim,p')], 0, 5),
             f('inat_bois', 'decimal', 'm²HE·an', 'Inat_bois'), f('inat_carrieres', 'decimal', 'm²HE·an', 'Inat_carr'),
+            f('inat_pollution', 'decimal', 'm²HE·an', 'Inat_pol (fiche A36-2)', 0),
             e('Pollution_Resultat', 'Indicateurs de pollution', [
-                f('code', 'entier', '', 'Code'), f('valeur', 'decimal', 'unité de l\'annexe II', 'POL_i')],
+                f('code', 'entier', '', 'Code'), f('valeur', 'decimal', 'unité de l\'annexe II', 'POL_i'),
+                f('valeur_convertie', 'decimal', 'm²HE·an', 'POL_i x F_i (fiche A36-2)', 0)],
               0, 'unbounded'),
         ]),
         e('Indicateurs', 'Indicateurs de l\'opération (fiches A37, A38)', INDIC),

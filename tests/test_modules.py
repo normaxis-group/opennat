@@ -84,11 +84,20 @@ def test_a33_a35_materiaux(P):
     c = materiaux.climat(P, 1400, {'A1-A3': 350, 'A4-A5': 120, 'B': 400, 'C': 55, 'D': -40})
     assert c['inat_clim'] == pytest.approx(84748, rel=1e-3)
     b = materiaux.bois(P, [dict(volume=30)], [])
-    assert b['inat_bois'] == pytest.approx(55556, rel=1e-4)
+    assert b['inat_bois'] == pytest.approx(40111, rel=1e-4)               # option O2 : qualité de la coupe rase 0,639
     j = []
     b2 = materiaux.bois(P, [dict(volume=30, regime='coupe_selective')], j)
-    assert b2['inat_bois'] == pytest.approx(55556, rel=1e-4) and j        # sans pièce : coupe rase (C-G5)
+    assert b2['inat_bois'] == pytest.approx(40111, rel=1e-4) and j        # sans pièce : coupe rase (C-G5)
     assert materiaux.carrieres(P, dict(masse=1800)) == pytest.approx(1539)
+
+
+def test_a36_pollution_convertie(P):
+    """Fiche A36-2 (option P5) : chaque indicateur du RSEE multiplié par son facteur, puis sommé."""
+    pol = {'106': 100.0, '107': 1.0, '108': 10.0, '109': 200.0, '116': 2100.0}
+    r = materiaux.pollution_convertie(P, pol)
+    assert r['detail']['116'] == pytest.approx(2100 * 0.5 / 2.5 / 365, rel=1e-3)
+    assert r['detail']['108'] == pytest.approx(125.0)
+    assert r['inat_pol'] == pytest.approx(sum(r['detail'].values()))
 
 
 def test_a32_ponderation_des_batiments():
@@ -158,10 +167,15 @@ def test_a54_maturation(P):
 
 def test_a56_gestion(P):
     prairie = dict(code='VB.26', position='sol_pleine_terre', v=0.625, f=0.8333, S=0.6667)
-    assert temps.facteur_gestion(P, prairie, 'courante', 0) == pytest.approx(0.5333, abs=1e-4)
+    # sortie d'un plan : transition linéaire sur deux ans (A56-4, C-M3)
+    assert temps.facteur_gestion(P, prairie, 'courante', 0) == pytest.approx(1.0)
+    assert temps.facteur_gestion(P, prairie, 'courante', 1) == pytest.approx(1 - 0.4667 / 2, abs=1e-4)
+    assert temps.facteur_gestion(P, prairie, 'courante', 2) == pytest.approx(0.5333, abs=1e-4)
+    # gestion courante déclarée dès la livraison : valeur courante d'emblée
+    assert temps.facteur_gestion(P, dict(prairie, gestion='courante'), 'courante', 0) == pytest.approx(0.5333, abs=1e-4)
     assert temps.facteur_gestion(P, prairie, 'abandon', 5) == pytest.approx(0.733, abs=1e-3)
     haie = dict(code='FA.3', position='lineaire', v=0.6667, f=0.875, S=0.75)
-    assert temps.facteur_gestion(P, haie, 'courante', 0) == pytest.approx(0.75, abs=1e-4)
+    assert temps.facteur_gestion(P, haie, 'courante', 3) == pytest.approx(0.75, abs=1e-4)
 
 
 def test_a58_plantation(P):

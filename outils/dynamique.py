@@ -300,18 +300,24 @@ def facteur_gestion(u, regime, duree, v_friche_arbustive):
     """Fiche A56 : rapport entre la valeur de l'unité sous un régime de gestion et sa valeur sous plan de
     gestion écologique.
     Gestion courante (C-M3) : une prairie ou une pelouse sèche est tondue comme une pelouse d'agrément (valeur
-    intrinsèque de VB.5) ; une haie est taillée chaque année et reste au stade jeune de la BKompV.
+    intrinsèque de VB.5) ; une haie est taillée chaque année et reste au stade jeune de la BKompV. À la sortie d'un plan
+    de gestion, la perte s'étale linéairement sur transition_fin_plan années.
     Abandon d'un milieu herbacé (C-M2) : variante abandonnée de la BKompV après deux ans, friche arbustive
     (VB.9) en état moyen après quinze ans."""
     if regime == 'plan' or u.get('S') is None:
         return 1.0
     g = groupe_hydrique(u)
     if regime == 'courante':
+        cible = 1.0
         if g in PRAIRIES_GEREES and u['code'] not in SANS_CONVERSION and u['position'] != 'hors_sol_toiture':
-            return min(1.0, HAB[('VB.5', 'valeur_intrinseque')] / u['v'])
-        if u['position'] == 'lineaire' and (u['code'], 'valeur_intrinseque_stade_J') in HAB:
-            return min(1.0, HAB[(u['code'], 'valeur_intrinseque_stade_J')] / u['v'])
-        return 1.0
+            cible = min(1.0, HAB[('VB.5', 'valeur_intrinseque')] / u['v'])
+        elif u['position'] == 'lineaire' and (u['code'], 'valeur_intrinseque_stade_J') in HAB:
+            cible = min(1.0, HAB[(u['code'], 'valeur_intrinseque_stade_J')] / u['v'])
+        # C-M3 : à la sortie d'un plan de gestion, la perte s'étale sur transition_fin_plan années
+        n = SUC[('*', 'transition_fin_plan')]
+        if u.get('gestion') in ('courante', 'abandon') or n <= 0:
+            return cible
+        return 1.0 - (1.0 - cible) * min(1.0, duree / n)
     if regime == 'abandon' and g in HERBACES:
         if duree < SUC[('*', 'delai_friche_herbacee')]:
             return 1.0

@@ -157,8 +157,9 @@ def construire(e: dict, resultats: list[dict], incertitude: dict | None, emprein
             Materiaux=_sans_vide(dict(
                 facteur_climat=g['CF'], inat_climat=g['inat_clim'],
                 Inat_Climat_Phase=[dict(phase=p, valeur=x) for p, x in g['inat_clim_phase'].items()] or None,
-                inat_bois=g['inat_bois'], inat_carrieres=g['inat_carr'],
-                Pollution_Resultat=[dict(code=int(c), valeur=x) for c, x in g['pollution'].items() if nm.scalaire(x)] or None)),
+                inat_bois=g['inat_bois'], inat_carrieres=g['inat_carr'], inat_pollution=g['inat_pol'],
+                Pollution_Resultat=[dict(code=int(c), valeur=x, valeur_convertie=g['inat_pol_detail'][c])
+                                    for c, x in g['pollution'].items() if nm.scalaire(x)] or None)),
             Indicateurs=_sans_vide(dict(
                 cnat=ind['cnat'], cnat_moyen=ind['cnat_moyen'], cnat_relatif=ind['cnat_relatif'], cnat_30=ind['cnat_30'],
                 inat=ind['inat'], snat=ind['snat'], bnat=bn['bnat'], cbs=bn['cbs'],

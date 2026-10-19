@@ -158,7 +158,7 @@ Occupation des sols du bois : 10 000 / P x R m²·an par m³ de produit, avec P 
 
 ### C-G5
 Catégorie : convention de transposition.
-La qualité d'habitat de la forêt d'origine dépend du régime déclaré (GLOBIO 3.5, table 2.2) : plantation 0,30, coupe rase 0,50, coupe sélective 0,70, exploitation à faible impact 0,85. La certification de gestion forestière n'apporte pas de coefficient : elle justifie le régime déclaré. Sans justification, le régime est la coupe rase.
+La qualité d'habitat de la forêt d'origine dépend du régime déclaré. Les pertes de GLOBIO 3.5 (table 2.2 : plantation 0,30, coupe rase 0,50, coupe sélective 0,70, exploitation à faible impact 0,85) sont recalées sur les méthodes d'analyse du cycle de vie : la perte d'une forêt exploitée y vaut, face à celle d'un site d'extraction, 0,23 (LC-IMPACT v2, France), 0,41 (ReCiPe 2016) et 0,38 (EF 3.1, France) ; avec la médiane, 0,38, rapportée à la perte d'une carrière (0,95), les qualités deviennent : plantation 0,494, coupe rase 0,639, coupe sélective 0,783, exploitation à faible impact 0,892, les rapports extrêmes donnant les bornes. La certification de gestion forestière n'apporte pas de coefficient : elle justifie le régime déclaré. Sans justification, le régime est la coupe rase.
 
 ### C-G6
 Catégorie : valeur de secours.
@@ -170,7 +170,7 @@ L'occupation des sols des usines (acier, verre, plastiques, isolants minéraux, 
 
 ### C-G8
 Catégorie : convention de transposition.
-Les indicateurs de pollution du RSEE (acidification 106, eutrophisation 107 à 109, écotoxicité pour l'eau douce 116) sont repris tels quels et affichés à part, en unités de l'annexe II, faute de conversion sourcée vers la MSA.
+Les indicateurs de pollution du RSEE (acidification 106, eutrophisation 107 à 109, écotoxicité pour l'eau douce 116) sont convertis en m²HE·an par les facteurs de `materiaux.csv` (clé pollution_<code>, paramètre facteur_biodiversite), une fraction d'espèces perdue sur un m² pendant un an valant un m²HE·an, et additionnés à Inat en un poste Inat_pol. Facteurs : acidification par ReCiPe 2016 et les facteurs EF de dépassement cumulé ; eutrophisation des eaux douces par ReCiPe 2016 et IMPACT World+ ; eutrophisation marine et écotoxicité par IMPACT World+ ; eutrophisation terrestre par GLOBIO 3.5. L'écotoxicité à long terme des métaux n'est pas comptée.
 
 ## Relevés
 
@@ -300,7 +300,7 @@ Un milieu herbacé dont l'entretien cesse prend, après deux ans, la valeur de s
 
 ### C-M3
 Catégorie : valeur de secours.
-Le plan de gestion écologique déclaré couvre un nombre d'années compté depuis la livraison. Pendant le plan, chaque unité garde sa valeur. Ensuite, sauf déclaration d'un autre régime, l'unité passe en gestion courante : une prairie ou une pelouse sèche est tondue comme une pelouse d'agrément et prend la valeur intrinsèque de VB.5 ; une haie est taillée chaque année et garde la valeur du stade jeune de la BKompV ; les jardins, les pelouses, les toitures et les autres milieux ne changent pas. L'état initial garde sa gestion actuelle sur toute la période.
+Le plan de gestion écologique déclaré couvre un nombre d'années compté depuis la livraison. Pendant le plan, chaque unité garde sa valeur. Ensuite, sauf déclaration d'un autre régime, l'unité passe en gestion courante : une prairie ou une pelouse sèche est tondue comme une pelouse d'agrément et prend la valeur intrinsèque de VB.5 ; une haie est taillée chaque année et garde la valeur du stade jeune de la BKompV ; les jardins, les pelouses, les toitures et les autres milieux ne changent pas. L'état initial garde sa gestion actuelle sur toute la période. À la sortie du plan, la perte de valeur s'étale linéairement sur deux ans (transition_fin_plan, bornes 1 à 3 ans), durée que C-M2 retient pour un milieu herbacé abandonné.
 
 ## Calendrier du chantier
 

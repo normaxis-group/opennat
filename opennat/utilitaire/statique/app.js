@@ -617,7 +617,7 @@ function ongletResultats() {
       ['Premier mois de plantation (rang depuis le début du chantier)', nb(si.rang_plantation, 0)],
       ['Plan de gestion écologique (années)', nb(si.plan, 0)]])),
     el('div', { class: 'carte' }, el('h3', {}, 'Biodiversité grise par poste (module G)'), barres([
-      ['Climat (composants et chantier)', ma.inat_clim], ['Bois (occupation des forêts)', ma.inat_bois], ['Carrières', ma.inat_carr]]),
+      ['Climat (composants et chantier)', ma.inat_clim], ['Bois (occupation des forêts)', ma.inat_bois], ['Carrières', ma.inat_carr], ['Pollution (RSEE convertie)', ma.inat_pol]]),
       el('h4', {}, 'Climat par phase'), tableauLecture(Object.entries(ma.par_phase).map(([p, x]) => [p, nb(x, 0)])),
       el('div', { class: 'note' }, `S_ref ${nb(ma.sref, 0)} m² ; facteur climat ${ma.CF.toExponential(3).replace('.', ',').replace('e', ' x 10^')} m²HE par kg CO2 éq. et par an.`))];
   if (v.incertitude) blocs.push(el('div', { class: 'carte' }, el('h3', {}, `Incertitude (${v.incertitude.tirages} tirages, fiche A39)`),

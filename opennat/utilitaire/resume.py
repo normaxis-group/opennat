@@ -52,7 +52,7 @@ def resumer(r: dict) -> dict:
                       a_inf=_f(et['E']['a_inf']), rang_plantation=_f(et['T']['rang_plantation']),
                       chantier=et['T']['chantier'], plan=et['T']['plan_gestion_annees']),
             materiaux=dict(sref=_f(g['sref']), CF=_f(g['CF']), inat_clim=_f(g['inat_clim']), inat_bois=_f(g['inat_bois']),
-                           inat_carr=_f(g['inat_carr']), par_phase={p: _f(x) for p, x in g['inat_clim_phase'].items()},
+                           inat_carr=_f(g['inat_carr']), inat_pol=_f(g['inat_pol']), par_phase={p: _f(x) for p, x in g['inat_clim_phase'].items()},
                            pollution={c: _f(x) for c, x in g['pollution'].items()}),
             trajectoire=dict(annees=list(range(a0, a1 + 1)), site=[_f(x) for x in it['site']],
                              reference=[_f(x) for x in it['ref']]),

@@ -422,7 +422,7 @@ Conventions C-G6, C-G7.
 
 **Introduction**
 
-L'acidification, l'eutrophisation et l'écotoxicité nuisent aux écosystèmes, mais aucune conversion sourcée vers la MSA n'existe. Ces indicateurs sont affichés à part.
+L'acidification, l'eutrophisation et l'écotoxicité nuisent aux écosystèmes. Chaque indicateur du RSEE est converti en habitat équivalent perdu par un facteur publié (convention C-G8) et ajouté à Inat ; le détail par indicateur reste affiché.
 
 **Nomenclature**
 
@@ -434,13 +434,15 @@ Sorties : POL_i = somme sur les phases A1-A3, A4-A5, B et C de POL_{i,p} x S_ref
 
 (A36-1) POL_i = S_ref x somme des POL_{i,p} pour p hors D
 
+(A36-2) Inat_pol = somme sur i de POL_i x F_i
+
 **Cas limites et contrôles**
 
-Les indicateurs ne s'additionnent pas entre eux ni avec Inat.
+Les indicateurs ne s'additionnent qu'après conversion par leur facteur F_i ; un indicateur absent du RSEE compte pour zéro.
 
 **Cas élémentaire**
 
-POL_116 de 1,82 CTUe/m² pour 1 400 m² : 2 548 CTUe.
+POL_116 de 1,82 CTUe/m² pour 1 400 m² : 2 548 CTUe, soit Inat_pol = 2 548 x 5,479 x 10^-4 = 1,40 m²HE·an.
 
 **Renvois**
 

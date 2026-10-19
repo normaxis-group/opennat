@@ -434,7 +434,9 @@ Sorties : trajectoire de chaque unité (50 valeurs), trajectoire du site, I_0, I
 Objet : perte de nature causée par les matériaux et le chantier.
 Paramètres : `materiaux.csv`.
 
-(G1) Inat = Inat_clim + Inat_sols
+(G1) Inat = Inat_clim + Inat_sols + Inat_pol
+
+Inat_pol convertit les indicateurs de pollution du RSEE (106, 107, 108, 109, 116) en habitat équivalent perdu : Inat_pol = somme sur i de POL_i x F_i, F_i étant lu dans `materiaux.csv` (convention C-G8, fiche A36-2). L'écotoxicité à long terme des métaux n'est pas comptée.
 
 (G2) Inat_clim = CF x S_ref x somme sur les phases p de (GES_p x a_p)
 
@@ -652,19 +654,20 @@ Gestion (T6) : le plan de dix ans court jusqu'en février 2039. À partir de l'a
 | V_1(t), m²HE | 24,0 | 68,2 | 156,5 | 195,2 | 219,1 | 234,1 | 242,6 | 246,1 | 250,1 | 252,0 | 205,2 | 204,3 | 202,4 | 197,8 |
 | V_0(t) x k_W, m²HE | 270,4 | 270,4 | 270,4 | 270,4 | 270,2 | 270,0 | 269,9 | 269,7 | 269,4 | 269,0 | 268,8 | 267,7 | 265,0 | 258,3 |
 
-I_0 = 13 277,1 m²HE·an (T7) : la friche initiale subit elle aussi le réchauffement. I_1 = 10 059,9 m²HE·an. Dette de maturité (T8) : 673,1 m²HE·an.
+I_0 = 13 277,1 m²HE·an (T7) : la friche initiale subit elle aussi le réchauffement. I_1 = 10 106,5 m²HE·an. Dette de maturité (T8) : 673,1 m²HE·an.
 
-**C.5 bis Agrégation du site.** Cnat = 13 277,1 - 10 059,9 + 0 = 3 217,2 m²HE·an (A1), soit 24,2 % de I_0 et 64,3 m²HE en moyenne annuelle. Sur 30 ans : 1 988,1 m²HE·an. Le niveau 1 (Cnat <= 0) n'est pas atteint.
+**C.5 bis Agrégation du site.** Cnat = 13 277,1 - 10 106,5 + 0 = 3 170,5 m²HE·an (A1), soit 23,9 % de I_0 et 63,4 m²HE en moyenne annuelle. Sur 30 ans : 1 941,5 m²HE·an. Le niveau 1 (Cnat <= 0) n'est pas atteint.
 
 **C.6 Module G.** Données du RSEE : S_ref = 1 400 m² ; indicateur 101 des contributeurs composants et chantier : A1-A3 350, A4-A5 120, B 400, C 55, D -40 kg CO2 éq. par m².
 Somme des GES_p x a_p = (350 + 120) x 50 + 400 x 25 + 55 x 0 + (-40) x 0 = 33 500 kg·an par m².
 Inat_clim = 1,807 x 10^-3 x 1 400 x 33 500 = 84 748 m²HE·an (G2).
-Bois : 30 m³, régime non justifié, donc coupe rase (MSA 0,50) : occupation = 10 000 x 2 / 5,4 = 3 703,7 m²·an par m³ ; Inat_bois = 30 x 3 703,7 x (1 - 0,50) = 55 556 m²HE·an (G4).
+Bois : 30 m³, régime non justifié, donc coupe rase (MSA 0,639, convention C-G5) : occupation = 10 000 x 2 / 5,4 = 3 703,7 m²·an par m³ ; Inat_bois = 30 x 3 703,7 x (1 - 0,639) = 40 111 m²HE·an (G4).
 Granulats : 1 800 t ; Inat_carrières = 1 800 x 0,9 x 0,95 = 1 539 m²HE·an (G5).
-Inat = 84 748 + 55 556 + 1 539 = 141 843 m²HE·an, soit 101,3 m²HE·an par m² de S_ref.
+Le RSEE de l'exemple ne porte pas d'indicateur de pollution : Inat_pol = 0.
+Inat = 84 748 + 40 111 + 1 539 + 0 = 126 398 m²HE·an, soit 90,3 m²HE·an par m² de S_ref.
 
-**C.7 Solde.** Snat = -(3 217,2 + 141 843) = -145 060 m²HE·an.
+**C.7 Solde.** Snat = -(3 170,5 + 126 398) = -129 569 m²HE·an.
 
 **C.8 Bnat.** Bâtiment et voirie : 1 000 m² x 0 ; cheminements : 150 x 0,2 = 30 ; pleine terre : 850 x 1 = 850 ; toiture de 15 cm (S05) : 500 x 0,6 = 300. Bnat = 100 x 1 180 / 2 000 = 59,0 (A3). Emprise 700 / 2 000 = 35 %, seuil 45 : atteint. Pleine terre 850 / 2 000 = 42,5 %, seuil 15 % : atteint.
 
-**C.9 Lecture.** L'attestation au permis porte Bnat = 59,0 (seuil 45) et une pleine terre de 42,5 % (seuil 15 %) : le plan masse est conforme. À l'achèvement, le site reste en perte nette (24 % de sa valeur intégrée) : la friche herbacée initiale, même dégradée par une espèce envahissante, valait plus que les aménagements une fois mûrs. La perte tient d'abord à la gestion : un plan de gestion écologique couvrant les cinquante ans ramènerait Cnat à 1 476 m²HE·an, un plan de trente ans à 2 292, l'absence de plan la porterait à 3 644 (cas D20 à D22 de la partie 8). Le substrat de la toiture vient ensuite : à 30 cm, Cnat baisse de 93 m²HE·an ; à 8 cm, il monte de 298. Un défrichement en mai, en pleine nidification, ajouterait 243,6 m²HE·an (cas D01). La biodiversité grise pèse près de 100 fois la perte du site et dix fois la valeur intégrée du site entier : 60 % par le climat, 39 % par le bois d'origine non justifiée. Justifier une coupe sélective (MSA 0,70) ramènerait Inat_bois de 55 556 à 33 333 m²HE·an.
+**C.9 Lecture.** L'attestation au permis porte Bnat = 59,0 (seuil 45) et une pleine terre de 42,5 % (seuil 15 %) : le plan masse est conforme. À l'achèvement, le site reste en perte nette (23,9 % de sa valeur intégrée) : la friche herbacée initiale, même dégradée par une espèce envahissante, valait plus que les aménagements une fois mûrs. La perte tient d'abord à la gestion : un plan de gestion écologique couvrant les cinquante ans ramènerait Cnat à 1 476 m²HE·an, un plan de trente ans à 2 246, l'absence de plan la porterait à 3 617 (cas D20 à D22 de la partie 8). Le substrat de la toiture vient ensuite : à 30 cm, Cnat baisse de 93 m²HE·an ; à 8 cm, il monte de 298. Un défrichement en mai, en pleine nidification, ajouterait 243,6 m²HE·an (cas D01). La biodiversité grise pèse environ 40 fois la perte du site et près de dix fois la valeur intégrée du site entier : 67 % par le climat, 32 % par le bois d'origine non justifiée. Justifier une coupe sélective (MSA 0,783) ramènerait Inat_bois de 40 111 à 24 111 m²HE·an.

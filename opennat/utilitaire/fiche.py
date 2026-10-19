@@ -271,7 +271,8 @@ def construire_docx(res: dict, chemin: str):
         _tableau(doc, ['Poste', 'Inat (m²HE·an)'], [
             ['Climat (émissions des composants et du chantier)', nombre(ma['inat_clim'], 0)],
             ['Bois (occupation des forêts)', nombre(ma['inat_bois'], 0)],
-            ['Carrières (granulats)', nombre(ma['inat_carr'], 0)]], [10.0, 7.0], numeriques=(1,))
+            ['Carrières (granulats)', nombre(ma['inat_carr'], 0)],
+            ['Pollution (indicateurs du RSEE convertis)', nombre(ma.get('inat_pol') or 0, 0)]], [10.0, 7.0], numeriques=(1,))
         inc = x.get('incertitude')
         if inc:
             doc.add_paragraph(f'Incertitude ({inc["tirages"]} tirages)', style='Heading 2')

@@ -24,6 +24,7 @@ Empreinte des tables de la version 1.2.2 : `a8eafaca6188b665864b424f480fd3b19a01
 | 18/10/2026 | 1 ter | Modules dynamiques : climat horaire TRACC et ET0 (A43 à A46), bilan hydrique horaire des sols, toitures et mares (A47 à A50), éclairage horaire (A51 à A53), maturation et gestion (A54 à A56), calendrier du chantier (A57, A58) ; 29 cas dynamiques ; annexe C recalculée (Cnat 3 217,2) | a1a19df, 2f9f9d2 |
 | 19/10/2026 | 2 | Fichier projet (partie 7.6) ; RSNat d'exemple écrit par le moteur | a3ac8bd |
 | 19/10/2026 | 4 | Unité du facteur de caractérisation du climat corrigée : m²HE par kg CO2 éq. et non « par kg et par an » (fiche A33, équation G3, partie 7) ; relevée par le contrôle dimensionnel ; aucun résultat ne change | ce lot |
+| candidate | 8 | Branche `candidate-bsc`, non adoptée : Inat = Inat_clim + Inat_sols + Inat_pol (G1, fiche A36-2, convention C-G8) ; fin de plan de gestion progressive (fiche A56-4, convention C-M3) ; régimes forestiers recalés (convention C-G5) ; annexe C recalculée | branche candidate-bsc |
 
 ## Données
 
@@ -36,6 +37,7 @@ Empreinte des tables de la version 1.2.2 : `a8eafaca6188b665864b424f480fd3b19a01
 | 1.2 | 19/10/2026 | 2 | Constantes des équations publiées et valeurs de règle lues par le moteur (`constantes.csv`, 70 lignes : FAO-56, ISO 2533, raccourcis d'éclairage, heure légale, contrôles, incertitude) ; bornes des classes d'emprise (`seuils.csv`) ; part de valeurs primaires ou transposées : 92 % | `1e8f76c435feb0332e70096dff7f082f43f3498e4c163bee84a3e6cd2aefada0` |
 | 1.2.1 | 19/10/2026 | 4 | `materiaux.csv`, climat, facteur de caractérisation : unité « m²HE par kg CO2 éq. » au lieu de « m²HE par kg CO2 éq. et par an », valeur inchangée (1,807 × 10⁻³). Effet sur les 73 cas du banc : aucun (instantané de non-régression identique hors empreinte) | `b320e8edd30696e070f202454ebece37b96b7b7f38f8bb0c6463f52db555c6de` |
 | 1.2.2 | 19/10/2026 | 5 | `conventions.csv` : sept énoncés tronqués complétés (C-H7, C-E1, C-C1, C-N2, C-G2, C-W8, C-L3), le générateur coupant à toute abréviation (« article R. ») ; aucune valeur ne change. Effet sur les 73 cas du banc : aucun | `a8eafaca6188b665864b424f480fd3b19a01d3cb244f8adbbb61862aab4ddcbd` |
+| 1.3.0, candidate | 19/10/2026 | 8 | Version candidate, non adoptée, sur la branche `candidate-bsc` : options recommandées au Biodiversity Standard Council. Bois (D1, option O2) : qualités des régimes forestiers recalées sur LC-IMPACT, ReCiPe et EF (coupe rase 0,639). Pollution (D3, option P5) : cinq facteurs `pollution_<code>` qui convertissent les indicateurs du RSEE en m²HE·an. Gestion (D7) : fin de plan étalée sur deux ans (`transition_fin_plan`). Exemple de l'annexe C : Cnat 3 170,5, Inat 126 398, Snat -129 569 m²HE·an | `4444dd21241990d8007d6e641b143b8e0f4c0d433eb7731194dbe915e3e88339` |
 
 ## Moteur
 

@@ -84,7 +84,7 @@ def test_calcul_avec_rsee_et_variantes(tmp_path):
     assert not any(r['erreurs_schema'].values())
     i1 = r['resultats'][0]['etapes']['G']['inat_bois']
     i2 = r['resultats'][1]['etapes']['G']['inat_bois']
-    assert i2 - i1 == pytest.approx(-22222, abs=1)                          # fiche A41, cas élémentaire
+    assert i2 - i1 == pytest.approx(-16000, abs=1)                          # fiche A41, cas élémentaire (option O2)
     assert any(x['indicateur'] == 'ecart_inat' for x in r['incertitude'][2]['Intervalle'])
     d = r['dossier']
     for f in ('00_entrees.json', '12_E4_tirages.csv', 'rsnat.xml', 'rsnat.json', 'journal.txt', 'empreinte.txt',

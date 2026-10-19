@@ -499,6 +499,8 @@ Sorties : f_g,u(t).
 
 (A56-2) Gestion courante : prairie ou végétation xérophile en pleine terre (hors VB.5, VB.7, VB.22) : f_g = min(1 ; v(VB.5) / v_u) ; haie : f_g = min(1 ; v(h_u, stade J) / v_u) ; autres : f_g = 1
 
+(A56-4) À la sortie d'un plan de gestion, la gestion courante s'installe en t_tr = 2 ans (transition_fin_plan, convention C-M3) : f_g(τ) = 1 - (1 - f_g,courante) x min(1 ; τ / t_tr), τ étant le temps écoulé depuis la fin du plan ; une unité déclarée en gestion courante dès la livraison prend f_g,courante d'emblée
+
 (A56-3) Abandon d'un milieu herbacé : f_g = 1 pendant 2 ans ; puis r_ab(h_u), rapport de la variante abandonnée au type exploité de la BKompV (moyenne des couples à défaut) jusqu'à 15 ans ; puis f_g = v(VB.9) x (0,5 + 0,5 x 0,75) / (v_u x f_u)
 
 **Cas limites et contrôles**
