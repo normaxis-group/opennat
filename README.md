@@ -15,8 +15,6 @@ pour le texte et les tables, AGPL-3.0-or-later pour le moteur et l'utilitaire.
 > ses résultats ne sont pas opposables : un résultat OpenNAT n'est pas une certification et ne peut pas, à lui seul,
 > fonder une allégation environnementale (directive (UE) 2024/825). Le code est fourni sans garantie (articles 15 et
 > 16 de la licence AGPL).
->
-> **Dépôt privé.** Aucune publication sans le go écrit de Cédric PLANTAZ.
 
 ## Pourquoi ce projet
 
