@@ -28,3 +28,10 @@ Régénérer l'édition complète et les documents qui citent les chiffres de la
 ## Ce que le go déclenche
 
 Déposer le nom ; signer la convention 007 ; transmettre au conseil quand ses membres sont connus ; fusionner la branche candidate après ses décisions.
+
+## Complément (19/10/2026, sur la branche candidate)
+
+- Le carnet de référence calcule désormais la pollution convertie de son côté (`outils/carnet_reference.py`), et le convertisseur de cas transmet les indicateurs au fichier projet.
+- Cas D30 ajouté au banc : l'exemple de l'annexe C avec les indicateurs de pollution médians des neuf bâtiments réels. Le moteur retrouve le carnet (145 tests sur 145) ; la pollution ajoute 5 574 m²HE·an à Inat (6,6 % du climat). Banc : 74 cas.
+- Test de propriété : la pollution ne fait jamais baisser Inat, Inat_pol lui est proportionnel, et Cnat n'en dépend pas.
+- Édition complète régénérée en Markdown sur la branche (parties 2, 4, 5, 7 et 8 : facteurs de pollution, élément `inat_pollution` du récapitulatif, cas D30, chiffres recalculés). Le rendu Word et PDF se fera à l'adoption ; les sections rédigées à la main qui citent les chiffres de la version en vigueur (lecture du cas 7, contrôle Carbone 4) seront reprises à ce moment.
