@@ -579,7 +579,7 @@ function suiviCalcul() {
   }
   if (e.etat === 'en_cours') z.append(el('div', { class: 'ligne', style: 'margin-top:10px' }, el('button', { class: 'danger', onclick: () => post(`/api/calcul/${S.calcul}/arret`, {}) }, 'Arrêter après le bloc de tirages en cours')));
   if (e.etat === 'interrompu') z.append(el('div', { class: 'ligne', style: 'margin-top:10px' }, el('span', {}, 'Le dossier reste reprenable : '),
-    el('button', { class: 'principal', onclick: () => lancer(e.dossier) }, 'Reprendre le calcul')));
+    el('button', { class: 'principal', onclick: () => lancer(S.calcul) }, 'Reprendre le calcul')));
   if (e.etat === 'erreur') z.append(el('div', { class: 'erreurs' }, 'Calcul arrêté : ' + e.erreur));
   z.append(el('h4', {}, 'Journal'), el('pre', { class: 'journal' }, (e.messages || []).join('\n')));
   return z;
@@ -697,7 +697,7 @@ function ongletFichiers() {
     vue.textContent = t.length > 400000 ? t.slice(0, 400000) + '\n[…]' : t;
   }
   return [el('h2', {}, 'Résultats intermédiaires (fiche A42)'),
-    el('p', { class: 'note' }, `Dossier : ${S.resultats.dossier}. Chaque variante a un fichier par étape, dans l'ordre du chapitre 6 de la méthode.`), z, vue];
+    el('p', { class: 'note' }, `${S.resultats.dossier ? 'Dossier : ' + S.resultats.dossier + '. ' : ''}Chaque variante a un fichier par étape, dans l'ordre du chapitre 6 de la méthode.`), z, vue];
 }
 function ongletFiche() {
   if (!S.resultats) return sansResultats();
@@ -712,7 +712,7 @@ function ongletFiche() {
   return [el('h2', {}, 'Fiche de synthèse et RSNat'),
     el('div', { class: 'carte' }, el('h3', {}, 'Fiche de synthèse'),
       el('p', { class: 'note' }, 'Fiche au papier de l\'éditeur de la méthode : identification, version de la méthode et des données, empreinte de contrôle, attestation au permis, indicateurs, incertitude.'),
-      el('div', { class: 'ligne' }, el('button', { class: 'principal', onclick: () => charger_(`/api/fiche/${S.calcul}.pdf`, `fiche_synthese_${id}.pdf`) }, 'Fiche en PDF'),
+      el('div', { class: 'ligne' }, S.ref && S.ref.fiche_pdf === false ? null : el('button', { class: 'principal', onclick: () => charger_(`/api/fiche/${S.calcul}.pdf`, `fiche_synthese_${id}.pdf`) }, 'Fiche en PDF'),
         el('button', { onclick: () => charger_(`/api/fiche/${S.calcul}.docx`, `fiche_synthese_${id}.docx`) }, 'Fiche en Word')), retour),
     el('div', { class: 'carte' }, el('h3', {}, 'RSNat'),
       el('p', { class: 'note' }, 'Récapitulatif standardisé, validé contre ses schémas XSD et JSON. Le bloc Attestation_Permis est l\'extrait déposé au permis de construire.'),

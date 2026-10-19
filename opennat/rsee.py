@@ -25,7 +25,9 @@ def _nombre(e, chemin):
 
 def lire(chemin: str) -> dict:
     with open(chemin, 'rb') as f:
-        racine = etree.fromstring(f.read(), etree.XMLParser(huge_tree=True))
+        # aucune entité résolue, ni réseau ni DTD : un RSEE peut venir d'un tiers (version en ligne)
+        analyseur = etree.XMLParser(huge_tree=True, resolve_entities=False, no_network=True, load_dtd=False)
+        racine = etree.fromstring(f.read(), analyseur)
     res = dict(batiments=[], parcelle={}, rsenv=False)
     for e in racine.iter('zone_climatique'):
         m = re.search(r'H[123][a-d]?', e.text or '')
