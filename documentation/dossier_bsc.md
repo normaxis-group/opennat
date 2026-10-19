@@ -1,6 +1,6 @@
 # Dossier de soumission de la méthode OpenNAT 1 au Biodiversity Standard Council
 
-NORMATYS, éditeur de la méthode. Méthode OpenNAT 1 (révision du 19 octobre 2026), données 1.2.2, moteur 0.2.0. Projet de dossier du 19 octobre 2026, non transmis.
+NORMATYS, éditeur de la méthode. Méthode OpenNAT 1 (révision du 19 octobre 2026), données 1.2.2, moteur 0.2.0. Projet de dossier du 19 octobre 2026, non transmis. Complété par la note « Pollution et biodiversité grise : ponts depuis les indicateurs du RSEE ».
 
 ## Objet de la demande
 
@@ -32,7 +32,7 @@ L'analyse d'incertitude de l'exemple de l'annexe C désigne les paramètres qui 
 |---|---|---|---|
 | D1 | Recalibrage du bois | C-G4, C-G5 | option O2 dès maintenant ; O3 quand la source du rendement alloué aura été lue en entier |
 | D2 | Occupation des usines | C-G7 | garder l'écart, le chiffrer et l'afficher ; pas de proxy |
-| D3 | Pollution dans la biodiversité grise | C-G8 | intégrer l'eutrophisation terrestre par GLOBIO, publier les eutrophisations en espèce·an, ouvrir le chantier de l'écotoxicité |
+| D3 | Pollution dans la biodiversité grise | C-G8 | convertir les cinq indicateurs du RSEE par des facteurs ouverts et les ajouter à Inat (option P5, note dédiée) |
 | D4 | Facteur de caractérisation du climat | C-G2 | confirmer, avec sa plage |
 | D5 | Seuils de Bnat, de pleine terre et de niveau ; pas de seuil d'Inat ni de Snat | C-E6, C-E7 | confirmer pour une période d'essai de deux ans |
 | D6 | Valeurs d'habitat et grilles d'état | C-H1 à C-H8 | confirmer sous réserve de la relecture par un écologue |
@@ -71,17 +71,11 @@ Recommandation : garder l'écart en v1, l'afficher avec cet ordre de grandeur da
 
 Le RSEE porte cinq indicateurs de pollution : acidification (106, mol H+ éq.), eutrophisation des eaux douces (107, kg P éq.), marine (108, kg N éq.) et terrestre (109, dépassement cumulé, mol N éq.), écotoxicité pour l'eau douce (116, CTUe). OpenNAT les affiche à part, sans conversion (C-G8). Chez Carbone 4, la pollution fait 51 % de la biodiversité grise d'un bâtiment béton.
 
-Sur neuf bâtiments de RSEE réels du groupe, les médianes par m² de surface de référence (phases A à C) sont : 805 kg CO2 éq., 0,21 mol H+ éq., 0,0081 kg P éq., 0,037 kg N éq., 0,38 mol N éq., 2,4 CTUe. Trois voies sourcées ont été chiffrées sur ce bâtiment médian :
+Une note dédiée, « Pollution et biodiversité grise : ponts depuis les indicateurs du RSEE », cherche pour chacun des cinq indicateurs un facteur publié et ouvert : IMPACT World+ pour l'écotoxicité et l'eutrophisation marine, ReCiPe 2016 pour l'acidification et l'eutrophisation des eaux douces, GLOBIO 3.5 pour l'eutrophisation terrestre. Sur neuf bâtiments de RSEE réels du groupe, la pollution ainsi convertie pèse de 4 à 13 % du climat, et l'écotoxicité déclarée reste négligeable même au plus haut.
 
-| Voie | Source | Poids face au climat |
-|---|---|---|
-| P2, eutrophisation terrestre dans Inat | GLOBIO 3.5, tableau 4.1 : MSA = 1 - 0,220 ln(NE + 1) pour les forêts, NE étant l'azote déposé au-delà de la charge critique (g/m²/an) ; l'indicateur 109 mesure ce même excès, d'où 3,1 m²HE·an par mol N éq. | 0,6 à 1,2 m²HE·an par m², soit 0,8 à 1,6 % du climat |
-| P3, eutrophisations en espèce·an, à part | ReCiPe 2016, facteurs de passage à l'effet : 6,7 × 10⁻⁷ par kg P éq., 1,7 × 10⁻⁹ par kg N éq. (mêmes unités que 107 et 108) | 0,24 % du climat en espèce·an |
-| P4, forfait calé sur Carbone 4 | rapport pollution sur climat de leur bâtiment béton (51 / 38) | ajoute 1,34 fois le climat |
+Les 51 % de Carbone 4 viennent d'un autre modèle : inventaires ecoinvent mis à l'échelle du carbone de chaque fiche et facteurs à long terme d'IMPACT World+ pour les métaux. Ce modèle ne se reconstruit pas à partir des données d'une étude RE2020, ecoinvent n'étant pas ouvert et la licence du service INIES interdisant la notation des fiches. Un forfait calé sur Carbone 4 (pollution égale à 1,34 fois le climat) reposerait sur une seule étude, sans licence, et rendrait la pollution proportionnelle au carbone : il est écarté.
 
-Le constat est net : les facteurs ouverts lus ne retrouvent pas la part de Carbone 4. Celle-ci tient à l'écotoxicité et à l'acidification, pour lesquelles aucun facteur ouvert ne part des unités du RSEE (CTUe, mol H+ éq.). Le forfait P4 reposerait sur une seule étude, sans licence, et rendrait la pollution proportionnelle au carbone : il est écarté.
-
-Recommandation : intégrer P2 dans Inat (pont sourcé, faible poids, même unité) ; publier P3 en indicateur complémentaire ; ouvrir le chantier de l'écotoxicité, en partant de la conversion des unités toxiques comparatives (CTUe) en fraction d'espèces que pratique IMPACT World+ ; ne fixer aucun seuil d'Inat ni de Snat avant ce travail.
+Recommandation : option P5 de la note, c'est-à-dire convertir les cinq indicateurs par ces ponts, chacun avec sa plage d'incertitude, et les ajouter à Inat ; dire en clair que l'écotoxicité à long terme des métaux n'est pas comptée ; vérifier avant adoption les facteurs EF de l'acidification. La note donne la transposition prête à appliquer (convention, cinq lignes de table, une équation).
 
 ### D4. Facteur de caractérisation du climat
 
@@ -91,7 +85,7 @@ Recommandation : confirmer, et remplacer la médiane par une moyenne pondérée 
 
 ### D5. Seuils
 
-Bnat minimal selon la typologie et la part d'emprise (45, 35 ou 25 points en logement ; 25 en tertiaire ; pas de seuil en industrie et aménagement), raccordé au coefficient de biotope du référentiel Effinature 8.1 ; pleine terre d'au moins 15 % de l'emprise totale du projet ; niveau 1 du site pour Cnat nul ou négatif, niveau 2 pour un gain d'au moins 10 % de la valeur initiale intégrée. Inat et Snat n'ont pas de seuil : ils seront fixés sur la distribution d'opérations réelles, comme ceux de l'Ic construction, et après D3.
+Bnat minimal selon la typologie et la part d'emprise (45, 35 ou 25 points en logement ; 25 en tertiaire ; pas de seuil en industrie et aménagement), raccordé au coefficient de biotope du référentiel Effinature 8.1 ; pleine terre d'au moins 15 % de l'emprise totale du projet ; niveau 1 du site pour Cnat nul ou négatif, niveau 2 pour un gain d'au moins 10 % de la valeur initiale intégrée. Inat et Snat n'ont pas de seuil : ils seront fixés sur la distribution d'opérations réelles, comme ceux de l'Ic construction, une fois D3 tranchée.
 
 Recommandation : confirmer pour une période d'essai de deux ans, et revoir les seuils sur les opérations calculées pendant cette période.
 
@@ -130,7 +124,7 @@ Recommandation : adopter ces règles.
 | Étape | Contenu |
 |---|---|
 | Séance 1 | présentation de la méthode et des vérifications ; décisions D4, D6 à D9 |
-| Entre les séances | lecture des sources du rendement alloué ; relecture écologue des fiches habitats ; travail sur l'écotoxicité |
+| Entre les séances | lecture des sources du rendement alloué ; relecture écologue des fiches habitats ; vérification des facteurs EF de l'acidification |
 | Séance 2 | décisions D1 à D3, D5 et D10 ; validation de la version OpenNAT 1 avec les données qui en résultent |
 | Après validation | publication de la méthode, des tables et du moteur ; période d'essai des seuils |
 
@@ -224,3 +218,5 @@ Statut de chacune : proposée, en attente de validation du Biodiversity Standard
 | EPD-Norge, note du 1er mars 2024 sur les pratiques divergentes pour les produits en bois | rendement alloué de 1,15 m³ de bois rond par m³ de sciage | extrait seulement, document à lire |
 | CEE-ONU et FAO, facteurs de conversion des produits forestiers | rendement matière du sciage (environ la moitié du bois rond) | extrait seulement, le site refuse la lecture automatique |
 | Carbone 4, « La biodiversité grise dans le bâtiment », octobre 2026 | ordre de grandeur et parts par pression | lu en entier par l'audit |
+| Bulle et al. 2019, IMPACT World+, Int J LCA 24, 1653-1674, article et supplément (CC BY 4.0) | conversion de l'écotoxicité et eutrophisation marine | lu |
+| ReCiPe 2016, rapport RIVM 2017-0028 | densités d'espèces terrestres et d'eau douce | lu |
