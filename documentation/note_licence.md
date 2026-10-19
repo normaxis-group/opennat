@@ -46,7 +46,7 @@ Un risque d'ordre logiciel s'ajoute. L'AGPL impose de publier le code source d'u
 
 ## Recommandation
 
-Retenir le montage A et le fixer par une convention dédiée, NTY-CNV-2026-006, plutôt que par un avenant à la convention Effinature : OpenNAT est une méthode distincte, appelée à servir Effinature mais aussi d'autres usages (permis de construire, comparaison de variantes), et la convention Effinature restera lisible. La convention 006 :
+Retenir le montage A et le fixer par une convention dédiée, NTY-CNV-2026-007 (la référence 006 a servi à un avenant préparé le 11 octobre puis abandonné), plutôt que par un avenant à la convention Effinature : OpenNAT est une méthode distincte, appelée à servir Effinature mais aussi d'autres usages (permis de construire, comparaison de variantes), et la convention Effinature restera lisible. La convention 007 :
 
 1. désigne la méthode OpenNAT, ses tables et son moteur comme propriété de NORMATYS, le moteur étant la forme exécutable des règles de calcul, par dérogation expresse à la lettre de l'article 3 de la convention 001-B ;
 2. range l'utilitaire de calcul OpenNAT parmi les outils d'IRICE ; ses fichiers portent aujourd'hui la licence AGPL du moteur, qu'IRICE peut garder ou, grâce à la licence du point 4, remplacer par une licence de son choix ;
@@ -60,7 +60,7 @@ Il faut aussi accomplir les formalités de l'article L. 227-10 du code de commer
 
 Avant la publication, deux points sont à régler à part : le dépôt du nom OpenNAT, et la mention au Cofrac du changement d'organisation (déjà prévue pour les conventions 001 à 005), puisque l'utilitaire d'IRICE servira dans des dossiers Effinature.
 
-## Annexe. Projet de clauses de la convention NTY-CNV-2026-006
+## Annexe. Projet de clauses de la convention NTY-CNV-2026-007
 
 Article 1. Objet. La convention organise les droits sur la méthode de calcul OpenNAT, ses tables de données, son moteur de calcul et son utilitaire de calcul, et les conditions de leur publication et de leur usage par IRICE. Elle complète les conventions NTY-CNV-2026-001 et 005, qui restent applicables.
 
