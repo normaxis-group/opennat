@@ -17,7 +17,7 @@
 
 - Le moteur retrouve le carnet de référence sur les 73 cas à 0,1 %, après recalcul des résultats attendus ; 143 tests sur 143 passent.
 - Contrôle des tables et contrôle dimensionnel sans défaut (86 unités ; les cinq facteurs de pollution sont déclarés « non contrôlés », leurs unités de départ étant propres à chaque indicateur).
-- Instantané de non-régression régénéré : 1 631 grandeurs sur 39 368 ont changé, toutes dans le module G ou dans les trajectoires des unités qui sortent d'un plan de gestion.
+- Instantané de non-régression régénéré : 1 631 grandeurs sur 39 368 ont changé, dans le module G (633), dans l'agrégation, indicateurs et trajectoire du site compris (716), dans les trajectoires des unités du projet (258) et dans l'analyse d'incertitude ; aucune dans les autres modules.
 - Exemple de l'annexe C : Cnat 3 170,5 m²HE·an (3 217,2 avant), Inat 126 398 (141 843), Snat -129 569 (-145 060). L'annexe C du texte est recalculée ; sa phrase « près de 100 fois la perte du site », déjà fausse, devient « environ 40 fois ».
 - Données 1.3.0 candidate inscrites au journal des versions avec leur empreinte.
 
