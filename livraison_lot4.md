@@ -20,6 +20,8 @@
 | Journal des versions de la méthode et des données | « OpenNAT, journal des versions » (`JOURNAL_DES_VERSIONS.md`) : six révisions de la méthode, six versions des données avec leur empreinte, deux versions du moteur |
 | E12 : unités cohérentes, contrôle dimensionnel automatique | `opennat/dimensions.py` : 81 unités traduites en dimensions (longueur, masse, temps, température, habitat équivalent), 45 équations des fiches vérifiées à partir des unités inscrites dans les tables, unités du RSNat ; appelé par `python -m opennat controle` et par les tests |
 
+L'édition complète de la méthode est régénérée (unité du facteur climat, section Carbone 4 de la partie 8) : 2 149 pages contre 2 078, parce que les tableaux courts ne se coupent plus entre deux pages. La version courte passe de 23 à 24 pages.
+
 Les quatre documents sont dans `livraison/` en Word et en PDF, au papier NORMATYS (Calibri 10, langue française, pagination « Page X sur Y »), rendus par LibreOffice et regardés page par page.
 
 ## Recette du lot 4 (§ 9)
