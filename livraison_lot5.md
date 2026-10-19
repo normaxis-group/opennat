@@ -1,7 +1,7 @@
 # Livraison du lot 5 : dossier de soumission au Biodiversity Standard Council
 
 **Date :** 19 octobre 2026
-**Dépôt :** `_OUTILS/opennat/`, branche `lot5`, non fusionnée ; aucun dépôt en ligne.
+**Dépôt :** `_OUTILS/opennat/`, branche `lot5` fusionnée dans `main` le 19/10/2026 ; aucun dépôt en ligne.
 **Versions :** méthode OpenNAT 1, données 1.2.2, moteur 0.2.0.
 **État :** projet de dossier, non transmis. Arrêt et attente du go écrit.
 
@@ -35,4 +35,4 @@ Sept énoncés de `donnees/conventions.csv` étaient tronqués (C-H7, C-E1, C-C1
 
 ## Ce que le go déclenche
 
-À décider : fusionner la branche `lot5` dans la branche principale ; transmettre le dossier au conseil, ou le reprendre ; lire les deux sources du rendement alloué pour lever la réserve sur l'option O3.
+À décider : transmettre le dossier au conseil, ou le reprendre ; lire les deux sources du rendement alloué pour lever la réserve sur l'option O3.
