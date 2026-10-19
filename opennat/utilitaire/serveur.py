@@ -371,12 +371,14 @@ def main(argv=None):
     global DOSSIER
     ap = argparse.ArgumentParser(prog='opennat.utilitaire', description='Utilitaire de calcul OpenNAT')
     ap.add_argument('--port', type=int, default=8770)
+    ap.add_argument('--hote', default=os.environ.get('OPENNAT_HOTE', '127.0.0.1'),
+                    help="adresse d'écoute (127.0.0.1 par défaut ; 0.0.0.0 dans un conteneur, publié sur la seule machine)")
     ap.add_argument('--dossier', default='resultats', help='dossier de travail des résultats')
     ap.add_argument('--sans-navigateur', action='store_true')
     a = ap.parse_args(argv)
     DOSSIER = os.path.abspath(a.dossier)
     tables()
-    srv = ThreadingHTTPServer(('127.0.0.1', a.port), Gestionnaire)
+    srv = ThreadingHTTPServer((a.hote, a.port), Gestionnaire)
     url = f'http://127.0.0.1:{a.port}/'
     print(f'Utilitaire OpenNAT : {url} (résultats dans {DOSSIER}) ; Ctrl+C pour arrêter', flush=True)
     if not a.sans_navigateur:

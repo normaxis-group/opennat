@@ -1,0 +1,35 @@
+# OpenNAT
+
+> Méthode de calcul (texte et tables sous CC BY 4.0) et moteur libre (AGPL-3.0-or-later) de la nature consommée par un
+> projet de construction, sur son site et ailleurs, en mètres carrés d'habitat équivalent sur 50 ans. Méthode, tables
+> et moteur édités par NORMATYS ; outil de calcul (utilitaire) édité par IRICE. Indicateurs : Cnat (site), Inat
+> (biodiversité grise des matériaux et du chantier), Snat = -(Cnat + Inat), Bnat (coefficient de biotope). Méthode en
+> attente de validation du Biodiversity Standard Council : ses seuils et ses résultats ne sont pas opposables et ne
+> valent ni certification ni allégation environnementale. Python, numpy et lxml.
+
+Chaque coefficient des tables porte sa source et sa licence. Le moteur suit les fiches algorithmes A01 à A58 de la
+méthode ; un carnet de calcul indépendant (`outils/carnet_reference.py`) et un banc de cas (`banc/`) vérifient ses
+résultats. Le projet est rédigé en français.
+
+## Documentation
+
+- [README](README.md): présentation, avertissement, installation, organisation du code
+- [Méthode](methode/OpenNAT_v1.md): texte de la méthode OpenNAT 1 (indicateurs, étapes, fiches algorithmes, exemple de l'annexe C)
+- [Édition complète](methode/OpenNAT_v1_edition_complete.md): texte, tables commentées, une fiche par habitat, protocoles de relevé
+- [Conventions](methode/conventions.md): conventions de méthode, numérotées
+- [Bibliographie](methode/bibliographie.md): sources des tables et des modèles
+- [Journal des versions](JOURNAL_DES_VERSIONS.md): versions de la méthode, des données (empreintes) et du moteur
+- [Banc](banc/README.md): cas tests, non-régression, contrôle d'ordre de grandeur face à l'étude Carbone 4
+
+## Emploi
+
+- [Guide utilisateur](documentation/guide_utilisateur.md): données à réunir, saisie, calcul, lecture des résultats
+- [Schéma du fichier projet](schemas/projet.schema.json): JSON Schema des entrées
+- [RSNat](schemas/rsnat.xsd): récapitulatif standardisé des résultats (XSD ; version JSON : schemas/rsnat.schema.json)
+
+## Optionnel
+
+- [Guide du contributeur](documentation/guide_contributeur.md): proposer une valeur avec sa source
+- [Contribuer](CONTRIBUTING.md): valeurs, lectures de la méthode, code
+- [Conditions d'usage du nom](documentation/conditions_usage_nom.md): qui peut employer le nom OpenNAT, et comment
+- [Citation](CITATION.cff): comment citer OpenNAT

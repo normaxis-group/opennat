@@ -3,7 +3,7 @@ name = "opennat"
 version = "0.2.0"
 description = "Moteur de calcul libre de la méthode OpenNAT (consommation de nature et biodiversité grise)"
 license = "AGPL-3.0-or-later"
-authors = [{ name = "NORMATYS" }]
+authors = [{ name = "Cédric PLANTAZ" }, { name = "NORMATYS" }]
 requires-python = ">=3.11"
 dependencies = ["numpy", "lxml"]
 
