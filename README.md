@@ -2,7 +2,7 @@
 
 Méthode de calcul biodiversité **OpenNAT** et son moteur libre, qui porte le même nom, sur le modèle d'OpenBCE (méthode Th-BCE de la RE2020).
 
-- Éditeur de la méthode et titulaire des droits : NORMATYS. Éditeur de l'outil de calcul (utilitaire `opennat/utilitaire/`) : IRICE, à sa charte et au papier IRICE hors portée d'accréditation ; logo OpenNAT en place (`opennat/utilitaire/statique/opennat.svg`, déclinaison sans signature dérivée de la valise de logos). Application dans la certification Effinature : IRICE.
+- Éditeur de la méthode et titulaire des droits : NORMATYS. Éditeur de l'outil de calcul (utilitaire `opennat/utilitaire/`) : IRICE, à sa charte et au papier IRICE hors portée d'accréditation ; logo OpenNAT en place (`opennat/utilitaire/statique/opennat.svg`, déclinaison horizontale sans signature, couleur fond sombre, de la valise de logos). Application dans la certification Effinature : IRICE.
 - Validation de la méthode : Biodiversity Standard Council. Tant qu'elle n'est pas validée, la méthode, ses seuils et ses résultats ne sont pas opposables.
 - Licences prévues : moteur sous AGPL-3.0-or-later ; texte de la méthode et tables `donnees/` sous CC BY 4.0, chaque ligne portant la licence de sa source.
 - Dépôt privé. Aucune publication sans le go écrit de Cédric PLANTAZ.
