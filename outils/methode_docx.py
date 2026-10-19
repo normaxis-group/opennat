@@ -3,7 +3,7 @@
 """Produit la version Word du texte de la méthode (pour le Biodiversity Standard Council) et des documents
 d'accompagnement (guides, journal des versions, notes).
 
-    python outils/methode_docx.py methode/OpenNAT_v1.md <sortie.docx> [--papier normatys|irice-hors-portee]
+    python outils/methode_docx.py methode/OpenNAT_v1.md <sortie.docx> [--papier normatys|irice-hors-portee] [--logo <png>]
 
 Convertit le Markdown du dépôt (titres #, ##, ###, paragraphes, listes « - », tableaux, gras **)
 puis applique le gabarit de Cédric PLANTAZ (Calibri 10, styles de titres, français, pagination)
@@ -18,7 +18,8 @@ from docx.shared import Cm
 sys.path.insert(0, r'C:\Users\Cedric\.claude\outils')
 from gabarit_docx import aerer, appliquer, controler, papier, remplissage, rendre_pdf, sauts_de_page  # noqa: E402
 
-TABLEAU_INSECABLE = (12, 1200)   # lignes et caractères au plus pour qu'un tableau reste d'un bloc
+TABLEAU_INSECABLE = (12, 1200)
+LARGEUR_LOGO = 5.0               # logo OpenNAT au-dessus du titre, en cm   # lignes et caractères au plus pour qu'un tableau reste d'un bloc
 MOTIF = re.compile(r'(\*\*[^*]+\*\*|`[^`]+`)')
 
 
@@ -46,7 +47,7 @@ def largeurs(table, total_cm=17.0):
     poids = []
     for c in range(n):
         longueur = max(len(table.cell(r, c).text) for r in range(len(table.rows)))
-        poids.append(min(7.0, max(1.6, longueur ** 0.5)))
+        poids.append(min(10.0, max(1.6, longueur ** 0.5)))
     somme = sum(poids)
     cm = [total_cm * p / somme for p in poids]
     grille = table._tbl.tblGrid
@@ -73,7 +74,7 @@ def largeurs(table, total_cm=17.0):
             pr.append(OxmlElement('w:cantSplit'))
 
 
-def convertir(source, sortie, societe='normatys'):
+def convertir(source, sortie, societe='normatys', logo=None):
     doc = Document()
     with open(source, encoding='utf-8') as f:
         lignes = f.read().splitlines()
@@ -135,6 +136,15 @@ def convertir(source, sortie, societe='normatys'):
     appliquer(doc, nature='note', detecter_titres=False)
     aerer(doc)
     papier(doc, societe)
+    if logo:
+        # logo OpenNAT au-dessus du titre du document (première page)
+        titre_doc = next(x for x in doc.paragraphs if x.style.name == 'Title')
+        image = titre_doc.insert_paragraph_before()
+        image.paragraph_format.space_before, image.paragraph_format.space_after = Cm(0), Cm(0.2)
+        image.paragraph_format.keep_with_next = True
+        image.alignment = titre_doc.alignment if titre_doc.alignment is not None else titre_doc.style.paragraph_format.alignment
+        image.add_run().add_picture(logo, width=Cm(LARGEUR_LOGO))
+        titre_doc.paragraph_format.space_before = Cm(0.2)
     # un intertitre en gras (paragraphe entièrement gras et court) reste avec ce qui le suit
     for par in doc.paragraphs:
         if par.runs and len(par.text) < 120 and all(r.bold for r in par.runs if r.text.strip()):
@@ -164,7 +174,8 @@ def convertir(source, sortie, societe='normatys'):
 
 if __name__ == '__main__':
     societe = sys.argv[sys.argv.index('--papier') + 1] if '--papier' in sys.argv else 'normatys'
-    s = convertir(sys.argv[1], sys.argv[2], societe)
+    logo = sys.argv[sys.argv.index('--logo') + 1] if '--logo' in sys.argv else None
+    s = convertir(sys.argv[1], sys.argv[2], societe, logo)
     if '--sans-sauts' not in sys.argv:
         sauts_de_page(s)
     print(controler(s))

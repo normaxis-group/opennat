@@ -19,6 +19,7 @@ import tempfile
 STATIQUE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'statique')
 MARINE, SARCELLE, VOILE = '0C3342', '157F8C', 'EEF3F6'
 PAPIER = os.path.join(STATIQUE, 'papier')
+LOGO = os.path.join(STATIQUE, 'opennat_logo.png')     # logo OpenNAT horizontal couleur, au-dessus du titre
 MENTION = ('Méthode, conventions et seuils proposés, en attente de validation du Biodiversity Standard Council : '
            'les résultats ne sont pas opposables.')
 NIVEAUX = {0: 'perte nette', 1: 'absence de perte nette', 2: 'gain net'}
@@ -192,6 +193,9 @@ def construire_docx(res: dict, chemin: str):
         s_ = doc.styles[nom]
         s_.font.name, s_.font.size, s_.font.bold = 'Poppins', Pt(taille), True
         s_.font.color.rgb = RGBColor.from_string(MARINE)
+        polices = s_.element.rPr.rFonts                       # la police du thème l'emporterait sur Poppins
+        for att in ('asciiTheme', 'hAnsiTheme', 'eastAsiaTheme', 'cstheme'):
+            polices.attrib.pop('{http://schemas.openxmlformats.org/wordprocessingml/2006/main}' + att, None)
         s_.paragraph_format.space_before, s_.paragraph_format.space_after = Cm(0.4), Cm(0.2)
         s_.paragraph_format.keep_with_next = True
         _langue(s_.element)
@@ -207,8 +211,12 @@ def construire_docx(res: dict, chemin: str):
         r.font.size = Pt(8)
 
     p, v = res['projet'], res['versions']
+    if os.path.exists(LOGO):
+        logo = doc.add_paragraph()
+        logo.paragraph_format.space_before, logo.paragraph_format.space_after = Cm(0.2), Cm(0.3)
+        logo.add_run().add_picture(LOGO, width=Cm(6.0))
     t = doc.add_paragraph('Fiche de synthèse OpenNAT', style='Title')
-    t.paragraph_format.space_before = Cm(1.0)
+    t.paragraph_format.space_before = Cm(0.2) if os.path.exists(LOGO) else Cm(1.0)
     doc.add_paragraph(f'{p.get("nom") or p["identifiant"]}')
     m = doc.add_paragraph()
     r = m.add_run(MENTION)
