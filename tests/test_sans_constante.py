@@ -21,7 +21,7 @@ JUSTIFIES = {
     ('rsnat.py', 4): 'quatre décimales des facteurs (fiche A01)',
     ('__main__.py', 3): 'code de sortie de la ligne de commande',
 }
-EXCLUS = ('unites.py', 'rsnat_spec.py')
+EXCLUS = ('unites.py', 'rsnat_spec.py', 'dimensions.py')   # définitions d'unités et exposants de dimensions
 
 
 def test_aucune_valeur_de_methode_dans_le_code():

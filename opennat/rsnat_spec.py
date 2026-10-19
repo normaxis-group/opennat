@@ -271,7 +271,7 @@ SORTIE = e('Sortie_Projet', 'Résultats (partie 1, chapitre 11)', [
             f('surface_vitree_non_traitee', 'decimal', 'm²', 'A_vit,nt', 0),
         ]),
         e('Materiaux', 'Sorties du module G (fiches A32 à A36)', [
-            f('facteur_climat', 'decimal', 'm²HE/kg CO2 éq./an', 'CF'),
+            f('facteur_climat', 'decimal', 'm²HE/kg CO2 éq.', 'CF'),
             f('inat_climat', 'decimal', 'm²HE·an', 'Inat_clim'),
             e('Inat_Climat_Phase', 'Inat_clim par phase', [
                 f('phase', 'phase', '', 'Phase'), f('valeur', 'decimal', 'm²HE·an', 'Inat_clim,p')], 0, 5),

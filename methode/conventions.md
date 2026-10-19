@@ -146,7 +146,7 @@ Inat porte sur les contributeurs « composants » et « chantier » de l'ACV de 
 
 ### C-G2
 Catégorie : convention de transposition.
-Facteur de caractérisation du climat, en m²HE par kg CO2 éq. et par an : CF = S_terres x (1 - p) x (perte de MSA par °C / 2) x TCRE = 1,30e14 x 0,87 x (0,071 / 2) x 4,5e-16 = 1,807e-3. S_terres et p viennent du rapport spécial du GIEC sur les terres émergées (2019), la perte de MSA par °C et le facteur de retard de 2 de GLOBIO 3.5, la TCRE du sixième rapport du GIEC (2021). La perte par °C est la médiane non pondérée des 15 biomes de GLOBIO, faute de surfaces de biomes publiées sous licence libre.
+Facteur de caractérisation du climat, en m²HE par kg CO2 éq. (habitat équivalent perdu chaque année tant que le réchauffement dû à ce kg persiste ; multiplié par la durée de persistance en années, il donne des m²HE·an) : CF = S_terres x (1 - p) x (perte de MSA par °C / 2) x TCRE = 1,30e14 x 0,87 x (0,071 / 2) x 4,5e-16 = 1,807e-3. S_terres et p viennent du rapport spécial du GIEC sur les terres émergées (2019), la perte de MSA par °C et le facteur de retard de 2 de GLOBIO 3.5, la TCRE du sixième rapport du GIEC (2021). La perte par °C est la médiane non pondérée des 15 biomes de GLOBIO, faute de surfaces de biomes publiées sous licence libre.
 
 ### C-G3
 Catégorie : valeur de secours.

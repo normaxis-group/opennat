@@ -184,7 +184,17 @@ def main():
             'Council : le rapport de 2 m³ de bois rond par m³ de produit (C-G4), le choix d\'une approche '
             'attributionnelle qui compte toute la forêt de production comme une perte par rapport à la forêt '
             'naturelle (C-G5), et l\'absence de prise en compte de l\'occupation des usines et des carrières de '
-            'ciment pour les autres matériaux (C-G7), qui avantage le béton. Ce cas est le premier à recalibrer.', '']
+            'ciment pour les autres matériaux (C-G7), qui avantage le béton. Ce cas est le premier à recalibrer.', '',
+            '### Contrôle du module G face à l\'étude Carbone 4', '',
+            'Le banc de validation (lot 4) situe le module G face au bâtiment type de l\'étude Carbone 4 (octobre '
+            '2026 : 50 logements, 3 000 m², structure béton, phases A1-A3, méthode IMPACT World+). Ramenés au m² de '
+            'plancher et au périmètre commun (climat et usage des sols), OpenNAT donne 54 m²HE·an et Carbone 4 44 '
+            'PDF.m².yr, soit un rapport de 1,0 à 1,5 selon l\'empreinte carbone supposée, les deux métriques étant '
+            'rapprochées à 1 pour 1 faute de conversion publiée. Deux écarts de structure subsistent : la pollution, '
+            'la moitié du résultat de Carbone 4, n\'est pas comptée dans Inat (point P19) ; le bois est pénalisé '
+            'plusieurs fois plus fort, par les conventions C-G4, C-G5 et C-G7 déjà désignées ci-dessus. Le détail, '
+            'les hypothèses et le calcul sont dans la note « Contrôle d\'ordre de grandeur du module G face à l\'étude '
+            'Carbone 4 » (`documentation/controle_carbone4.md`, `python -m banc.carbone4`).', '']
     out += ['### Cas complémentaires', '',
             "Trente et un cas complémentaires déclinent une même opération type (part d'emprise bâtie, 15 % de "
             "voirie, jardins, prairie urbaine et haie sur le reste, toiture extensive sur la moitié de l'emprise, "

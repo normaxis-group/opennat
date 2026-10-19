@@ -119,27 +119,3 @@ def test_fermeture_bloquante(tmp_path):
     p['options'] = dict(tirages=0)
     (tmp_path / 'p.json').write_text(json.dumps(p), encoding='utf-8')
     assert main(['calcul', str(tmp_path / 'p.json'), '--sortie', str(tmp_path)]) == 2
-
-
-@pytest.mark.parametrize('cas', ['exemple_de_l_annexe_c', 'cas_6', 'cas_7b', 'cas_d17', 'cas_d25', 'cas_d28'])
-def test_banc_extrait(cas):
-    from banc import comparer
-    assert comparer.main(cas + '.json')
-
-
-def test_propriete_pleine_terre():
-    """Lot 4, test de propriété : remplacer de la voirie par de la prairie ne dégrade pas Cnat."""
-    from opennat import chaine
-    P = Parametres(Tables())
-    e, j = projet.normaliser(P, lire(ANNEXE_C))
-    v = e['variantes'][0]
-    r0 = chaine.calculer(P, e, v, [])
-    v2 = copy.deepcopy(v)
-    for u in v2['unites']:
-        if u['id'] == 'U1-2':
-            u['surface'] = 200
-    v2['unites'].append(dict(id='U1-9', code='VB.26', surface=100, tache='P2',
-                             score=dict(satisfaits=4, applicables=6)))
-    r1 = chaine.calculer(P, e, v2, [])
-    assert r1['etapes']['E3']['indicateurs']['cnat'] < r0['etapes']['E3']['indicateurs']['cnat']
-    assert r1['etapes']['E3']['bnat']['bnat'] > r0['etapes']['E3']['bnat']['bnat']

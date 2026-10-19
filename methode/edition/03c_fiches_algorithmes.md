@@ -310,7 +310,7 @@ Paramètres intrinsèques :
 | TCRE | Réchauffement par kg de CO2 émis | °C/kg | 4,5 x 10^-16 |
 | a_p | Années de persistance de la phase p | an | 50, 50, 25, 0, 0 |
 
-Variables internes : CF (m²HE par kg CO2 éq. et par an).
+Variables internes : CF (m²HE par kg CO2 éq. : habitat équivalent perdu chaque année tant que le réchauffement persiste).
 
 Sorties : Inat_clim, Inat_clim,p (m²HE·an).
 
@@ -322,7 +322,7 @@ Sorties : Inat_clim, Inat_clim,p (m²HE·an).
 
 (A33-3) Inat_clim = somme sur les phases de Inat_clim,p [G2]
 
-Numériquement : CF = 1,30 x 10^14 x 0,87 x 0,0355 x 4,5 x 10^-16 = 1,807 x 10^-3 m²HE par kg et par an. Un kg de CO2 émis en début de période coûte 50 x 1,807 x 10^-3 = 0,0903 m²HE·an.
+Numériquement : CF = 1,30 x 10^14 x 0,87 x 0,0355 x 4,5 x 10^-16 = 1,807 x 10^-3 m²HE par kg, perdus chaque année de persistance. Un kg de CO2 émis en début de période coûte 50 x 1,807 x 10^-3 = 0,0903 m²HE·an.
 
 **Cas limites et contrôles**
 

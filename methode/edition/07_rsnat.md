@@ -607,7 +607,7 @@ Sorties du module G (fiches A32 à A36).
 
 | Élément | Type | Unité | Card. | Description | Origine |
 |---|---|---|---|---|---|
-| facteur_climat | nombre décimal | m²HE/kg CO2 éq./an | 1..1 | CF |  |
+| facteur_climat | nombre décimal | m²HE/kg CO2 éq. | 1..1 | CF |  |
 | inat_climat | nombre décimal | m²HE·an | 1..1 | Inat_clim |  |
 | Inat_Climat_Phase | élément composé |  | 0..5 | Inat_clim par phase |  |
 | inat_bois | nombre décimal | m²HE·an | 1..1 | Inat_bois |  |

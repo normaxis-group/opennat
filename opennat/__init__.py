@@ -8,4 +8,4 @@ partie 3 de l'édition complète en sont la spécification ; chaque fonction cit
 applique. Aucune valeur de méthode n'est écrite dans le code : toutes viennent de `donnees/`.
 """
 VERSION_METHODE = 'OpenNAT 1'
-VERSION_MOTEUR = '0.1.0'
+VERSION_MOTEUR = '0.2.0'

@@ -98,7 +98,7 @@ Dette de maturité : valeur, en m²HE·an, que les habitats créés n'apportent 
 | d_ch | Durée du chantier | an |
 | N | Période de référence (50) | an |
 | I_0, I_1 | Valeur du site intégrée sur N ans, sans projet et avec projet | m²HE·an |
-| CF | Facteur de caractérisation du climat | m²HE par kg CO2 éq. et par an |
+| CF | Facteur de caractérisation du climat | m²HE par kg CO2 éq. |
 | S_ref | Surface de référence du bâtiment (RE2020) | m² |
 
 #### 2.3 Unités et arrondis
@@ -440,7 +440,7 @@ Paramètres : `materiaux.csv`.
 
 GES_p est l'indicateur 101 du RSEE (kg CO2 éq. par m² de S_ref) des contributeurs composants et chantier pour la phase p. a_p est la durée pendant laquelle l'émission pèse sur la période de référence : 50 ans pour A1-A3 et A4-A5, 25 ans pour B, 0 pour C et D (convention C-G3).
 
-(G3) CF = S_terres x (1 - p_cult) x (pente / 2) x TCRE = 1,807 x 10^-3 m²HE par kg CO2 éq. et par an (convention C-G2).
+(G3) CF = S_terres x (1 - p_cult) x (pente / 2) x TCRE = 1,807 x 10^-3 m²HE par kg CO2 éq., perdus chaque année tant que le réchauffement persiste (convention C-G2).
 
 (G4) Inat_bois = somme sur les régimes r de Q_r x (1 + n_remp) x (10 000 x R / P) x (1 - MSA_r)
 
@@ -4259,7 +4259,7 @@ Facteur de caractérisation du climat, occupation des sols du bois et des carri�
 | climat | perte msa par degre | 0,071 | MSA par °C | 0,0356 à 0,1457 | convention | C-G2 | PBL 2016, GLOBIO 3.5 Technical model description (publication 2369), Table 3.1 (Arets et al. 2014) : pertes de MSA par °C de 15 biomes, médiane 0,071 (forêt tempérée caducifoliée), étendue 0,0356 (glace) à 0,1457 (forêt mixte chaude) |
 | climat | facteur retard reponse | 2 | sans unité | 2 | primaire | C-G2 | PBL 2016, GLOBIO 3.5 Technical model description, § 3.3 : facteur de retard de 2 appliqué aux relations d'Arets et al. 2014 |
 | climat | tcre | 4,500 x 10^-16 | °C par kg CO2 | 2,700 x 10^-16 à 6,300 x 10^-16 | primaire | C-G2 | GIEC 2021, AR6 groupe I, résumé à l'intention des décideurs, D.1.1 : chaque 1 000 GtCO2 d'émissions cumulées cause probablement 0,27 à 0,63 °C de réchauffement, meilleure estimation 0,45 °C |
-| climat | facteur caracterisation | 0,0018 | m²HE par kg CO2 éq. et par an | 5,430 x 10^-4 à 0,0052 | convention | C-G2 | Calcul OpenNAT à partir des 5 lignes précédentes, équation G5 : 1,30e14 x (1 - 0,13) x (0,071 / 2) x 4,5e-16, plage : mêmes termes aux bornes de la TCRE et de la perte de MSA |
+| climat | facteur caracterisation | 0,0018 | m²HE par kg CO2 éq. | 5,430 x 10^-4 à 0,0052 | convention | C-G2 | Calcul OpenNAT à partir des 5 lignes précédentes, équation G5 : 1,30e14 x (1 - 0,13) x (0,071 / 2) x 4,5e-16, plage : mêmes termes aux bornes de la TCRE et de la perte de MSA |
 | phase_A1_A5 | annees persistance | 50 | an | 50 | convention | C-G3 | OpenNAT, arrêté du 4 août 2021, annexe II, période d'étude de référence de 50 ans, phases de production et de chantier émises en début de période |
 | phase_B | annees persistance | 25 | an | 25 | convention | C-G3 | OpenNAT, émissions de la phase d'exploitation des composants (remplacements, entretien) réparties uniformément sur la période |
 | phase_C | annees persistance | 0 | an | 0 | convention | C-G3 | OpenNAT, émissions de fin de vie en fin de période |
@@ -8145,7 +8145,7 @@ Paramètres intrinsèques :
 | TCRE | Réchauffement par kg de CO2 émis | °C/kg | 4,5 x 10^-16 |
 | a_p | Années de persistance de la phase p | an | 50, 50, 25, 0, 0 |
 
-Variables internes : CF (m²HE par kg CO2 éq. et par an).
+Variables internes : CF (m²HE par kg CO2 éq. : habitat équivalent perdu chaque année tant que le réchauffement persiste).
 
 Sorties : Inat_clim, Inat_clim,p (m²HE·an).
 
@@ -8157,7 +8157,7 @@ Sorties : Inat_clim, Inat_clim,p (m²HE·an).
 
 (A33-3) Inat_clim = somme sur les phases de Inat_clim,p [G2]
 
-Numériquement : CF = 1,30 x 10^14 x 0,87 x 0,0355 x 4,5 x 10^-16 = 1,807 x 10^-3 m²HE par kg et par an. Un kg de CO2 émis en début de période coûte 50 x 1,807 x 10^-3 = 0,0903 m²HE·an.
+Numériquement : CF = 1,30 x 10^14 x 0,87 x 0,0355 x 4,5 x 10^-16 = 1,807 x 10^-3 m²HE par kg, perdus chaque année de persistance. Un kg de CO2 émis en début de période coûte 50 x 1,807 x 10^-3 = 0,0903 m²HE·an.
 
 **Cas limites et contrôles**
 
@@ -48956,7 +48956,7 @@ Sorties du module G (fiches A32 à A36).
 
 | Élément | Type | Unité | Card. | Description | Origine |
 |---|---|---|---|---|---|
-| facteur_climat | nombre décimal | m²HE/kg CO2 éq./an | 1..1 | CF |  |
+| facteur_climat | nombre décimal | m²HE/kg CO2 éq. | 1..1 | CF |  |
 | inat_climat | nombre décimal | m²HE·an | 1..1 | Inat_clim |  |
 | Inat_Climat_Phase | élément composé |  | 0..5 | Inat_clim par phase |  |
 | inat_bois | nombre décimal | m²HE·an | 1..1 | Inat_bois |  |
@@ -50827,6 +50827,10 @@ Propriétés vérifiées par ces cas :
 ### Lecture du cas 7
 
 Avec les conventions de la v1, le bâtiment en bois a une biodiversité grise plusieurs fois plus forte que le même bâtiment en béton. Le climat est plus faible pour le bois, mais l'occupation des forêts, comptée en surface et en durée à la perte de MSA du régime d'exploitation, l'emporte largement. Le sens de l'écart est celui de la littérature citée par l'audit (Christiansson et Roos 2023 ; Carbone 4, 2026, pour qui une substitution par du bois de provenance non maîtrisée triple la pression de changement d'usage des sols) ; son ampleur dépend de trois conventions à soumettre au Biodiversity Standard Council : le rapport de 2 m³ de bois rond par m³ de produit (C-G4), le choix d'une approche attributionnelle qui compte toute la forêt de production comme une perte par rapport à la forêt naturelle (C-G5), et l'absence de prise en compte de l'occupation des usines et des carrières de ciment pour les autres matériaux (C-G7), qui avantage le béton. Ce cas est le premier à recalibrer.
+
+### Contrôle du module G face à l'étude Carbone 4
+
+Le banc de validation (lot 4) situe le module G face au bâtiment type de l'étude Carbone 4 (octobre 2026 : 50 logements, 3 000 m², structure béton, phases A1-A3, méthode IMPACT World+). Ramenés au m² de plancher et au périmètre commun (climat et usage des sols), OpenNAT donne 54 m²HE·an et Carbone 4 44 PDF.m².yr, soit un rapport de 1,0 à 1,5 selon l'empreinte carbone supposée, les deux métriques étant rapprochées à 1 pour 1 faute de conversion publiée. Deux écarts de structure subsistent : la pollution, la moitié du résultat de Carbone 4, n'est pas comptée dans Inat (point P19) ; le bois est pénalisé plusieurs fois plus fort, par les conventions C-G4, C-G5 et C-G7 déjà désignées ci-dessus. Le détail, les hypothèses et le calcul sont dans la note « Contrôle d'ordre de grandeur du module G face à l'étude Carbone 4 » (`documentation/controle_carbone4.md`, `python -m banc.carbone4`).
 
 ### Cas complémentaires
 
@@ -59200,7 +59204,7 @@ Inat porte sur les contributeurs « composants » et « chantier » de l'ACV de 
 
 #### C-G2
 Catégorie : convention de transposition.
-Facteur de caractérisation du climat, en m²HE par kg CO2 éq. et par an : CF = S_terres x (1 - p) x (perte de MSA par °C / 2) x TCRE = 1,30e14 x 0,87 x (0,071 / 2) x 4,5e-16 = 1,807e-3. S_terres et p viennent du rapport spécial du GIEC sur les terres émergées (2019), la perte de MSA par °C et le facteur de retard de 2 de GLOBIO 3.5, la TCRE du sixième rapport du GIEC (2021). La perte par °C est la médiane non pondérée des 15 biomes de GLOBIO, faute de surfaces de biomes publiées sous licence libre.
+Facteur de caractérisation du climat, en m²HE par kg CO2 éq. (habitat équivalent perdu chaque année tant que le réchauffement dû à ce kg persiste ; multiplié par la durée de persistance en années, il donne des m²HE·an) : CF = S_terres x (1 - p) x (perte de MSA par °C / 2) x TCRE = 1,30e14 x 0,87 x (0,071 / 2) x 4,5e-16 = 1,807e-3. S_terres et p viennent du rapport spécial du GIEC sur les terres émergées (2019), la perte de MSA par °C et le facteur de retard de 2 de GLOBIO 3.5, la TCRE du sixième rapport du GIEC (2021). La perte par °C est la médiane non pondérée des 15 biomes de GLOBIO, faute de surfaces de biomes publiées sous licence libre.
 
 #### C-G3
 Catégorie : valeur de secours.

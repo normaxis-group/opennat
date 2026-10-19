@@ -3,7 +3,7 @@
 """Ligne de commande du moteur OpenNAT.
 
     opennat calcul projet.json [--sortie DOSSIER] [--tirages N] [--graine G] [--reprendre DOSSIER]
-    opennat controle                 contrôle les tables de donnees/
+    opennat controle                 contrôle les tables de donnees/ et la cohérence dimensionnelle (E12)
     opennat valider projet.json      valide un fichier projet contre son schéma
     opennat schemas                  régénère schemas/rsnat.xsd et schemas/rsnat.schema.json
 """
@@ -24,7 +24,7 @@ def main(argv=None) -> int:
     c.add_argument('--tirages', type=int, help='nombre de tirages de l\'analyse d\'incertitude (0 : aucune)')
     c.add_argument('--graine', type=int, help='graine du générateur')
     c.add_argument('--reprendre', help='dossier d\'un calcul interrompu à reprendre')
-    sp.add_parser('controle', help='contrôle les tables de donnees/')
+    sp.add_parser('controle', help='contrôle les tables de donnees/ et les dimensions des équations')
     v = sp.add_parser('valider', help='valide un fichier projet')
     v.add_argument('projet')
     sp.add_parser('schemas', help='régénère les schémas du RSNat')
@@ -37,7 +37,13 @@ def main(argv=None) -> int:
             print(x, file=sys.stderr)
             return 1
         print(f'{len(t.lignes)} valeurs contrôlées dans {len(t.par_table)} tables ; empreinte {t.empreinte}')
-        return 0
+        from . import dimensions
+        err = dimensions.verifier(t)
+        for x in err:
+            print(f'dimension : {x}', file=sys.stderr)
+        print(f'contrôle dimensionnel : {len(dimensions.CATALOGUE)} unités, {len(dimensions.EQUATIONS)} équations, '
+              + (f'{len(err)} incohérences' if err else 'aucune incohérence'))
+        return 1 if err else 0
     if a.commande == 'valider':
         from . import projet
         err = projet.valider(projet.lire(a.projet))

@@ -98,7 +98,7 @@ Dette de maturité : valeur, en m²HE·an, que les habitats créés n'apportent 
 | d_ch | Durée du chantier | an |
 | N | Période de référence (50) | an |
 | I_0, I_1 | Valeur du site intégrée sur N ans, sans projet et avec projet | m²HE·an |
-| CF | Facteur de caractérisation du climat | m²HE par kg CO2 éq. et par an |
+| CF | Facteur de caractérisation du climat | m²HE par kg CO2 éq. |
 | S_ref | Surface de référence du bâtiment (RE2020) | m² |
 
 ### 2.3 Unités et arrondis
@@ -440,7 +440,7 @@ Paramètres : `materiaux.csv`.
 
 GES_p est l'indicateur 101 du RSEE (kg CO2 éq. par m² de S_ref) des contributeurs composants et chantier pour la phase p. a_p est la durée pendant laquelle l'émission pèse sur la période de référence : 50 ans pour A1-A3 et A4-A5, 25 ans pour B, 0 pour C et D (convention C-G3).
 
-(G3) CF = S_terres x (1 - p_cult) x (pente / 2) x TCRE = 1,807 x 10^-3 m²HE par kg CO2 éq. et par an (convention C-G2).
+(G3) CF = S_terres x (1 - p_cult) x (pente / 2) x TCRE = 1,807 x 10^-3 m²HE par kg CO2 éq., perdus chaque année tant que le réchauffement persiste (convention C-G2).
 
 (G4) Inat_bois = somme sur les régimes r de Q_r x (1 + n_remp) x (10 000 x R / P) x (1 - MSA_r)
 

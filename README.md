@@ -15,7 +15,7 @@ Méthode de calcul biodiversité **OpenNAT** et son moteur libre, qui porte le m
 | 1 | Méthode OpenNAT v1 (`methode/`) et tables sourcées (`donnees/`) | version noyau livrée le 18/10/2026 ; édition complète livrée le même jour (lot 1 bis, 949 pages), complétée et dotée des modules dynamiques (lot 1 ter, `livraison_lot1ter.md`) |
 | 2 | Moteur (`opennat/`), banc de 73 cas (`banc/`), tests (`tests/`) | livré le 19/10/2026 (`livraison_lot2.md`) |
 | 3 | Utilitaire (`opennat/utilitaire/`) | livré le 19/10/2026 (`livraison_lot3.md`) |
-| 4 | Banc de validation et documentation | à venir |
+| 4 | Banc de validation et de non-régression, tests de propriétés, contrôle dimensionnel, contrôle Carbone 4, guides et journal des versions (`documentation/`, `JOURNAL_DES_VERSIONS.md`) | livré le 19/10/2026 (`livraison_lot4.md`) |
 
 L'audit du lot 0 emploie encore l'ancien nom de travail « Vi-BCN » ; le nom retenu par Cédric PLANTAZ le 18/10/2026 est OpenNAT, pour la méthode comme pour le moteur.
 
@@ -27,8 +27,9 @@ L'audit du lot 0 emploie encore l'ancien nom de travail « Vi-BCN » ; le nom re
 - `outils/` : contrôle des tables, rapport de couverture, constructeurs des tables, carnet de calcul de référence, modules dynamiques (`climat.py` : climat horaire TRACC et ET0 ; `dynamique.py` : bilan hydrique, éclairage, maturation, gestion, chantier), génération de l'édition (`edition/`).
 - `opennat/` : le moteur, un module par module de la méthode (voir ci-dessous).
 - `schemas/` : schéma du fichier projet, schémas XSD et JSON du RSNat, exemple de l'annexe C.
-- `banc/` : les 73 cas du carnet de référence en fichiers projet, leurs résultats attendus, le comparateur.
-- `tests/` : tests du chargeur, des modules (cas élémentaires des fiches), de bout en bout, et recherche des constantes dans le code.
+- `banc/` : les 73 cas du carnet de référence en fichiers projet, leurs résultats attendus, le comparateur, l'instantané de non-régression et le contrôle Carbone 4 (voir `banc/README.md`).
+- `documentation/` : guide utilisateur, guide du contributeur, contrôle d'ordre de grandeur du module G face à l'étude Carbone 4 (versions Word et PDF dans `livraison/`).
+- `tests/` : tests du chargeur, des modules (cas élémentaires des fiches), de bout en bout, de l'utilitaire, du banc et de la non-régression, des propriétés, du contrôle dimensionnel, et recherche des constantes dans le code.
 - `sources/` : copies de travail des documents sources (hors dépôt).
 
 ## Moteur
@@ -40,8 +41,10 @@ python -m opennat calcul projet.json                 # calcul complet, 1 000 tir
 python -m opennat calcul projet.json --tirages 0     # valeurs centrales seules
 python -m opennat calcul projet.json --reprendre resultats/<projet>/<horodatage>
 python -m opennat valider projet.json                # contrôle du fichier projet
-python -m opennat controle                           # contrôle des tables de donnees/
+python -m opennat controle                           # tables de donnees/ et contrôle dimensionnel (E12)
 python -m banc.comparer                              # banc : 73 cas contre le carnet de référence
+python -m banc.regression                            # non-régression : 38 930 grandeurs figées
+python -m banc.carbone4                              # ordre de grandeur du module G face à Carbone 4
 python -m pytest                                     # tests
 ```
 
@@ -65,6 +68,7 @@ Le calcul écrit `resultats/<projet>/<horodatage>/` : entrées après valeurs pa
 | `incertitude.py` | E4 incertitude | A39 |
 | `chaine.py`, `calcul.py` | ordre des étapes, variantes, journal, reprise | A41, A42 |
 | `rsnat.py`, `recapitulatif.py`, `rsnat_spec.py` | RSNat | partie 7 |
+| `dimensions.py` | contrôle dimensionnel des unités et des équations (E12) | toutes |
 
 ## Utilitaire
 

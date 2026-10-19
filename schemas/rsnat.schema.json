@@ -1579,7 +1579,7 @@
           "properties": {
            "facteur_climat": {
             "type": "number",
-            "description": "CF (m²HE/kg CO2 éq./an)"
+            "description": "CF (m²HE/kg CO2 éq.)"
            },
            "inat_climat": {
             "type": "number",

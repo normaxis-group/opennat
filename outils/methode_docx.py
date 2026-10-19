@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026 NORMATYS
-"""Produit la version Word du texte de la méthode (pour le Biodiversity Standard Council).
+"""Produit la version Word du texte de la méthode (pour le Biodiversity Standard Council) et des documents
+d'accompagnement (guides, journal des versions, notes).
 
     python outils/methode_docx.py methode/OpenNAT_v1.md <sortie.docx>
 
@@ -17,6 +18,7 @@ from docx.shared import Cm
 sys.path.insert(0, r'C:\Users\Cedric\.claude\outils')
 from gabarit_docx import aerer, appliquer, controler, papier, remplissage, rendre_pdf, sauts_de_page  # noqa: E402
 
+TABLEAU_INSECABLE = (12, 1200)   # lignes et caractères au plus pour qu'un tableau reste d'un bloc
 MOTIF = re.compile(r'(\*\*[^*]+\*\*|`[^`]+`)')
 
 
@@ -137,9 +139,23 @@ def convertir(source, sortie):
     for par in doc.paragraphs:
         if par.runs and len(par.text) < 120 and all(r.bold for r in par.runs if r.text.strip()):
             par.paragraph_format.keep_with_next = True
+    # une phrase qui annonce une liste, un tableau ou une commande (« … : ») reste avec ce qui la suit
+    for par in doc.paragraphs:
+        if par.text.rstrip().endswith(':'):
+            par.paragraph_format.keep_with_next = True
     for t in doc.tables:
         largeurs(t)
-    doc.core_properties.title = 'Méthode de calcul OpenNAT, version 1' + (', édition complète' if 'complete' in sortie else '')
+        volume = sum(len(c.text) for ligne in t.rows for c in ligne.cells)
+        if len(t.rows) <= TABLEAU_INSECABLE[0] and volume <= TABLEAU_INSECABLE[1]:
+            # un tableau court ne se coupe pas entre deux pages
+            for ligne in t.rows[:-1]:
+                for cel in ligne.cells:
+                    for par in cel.paragraphs:
+                        par.paragraph_format.keep_with_next = True
+    titre = next((x[2:].strip() for x in lignes if x.startswith('# ')), '')
+    if 'OpenNAT_v1' in source or not titre:
+        titre = 'Méthode de calcul OpenNAT, version 1' + (', édition complète' if 'complete' in sortie else '')
+    doc.core_properties.title = titre
     doc.core_properties.author = 'NORMATYS'
     doc.core_properties.language = 'fr-FR'
     doc.save(sortie)

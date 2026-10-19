@@ -36,34 +36,43 @@ def ecart_ok(a, b):
     return abs(a - b) <= max(TOL_ABS, TOL_REL * abs(b))
 
 
+def attendus() -> dict:
+    with open(os.path.join(ICI, 'attendus.json'), encoding='utf-8') as f:
+        return json.load(f)
+
+
+def ecarts_cas(T: Tables, nom: str, att: dict) -> list[str]:
+    """Écarts entre le moteur et le carnet de référence pour un cas ; liste vide si le cas passe."""
+    P = Parametres(T)
+    e, journal = projet.normaliser(P, projet.lire(os.path.join(ICI, 'cas', nom)))
+    r = chaine.calculer(P, e, e['variantes'][0], journal)
+    et = r['etapes']
+    ecarts = []
+    for cle, chemin in GRANDEURS:
+        x, y = lire(et, chemin), att[cle]
+        if not ecart_ok(float(x), float(y)):
+            ecarts.append(f'{cle} {x:.4f} contre {y:.4f}')
+    for u in r['projet']:
+        a = att['unites'][u['id']]
+        if not ecart_ok(u['V'], a['V']):
+            ecarts.append(f'{u["id"]} V {u["V"]:.4f} contre {a["V"]:.4f}')
+        for t, (x, y) in enumerate(zip(u['traj'], a['traj']), 1):
+            if not ecart_ok(x, y):
+                ecarts.append(f'{u["id"]} année {t} {x:.4f} contre {y:.4f}')
+                break
+    return ecarts
+
+
 def main(motif=''):
     T = Tables()
-    with open(os.path.join(ICI, 'attendus.json'), encoding='utf-8') as f:
-        attendus = json.load(f)
     n_ok = n = 0
     t0 = time.time()
     defauts = []
-    for nom, att in attendus.items():
+    for nom, att in attendus().items():
         if motif not in nom:
             continue
         n += 1
-        P = Parametres(T)
-        e, journal = projet.normaliser(P, projet.lire(os.path.join(ICI, 'cas', nom)))
-        r = chaine.calculer(P, e, e['variantes'][0], journal)
-        et = r['etapes']
-        ecarts = []
-        for cle, chemin in GRANDEURS:
-            x, y = lire(et, chemin), att[cle]
-            if not ecart_ok(float(x), float(y)):
-                ecarts.append(f'{cle} {x:.4f} contre {y:.4f}')
-        for u in r['projet']:
-            a = att['unites'][u['id']]
-            if not ecart_ok(u['V'], a['V']):
-                ecarts.append(f'{u["id"]} V {u["V"]:.4f} contre {a["V"]:.4f}')
-            for t, (x, y) in enumerate(zip(u['traj'], a['traj']), 1):
-                if not ecart_ok(x, y):
-                    ecarts.append(f'{u["id"]} année {t} {x:.4f} contre {y:.4f}')
-                    break
+        ecarts = ecarts_cas(T, nom, att)
         if ecarts:
             defauts.append((nom, ecarts))
         else:
