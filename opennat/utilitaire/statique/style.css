@@ -33,7 +33,7 @@ input[type=number] { text-align: right; }
 .titre-app { font-family: var(--police); font-weight: 600; font-size: 18px; }
 .titre-app span { font-weight: 400; opacity: .75; font-size: 14px; margin-left: 4px; }
 .titre-app .nom-opennat { font-weight: 600; opacity: 1; font-size: 18px; margin-left: 0; }
-.titre-app img.logo-opennat { height: 26px; vertical-align: middle; }
+.titre-app img.logo-opennat { height: 30px; vertical-align: middle; margin-right: 6px; }
 .edition { margin-top: 24px; padding-top: 10px; border-top: 1px solid var(--filet); font-size: 11.5px; color: var(--doux); }
 .nom-projet { flex: 1; opacity: .9; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .actions { display: flex; gap: 6px; }
