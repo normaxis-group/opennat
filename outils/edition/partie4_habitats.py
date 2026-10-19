@@ -43,7 +43,8 @@ def grille_de(uk, distinctivite, position):
     if g == 'Grassland':
         return 'EP1' if distinctivite <= 2 else 'EP2'
     if g == 'Heathland and shrub':
-        return 'EF1' if 'scrub' in uk.lower() and 'heath' not in uk.lower() else 'EL1'
+        sous_type = uk.split(' - ', 1)[-1].lower()            # le nom du groupe contient « heath »
+        return 'EF1' if 'scrub' in sous_type and 'heath' not in sous_type else 'EL1'
     return {'Lakes': 'EM1', 'Sparsely vegetated land': 'ER1', 'Urban': 'EU1', 'Wetland': 'EZ1',
             'Coastal saltmarsh': 'EZ1', 'Woodland and forest': 'EB1', 'Individual trees': 'EA1',
             'Cropland': None}.get(g)

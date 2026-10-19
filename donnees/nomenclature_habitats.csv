@@ -1,192 +1,192 @@
-code_vinat;libelle_fr;code_eunis_2012;alias_eunis_2012;position;bkompv_code;uk_habitat;justification
-VB.1;Surface bâtie (emprise de construction);J1;J1.1 J1.2 J1.3 J1.4 J1.7 J2.1 J2.2 J2.3 J2.4;sol;52.03.01;"Urban - Developed land; sealed surface";"Surface scellée : valeur nulle commune à la BKompV (52.03.01) et à la métrique anglaise (u1b) ; les types BKompV 53.01 incluent leurs espaces libres et ne conviennent pas à une emprise seule"
-VB.2;Surface imperméabilisée non bâtie (voirie, parking, dallage étanche);J4.2;J4.1 J4.4 J4.5 J4.7;sol;52.01.01a;"Urban - Developed land; sealed surface";Voie ou aire scellée
-VB.3;Revêtement perméable non végétalisé (stabilisé, gravier, pavés à joints sablés);J4.6;;sol;52.03.03a;Urban - Artificial unvegetated, unsealed surface;Place à revêtement gravillonné ou à liant hydraulique (wassergebundene Decke)
-VB.4;Revêtement perméable végétalisé (dalles alvéolées engazonnées);J4.6;;sol;52.03.02;Urban - Artificial unvegetated, unsealed surface;Place partiellement stabilisée (Rasengitter)
-VB.5;Pelouse d'agrément tondue, terrain de sport engazonné;E2.6;E2.8;sol;34.09;Grassland - Modified grassland;Gazon piétiné et de parc (Tritt- und Parkrasen)
-VB.6;Massif ornemental horticole, couvre-sol planté;I2.1;;sol;51.07a.02;Urban - Introduced shrub;Autre espace vert sans arbres anciens
-VB.7;Jardin domestique végétalisé;I2.2;;sol;51.08a.01;Urban - Vegetated garden;Jardins privés riches en structures : valeur de la variante en bon état, l'état est porté par le facteur d'état (convention C-H2)
-VB.8;Friche urbaine herbacée;J1.5;J2.6 J3.3 J4.1;sol;51.04a.01;Urban - Open mosaic habitats on previously developed land;Friche d'anciens sites bâtis, variante riche en structures ou en espèces
-VB.9;Friche urbaine arbustive (plus de 50 % de ligneux);J1.5;;sol;41.01.06;Heathland and shrub - Mixed scrub;Fourré des stations rudérales riches en azote
-VB.10;Sol nu, chantier, terrassement;J1.6;J2.7 J6.1;sol;32.11.09a;Urban - Bare ground;Surfaces de chantier et d'installations de chantier
-VB.11;Toiture végétalisée extensive (substrat de moins de 15 cm);J1;;hors_sol_toiture;;Urban - Other green roof;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
-VB.12;Toiture végétalisée semi-intensive ou biodiverse (15 à 30 cm);J1;;hors_sol_toiture;;Urban - Biodiverse green roof;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
-VB.13;Toiture végétalisée intensive (plus de 30 cm);J1;;hors_sol_toiture;;Urban - Intensive green roof;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
-VB.15;Façade végétalisée enracinée au sol (plantes grimpantes);J1;;hors_sol_facade;;Urban - Ground based green wall;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
-VB.16;Façade végétalisée hors sol (bacs, modules);J1;;hors_sol_facade;;Urban - Facade-bound green wall;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
-VB.18a;Arbre isolé ou alignement d'essence indigène;G5.1;;arbre;41.05aM;Individual trees - Urban tree;"Arbres isolés, alignements et groupes d'essences autochtones ; stade jeune, moyen ou âgé selon la classe de diamètre (convention C-H5)"
-VB.18b;Arbre isolé ou alignement d'essence non indigène;G5.1;;arbre;41.05bM;Individual trees - Urban tree;"Arbres isolés, alignements et groupes d'essences non autochtones ; stade selon la classe de diamètre (convention C-H5)"
-VB.19;Noue, jardin de pluie, bassin paysager alimenté en eau de pluie;J5.3;;eau;23.05.01a.01;Urban - Rain garden;Fossé à fonctionnement naturel, sans entretien ou à entretien extensif : seul type BKompV d'ouvrage linéaire en eau végétalisé (convention C-H4)
-VB.20;Mare créée ou plan d'eau à berges naturelles;C1.3;;eau;24.04c;Lakes - Ponds (non-priority habitat);Plan d'eau eutrophe proche de l'état naturel
-VB.21;Bassin, fontaine ou plan d'eau à eau traitée;J5.5;J5.1 J5.2 J5.4;eau;24.07.05;Lakes - Ornamental lake or pond;Bassin d'agrément et réserve incendie
-VB.22;Potager, jardin partagé, jardin familial;I1.2;;sol;51.08a.01;Urban - Allotments;Jardins familiaux et terres de jardinage riches en structures
-VB.23;Jardinière, bac et plantation hors sol au niveau du sol;J1;;hors_sol_toiture;;Urban - Ground level planters;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
-VB.24;Bassin de rétention sec ou en eau, non paysager;J5.3;;eau;24.07.08;Urban - Sustainable drainage system;Bassin de rétention ouvert
-VB.25;Voie ferrée, ballast;J4.3;;sol;52.04.01;Urban - Built linear features;Plate-forme ferroviaire
-VB.26;Prairie urbaine extensive, fauche tardive;E2.2;;sol;34.07b.01;Grassland - Other neutral grassland;Prairie de fauche fraîche moyennement riche en espèces : une prairie semée en ville n'atteint pas le type riche en espèces 34.07a.01, réservé à E2.2
-C1.1;Lacs, étangs et mares oligotrophes permanents;C1.1;;eau;24.02a;Lakes - Low alkalinity lakes;Eaux stagnantes oligotrophes naturelles
-C1.2;Lacs, étangs et mares mésotrophes permanents;C1.2;;eau;24.03b;Lakes - Moderate alkalinity lakes;Autres eaux mésotrophes naturelles
-C1.3;Lacs, étangs et mares eutrophes permanents;C1.3;;eau;24.04b;Lakes - High alkalinity lakes;Autres eaux eutrophes naturelles
-C1.4;Lacs, étangs et mares permanents dystrophes;C1.4;;eau;24.01a;Lakes - Peat lakes;Eaux dystrophes naturelles
-C1.5;Lacs, étangs et mares continentaux salés et saumâtres permanents;C1.5;;eau;24.06.01;Lakes - High alkalinity lakes;Eau stagnante salée pérenne de l'intérieur
-C1.6;Lacs, étangs et mares temporaires;C1.6;;eau;24.09a;Lakes - Temporary lakes ponds and pools (H3170);Eaux stagnantes temporaires naturelles
-C2.1;Sources, ruisseaux de sources;C2.1;;eau;22.02;Lakes - Ponds (priority habitat);"Sources limnocrènes ; aucune ligne surfacique anglaise pour les cours d'eau (module rivières distinct) : délai et difficulté de la mare prioritaire (convention C-H4)"
-C2.2;Cours d'eau permanents à écoulement rapide;C2.2;;eau;23.01;Lakes - Ponds (priority habitat);"Cours d'eau naturels ; délai et difficulté par la convention C-H4"
-C2.3;Cours d'eau permanents à débit régulier;C2.3;;eau;23.01;Lakes - Ponds (priority habitat);"Cours d'eau naturels ; délai et difficulté par la convention C-H4"
-C2.4;Fleuves et rivières tidaux en amont de l'estuaire;C2.4;;eau;23.01;Lakes - Ponds (priority habitat);"Cours d'eau naturels ; délai et difficulté par la convention C-H4"
-C2.5;Eaux courantes temporaires;C2.5;;eau;23.09;Lakes - Temporary lakes ponds and pools (H3170);Cours d'eau temporaires naturels
-C2.6;Films d'eau sur les marges rocheuses d'un cours d'eau;C2.6;;eau;23.07.01;Lakes - Ponds (priority habitat);"Cascade ; délai et difficulté par la convention C-H4"
-C3.1;Formations à hélophytes riches en espèces;C3.1;;eau;38.07;Wetland - Reedbeds;Autre roselière
-C3.2;Roselières et formations de bordure à grands hélophytes;C3.2;;eau;38.02.01;Wetland - Reedbeds;Roselière aquatique à roseau
-C3.3;Formations riveraines à grandes cannes;C3.3;;eau;38.07;Wetland - Reedbeds;Autre roselière
-C3.4;Végétations amphibies lentes, pauvres en espèces;C3.4;;eau;24.08a.01;Lakes - Temporary lakes ponds and pools (H3170);Milieux exondés temporairement au bord des eaux stagnantes, forme naturelle
-C3.5;Berges périodiquement inondées à végétation pionnière;C3.5;;eau;24.08a.01;Lakes - Temporary lakes ponds and pools (H3170);Milieux exondés temporairement au bord des eaux stagnantes, forme naturelle
-C3.6;Berges nues ou clairsemées à sédiments meubles;C3.6;;eau;23.08a.01;Sparsely vegetated land - Ruderal/Ephemeral;Milieux exondés temporairement au bord des eaux courantes, forme naturelle
-C3.7;Berges nues ou clairsemées à sédiments non mobiles;C3.7;;eau;23.08a.01;Sparsely vegetated land - Ruderal/Ephemeral;Milieux exondés temporairement au bord des eaux courantes, forme naturelle
-C3.8;Habitats continentaux dépendant de la bruine;C3.8;;sol;22.03;Sparsely vegetated land - Inland rock outcrop and scree habitats;Sources rhéocrènes
-D1.1;Tourbières hautes;D1.1;;sol;36.01;Wetland - Lowland raised bog;Tourbières hautes intactes
-D1.2;Tourbières de couverture;D1.2;;sol;36.01;Wetland - Blanket bog;Tourbières hautes intactes
-D2.1;Tourbières de vallée;D2.1;;sol;35.01a;Wetland - Oceanic valley mire[1] (D2.1);Bas-marais et marécages intacts
-D2.2;Bas-marais oligotrophes et tourbières des sources;D2.2;;sol;35.01a;Wetland - Fens (upland and lowland);Bas-marais et marécages intacts
-D2.3;Tourbières de transition et tremblantes;D2.3;;sol;36.02;Wetland - Transition mires and quaking bogs (H7140);Tourbières de transition intactes
-D4.1;Bas-marais riches en bases;D4.1;;sol;35.01a;Wetland - Fens (upland and lowland);Bas-marais et marécages intacts
-D4.2;Communautés riveraines des sources calcaires de montagne;D4.2;;sol;22.01.02;Wetland - Fens (upland and lowland);Sources de suintement calcaires
-D5.1;Roselières normalement sans eau libre;D5.1;;sol;38.02.02;Wetland - Reedbeds;Roselière terrestre à roseau
-D5.2;Formations à grandes cypéracées sans eau libre;D5.2;;sol;37.02;Wetland - Fens (upland and lowland);Magnocariçaie eutrophe
-D5.3;Zones marécageuses à grands joncs;D5.3;;sol;35.02.06.03;Wetland - Purple moor grass and rush pastures;Prairie humide pauvre en espèces en déprise (jonchaies)
-D6.1;Marais salés continentaux;D6.1;;sol;35.03;Coastal saltmarsh - Saltmarshes and saline reedbeds;Prés salés de l'intérieur
-D6.2;Nappes d'hélophytes saumâtres pauvres en espèces;D6.2;;sol;38.07;Wetland - Reedbeds;Autre roselière
-E1.1;Végétations ouvertes des substrats sableux et rocheux;E1.1;;sol;34.04.01a;Sparsely vegetated land - Inland rock outcrop and scree habitats;Pelouses sableuses annuelles
-E1.2;Pelouses calcaires vivaces et steppes riches en bases;E1.2;;sol;34.02a;Grassland - Lowland calcareous grassland;Pelouses mi-sèches pâturées ou fauchées
-E1.3;Pelouses xériques méditerranéennes;E1.3;;sol;34.01;Grassland - Lowland calcareous grassland;Pelouses sèches
-E1.4;Steppes méditerranéennes à grandes graminées et armoises;E1.4;;sol;34.03.01a;Grassland - Lowland calcareous grassland;Pelouses steppiques pâturées ou fauchées
-E1.5;Pelouses méditerranéo-montagnardes;E1.5;;sol;34.01;Grassland - Upland calcareous grassland;Pelouses sèches
-E1.6;Pelouses à annuelles subnitrophiles;E1.6;;sol;39.06.02;Sparsely vegetated land - Ruderal/Ephemeral;Stations rudérales sèches et chaudes sur sol limoneux
-E1.7;Pelouses sèches acides et neutres fermées non méditerranéennes;E1.7;;sol;34.04.03.01a;Grassland - Lowland dry acid grassland;Pelouses sableuses vivaces fermées, pâturées ou fauchées
-E1.8;Pelouses fermées sèches acides et neutres méditerranéennes;E1.8;;sol;34.04.03.01a;Grassland - Lowland dry acid grassland;Pelouses sableuses vivaces fermées, pâturées ou fauchées
-E1.9;Pelouses ouvertes sèches acides et neutres non méditerranéennes;E1.9;;sol;34.04.01a;Grassland - Lowland dry acid grassland;Pelouses sableuses annuelles
-E1.A;Pelouses sèches ouvertes acides et neutres méditerranéennes;E1.A;;sol;34.04.01a;Grassland - Lowland dry acid grassland;Pelouses sableuses annuelles
-E1.B;Pelouses des sols métallifères;E1.B;;sol;34.05.01;Sparsely vegetated land - Calaminarian grasslands;Pelouses métallicoles naturelles
-E1.C;Habitats méditerranéens secs à herbacées inappétentes;E1.C;;sol;39.07;Grassland - Other neutral grassland;Peuplements monospécifiques pauvres en espèces
-E1.D;Pelouses xériques non exploitées;E1.D;;sol;34.02b;Grassland - Lowland calcareous grassland;Pelouses mi-sèches en déprise
-E1.E;Pelouses xériques piétinées à annuelles;E1.E;;sol;34.09;Grassland - Modified grassland;Gazon piétiné
-E2.1;Pâturages permanents mésotrophes;E2.1;;sol;34.07b.02;Grassland - Other neutral grassland;Pâture fraîche moyennement riche en espèces
-E2.2;Prairies de fauche de basse et moyenne altitude;E2.2;;sol;34.07a.01;Grassland - Lowland meadows;Prairie de fauche fraîche riche en espèces
-E2.3;Prairies de fauche montagnardes;E2.3;;sol;34.07a.01;Grassland - Upland hay meadows;Prairie de fauche fraîche riche en espèces
-E2.6;Prairies améliorées, terrains de sport et pelouses ornementales;E2.6;;sol;34.08a.01;Grassland - Modified grassland;Prairie permanente intensive
-E2.7;Prairies mésiques non gérées;E2.7;;sol;34.07b.03;Grassland - Other neutral grassland;Prairie fraîche en déprise moyennement riche en espèces
-E2.8;Pelouses mésophiles piétinées à annuelles;E2.8;;sol;34.09;Grassland - Modified grassland;Gazon piétiné
-E3.1;Prairies humides hautes méditerranéennes;E3.1;;sol;35.02.03a.01;Wetland - Purple moor grass and rush pastures;Autre prairie humide extensive exploitée
-E3.2;Prairies humides rases méditerranéennes;E3.2;;sol;35.02.03a.01;Wetland - Purple moor grass and rush pastures;Autre prairie humide extensive exploitée
-E3.4;Prairies eutrophes et mésotrophes humides;E3.4;;sol;35.02.05.01;Grassland - Floodplain wetland mosaic and CFGM;Prairie inondable extensive
-E3.5;Prairies oligotrophes humides;E3.5;;sol;35.02.01a;Wetland - Purple moor grass and rush pastures;Prairie à molinie exploitée
-E4.1;Combes à neige avec végétation;E4.1;;sol;64.01;Heathland and shrub - Mountain heaths and willow scrub;Combe à neige calcaire
-E4.2;Sommets et crêtes à mousses et lichens;E4.2;;sol;68.01;Heathland and shrub - Mountain heaths and willow scrub;Lande alpine ventée
-E4.3;Pelouses alpines et subalpines acidiphiles;E4.3;;sol;66.09;Grassland - Upland acid grassland;Pelouse à laîche courbée
-E4.4;Pelouses alpines et subalpines calcicoles;E4.4;;sol;66.02;Grassland - Upland calcareous grassland;Pelouse à laîche ferme
-E4.5;Prairies alpines et subalpines fertilisées;E4.5;;sol;66.06;Grassland - Upland hay meadows;Pâturage gras alpin
-E5.1;Végétations herbacées anthropiques;E5.1;;sol;39.06.03;Sparsely vegetated land - Ruderal/Ephemeral;Stations rudérales fraîches à humides
-E5.2;Ourlets forestiers thermophiles;E5.2;;sol;39.01.01;Sparsely vegetated land - Tall forbs;Lisières forestières oligo- à eutrophes
-E5.3;Formations à fougère aigle;E5.3;;sol;39.07;Grassland - Bracken;Peuplements monospécifiques (fougère aigle)
-E5.4;Lisières et prairies humides à grandes herbacées;E5.4;;sol;39.04a.01;Grassland - Tall herb communities (H6430);Ourlets riverains herbacés naturels
-E5.5;Formations subalpines humides à grandes herbacées;E5.5;;sol;67.01;Grassland - Tall herb communities (H6430);Mégaphorbiaie subalpine
-E6.1;Steppes salées intérieures méditerranéennes;E6.1;;sol;35.03;Coastal saltmarsh - Saltmarshes and saline reedbeds;Prés salés de l'intérieur
-E7.1;Parcs boisés atlantiques;E7.1;;sol;42.04.01;Woodland and forest - Wood-pasture and parkland;Forêt pâturée à usage traditionnel
-E7.2;Parcs boisés subcontinentaux;E7.2;;sol;42.04.01;Woodland and forest - Wood-pasture and parkland;Forêt pâturée à usage traditionnel
-E7.3;Dehesa;E7.3;;sol;42.04.01;Woodland and forest - Wood-pasture and parkland;Forêt pâturée à usage traditionnel
-F2.1;Fourrés subarctiques et alpins à saules nains;F2.1;;sol;69.07;Heathland and shrub - Mountain heaths and willow scrub;Fourré de saules nains
-F2.2;Landes et fourrés sempervirents alpins et subalpins;F2.2;;sol;69.05;Heathland and shrub - Mountain heaths and willow scrub;Fourré à rhododendron
-F2.3;Fourrés subalpins caducifoliés;F2.3;;sol;69.02;Heathland and shrub - Mountain heaths and willow scrub;Aulnaie verte
-F2.4;Fourrés de conifères proches de la limite des arbres;F2.4;;sol;69.04;Heathland and shrub - Mountain heaths and willow scrub;Fourré de pin couché
-F3.1;Fourrés tempérés;F3.1;;sol;41.01.04.02;Heathland and shrub - Mixed scrub;Autre fourré des stations fraîches
-F3.2;Fourrés caducifoliés subméditerranéens;F3.2;;sol;41.01.05.04a;Heathland and shrub - Mixed scrub;Autre fourré des stations sèches et chaudes
-F4.1;Landes humides;F4.1;;sol;40.02.01;Heathland and shrub - Lowland heathland;Lande tourbeuse intacte
-F4.2;Landes sèches;F4.2;;sol;40.03.01;Heathland and shrub - Lowland heathland;Lande à callune intacte
-F5.1;Matorrals arborescents;F5.1;;sol;41.01.05.04a;Heathland and shrub - Mixed scrub;Autre fourré des stations sèches et chaudes
-F5.2;Maquis;F5.2;;sol;41.01.05.04a;Heathland and shrub - Mixed scrub;Autre fourré des stations sèches et chaudes
-F5.3;Pseudo-maquis;F5.3;;sol;41.01.05.04a;Heathland and shrub - Mixed scrub;Autre fourré des stations sèches et chaudes
-F5.4;Fourrés à genêt d'Espagne;F5.4;;sol;41.01.05.04a;Heathland and shrub - Gorse scrub;Autre fourré des stations sèches et chaudes, genêts compris
-F5.5;Fourrés thermoméditerranéens;F5.5;;sol;41.01.05.04a;Heathland and shrub - Mixed scrub;Autre fourré des stations sèches et chaudes
-F6.1;Garrigues occidentales;F6.1;;sol;41.01.05.03;Heathland and shrub - Lowland heathland;Fourré nain des stations sèches : aucun type BKompV de garrigue
-F6.6;Garrigues supraméditerranéennes;F6.6;;sol;41.01.05.03;Heathland and shrub - Lowland heathland;Fourré nain des stations sèches : aucun type BKompV de garrigue
-F6.8;Fourrés xérohalophiles;F6.8;;sol;41.01.05.04a;Heathland and shrub - Mixed scrub;Autre fourré des stations sèches et chaudes
-F7.1;Landes épineuses ouest-méditerranéennes;F7.1;;sol;40.05;Heathland and shrub - Upland heathland;Lande de montagne
-F7.2;Landes épineuses centro-méditerranéennes;F7.2;;sol;40.05;Heathland and shrub - Upland heathland;Lande de montagne
-F7.4;Landes-hérisson;F7.4;;sol;40.05;Heathland and shrub - Upland heathland;Lande de montagne
-F9.1;Fourrés ripicoles;F9.1;;sol;41.01.02;Heathland and shrub - Willow scrub;Fourré de saules alluvial
-F9.2;Saussaies marécageuses et fourrés de bas-marais;F9.2;;sol;41.01.03.01;Heathland and shrub - Willow scrub;Fourré de tourbière
-F9.3;Galeries et fourrés riverains méridionaux;F9.3;;sol;41.01.02;Heathland and shrub - Willow scrub;Fourré de saules alluvial
-FA.1;Haies d'espèces non indigènes;FA.1;;lineaire;41.04M;Non-native and ornamental hedgerow;Plantations et haies d'essences non autochtones, stade moyen (convention C-H5)
-FA.2;Haies d'espèces indigènes fortement gérées;FA.2;;lineaire;41.03.03J;Native hedgerow;Haie autochtone taillée, sans arbres de haut jet
-FA.3;Haies d'espèces indigènes riches en espèces;FA.3;;lineaire;41.03.03M;Species-rich native hedgerow;Haie autochtone avec arbres de haut jet de stade moyen (convention C-H5)
-FA.4;Haies d'espèces indigènes pauvres en espèces;FA.4;;lineaire;41.03.03J;Native hedgerow;Haie autochtone jeune, sans arbres de haut jet
-FB.1;Plantations d'arbustes pour la récolte de la plante entière;FB.1;;sol;41.07;Cropland - Horticulture;Plantations ligneuses
-FB.2;Plantations d'arbustes pour la récolte de feuilles et de branches;FB.2;;sol;41.07;Cropland - Horticulture;Plantations ligneuses
-FB.3;Plantations d'arbustes ornementaux ou fruitiers;FB.3;;sol;41.07;Urban - Introduced shrub;Plantations ligneuses
-FB.4;Vignobles;FB.4;;sol;41.08.02;Cropland - Horticulture;Vigne en terrain plat ou faiblement incliné
-G1.1;Forêts riveraines à aulnes, peupliers ou saules;G1.1;;sol;43.04.02.01M;Woodland and forest - Wet woodland;Forêt alluviale à bois tendre à dynamique naturelle, stade moyen (convention C-H5)
-G1.2;Forêts riveraines mixtes des plaines inondables;G1.2;;sol;43.04.03.01M;Woodland and forest - Wet woodland;Forêt alluviale à bois dur à dynamique naturelle, stade moyen
-G1.3;Forêts riveraines méditerranéennes;G1.3;;sol;43.04.02.01M;Woodland and forest - Wet woodland;Forêt alluviale à bois tendre, stade moyen
-G1.4;Forêts marécageuses de feuillus hors tourbe acide;G1.4;;sol;43.02.02.01M;Woodland and forest - Wet woodland;Aulnaie marécageuse à régime hydrique intact, stade moyen
-G1.5;Forêts marécageuses de feuillus sur tourbe acide;G1.5;;sol;43.02.01.01M;Woodland and forest - Wet woodland;Boulaie marécageuse à régime hydrique intact, stade moyen
-G1.6;Hêtraies;G1.6;;sol;43.07.04M;Woodland and forest - Lowland beech and yew woodland;Hêtraie des stations fraîches, stade moyen
-G1.7;Forêts caducifoliées thermophiles;G1.7;;sol;43.08.05M;Woodland and forest - Lowland mixed deciduous woodland;Chênaie sèche, stade moyen
-G1.8;Boisements acidophiles à chênes;G1.8;;sol;43.07.03M;Woodland and forest - Lowland mixed deciduous woodland;Chênaie des stations fraîches à humides, stade moyen
-G1.9;Boisements non riverains à bouleaux, trembles ou sorbiers;G1.9;;sol;42.03.02;Woodland and forest - Upland birchwoods;Pré-bois des stations fraîches
-G1.A;Boisements mésotrophes et eutrophes à chênes, charmes, frênes, érables;G1.A;;sol;43.07.02M;Woodland and forest - Lowland mixed deciduous woodland;Chênaie-charmaie, stade moyen
-G1.B;Aulnaies non riveraines;G1.B;;sol;43.03.01M;Woodland and forest - Wet woodland;Forêt marécageuse intacte, stade moyen
-G1.C;Plantations forestières très artificielles de feuillus caducifoliés;G1.C;;sol;43.10M;"Woodland and forest - Other woodland; broadleaved";Plantation de feuillus d'essences introduites, stade moyen
-G1.D;Vergers d'arbres fruitiers et à noix;G1.D;;sol;41.06.01.MA;Grassland - Traditional orchards;"Verger de haute tige sur prairie, arbres moyens à âgés ; un verger intensif est saisi en FB.3"
-G2.1;Forêts méditerranéennes de chênes sempervirents;G2.1;;sol;43.08.05M;Woodland and forest - Lowland mixed deciduous woodland;Chênaie sèche, stade moyen : aucun type BKompV méditerranéen
-G2.2;Forêts sclérophylles continentales;G2.2;;sol;43.08.05M;Woodland and forest - Lowland mixed deciduous woodland;Chênaie sèche, stade moyen
-G2.4;Boisements à caroubier et olivier;G2.4;;sol;43.08.05M;Woodland and forest - Lowland mixed deciduous woodland;Chênaie sèche, stade moyen
-G2.6;Bois de houx;G2.6;;sol;43.07.04M;Woodland and forest - Lowland beech and yew woodland;Hêtraie des stations fraîches, stade moyen
-G2.8;Plantations forestières de feuillus sempervirents;G2.8;;sol;43.10M;"Woodland and forest - Other woodland; broadleaved";Plantation de feuillus d'essences introduites, stade moyen
-G2.9;Vergers et bosquets sempervirents (oliveraies);G2.9;;sol;41.06.01.MA;Grassland - Traditional orchards;Verger traditionnel, arbres moyens à âgés
-G3.1;Boisements à épicéas et sapins;G3.1;;sol;44.03.03M;Woodland and forest - Native pine woodlands;Sapinière-pessière montagnarde, stade moyen
-G3.2;Boisements alpins à mélèze et pin cembro;G3.2;;sol;70.03M;Woodland and forest - Native pine woodlands;Mélézein-cembraie subalpin, stade moyen
-G3.3;Pinèdes à pin à crochets;G3.3;;sol;44.02.01M;Woodland and forest - Native pine woodlands;Pinède sèche des rochers, stade moyen
-G3.4;Pinèdes à pin sylvestre;G3.4;;sol;44.02.03M;Woodland and forest - Other Scot's pine woodland;Pinède sèche sur sable, stade moyen
-G3.5;Pinèdes à pin noir;G3.5;;sol;44.02.01M;Woodland and forest - Other Scot's pine woodland;Pinède sèche des rochers, stade moyen
-G3.7;Pinèdes méditerranéennes hors pin noir;G3.7;;sol;44.02.01M;Woodland and forest - Other Scot's pine woodland;Pinède sèche des rochers, stade moyen
-G3.9;Bois de cupressacées ou de taxacées;G3.9;;sol;44.02.01M;Woodland and forest - Lowland beech and yew woodland;Pinède sèche des rochers, stade moyen : aucun type BKompV d'ifs ou de genévriers arborescents
-G3.E;Forêts de conifères des tourbières;G3.E;;sol;44.01.02M;Woodland and forest - Wet woodland;Pinède tourbeuse, stade moyen
-G3.F;Plantations très artificielles de conifères;G3.F;;sol;44.05M;Woodland and forest - Other coniferous woodland;Plantation de résineux d'essences introduites, stade moyen
-G4.1;Forêts mixtes marécageuses;G4.1;;sol;43.03.01M;Woodland and forest - Wet woodland;Forêt marécageuse intacte, stade moyen
-G4.6;Forêts mixtes à sapin, épicéa et hêtre;G4.6;;sol;43.07.06M;"Woodland and forest - Other woodland; mixed";Hêtraie-sapinière montagnarde, stade moyen
-G4.8;Forêts mixtes non riveraines de feuillus et de conifères;G4.8;;sol;43.07.04M;"Woodland and forest - Other woodland; mixed";Hêtraie mêlée des stations fraîches, stade moyen
-G4.9;Forêts caducifoliées mixtes avec cupressacées ou taxacées;G4.9;;sol;43.07.04M;"Woodland and forest - Other woodland; mixed";Hêtraie mêlée des stations fraîches, stade moyen
-G4.B;Forêts mixtes méditerranéennes de pins et de chênes;G4.B;;sol;43.08.05M;"Woodland and forest - Other woodland; mixed";Chênaie sèche, stade moyen
-G4.C;Boisements mixtes à pin sylvestre et chênes thermophiles;G4.C;;sol;43.08.05M;"Woodland and forest - Other woodland; mixed";Chênaie sèche, stade moyen
-G4.D;Forêts mixtes de pin noir et de chênes sempervirents;G4.D;;sol;43.08.05M;"Woodland and forest - Other woodland; mixed";Chênaie sèche, stade moyen
-G4.E;Forêts mixtes de pins méditerranéens et de chênes sempervirents;G4.E;;sol;43.08.05M;"Woodland and forest - Other woodland; mixed";Chênaie sèche, stade moyen
-G4.F;Plantations forestières mixtes;G4.F;;sol;44.04M;"Woodland and forest - Other woodland; mixed";Plantation mixte d'essences indigènes, stade moyen
-G5.1;Alignements d'arbres hors milieu urbain;G5.1;;arbre;41.05aM;Individual trees - Rural tree;"Arbres isolés et alignements d'essences autochtones, stade moyen ; en ville, saisir VB.18a ou VB.18b"
-G5.2;Petits bois anthropiques de feuillus caducifoliés;G5.2;;sol;41.02.02M;"Woodland and forest - Other woodland; broadleaved";Bosquet des stations fraîches, stade moyen
-G5.3;Petits bois anthropiques de feuillus sempervirents;G5.3;;sol;41.02.03M;"Woodland and forest - Other woodland; broadleaved";Bosquet des stations sèches, stade moyen
-G5.4;Petits bois anthropiques de conifères;G5.4;;sol;44.04M;Woodland and forest - Other coniferous woodland;Plantation de résineux indigènes, stade moyen
-G5.5;Petits bois anthropiques mixtes;G5.5;;sol;41.02.02M;"Woodland and forest - Other woodland; mixed";Bosquet des stations fraîches, stade moyen
-G5.6;Stades initiaux et régénérations des forêts;G5.6;;sol;42.03.02;"Woodland and forest - Other woodland; broadleaved";Pré-bois des stations fraîches
-G5.7;Taillis et stades initiaux des plantations;G5.7;;sol;43.10J;"Woodland and forest - Other woodland; broadleaved";Plantation de feuillus, stade jeune
-G5.8;Coupes forestières récentes;G5.8;;sol;39.02;Woodland and forest - Felled;Coupes et végétation des clairières
-H2.3;Éboulis siliceux des montagnes tempérées;H2.3;;sol;32.03a.01;Sparsely vegetated land - Inland rock outcrop and scree habitats;Éboulis naturels
-H2.4;Éboulis calcaires des montagnes tempérées;H2.4;;sol;32.03a.01;Sparsely vegetated land - Inland rock outcrop and scree habitats;Éboulis naturels
-H2.5;Éboulis siliceux des expositions chaudes;H2.5;;sol;32.03a.01;Sparsely vegetated land - Inland rock outcrop and scree habitats;Éboulis naturels
-H2.6;Éboulis calcaires des expositions chaudes;H2.6;;sol;32.03a.01;Sparsely vegetated land - Inland rock outcrop and scree habitats;Éboulis naturels
-H3.1;Falaises continentales siliceuses;H3.1;;sol;32.01a;Sparsely vegetated land - Inland rock outcrop and scree habitats;Rochers naturels
-H3.2;Falaises continentales basiques;H3.2;;sol;32.01a;Sparsely vegetated land - Inland rock outcrop and scree habitats;Rochers naturels
-H3.4;Falaises continentales humides;H3.4;;sol;32.01a;Sparsely vegetated land - Inland rock outcrop and scree habitats;Rochers naturels
-H3.5;Pavements rocheux, dont pavements calcaires;H3.5;;sol;32.01a;Sparsely vegetated land - Limestone pavement;Rochers naturels
-H3.6;Affleurements et rochers érodés;H3.6;;sol;32.01a;Sparsely vegetated land - Inland rock outcrop and scree habitats;Rochers naturels
-H5.2;Moraines glaciaires peu végétalisées;H5.2;;sol;63.04;Sparsely vegetated land - Other inland rock and scree;Éboulis siliceux subalpins à alpins
-H5.3;Substrats minéraux nus ou clairsemés d'origine naturelle;H5.3;;sol;32.09;Sparsely vegetated land - Other inland rock and scree;"Surface sableuse sans ou presque sans végétation ; un sol nu de chantier est saisi en VB.10"
-H5.4;Substrats organiques secs peu végétalisés;H5.4;;sol;36.04.04;Sparsely vegetated land - Ruderal/Ephemeral;Dépôts de tourbe
-H5.5;Zones incendiées peu végétalisées;H5.5;;sol;39.02;Woodland and forest - Felled;Coupes et végétation des clairières
-H5.6;Zones piétinées;H5.6;;sol;52.02.06;Urban - Artificial unvegetated, unsealed surface;Chemin non stabilisé
-I1.1;Monocultures intensives;I1.1;;sol;33.04a.03;Cropland - Cereal crops;Culture sur sol limoneux ou argileux à flore adventice appauvrie
-I1.2;Cultures maraîchères et horticulture;I1.2;;sol;33.04a.03;Cropland - Horticulture;Culture sur sol limoneux ou argileux à flore adventice appauvrie
-I1.3;Terres arables à monocultures extensives;I1.3;;sol;33.04a.02;Cropland - Arable field margins cultivated annually;Culture sur sol limoneux ou argileux à flore adventice riche
-I1.4;Cultures inondées ou inondables;I1.4;;sol;33.05.03;Cropland - Non-cereal crops;Culture sur sol tourbeux à flore adventice appauvrie
-I1.5;Friches, jachères et terres arables récemment abandonnées;I1.5;;sol;33.04a.04;Sparsely vegetated land - Ruderal/Ephemeral;Jachère sur sol limoneux ou argileux
-I2.1;Grands jardins ornementaux et parcs;I2.1;;sol;51.06a.03;Urban - Vegetated garden;Parc entretenu intensivement avec arbres anciens
-I2.3;Zones de jardins abandonnées récemment;I2.3;;sol;51.08a.01;Urban - Vegetated garden;Jardins riches en structures
+code_vinat;libelle_fr;code_eunis_2012;alias_eunis_2012;position;bkompv_code;uk_habitat;grille_etat;justification
+VB.1;Surface bâtie (emprise de construction);J1;J1.1 J1.2 J1.3 J1.4 J1.7 J2.1 J2.2 J2.3 J2.4;sol;52.03.01;"Urban - Developed land; sealed surface";EU1;"Surface scellée : valeur nulle commune à la BKompV (52.03.01) et à la métrique anglaise (u1b) ; les types BKompV 53.01 incluent leurs espaces libres et ne conviennent pas à une emprise seule"
+VB.2;Surface imperméabilisée non bâtie (voirie, parking, dallage étanche);J4.2;J4.1 J4.4 J4.5 J4.7;sol;52.01.01a;"Urban - Developed land; sealed surface";EU1;Voie ou aire scellée
+VB.3;Revêtement perméable non végétalisé (stabilisé, gravier, pavés à joints sablés);J4.6;;sol;52.03.03a;Urban - Artificial unvegetated, unsealed surface;EU1;Place à revêtement gravillonné ou à liant hydraulique (wassergebundene Decke)
+VB.4;Revêtement perméable végétalisé (dalles alvéolées engazonnées);J4.6;;sol;52.03.02;Urban - Artificial unvegetated, unsealed surface;EU1;Place partiellement stabilisée (Rasengitter)
+VB.5;Pelouse d'agrément tondue, terrain de sport engazonné;E2.6;E2.8;sol;34.09;Grassland - Modified grassland;EP1;Gazon piétiné et de parc (Tritt- und Parkrasen)
+VB.6;Massif ornemental horticole, couvre-sol planté;I2.1;;sol;51.07a.02;Urban - Introduced shrub;EU1;Autre espace vert sans arbres anciens
+VB.7;Jardin domestique végétalisé;I2.2;;sol;51.08a.01;Urban - Vegetated garden;EU1;Jardins privés riches en structures : valeur de la variante en bon état, l'état est porté par le facteur d'état (convention C-H2)
+VB.8;Friche urbaine herbacée;J1.5;J2.6 J3.3 J4.1;sol;51.04a.01;Urban - Open mosaic habitats on previously developed land;EU1;Friche d'anciens sites bâtis, variante riche en structures ou en espèces
+VB.9;Friche urbaine arbustive (plus de 50 % de ligneux);J1.5;;sol;41.01.06;Heathland and shrub - Mixed scrub;EF1;Fourré des stations rudérales riches en azote
+VB.10;Sol nu, chantier, terrassement;J1.6;J2.7 J6.1;sol;32.11.09a;Urban - Bare ground;EU1;Surfaces de chantier et d'installations de chantier
+VB.11;Toiture végétalisée extensive (substrat de moins de 15 cm);J1;;hors_sol_toiture;;Urban - Other green roof;EU1;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
+VB.12;Toiture végétalisée semi-intensive ou biodiverse (15 à 30 cm);J1;;hors_sol_toiture;;Urban - Biodiverse green roof;EU1;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
+VB.13;Toiture végétalisée intensive (plus de 30 cm);J1;;hors_sol_toiture;;Urban - Intensive green roof;EU1;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
+VB.15;Façade végétalisée enracinée au sol (plantes grimpantes);J1;;hors_sol_facade;;Urban - Ground based green wall;EU1;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
+VB.16;Façade végétalisée hors sol (bacs, modules);J1;;hors_sol_facade;;Urban - Facade-bound green wall;EU1;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
+VB.18a;Arbre isolé ou alignement d'essence indigène;G5.1;;arbre;41.05aM;Individual trees - Urban tree;EA1;"Arbres isolés, alignements et groupes d'essences autochtones ; stade jeune, moyen ou âgé selon la classe de diamètre (convention C-H5)"
+VB.18b;Arbre isolé ou alignement d'essence non indigène;G5.1;;arbre;41.05bM;Individual trees - Urban tree;EA1;"Arbres isolés, alignements et groupes d'essences non autochtones ; stade selon la classe de diamètre (convention C-H5)"
+VB.19;Noue, jardin de pluie, bassin paysager alimenté en eau de pluie;J5.3;;eau;23.05.01a.01;Urban - Rain garden;EU1;Fossé à fonctionnement naturel, sans entretien ou à entretien extensif : seul type BKompV d'ouvrage linéaire en eau végétalisé (convention C-H4)
+VB.20;Mare créée ou plan d'eau à berges naturelles;C1.3;;eau;24.04c;Lakes - Ponds (non-priority habitat);EM1;Plan d'eau eutrophe proche de l'état naturel
+VB.21;Bassin, fontaine ou plan d'eau à eau traitée;J5.5;J5.1 J5.2 J5.4;eau;24.07.05;Lakes - Ornamental lake or pond;EM1;Bassin d'agrément et réserve incendie
+VB.22;Potager, jardin partagé, jardin familial;I1.2;;sol;51.08a.01;Urban - Allotments;EU1;Jardins familiaux et terres de jardinage riches en structures
+VB.23;Jardinière, bac et plantation hors sol au niveau du sol;J1;;hors_sol_toiture;;Urban - Ground level planters;EU1;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
+VB.24;Bassin de rétention sec ou en eau, non paysager;J5.3;;eau;24.07.08;Urban - Sustainable drainage system;EU1;Bassin de rétention ouvert
+VB.25;Voie ferrée, ballast;J4.3;;sol;52.04.01;Urban - Built linear features;EU1;Plate-forme ferroviaire
+VB.26;Prairie urbaine extensive, fauche tardive;E2.2;;sol;34.07b.01;Grassland - Other neutral grassland;EP2;Prairie de fauche fraîche moyennement riche en espèces : une prairie semée en ville n'atteint pas le type riche en espèces 34.07a.01, réservé à E2.2
+C1.1;Lacs, étangs et mares oligotrophes permanents;C1.1;;eau;24.02a;Lakes - Low alkalinity lakes;EM1;Eaux stagnantes oligotrophes naturelles
+C1.2;Lacs, étangs et mares mésotrophes permanents;C1.2;;eau;24.03b;Lakes - Moderate alkalinity lakes;EM1;Autres eaux mésotrophes naturelles
+C1.3;Lacs, étangs et mares eutrophes permanents;C1.3;;eau;24.04b;Lakes - High alkalinity lakes;EM1;Autres eaux eutrophes naturelles
+C1.4;Lacs, étangs et mares permanents dystrophes;C1.4;;eau;24.01a;Lakes - Peat lakes;EM1;Eaux dystrophes naturelles
+C1.5;Lacs, étangs et mares continentaux salés et saumâtres permanents;C1.5;;eau;24.06.01;Lakes - High alkalinity lakes;EM1;Eau stagnante salée pérenne de l'intérieur
+C1.6;Lacs, étangs et mares temporaires;C1.6;;eau;24.09a;Lakes - Temporary lakes ponds and pools (H3170);EM1;Eaux stagnantes temporaires naturelles
+C2.1;Sources, ruisseaux de sources;C2.1;;eau;22.02;Lakes - Ponds (priority habitat);EM1;"Sources limnocrènes ; aucune ligne surfacique anglaise pour les cours d'eau (module rivières distinct) : délai et difficulté de la mare prioritaire (convention C-H4)"
+C2.2;Cours d'eau permanents à écoulement rapide;C2.2;;eau;23.01;Lakes - Ponds (priority habitat);EM1;"Cours d'eau naturels ; délai et difficulté par la convention C-H4"
+C2.3;Cours d'eau permanents à débit régulier;C2.3;;eau;23.01;Lakes - Ponds (priority habitat);EM1;"Cours d'eau naturels ; délai et difficulté par la convention C-H4"
+C2.4;Fleuves et rivières tidaux en amont de l'estuaire;C2.4;;eau;23.01;Lakes - Ponds (priority habitat);EM1;"Cours d'eau naturels ; délai et difficulté par la convention C-H4"
+C2.5;Eaux courantes temporaires;C2.5;;eau;23.09;Lakes - Temporary lakes ponds and pools (H3170);EM1;Cours d'eau temporaires naturels
+C2.6;Films d'eau sur les marges rocheuses d'un cours d'eau;C2.6;;eau;23.07.01;Lakes - Ponds (priority habitat);EM1;"Cascade ; délai et difficulté par la convention C-H4"
+C3.1;Formations à hélophytes riches en espèces;C3.1;;eau;38.07;Wetland - Reedbeds;EZ1;Autre roselière
+C3.2;Roselières et formations de bordure à grands hélophytes;C3.2;;eau;38.02.01;Wetland - Reedbeds;EZ1;Roselière aquatique à roseau
+C3.3;Formations riveraines à grandes cannes;C3.3;;eau;38.07;Wetland - Reedbeds;EZ1;Autre roselière
+C3.4;Végétations amphibies lentes, pauvres en espèces;C3.4;;eau;24.08a.01;Lakes - Temporary lakes ponds and pools (H3170);EM1;Milieux exondés temporairement au bord des eaux stagnantes, forme naturelle
+C3.5;Berges périodiquement inondées à végétation pionnière;C3.5;;eau;24.08a.01;Lakes - Temporary lakes ponds and pools (H3170);EM1;Milieux exondés temporairement au bord des eaux stagnantes, forme naturelle
+C3.6;Berges nues ou clairsemées à sédiments meubles;C3.6;;eau;23.08a.01;Sparsely vegetated land - Ruderal/Ephemeral;ER1;Milieux exondés temporairement au bord des eaux courantes, forme naturelle
+C3.7;Berges nues ou clairsemées à sédiments non mobiles;C3.7;;eau;23.08a.01;Sparsely vegetated land - Ruderal/Ephemeral;ER1;Milieux exondés temporairement au bord des eaux courantes, forme naturelle
+C3.8;Habitats continentaux dépendant de la bruine;C3.8;;sol;22.03;Sparsely vegetated land - Inland rock outcrop and scree habitats;ER1;Sources rhéocrènes
+D1.1;Tourbières hautes;D1.1;;sol;36.01;Wetland - Lowland raised bog;EZ1;Tourbières hautes intactes
+D1.2;Tourbières de couverture;D1.2;;sol;36.01;Wetland - Blanket bog;EZ1;Tourbières hautes intactes
+D2.1;Tourbières de vallée;D2.1;;sol;35.01a;Wetland - Oceanic valley mire[1] (D2.1);EZ1;Bas-marais et marécages intacts
+D2.2;Bas-marais oligotrophes et tourbières des sources;D2.2;;sol;35.01a;Wetland - Fens (upland and lowland);EZ1;Bas-marais et marécages intacts
+D2.3;Tourbières de transition et tremblantes;D2.3;;sol;36.02;Wetland - Transition mires and quaking bogs (H7140);EZ1;Tourbières de transition intactes
+D4.1;Bas-marais riches en bases;D4.1;;sol;35.01a;Wetland - Fens (upland and lowland);EZ1;Bas-marais et marécages intacts
+D4.2;Communautés riveraines des sources calcaires de montagne;D4.2;;sol;22.01.02;Wetland - Fens (upland and lowland);EZ1;Sources de suintement calcaires
+D5.1;Roselières normalement sans eau libre;D5.1;;sol;38.02.02;Wetland - Reedbeds;EZ1;Roselière terrestre à roseau
+D5.2;Formations à grandes cypéracées sans eau libre;D5.2;;sol;37.02;Wetland - Fens (upland and lowland);EZ1;Magnocariçaie eutrophe
+D5.3;Zones marécageuses à grands joncs;D5.3;;sol;35.02.06.03;Wetland - Purple moor grass and rush pastures;EZ1;Prairie humide pauvre en espèces en déprise (jonchaies)
+D6.1;Marais salés continentaux;D6.1;;sol;35.03;Coastal saltmarsh - Saltmarshes and saline reedbeds;EZ1;Prés salés de l'intérieur
+D6.2;Nappes d'hélophytes saumâtres pauvres en espèces;D6.2;;sol;38.07;Wetland - Reedbeds;EZ1;Autre roselière
+E1.1;Végétations ouvertes des substrats sableux et rocheux;E1.1;;sol;34.04.01a;Sparsely vegetated land - Inland rock outcrop and scree habitats;ER1;Pelouses sableuses annuelles
+E1.2;Pelouses calcaires vivaces et steppes riches en bases;E1.2;;sol;34.02a;Grassland - Lowland calcareous grassland;EP2;Pelouses mi-sèches pâturées ou fauchées
+E1.3;Pelouses xériques méditerranéennes;E1.3;;sol;34.01;Grassland - Lowland calcareous grassland;EP2;Pelouses sèches
+E1.4;Steppes méditerranéennes à grandes graminées et armoises;E1.4;;sol;34.03.01a;Grassland - Lowland calcareous grassland;EP2;Pelouses steppiques pâturées ou fauchées
+E1.5;Pelouses méditerranéo-montagnardes;E1.5;;sol;34.01;Grassland - Upland calcareous grassland;EP2;Pelouses sèches
+E1.6;Pelouses à annuelles subnitrophiles;E1.6;;sol;39.06.02;Sparsely vegetated land - Ruderal/Ephemeral;ER1;Stations rudérales sèches et chaudes sur sol limoneux
+E1.7;Pelouses sèches acides et neutres fermées non méditerranéennes;E1.7;;sol;34.04.03.01a;Grassland - Lowland dry acid grassland;EP2;Pelouses sableuses vivaces fermées, pâturées ou fauchées
+E1.8;Pelouses fermées sèches acides et neutres méditerranéennes;E1.8;;sol;34.04.03.01a;Grassland - Lowland dry acid grassland;EP2;Pelouses sableuses vivaces fermées, pâturées ou fauchées
+E1.9;Pelouses ouvertes sèches acides et neutres non méditerranéennes;E1.9;;sol;34.04.01a;Grassland - Lowland dry acid grassland;EP2;Pelouses sableuses annuelles
+E1.A;Pelouses sèches ouvertes acides et neutres méditerranéennes;E1.A;;sol;34.04.01a;Grassland - Lowland dry acid grassland;EP2;Pelouses sableuses annuelles
+E1.B;Pelouses des sols métallifères;E1.B;;sol;34.05.01;Sparsely vegetated land - Calaminarian grasslands;ER1;Pelouses métallicoles naturelles
+E1.C;Habitats méditerranéens secs à herbacées inappétentes;E1.C;;sol;39.07;Grassland - Other neutral grassland;EP2;Peuplements monospécifiques pauvres en espèces
+E1.D;Pelouses xériques non exploitées;E1.D;;sol;34.02b;Grassland - Lowland calcareous grassland;EP2;Pelouses mi-sèches en déprise
+E1.E;Pelouses xériques piétinées à annuelles;E1.E;;sol;34.09;Grassland - Modified grassland;EP1;Gazon piétiné
+E2.1;Pâturages permanents mésotrophes;E2.1;;sol;34.07b.02;Grassland - Other neutral grassland;EP2;Pâture fraîche moyennement riche en espèces
+E2.2;Prairies de fauche de basse et moyenne altitude;E2.2;;sol;34.07a.01;Grassland - Lowland meadows;EP2;Prairie de fauche fraîche riche en espèces
+E2.3;Prairies de fauche montagnardes;E2.3;;sol;34.07a.01;Grassland - Upland hay meadows;EP2;Prairie de fauche fraîche riche en espèces
+E2.6;Prairies améliorées, terrains de sport et pelouses ornementales;E2.6;;sol;34.08a.01;Grassland - Modified grassland;EP1;Prairie permanente intensive
+E2.7;Prairies mésiques non gérées;E2.7;;sol;34.07b.03;Grassland - Other neutral grassland;EP2;Prairie fraîche en déprise moyennement riche en espèces
+E2.8;Pelouses mésophiles piétinées à annuelles;E2.8;;sol;34.09;Grassland - Modified grassland;EP1;Gazon piétiné
+E3.1;Prairies humides hautes méditerranéennes;E3.1;;sol;35.02.03a.01;Wetland - Purple moor grass and rush pastures;EZ1;Autre prairie humide extensive exploitée
+E3.2;Prairies humides rases méditerranéennes;E3.2;;sol;35.02.03a.01;Wetland - Purple moor grass and rush pastures;EZ1;Autre prairie humide extensive exploitée
+E3.4;Prairies eutrophes et mésotrophes humides;E3.4;;sol;35.02.05.01;Grassland - Floodplain wetland mosaic and CFGM;EP2;Prairie inondable extensive
+E3.5;Prairies oligotrophes humides;E3.5;;sol;35.02.01a;Wetland - Purple moor grass and rush pastures;EZ1;Prairie à molinie exploitée
+E4.1;Combes à neige avec végétation;E4.1;;sol;64.01;Heathland and shrub - Mountain heaths and willow scrub;EL1;Combe à neige calcaire
+E4.2;Sommets et crêtes à mousses et lichens;E4.2;;sol;68.01;Heathland and shrub - Mountain heaths and willow scrub;EL1;Lande alpine ventée
+E4.3;Pelouses alpines et subalpines acidiphiles;E4.3;;sol;66.09;Grassland - Upland acid grassland;EP2;Pelouse à laîche courbée
+E4.4;Pelouses alpines et subalpines calcicoles;E4.4;;sol;66.02;Grassland - Upland calcareous grassland;EP2;Pelouse à laîche ferme
+E4.5;Prairies alpines et subalpines fertilisées;E4.5;;sol;66.06;Grassland - Upland hay meadows;EP2;Pâturage gras alpin
+E5.1;Végétations herbacées anthropiques;E5.1;;sol;39.06.03;Sparsely vegetated land - Ruderal/Ephemeral;ER1;Stations rudérales fraîches à humides
+E5.2;Ourlets forestiers thermophiles;E5.2;;sol;39.01.01;Sparsely vegetated land - Tall forbs;ER1;Lisières forestières oligo- à eutrophes
+E5.3;Formations à fougère aigle;E5.3;;sol;39.07;Grassland - Bracken;EP1;Peuplements monospécifiques (fougère aigle)
+E5.4;Lisières et prairies humides à grandes herbacées;E5.4;;sol;39.04a.01;Grassland - Tall herb communities (H6430);EP2;Ourlets riverains herbacés naturels
+E5.5;Formations subalpines humides à grandes herbacées;E5.5;;sol;67.01;Grassland - Tall herb communities (H6430);EP2;Mégaphorbiaie subalpine
+E6.1;Steppes salées intérieures méditerranéennes;E6.1;;sol;35.03;Coastal saltmarsh - Saltmarshes and saline reedbeds;EZ1;Prés salés de l'intérieur
+E7.1;Parcs boisés atlantiques;E7.1;;sol;42.04.01;Woodland and forest - Wood-pasture and parkland;EB1;Forêt pâturée à usage traditionnel
+E7.2;Parcs boisés subcontinentaux;E7.2;;sol;42.04.01;Woodland and forest - Wood-pasture and parkland;EB1;Forêt pâturée à usage traditionnel
+E7.3;Dehesa;E7.3;;sol;42.04.01;Woodland and forest - Wood-pasture and parkland;EB1;Forêt pâturée à usage traditionnel
+F2.1;Fourrés subarctiques et alpins à saules nains;F2.1;;sol;69.07;Heathland and shrub - Mountain heaths and willow scrub;EL1;Fourré de saules nains
+F2.2;Landes et fourrés sempervirents alpins et subalpins;F2.2;;sol;69.05;Heathland and shrub - Mountain heaths and willow scrub;EL1;Fourré à rhododendron
+F2.3;Fourrés subalpins caducifoliés;F2.3;;sol;69.02;Heathland and shrub - Mountain heaths and willow scrub;EL1;Aulnaie verte
+F2.4;Fourrés de conifères proches de la limite des arbres;F2.4;;sol;69.04;Heathland and shrub - Mountain heaths and willow scrub;EL1;Fourré de pin couché
+F3.1;Fourrés tempérés;F3.1;;sol;41.01.04.02;Heathland and shrub - Mixed scrub;EF1;Autre fourré des stations fraîches
+F3.2;Fourrés caducifoliés subméditerranéens;F3.2;;sol;41.01.05.04a;Heathland and shrub - Mixed scrub;EF1;Autre fourré des stations sèches et chaudes
+F4.1;Landes humides;F4.1;;sol;40.02.01;Heathland and shrub - Lowland heathland;EL1;Lande tourbeuse intacte
+F4.2;Landes sèches;F4.2;;sol;40.03.01;Heathland and shrub - Lowland heathland;EL1;Lande à callune intacte
+F5.1;Matorrals arborescents;F5.1;;sol;41.01.05.04a;Heathland and shrub - Mixed scrub;EF1;Autre fourré des stations sèches et chaudes
+F5.2;Maquis;F5.2;;sol;41.01.05.04a;Heathland and shrub - Mixed scrub;EF1;Autre fourré des stations sèches et chaudes
+F5.3;Pseudo-maquis;F5.3;;sol;41.01.05.04a;Heathland and shrub - Mixed scrub;EF1;Autre fourré des stations sèches et chaudes
+F5.4;Fourrés à genêt d'Espagne;F5.4;;sol;41.01.05.04a;Heathland and shrub - Gorse scrub;EF1;Autre fourré des stations sèches et chaudes, genêts compris
+F5.5;Fourrés thermoméditerranéens;F5.5;;sol;41.01.05.04a;Heathland and shrub - Mixed scrub;EF1;Autre fourré des stations sèches et chaudes
+F6.1;Garrigues occidentales;F6.1;;sol;41.01.05.03;Heathland and shrub - Lowland heathland;EL1;Fourré nain des stations sèches : aucun type BKompV de garrigue
+F6.6;Garrigues supraméditerranéennes;F6.6;;sol;41.01.05.03;Heathland and shrub - Lowland heathland;EL1;Fourré nain des stations sèches : aucun type BKompV de garrigue
+F6.8;Fourrés xérohalophiles;F6.8;;sol;41.01.05.04a;Heathland and shrub - Mixed scrub;EF1;Autre fourré des stations sèches et chaudes
+F7.1;Landes épineuses ouest-méditerranéennes;F7.1;;sol;40.05;Heathland and shrub - Upland heathland;EL1;Lande de montagne
+F7.2;Landes épineuses centro-méditerranéennes;F7.2;;sol;40.05;Heathland and shrub - Upland heathland;EL1;Lande de montagne
+F7.4;Landes-hérisson;F7.4;;sol;40.05;Heathland and shrub - Upland heathland;EL1;Lande de montagne
+F9.1;Fourrés ripicoles;F9.1;;sol;41.01.02;Heathland and shrub - Willow scrub;EF1;Fourré de saules alluvial
+F9.2;Saussaies marécageuses et fourrés de bas-marais;F9.2;;sol;41.01.03.01;Heathland and shrub - Willow scrub;EF1;Fourré de tourbière
+F9.3;Galeries et fourrés riverains méridionaux;F9.3;;sol;41.01.02;Heathland and shrub - Willow scrub;EF1;Fourré de saules alluvial
+FA.1;Haies d'espèces non indigènes;FA.1;;lineaire;41.04M;Non-native and ornamental hedgerow;EH1;Plantations et haies d'essences non autochtones, stade moyen (convention C-H5)
+FA.2;Haies d'espèces indigènes fortement gérées;FA.2;;lineaire;41.03.03J;Native hedgerow;EH1;Haie autochtone taillée, sans arbres de haut jet
+FA.3;Haies d'espèces indigènes riches en espèces;FA.3;;lineaire;41.03.03M;Species-rich native hedgerow;EH1;Haie autochtone avec arbres de haut jet de stade moyen (convention C-H5)
+FA.4;Haies d'espèces indigènes pauvres en espèces;FA.4;;lineaire;41.03.03J;Native hedgerow;EH1;Haie autochtone jeune, sans arbres de haut jet
+FB.1;Plantations d'arbustes pour la récolte de la plante entière;FB.1;;sol;41.07;Cropland - Horticulture;;Plantations ligneuses
+FB.2;Plantations d'arbustes pour la récolte de feuilles et de branches;FB.2;;sol;41.07;Cropland - Horticulture;;Plantations ligneuses
+FB.3;Plantations d'arbustes ornementaux ou fruitiers;FB.3;;sol;41.07;Urban - Introduced shrub;EU1;Plantations ligneuses
+FB.4;Vignobles;FB.4;;sol;41.08.02;Cropland - Horticulture;;Vigne en terrain plat ou faiblement incliné
+G1.1;Forêts riveraines à aulnes, peupliers ou saules;G1.1;;sol;43.04.02.01M;Woodland and forest - Wet woodland;EB1;Forêt alluviale à bois tendre à dynamique naturelle, stade moyen (convention C-H5)
+G1.2;Forêts riveraines mixtes des plaines inondables;G1.2;;sol;43.04.03.01M;Woodland and forest - Wet woodland;EB1;Forêt alluviale à bois dur à dynamique naturelle, stade moyen
+G1.3;Forêts riveraines méditerranéennes;G1.3;;sol;43.04.02.01M;Woodland and forest - Wet woodland;EB1;Forêt alluviale à bois tendre, stade moyen
+G1.4;Forêts marécageuses de feuillus hors tourbe acide;G1.4;;sol;43.02.02.01M;Woodland and forest - Wet woodland;EB1;Aulnaie marécageuse à régime hydrique intact, stade moyen
+G1.5;Forêts marécageuses de feuillus sur tourbe acide;G1.5;;sol;43.02.01.01M;Woodland and forest - Wet woodland;EB1;Boulaie marécageuse à régime hydrique intact, stade moyen
+G1.6;Hêtraies;G1.6;;sol;43.07.04M;Woodland and forest - Lowland beech and yew woodland;EB1;Hêtraie des stations fraîches, stade moyen
+G1.7;Forêts caducifoliées thermophiles;G1.7;;sol;43.08.05M;Woodland and forest - Lowland mixed deciduous woodland;EB1;Chênaie sèche, stade moyen
+G1.8;Boisements acidophiles à chênes;G1.8;;sol;43.07.03M;Woodland and forest - Lowland mixed deciduous woodland;EB1;Chênaie des stations fraîches à humides, stade moyen
+G1.9;Boisements non riverains à bouleaux, trembles ou sorbiers;G1.9;;sol;42.03.02;Woodland and forest - Upland birchwoods;EB1;Pré-bois des stations fraîches
+G1.A;Boisements mésotrophes et eutrophes à chênes, charmes, frênes, érables;G1.A;;sol;43.07.02M;Woodland and forest - Lowland mixed deciduous woodland;EB1;Chênaie-charmaie, stade moyen
+G1.B;Aulnaies non riveraines;G1.B;;sol;43.03.01M;Woodland and forest - Wet woodland;EB1;Forêt marécageuse intacte, stade moyen
+G1.C;Plantations forestières très artificielles de feuillus caducifoliés;G1.C;;sol;43.10M;"Woodland and forest - Other woodland; broadleaved";EB1;Plantation de feuillus d'essences introduites, stade moyen
+G1.D;Vergers d'arbres fruitiers et à noix;G1.D;;sol;41.06.01.MA;Grassland - Traditional orchards;EV1;"Verger de haute tige sur prairie, arbres moyens à âgés ; un verger intensif est saisi en FB.3"
+G2.1;Forêts méditerranéennes de chênes sempervirents;G2.1;;sol;43.08.05M;Woodland and forest - Lowland mixed deciduous woodland;EB1;Chênaie sèche, stade moyen : aucun type BKompV méditerranéen
+G2.2;Forêts sclérophylles continentales;G2.2;;sol;43.08.05M;Woodland and forest - Lowland mixed deciduous woodland;EB1;Chênaie sèche, stade moyen
+G2.4;Boisements à caroubier et olivier;G2.4;;sol;43.08.05M;Woodland and forest - Lowland mixed deciduous woodland;EB1;Chênaie sèche, stade moyen
+G2.6;Bois de houx;G2.6;;sol;43.07.04M;Woodland and forest - Lowland beech and yew woodland;EB1;Hêtraie des stations fraîches, stade moyen
+G2.8;Plantations forestières de feuillus sempervirents;G2.8;;sol;43.10M;"Woodland and forest - Other woodland; broadleaved";EB1;Plantation de feuillus d'essences introduites, stade moyen
+G2.9;Vergers et bosquets sempervirents (oliveraies);G2.9;;sol;41.06.01.MA;Grassland - Traditional orchards;EV1;Verger traditionnel, arbres moyens à âgés
+G3.1;Boisements à épicéas et sapins;G3.1;;sol;44.03.03M;Woodland and forest - Native pine woodlands;EB1;Sapinière-pessière montagnarde, stade moyen
+G3.2;Boisements alpins à mélèze et pin cembro;G3.2;;sol;70.03M;Woodland and forest - Native pine woodlands;EB1;Mélézein-cembraie subalpin, stade moyen
+G3.3;Pinèdes à pin à crochets;G3.3;;sol;44.02.01M;Woodland and forest - Native pine woodlands;EB1;Pinède sèche des rochers, stade moyen
+G3.4;Pinèdes à pin sylvestre;G3.4;;sol;44.02.03M;Woodland and forest - Other Scot's pine woodland;EB1;Pinède sèche sur sable, stade moyen
+G3.5;Pinèdes à pin noir;G3.5;;sol;44.02.01M;Woodland and forest - Other Scot's pine woodland;EB1;Pinède sèche des rochers, stade moyen
+G3.7;Pinèdes méditerranéennes hors pin noir;G3.7;;sol;44.02.01M;Woodland and forest - Other Scot's pine woodland;EB1;Pinède sèche des rochers, stade moyen
+G3.9;Bois de cupressacées ou de taxacées;G3.9;;sol;44.02.01M;Woodland and forest - Lowland beech and yew woodland;EB1;Pinède sèche des rochers, stade moyen : aucun type BKompV d'ifs ou de genévriers arborescents
+G3.E;Forêts de conifères des tourbières;G3.E;;sol;44.01.02M;Woodland and forest - Wet woodland;EB1;Pinède tourbeuse, stade moyen
+G3.F;Plantations très artificielles de conifères;G3.F;;sol;44.05M;Woodland and forest - Other coniferous woodland;EB1;Plantation de résineux d'essences introduites, stade moyen
+G4.1;Forêts mixtes marécageuses;G4.1;;sol;43.03.01M;Woodland and forest - Wet woodland;EB1;Forêt marécageuse intacte, stade moyen
+G4.6;Forêts mixtes à sapin, épicéa et hêtre;G4.6;;sol;43.07.06M;"Woodland and forest - Other woodland; mixed";EB1;Hêtraie-sapinière montagnarde, stade moyen
+G4.8;Forêts mixtes non riveraines de feuillus et de conifères;G4.8;;sol;43.07.04M;"Woodland and forest - Other woodland; mixed";EB1;Hêtraie mêlée des stations fraîches, stade moyen
+G4.9;Forêts caducifoliées mixtes avec cupressacées ou taxacées;G4.9;;sol;43.07.04M;"Woodland and forest - Other woodland; mixed";EB1;Hêtraie mêlée des stations fraîches, stade moyen
+G4.B;Forêts mixtes méditerranéennes de pins et de chênes;G4.B;;sol;43.08.05M;"Woodland and forest - Other woodland; mixed";EB1;Chênaie sèche, stade moyen
+G4.C;Boisements mixtes à pin sylvestre et chênes thermophiles;G4.C;;sol;43.08.05M;"Woodland and forest - Other woodland; mixed";EB1;Chênaie sèche, stade moyen
+G4.D;Forêts mixtes de pin noir et de chênes sempervirents;G4.D;;sol;43.08.05M;"Woodland and forest - Other woodland; mixed";EB1;Chênaie sèche, stade moyen
+G4.E;Forêts mixtes de pins méditerranéens et de chênes sempervirents;G4.E;;sol;43.08.05M;"Woodland and forest - Other woodland; mixed";EB1;Chênaie sèche, stade moyen
+G4.F;Plantations forestières mixtes;G4.F;;sol;44.04M;"Woodland and forest - Other woodland; mixed";EB1;Plantation mixte d'essences indigènes, stade moyen
+G5.1;Alignements d'arbres hors milieu urbain;G5.1;;arbre;41.05aM;Individual trees - Rural tree;EA1;"Arbres isolés et alignements d'essences autochtones, stade moyen ; en ville, saisir VB.18a ou VB.18b"
+G5.2;Petits bois anthropiques de feuillus caducifoliés;G5.2;;sol;41.02.02M;"Woodland and forest - Other woodland; broadleaved";EB1;Bosquet des stations fraîches, stade moyen
+G5.3;Petits bois anthropiques de feuillus sempervirents;G5.3;;sol;41.02.03M;"Woodland and forest - Other woodland; broadleaved";EB1;Bosquet des stations sèches, stade moyen
+G5.4;Petits bois anthropiques de conifères;G5.4;;sol;44.04M;Woodland and forest - Other coniferous woodland;EB1;Plantation de résineux indigènes, stade moyen
+G5.5;Petits bois anthropiques mixtes;G5.5;;sol;41.02.02M;"Woodland and forest - Other woodland; mixed";EB1;Bosquet des stations fraîches, stade moyen
+G5.6;Stades initiaux et régénérations des forêts;G5.6;;sol;42.03.02;"Woodland and forest - Other woodland; broadleaved";EB1;Pré-bois des stations fraîches
+G5.7;Taillis et stades initiaux des plantations;G5.7;;sol;43.10J;"Woodland and forest - Other woodland; broadleaved";EB1;Plantation de feuillus, stade jeune
+G5.8;Coupes forestières récentes;G5.8;;sol;39.02;Woodland and forest - Felled;EB1;Coupes et végétation des clairières
+H2.3;Éboulis siliceux des montagnes tempérées;H2.3;;sol;32.03a.01;Sparsely vegetated land - Inland rock outcrop and scree habitats;ER1;Éboulis naturels
+H2.4;Éboulis calcaires des montagnes tempérées;H2.4;;sol;32.03a.01;Sparsely vegetated land - Inland rock outcrop and scree habitats;ER1;Éboulis naturels
+H2.5;Éboulis siliceux des expositions chaudes;H2.5;;sol;32.03a.01;Sparsely vegetated land - Inland rock outcrop and scree habitats;ER1;Éboulis naturels
+H2.6;Éboulis calcaires des expositions chaudes;H2.6;;sol;32.03a.01;Sparsely vegetated land - Inland rock outcrop and scree habitats;ER1;Éboulis naturels
+H3.1;Falaises continentales siliceuses;H3.1;;sol;32.01a;Sparsely vegetated land - Inland rock outcrop and scree habitats;ER1;Rochers naturels
+H3.2;Falaises continentales basiques;H3.2;;sol;32.01a;Sparsely vegetated land - Inland rock outcrop and scree habitats;ER1;Rochers naturels
+H3.4;Falaises continentales humides;H3.4;;sol;32.01a;Sparsely vegetated land - Inland rock outcrop and scree habitats;ER1;Rochers naturels
+H3.5;Pavements rocheux, dont pavements calcaires;H3.5;;sol;32.01a;Sparsely vegetated land - Limestone pavement;ER1;Rochers naturels
+H3.6;Affleurements et rochers érodés;H3.6;;sol;32.01a;Sparsely vegetated land - Inland rock outcrop and scree habitats;ER1;Rochers naturels
+H5.2;Moraines glaciaires peu végétalisées;H5.2;;sol;63.04;Sparsely vegetated land - Other inland rock and scree;ER1;Éboulis siliceux subalpins à alpins
+H5.3;Substrats minéraux nus ou clairsemés d'origine naturelle;H5.3;;sol;32.09;Sparsely vegetated land - Other inland rock and scree;ER1;"Surface sableuse sans ou presque sans végétation ; un sol nu de chantier est saisi en VB.10"
+H5.4;Substrats organiques secs peu végétalisés;H5.4;;sol;36.04.04;Sparsely vegetated land - Ruderal/Ephemeral;ER1;Dépôts de tourbe
+H5.5;Zones incendiées peu végétalisées;H5.5;;sol;39.02;Woodland and forest - Felled;EB1;Coupes et végétation des clairières
+H5.6;Zones piétinées;H5.6;;sol;52.02.06;Urban - Artificial unvegetated, unsealed surface;EU1;Chemin non stabilisé
+I1.1;Monocultures intensives;I1.1;;sol;33.04a.03;Cropland - Cereal crops;;Culture sur sol limoneux ou argileux à flore adventice appauvrie
+I1.2;Cultures maraîchères et horticulture;I1.2;;sol;33.04a.03;Cropland - Horticulture;;Culture sur sol limoneux ou argileux à flore adventice appauvrie
+I1.3;Terres arables à monocultures extensives;I1.3;;sol;33.04a.02;Cropland - Arable field margins cultivated annually;;Culture sur sol limoneux ou argileux à flore adventice riche
+I1.4;Cultures inondées ou inondables;I1.4;;sol;33.05.03;Cropland - Non-cereal crops;;Culture sur sol tourbeux à flore adventice appauvrie
+I1.5;Friches, jachères et terres arables récemment abandonnées;I1.5;;sol;33.04a.04;Sparsely vegetated land - Ruderal/Ephemeral;ER1;Jachère sur sol limoneux ou argileux
+I2.1;Grands jardins ornementaux et parcs;I2.1;;sol;51.06a.03;Urban - Vegetated garden;EU1;Parc entretenu intensivement avec arbres anciens
+I2.3;Zones de jardins abandonnées récemment;I2.3;;sol;51.08a.01;Urban - Vegetated garden;EU1;Jardins riches en structures

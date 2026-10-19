@@ -1011,7 +1011,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | VB.9 |
 | EUNIS 2012 | J1.5 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 0 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -1026,21 +1026,15 @@ Friche colonisée par les ligneux (plus de 50 % de couvert d'arbustes ou de jeun
 
 Correspondance retenue : Fourré des stations rudérales riches en azote.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -1112,30 +1106,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
     </Critere>
     <Critere>
       <code>E</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
       <reponse>oui</reponse>
     </Critere>
   </Critere_Collection>
@@ -18856,7 +18826,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F3.1 |
 | EUNIS 2012 | F3.1 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 6 type(s) EUNIS 2022, 36 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -19007,21 +18977,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations fraîches.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -19095,30 +19059,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -19136,7 +19076,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F3.2 |
 | EUNIS 2012 | F3.2 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 6 type(s) EUNIS 2022, 8 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -19396,21 +19336,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -19482,30 +19416,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
     </Critere>
     <Critere>
       <code>E</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
       <reponse>oui</reponse>
     </Critere>
   </Critere_Collection>
@@ -20022,7 +19932,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F5.1 |
 | EUNIS 2012 | F5.1 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 27 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -20134,21 +20044,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -20222,30 +20126,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -20263,7 +20143,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F5.2 |
 | EUNIS 2012 | F5.2 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 18 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -20366,21 +20246,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -20454,30 +20328,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -20495,7 +20345,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F5.3 |
 | EUNIS 2012 | F5.3 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 0 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -20553,21 +20403,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -20641,30 +20485,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -20682,7 +20502,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F5.4 |
 | EUNIS 2012 | F5.4 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 1 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -20717,21 +20537,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes, genêts compris.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -20805,30 +20619,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -20846,7 +20636,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F5.5 |
 | EUNIS 2012 | F5.5 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 24 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -21129,21 +20919,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -21215,30 +20999,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
     </Critere>
     <Critere>
       <code>E</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
       <reponse>oui</reponse>
     </Critere>
   </Critere_Collection>
@@ -21696,7 +21456,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F6.8 |
 | EUNIS 2012 | F6.8 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 2 type(s) EUNIS 2022, 2 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -21767,21 +21527,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -21853,30 +21607,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
     </Critere>
     <Critere>
       <code>E</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
       <reponse>oui</reponse>
     </Critere>
   </Critere_Collection>
@@ -22646,7 +22376,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F9.1 |
 | EUNIS 2012 | F9.1 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 11 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -22746,21 +22476,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Fourré de saules alluvial.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -22834,30 +22558,6 @@ Difficulté de création D = 0,67 ; valeurs annuelles en m²HE et valeur intégr
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -22875,7 +22575,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F9.2 |
 | EUNIS 2012 | F9.2 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 6 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -22952,21 +22652,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Fourré de tourbière.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -23040,30 +22734,6 @@ Difficulté de création D = 0,67 ; valeurs annuelles en m²HE et valeur intégr
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -23081,7 +22751,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F9.3 |
 | EUNIS 2012 | F9.3 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 6 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -23174,21 +22844,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Fourré de saules alluvial.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -23260,30 +22924,6 @@ Difficulté de création D = 0,67 ; valeurs annuelles en m²HE et valeur intégr
     </Critere>
     <Critere>
       <code>E</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
       <reponse>oui</reponse>
     </Critere>
   </Critere_Collection>
