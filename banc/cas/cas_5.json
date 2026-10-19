@@ -1,0 +1,160 @@
+{
+ "format": "OpenNAT projet 1",
+ "projet": {
+  "identifiant": "cas_5",
+  "nom": "Cas 5. Projet en réservoir de biodiversité"
+ },
+ "contexte": {
+  "zone_biogeographique": "continentale",
+  "typologie": "logement",
+  "zone_climatique": "H1a",
+  "sol": {
+   "texture": "limon",
+   "profondeur": 1.0
+  }
+ },
+ "parcelle": {
+  "surface": 10000
+ },
+ "chantier": {
+  "annee_debut": 2027,
+  "mois_debut": 9
+ },
+ "gestion": {
+  "plan_annees": 10
+ },
+ "taches": {
+  "PR": {
+   "connexion": "forte",
+   "exterieur": 20000
+  },
+  "H": {
+   "connexion": "forte"
+  },
+  "JA": {
+   "connexion": "moyenne"
+  }
+ },
+ "etat_initial": [
+  {
+   "id": "I1",
+   "code": "E2.2",
+   "position": "sol_pleine_terre",
+   "surface": 9700,
+   "tache": "PR",
+   "situation": "reservoir",
+   "score": {
+    "satisfaits": 5,
+    "applicables": 6,
+    "essentiel_echoue": false
+   }
+  },
+  {
+   "id": "I2",
+   "code": "FA.3",
+   "position": "lineaire",
+   "surface": 300,
+   "tache": "PR",
+   "stade": "A",
+   "situation": "reservoir",
+   "score": {
+    "satisfaits": 8,
+    "applicables": 10,
+    "essentiel_echoue": false
+   }
+  }
+ ],
+ "options": {
+  "tirages": 0
+ },
+ "batiments": [
+  {
+   "nom": "Bâtiment",
+   "sref": 6000,
+   "emprise_au_sol": 3000,
+   "duree_chantier": 24,
+   "ges": {
+    "A1-A3": 480,
+    "B": 350,
+    "C": 50
+   }
+  }
+ ],
+ "variantes": [
+  {
+   "nom": "Projet",
+   "reference": true,
+   "unites": [
+    {
+     "id": "P1",
+     "code": "VB.1",
+     "position": "sol_pleine_terre",
+     "surface": 3000,
+     "situation": "reservoir"
+    },
+    {
+     "id": "P2",
+     "code": "VB.2",
+     "position": "sol_pleine_terre",
+     "surface": 2000,
+     "situation": "reservoir"
+    },
+    {
+     "id": "P3",
+     "code": "VB.7",
+     "position": "sol_pleine_terre",
+     "surface": 4000,
+     "tache": "JA",
+     "situation": "reservoir",
+     "score": {
+      "satisfaits": 2,
+      "applicables": 3,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P4",
+     "code": "VB.5",
+     "position": "sol_pleine_terre",
+     "surface": 700,
+     "tache": "JA",
+     "situation": "reservoir",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P5",
+     "code": "FA.3",
+     "position": "lineaire",
+     "surface": 300,
+     "tache": "JA",
+     "stade": "A",
+     "statut": "conservee",
+     "liee": "I2",
+     "protection": true,
+     "situation": "reservoir",
+     "score": {
+      "satisfaits": 8,
+      "applicables": 10,
+      "essentiel_echoue": false
+     }
+    }
+   ],
+   "materiaux": {
+    "bois": [
+     {
+      "regime": "coupe_rase",
+      "volume": 120,
+      "remplacements": 0
+     }
+    ],
+    "granulats": {
+     "masse": 9000
+    }
+   }
+  }
+ ]
+}

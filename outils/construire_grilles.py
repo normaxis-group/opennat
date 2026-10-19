@@ -15,6 +15,10 @@ RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(RACINE, 'outils', 'edition'))
 from partie4_habitats import grille_de  # noqa: E402
 
+# Convention C-H6 : surfaces scellées, revêtues ou nues, cultures et plantations de production, sans grille (f = 1)
+SANS_GRILLE = {'VB.1', 'VB.2', 'VB.3', 'VB.4', 'VB.10', 'VB.25', 'H5.6', 'I1.1', 'I1.2', 'I1.3', 'I1.4',
+               'FB.1', 'FB.2', 'FB.4'}
+
 
 def main():
     uk_dist = {}
@@ -29,7 +33,10 @@ def main():
         lignes = list(lecteur)
     champs.insert(champs.index('uk_habitat') + 1, 'grille_etat')
     for n in lignes:
-        n['grille_etat'] = grille_de(n['uk_habitat'], uk_dist.get(n['uk_habitat'], 0), n['position']) or ''
+        if n['code_vinat'] in SANS_GRILLE:
+            n['grille_etat'] = ''
+        else:
+            n['grille_etat'] = grille_de(n['uk_habitat'], uk_dist.get(n['uk_habitat'], 0), n['position']) or ''
     with open(chemin, 'w', newline='', encoding='utf-8') as f:
         w = csv.DictWriter(f, fieldnames=champs, delimiter=';')
         w.writeheader()

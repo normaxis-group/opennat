@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
   <xs:annotation>
-    <xs:documentation>Récapitulatif standardisé RSNat (nom provisoire) de la méthode OpenNAT, version 1. NORMATYS, CC BY 4.0. Généré par outils/edition/partie7_rsnat.py.</xs:documentation>
+    <xs:documentation>Récapitulatif standardisé RSNat (nom provisoire) de la méthode OpenNAT, version 1. NORMATYS, CC BY 4.0. Généré depuis opennat/rsnat_spec.py.</xs:documentation>
   </xs:annotation>
   <xs:simpleType name="zone">
     <xs:restriction base="xs:string">
@@ -154,6 +154,12 @@
       <xs:enumeration value="etanche"/>
       <xs:enumeration value="argile"/>
       <xs:enumeration value="naturel"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="alimentation_humide">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="nappe"/>
+      <xs:enumeration value="pluie"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="regime_gestion">
@@ -755,6 +761,35 @@
                                     </xs:sequence>
                                   </xs:complexType>
                                 </xs:element>
+                                <xs:element name="Score_Declare" minOccurs="0">
+                                  <xs:annotation>
+                                    <xs:documentation>Résumé de la grille quand le détail des critères n'est pas transmis (fiche A10)</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="satisfaits" type="xs:integer">
+                                        <xs:annotation>
+                                          <xs:documentation>Critères satisfaits</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="applicables" type="xs:integer">
+                                        <xs:annotation>
+                                          <xs:documentation>Critères applicables</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="essentiel_echoue" minOccurs="0" type="xs:boolean">
+                                        <xs:annotation>
+                                          <xs:documentation>Un critère essentiel a échoué</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="alimentation_humide" minOccurs="0" type="alimentation_humide">
+                                  <xs:annotation>
+                                    <xs:documentation>Alimentation d'un milieu humide : nappe ou pluie (fiche A47)</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
                                 <xs:element name="Renouvellement_Collection" minOccurs="0">
                                   <xs:annotation>
                                     <xs:documentation>Années de réfection (fiche A30)</xs:documentation>
@@ -1048,6 +1083,35 @@
                                             </xs:element>
                                           </xs:sequence>
                                         </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="Score_Declare" minOccurs="0">
+                                        <xs:annotation>
+                                          <xs:documentation>Résumé de la grille quand le détail des critères n'est pas transmis (fiche A10)</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="satisfaits" type="xs:integer">
+                                              <xs:annotation>
+                                                <xs:documentation>Critères satisfaits</xs:documentation>
+                                              </xs:annotation>
+                                            </xs:element>
+                                            <xs:element name="applicables" type="xs:integer">
+                                              <xs:annotation>
+                                                <xs:documentation>Critères applicables</xs:documentation>
+                                              </xs:annotation>
+                                            </xs:element>
+                                            <xs:element name="essentiel_echoue" minOccurs="0" type="xs:boolean">
+                                              <xs:annotation>
+                                                <xs:documentation>Un critère essentiel a échoué</xs:documentation>
+                                              </xs:annotation>
+                                            </xs:element>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="alimentation_humide" minOccurs="0" type="alimentation_humide">
+                                        <xs:annotation>
+                                          <xs:documentation>Alimentation d'un milieu humide : nappe ou pluie (fiche A47)</xs:documentation>
+                                        </xs:annotation>
                                       </xs:element>
                                       <xs:element name="Renouvellement_Collection" minOccurs="0">
                                         <xs:annotation>
@@ -1413,12 +1477,12 @@
                                           <xs:documentation>Année type</xs:documentation>
                                         </xs:annotation>
                                       </xs:element>
-                                      <xs:element name="indice_stress" type="xs:decimal">
+                                      <xs:element name="indice_stress" minOccurs="0" type="xs:decimal">
                                         <xs:annotation>
                                           <xs:documentation>IS_u,n (jours-équivalents)</xs:documentation>
                                         </xs:annotation>
                                       </xs:element>
-                                      <xs:element name="indice_stress_reference" type="xs:decimal">
+                                      <xs:element name="indice_stress_reference" minOccurs="0" type="xs:decimal">
                                         <xs:annotation>
                                           <xs:documentation>IS_ref,g (jours-équivalents)</xs:documentation>
                                         </xs:annotation>

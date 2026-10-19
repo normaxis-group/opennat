@@ -1,0 +1,133 @@
+{
+ "format": "OpenNAT projet 1",
+ "projet": {
+  "identifiant": "cas_4",
+  "nom": "Cas 4. Réhabilitation sans emprise nouvelle"
+ },
+ "contexte": {
+  "zone_biogeographique": "continentale",
+  "typologie": "logement",
+  "zone_climatique": "H1a",
+  "sol": {
+   "texture": "limon",
+   "profondeur": 1.0
+  }
+ },
+ "parcelle": {
+  "surface": 1500
+ },
+ "chantier": {
+  "annee_debut": 2027,
+  "mois_debut": 9
+ },
+ "gestion": {
+  "plan_annees": 10
+ },
+ "taches": {
+  "J": {}
+ },
+ "etat_initial": [
+  {
+   "id": "I1",
+   "code": "VB.1",
+   "position": "sol_pleine_terre",
+   "surface": 900
+  },
+  {
+   "id": "I2",
+   "code": "VB.2",
+   "position": "sol_pleine_terre",
+   "surface": 400
+  },
+  {
+   "id": "I3",
+   "code": "VB.7",
+   "position": "sol_pleine_terre",
+   "surface": 200,
+   "tache": "J",
+   "score": {
+    "satisfaits": 1,
+    "applicables": 3,
+    "essentiel_echoue": false
+   }
+  }
+ ],
+ "options": {
+  "tirages": 0
+ },
+ "batiments": [
+  {
+   "nom": "Bâtiment",
+   "sref": 1600,
+   "emprise_au_sol": 900,
+   "duree_chantier": 14,
+   "ges": {
+    "A1-A3": 180,
+    "B": 260,
+    "C": 30
+   }
+  }
+ ],
+ "variantes": [
+  {
+   "nom": "Projet",
+   "reference": true,
+   "unites": [
+    {
+     "id": "P1",
+     "code": "VB.1",
+     "position": "sol_pleine_terre",
+     "surface": 900,
+     "statut": "conservee",
+     "liee": "I1"
+    },
+    {
+     "id": "P2",
+     "code": "VB.3",
+     "position": "sol_pleine_terre",
+     "surface": 150
+    },
+    {
+     "id": "P3",
+     "code": "VB.7",
+     "position": "sol_pleine_terre",
+     "surface": 250,
+     "tache": "J",
+     "score": {
+      "satisfaits": 2,
+      "applicables": 3,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P4",
+     "code": "VB.7",
+     "position": "sol_pleine_terre",
+     "surface": 200,
+     "tache": "J",
+     "statut": "amelioree",
+     "liee": "I3",
+     "protection": true,
+     "score": {
+      "satisfaits": 2,
+      "applicables": 3,
+      "essentiel_echoue": false
+     }
+    }
+   ],
+   "materiaux": {
+    "bois": [
+     {
+      "regime": "coupe_selective",
+      "volume": 15,
+      "remplacements": 0,
+      "justification": "pièce déclarée"
+     }
+    ],
+    "granulats": {
+     "masse": 300
+    }
+   }
+  }
+ ]
+}

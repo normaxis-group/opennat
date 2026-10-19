@@ -1,0 +1,18 @@
+[project]
+name = "opennat"
+version = "0.1.0"
+description = "Moteur de calcul libre de la méthode OpenNAT (consommation de nature et biodiversité grise)"
+license = "AGPL-3.0-or-later"
+authors = [{ name = "NORMATYS" }]
+requires-python = ">=3.11"
+dependencies = ["numpy", "lxml"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+opennat = "opennat.__main__:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

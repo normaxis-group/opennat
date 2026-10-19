@@ -1,0 +1,198 @@
+{
+ "format": "OpenNAT projet 1",
+ "projet": {
+  "identifiant": "cas_d11",
+  "nom": "Cas D11. Zone climatique H1c (Mâcon)"
+ },
+ "contexte": {
+  "zone_biogeographique": "continentale",
+  "typologie": "logement",
+  "zone_climatique": "H1c",
+  "sol": {
+   "texture": "limon",
+   "profondeur": 1.0
+  }
+ },
+ "parcelle": {
+  "surface": 2000
+ },
+ "chantier": {
+  "annee_debut": 2027,
+  "mois_debut": 9
+ },
+ "gestion": {
+  "plan_annees": 10
+ },
+ "taches": {
+  "P1": {},
+  "P2": {},
+  "P3": {}
+ },
+ "etat_initial": [
+  {
+   "id": "U0-1",
+   "code": "VB.8",
+   "position": "sol_pleine_terre",
+   "surface": 1200,
+   "tache": "P1",
+   "score": {
+    "satisfaits": 3,
+    "applicables": 4,
+    "essentiel_echoue": true
+   }
+  },
+  {
+   "id": "U0-2",
+   "code": "VB.2",
+   "position": "sol_pleine_terre",
+   "surface": 600
+  },
+  {
+   "id": "U0-3",
+   "code": "VB.9",
+   "position": "sol_pleine_terre",
+   "surface": 200,
+   "tache": "P1",
+   "score": {
+    "satisfaits": 2,
+    "applicables": 5,
+    "essentiel_echoue": false
+   }
+  },
+  {
+   "id": "U0-4",
+   "code": "VB.18a",
+   "position": "arbre",
+   "surface": 100,
+   "tache": "P1",
+   "stade": "M",
+   "score": {
+    "satisfaits": 5,
+    "applicables": 6,
+    "essentiel_echoue": false
+   }
+  }
+ ],
+ "options": {
+  "tirages": 0
+ },
+ "batiments": [
+  {
+   "nom": "Bâtiment",
+   "sref": 1400,
+   "emprise_au_sol": 700,
+   "duree_chantier": 18,
+   "ges": {
+    "A1-A3": 470,
+    "B": 400,
+    "C": 55,
+    "D": -40
+   }
+  }
+ ],
+ "variantes": [
+  {
+   "nom": "Projet",
+   "reference": true,
+   "unites": [
+    {
+     "id": "U1-1",
+     "code": "VB.1",
+     "position": "sol_pleine_terre",
+     "surface": 700
+    },
+    {
+     "id": "U1-2",
+     "code": "VB.2",
+     "position": "sol_pleine_terre",
+     "surface": 300
+    },
+    {
+     "id": "U1-3",
+     "code": "VB.3",
+     "position": "sol_pleine_terre",
+     "surface": 150
+    },
+    {
+     "id": "U1-4",
+     "code": "VB.26",
+     "position": "sol_pleine_terre",
+     "surface": 450,
+     "tache": "P2",
+     "eclairage": "L1",
+     "score": {
+      "satisfaits": 4,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-5",
+     "code": "VB.7",
+     "position": "sol_pleine_terre",
+     "surface": 320,
+     "tache": "P2",
+     "score": {
+      "satisfaits": 2,
+      "applicables": 3,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-6",
+     "code": "FA.3",
+     "position": "lineaire",
+     "surface": 80,
+     "tache": "P2",
+     "stade": "M",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-7",
+     "code": "VB.18a",
+     "position": "arbre",
+     "surface": 100,
+     "tache": "P2",
+     "stade": "M",
+     "statut": "conservee",
+     "liee": "U0-4",
+     "protection": true,
+     "score": {
+      "satisfaits": 5,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-8",
+     "code": "VB.12",
+     "position": "hors_sol_toiture",
+     "surface": 500,
+     "tache": "P3",
+     "epaisseur": 15,
+     "score": {
+      "satisfaits": 4,
+      "applicables": 4,
+      "essentiel_echoue": false
+     }
+    }
+   ],
+   "materiaux": {
+    "bois": [
+     {
+      "regime": "coupe_rase",
+      "volume": 30,
+      "remplacements": 0
+     }
+    ],
+    "granulats": {
+     "masse": 1800
+    }
+   }
+  }
+ ]
+}

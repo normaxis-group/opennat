@@ -1,14 +1,14 @@
 code_vinat;libelle_fr;code_eunis_2012;alias_eunis_2012;position;bkompv_code;uk_habitat;grille_etat;justification
-VB.1;Surface bâtie (emprise de construction);J1;J1.1 J1.2 J1.3 J1.4 J1.7 J2.1 J2.2 J2.3 J2.4;sol;52.03.01;"Urban - Developed land; sealed surface";EU1;"Surface scellée : valeur nulle commune à la BKompV (52.03.01) et à la métrique anglaise (u1b) ; les types BKompV 53.01 incluent leurs espaces libres et ne conviennent pas à une emprise seule"
-VB.2;Surface imperméabilisée non bâtie (voirie, parking, dallage étanche);J4.2;J4.1 J4.4 J4.5 J4.7;sol;52.01.01a;"Urban - Developed land; sealed surface";EU1;Voie ou aire scellée
-VB.3;Revêtement perméable non végétalisé (stabilisé, gravier, pavés à joints sablés);J4.6;;sol;52.03.03a;Urban - Artificial unvegetated, unsealed surface;EU1;Place à revêtement gravillonné ou à liant hydraulique (wassergebundene Decke)
-VB.4;Revêtement perméable végétalisé (dalles alvéolées engazonnées);J4.6;;sol;52.03.02;Urban - Artificial unvegetated, unsealed surface;EU1;Place partiellement stabilisée (Rasengitter)
+VB.1;Surface bâtie (emprise de construction);J1;J1.1 J1.2 J1.3 J1.4 J1.7 J2.1 J2.2 J2.3 J2.4;sol;52.03.01;"Urban - Developed land; sealed surface";;"Surface scellée : valeur nulle commune à la BKompV (52.03.01) et à la métrique anglaise (u1b) ; les types BKompV 53.01 incluent leurs espaces libres et ne conviennent pas à une emprise seule"
+VB.2;Surface imperméabilisée non bâtie (voirie, parking, dallage étanche);J4.2;J4.1 J4.4 J4.5 J4.7;sol;52.01.01a;"Urban - Developed land; sealed surface";;Voie ou aire scellée
+VB.3;Revêtement perméable non végétalisé (stabilisé, gravier, pavés à joints sablés);J4.6;;sol;52.03.03a;Urban - Artificial unvegetated, unsealed surface;;Place à revêtement gravillonné ou à liant hydraulique (wassergebundene Decke)
+VB.4;Revêtement perméable végétalisé (dalles alvéolées engazonnées);J4.6;;sol;52.03.02;Urban - Artificial unvegetated, unsealed surface;;Place partiellement stabilisée (Rasengitter)
 VB.5;Pelouse d'agrément tondue, terrain de sport engazonné;E2.6;E2.8;sol;34.09;Grassland - Modified grassland;EP1;Gazon piétiné et de parc (Tritt- und Parkrasen)
 VB.6;Massif ornemental horticole, couvre-sol planté;I2.1;;sol;51.07a.02;Urban - Introduced shrub;EU1;Autre espace vert sans arbres anciens
 VB.7;Jardin domestique végétalisé;I2.2;;sol;51.08a.01;Urban - Vegetated garden;EU1;Jardins privés riches en structures : valeur de la variante en bon état, l'état est porté par le facteur d'état (convention C-H2)
 VB.8;Friche urbaine herbacée;J1.5;J2.6 J3.3 J4.1;sol;51.04a.01;Urban - Open mosaic habitats on previously developed land;EU1;Friche d'anciens sites bâtis, variante riche en structures ou en espèces
 VB.9;Friche urbaine arbustive (plus de 50 % de ligneux);J1.5;;sol;41.01.06;Heathland and shrub - Mixed scrub;EF1;Fourré des stations rudérales riches en azote
-VB.10;Sol nu, chantier, terrassement;J1.6;J2.7 J6.1;sol;32.11.09a;Urban - Bare ground;EU1;Surfaces de chantier et d'installations de chantier
+VB.10;Sol nu, chantier, terrassement;J1.6;J2.7 J6.1;sol;32.11.09a;Urban - Bare ground;;Surfaces de chantier et d'installations de chantier
 VB.11;Toiture végétalisée extensive (substrat de moins de 15 cm);J1;;hors_sol_toiture;;Urban - Other green roof;EU1;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
 VB.12;Toiture végétalisée semi-intensive ou biodiverse (15 à 30 cm);J1;;hors_sol_toiture;;Urban - Biodiverse green roof;EU1;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
 VB.13;Toiture végétalisée intensive (plus de 30 cm);J1;;hors_sol_toiture;;Urban - Intensive green roof;EU1;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
@@ -22,7 +22,7 @@ VB.21;Bassin, fontaine ou plan d'eau à eau traitée;J5.5;J5.1 J5.2 J5.4;eau;24.
 VB.22;Potager, jardin partagé, jardin familial;I1.2;;sol;51.08a.01;Urban - Allotments;EU1;Jardins familiaux et terres de jardinage riches en structures
 VB.23;Jardinière, bac et plantation hors sol au niveau du sol;J1;;hors_sol_toiture;;Urban - Ground level planters;EU1;Aucun type BKompV : valeur transposée de la métrique anglaise (convention C-H3)
 VB.24;Bassin de rétention sec ou en eau, non paysager;J5.3;;eau;24.07.08;Urban - Sustainable drainage system;EU1;Bassin de rétention ouvert
-VB.25;Voie ferrée, ballast;J4.3;;sol;52.04.01;Urban - Built linear features;EU1;Plate-forme ferroviaire
+VB.25;Voie ferrée, ballast;J4.3;;sol;52.04.01;Urban - Built linear features;;Plate-forme ferroviaire
 VB.26;Prairie urbaine extensive, fauche tardive;E2.2;;sol;34.07b.01;Grassland - Other neutral grassland;EP2;Prairie de fauche fraîche moyennement riche en espèces : une prairie semée en ville n'atteint pas le type riche en espèces 34.07a.01, réservé à E2.2
 C1.1;Lacs, étangs et mares oligotrophes permanents;C1.1;;eau;24.02a;Lakes - Low alkalinity lakes;EM1;Eaux stagnantes oligotrophes naturelles
 C1.2;Lacs, étangs et mares mésotrophes permanents;C1.2;;eau;24.03b;Lakes - Moderate alkalinity lakes;EM1;Autres eaux mésotrophes naturelles
@@ -182,7 +182,7 @@ H5.2;Moraines glaciaires peu végétalisées;H5.2;;sol;63.04;Sparsely vegetated 
 H5.3;Substrats minéraux nus ou clairsemés d'origine naturelle;H5.3;;sol;32.09;Sparsely vegetated land - Other inland rock and scree;ER1;"Surface sableuse sans ou presque sans végétation ; un sol nu de chantier est saisi en VB.10"
 H5.4;Substrats organiques secs peu végétalisés;H5.4;;sol;36.04.04;Sparsely vegetated land - Ruderal/Ephemeral;ER1;Dépôts de tourbe
 H5.5;Zones incendiées peu végétalisées;H5.5;;sol;39.02;Woodland and forest - Felled;EB1;Coupes et végétation des clairières
-H5.6;Zones piétinées;H5.6;;sol;52.02.06;Urban - Artificial unvegetated, unsealed surface;EU1;Chemin non stabilisé
+H5.6;Zones piétinées;H5.6;;sol;52.02.06;Urban - Artificial unvegetated, unsealed surface;;Chemin non stabilisé
 I1.1;Monocultures intensives;I1.1;;sol;33.04a.03;Cropland - Cereal crops;;Culture sur sol limoneux ou argileux à flore adventice appauvrie
 I1.2;Cultures maraîchères et horticulture;I1.2;;sol;33.04a.03;Cropland - Horticulture;;Culture sur sol limoneux ou argileux à flore adventice appauvrie
 I1.3;Terres arables à monocultures extensives;I1.3;;sol;33.04a.02;Cropland - Arable field margins cultivated annually;;Culture sur sol limoneux ou argileux à flore adventice riche

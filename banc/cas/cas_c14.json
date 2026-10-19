@@ -1,0 +1,155 @@
+{
+ "format": "OpenNAT projet 1",
+ "projet": {
+  "identifiant": "cas_c14",
+  "nom": "Cas C14. Parking entièrement revêtu, 5 000 m², emprise 30 %, logement, chantier 18 mois"
+ },
+ "contexte": {
+  "zone_biogeographique": "continentale",
+  "typologie": "logement",
+  "zone_climatique": "H1a",
+  "sol": {
+   "texture": "limon",
+   "profondeur": 1.0
+  }
+ },
+ "parcelle": {
+  "surface": 5000
+ },
+ "chantier": {
+  "annee_debut": 2027,
+  "mois_debut": 9
+ },
+ "gestion": {
+  "plan_annees": 10
+ },
+ "taches": {
+  "I": {},
+  "J": {},
+  "T": {}
+ },
+ "etat_initial": [
+  {
+   "id": "I1",
+   "code": "VB.2",
+   "position": "sol_pleine_terre",
+   "surface": 5000
+  }
+ ],
+ "options": {
+  "tirages": 0
+ },
+ "batiments": [
+  {
+   "nom": "Bâtiment",
+   "sref": 3300.0,
+   "emprise_au_sol": 1500.0,
+   "duree_chantier": 18,
+   "ges": {
+    "A1-A3": 480,
+    "B": 330,
+    "C": 50
+   }
+  }
+ ],
+ "variantes": [
+  {
+   "nom": "Projet",
+   "reference": true,
+   "unites": [
+    {
+     "id": "P1",
+     "code": "VB.1",
+     "position": "sol_pleine_terre",
+     "surface": 1500.0
+    },
+    {
+     "id": "P2",
+     "code": "VB.2",
+     "position": "sol_pleine_terre",
+     "surface": 750.0
+    },
+    {
+     "id": "P3",
+     "code": "VB.7",
+     "position": "sol_pleine_terre",
+     "surface": 1375.0,
+     "tache": "J",
+     "situation": "hors_trame",
+     "score": {
+      "satisfaits": 2,
+      "applicables": 3,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P4",
+     "code": "VB.26",
+     "position": "sol_pleine_terre",
+     "surface": 962.4999999999999,
+     "tache": "J",
+     "eclairage": "L0",
+     "situation": "hors_trame",
+     "score": {
+      "satisfaits": 4,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P5",
+     "code": "FA.3",
+     "position": "lineaire",
+     "surface": 412.5,
+     "tache": "J",
+     "stade": "M",
+     "situation": "hors_trame",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P6",
+     "code": "VB.18a",
+     "position": "arbre",
+     "surface": 275.0,
+     "tache": "J",
+     "stade": "M",
+     "situation": "hors_trame",
+     "score": {
+      "satisfaits": 4,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P7",
+     "code": "VB.11",
+     "position": "hors_sol_toiture",
+     "surface": 750.0,
+     "tache": "T",
+     "epaisseur": 10,
+     "score": {
+      "satisfaits": 2,
+      "applicables": 3,
+      "essentiel_echoue": false
+     }
+    }
+   ],
+   "materiaux": {
+    "bois": [
+     {
+      "regime": "coupe_rase",
+      "volume": 66.0,
+      "remplacements": 0
+     }
+    ],
+    "granulats": {
+     "masse": 4950.0
+    }
+   }
+  }
+ ]
+}

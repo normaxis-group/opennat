@@ -1,0 +1,1997 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://normatys.org/opennat/rsnat.schema.json",
+ "title": "RSNat, récapitulatif standardisé de l'étude nature OpenNAT",
+ "type": "object",
+ "properties": {
+  "RSNat": {
+   "type": "object",
+   "description": "Récapitulatif standardisé de l'étude nature OpenNAT",
+   "properties": {
+    "version_methode": {
+     "type": "string",
+     "description": "Version de la méthode (OpenNAT 1)"
+    },
+    "version_donnees": {
+     "type": "string",
+     "description": "Empreinte SHA-256 des tables de donnees/"
+    },
+    "graine": {
+     "type": "integer",
+     "description": "Graine du générateur aléatoire"
+    },
+    "date_calcul": {
+     "type": "string",
+     "description": "Date du calcul"
+    },
+    "Entree_Projet": {
+     "type": "object",
+     "description": "Données d'entrée (partie 1, chapitre 4)",
+     "properties": {
+      "Projet": {
+       "type": "object",
+       "description": "Identification et contexte",
+       "properties": {
+        "identifiant": {
+         "type": "string",
+         "description": "Identifiant du projet"
+        },
+        "nom": {
+         "type": "string",
+         "description": "Nom de l'opération"
+        },
+        "adresse": {
+         "type": "string",
+         "description": "Adresse"
+        },
+        "commune_insee": {
+         "type": "string",
+         "description": "Code INSEE de la commune"
+        },
+        "latitude": {
+         "type": "number",
+         "description": "Latitude WGS 84 (°)"
+        },
+        "longitude": {
+         "type": "number",
+         "description": "Longitude WGS 84 (°)"
+        },
+        "zone_biogeographique": {
+         "enum": [
+          "atlantique",
+          "continentale",
+          "mediterraneenne",
+          "alpine"
+         ],
+         "description": "Zone biogéographique (fiche A02)"
+        },
+        "departement": {
+         "type": "string",
+         "description": "Département du site"
+        },
+        "altitude": {
+         "type": "number",
+         "description": "Altitude du site (fiche A43) (m)"
+        },
+        "zone_climatique": {
+         "enum": [
+          "H1a",
+          "H1b",
+          "H1c",
+          "H2a",
+          "H2b",
+          "H2c",
+          "H2d",
+          "H3"
+         ],
+         "description": "Zone climatique RE2020 (fiche A43)"
+        },
+        "texture_sol": {
+         "enum": [
+          "sable",
+          "sable_limoneux",
+          "limon_sableux",
+          "limon",
+          "limon_silteux",
+          "silt",
+          "limon_argilo_silteux",
+          "argile_silteuse",
+          "argile"
+         ],
+         "description": "Texture du sol du site (fiche A48)"
+        },
+        "profondeur_sol": {
+         "type": "number",
+         "description": "Profondeur de sol du site (fiche A48) (m)"
+        },
+        "annee_debut_chantier": {
+         "type": "integer",
+         "description": "Année de début du chantier (fiche A58)"
+        },
+        "mois_debut_chantier": {
+         "type": "integer",
+         "description": "Mois de début du chantier, 1 à 12 (fiche A58)"
+        },
+        "mois_destruction": {
+         "type": "integer",
+         "description": "Mois des défrichements, abattages et comblements (fiche A57)"
+        },
+        "plan_gestion_annees": {
+         "type": "integer",
+         "description": "Durée du plan de gestion écologique (fiche A55) (an)"
+        },
+        "typologie": {
+         "enum": [
+          "logement",
+          "tertiaire",
+          "industrie",
+          "amenagement"
+         ],
+         "description": "Typologie de l'opération"
+        },
+        "rsee_empreinte": {
+         "type": "string",
+         "description": "Empreinte SHA-256 du RSEE repris, s'il y en a un"
+        },
+        "date_etude": {
+         "type": "string",
+         "description": "Date de l'étude"
+        }
+       },
+       "required": [
+        "identifiant",
+        "nom",
+        "zone_biogeographique",
+        "zone_climatique",
+        "annee_debut_chantier",
+        "mois_debut_chantier",
+        "typologie",
+        "date_etude"
+       ],
+       "additionalProperties": false
+      },
+      "Parcelle": {
+       "type": "object",
+       "description": "Parcelle ou unité foncière",
+       "properties": {
+        "surface": {
+         "type": "number",
+         "description": "Surface de la parcelle S_p (m²)"
+        },
+        "surface_vegetalisee_rsee": {
+         "type": "number",
+         "description": "Surface végétalisée déclarée au RSEE (contrôle) (m²)"
+        },
+        "surface_impermeable_rsee": {
+         "type": "number",
+         "description": "Surface imperméabilisée déclarée au RSEE (contrôle) (m²)"
+        },
+        "cbs_plu": {
+         "type": "number",
+         "description": "Coefficient de biotope imposé par le PLU"
+        },
+        "pleine_terre_plu": {
+         "type": "number",
+         "description": "Part de pleine terre imposée par le PLU"
+        }
+       },
+       "required": [
+        "surface"
+       ],
+       "additionalProperties": false
+      },
+      "Batiment_Collection": {
+       "type": "object",
+       "description": "Bâtiments de l'opération",
+       "properties": {
+        "Batiment": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "description": "Bâtiment",
+          "properties": {
+           "index": {
+            "type": "integer",
+            "description": "Index du bâtiment"
+           },
+           "nom": {
+            "type": "string",
+            "description": "Nom"
+           },
+           "sref": {
+            "type": "number",
+            "description": "Surface de référence (m²)"
+           },
+           "emprise_au_sol": {
+            "type": "number",
+            "description": "Emprise au sol (m²)"
+           },
+           "duree_chantier": {
+            "type": "number",
+            "description": "Durée du chantier (mois)"
+           },
+           "Ges_Collection": {
+            "type": "object",
+            "description": "Émissions des contributeurs composants et chantier (indicateur 101)",
+            "properties": {
+             "Ges": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "description": "Émission d'une phase",
+               "properties": {
+                "phase": {
+                 "enum": [
+                  "A1-A3",
+                  "A4-A5",
+                  "B",
+                  "C",
+                  "D"
+                 ],
+                 "description": "Phase du cycle de vie"
+                },
+                "valeur": {
+                 "type": "number",
+                 "description": "Valeur de l'indicateur 101 (kg CO2 éq./m² Sref)"
+                }
+               },
+               "required": [
+                "phase",
+                "valeur"
+               ],
+               "additionalProperties": false
+              },
+              "minItems": 1
+             }
+            },
+            "required": [
+             "Ges"
+            ],
+            "additionalProperties": false
+           },
+           "Pollution_Collection": {
+            "type": "object",
+            "description": "Indicateurs 106 à 109 et 116",
+            "properties": {
+             "Pollution": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "description": "Indicateur de pollution d'une phase",
+               "properties": {
+                "code": {
+                 "type": "integer",
+                 "description": "Code de l'indicateur (106, 107, 108, 109, 116)"
+                },
+                "phase": {
+                 "enum": [
+                  "A1-A3",
+                  "A4-A5",
+                  "B",
+                  "C",
+                  "D"
+                 ],
+                 "description": "Phase"
+                },
+                "valeur": {
+                 "type": "number",
+                 "description": "Valeur (unité de l'annexe II par m² Sref)"
+                }
+               },
+               "required": [
+                "code",
+                "phase",
+                "valeur"
+               ],
+               "additionalProperties": false
+              }
+             }
+            },
+            "required": [],
+            "additionalProperties": false
+           }
+          },
+          "required": [
+           "index",
+           "sref",
+           "emprise_au_sol",
+           "duree_chantier",
+           "Ges_Collection"
+          ],
+          "additionalProperties": false
+         }
+        }
+       },
+       "required": [],
+       "additionalProperties": false
+      },
+      "Tache_Collection": {
+       "type": "object",
+       "description": "Taches d'habitat et leur contexte (fiches A17 à A19)",
+       "properties": {
+        "Tache": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "description": "Tache",
+          "properties": {
+           "identifiant": {
+            "type": "string",
+            "description": "Identifiant de tache"
+           },
+           "surface_exterieure": {
+            "type": "number",
+            "description": "Surface végétalisée extérieure contiguë (m²)"
+           },
+           "connexion": {
+            "enum": [
+             "forte",
+             "moyenne",
+             "faible"
+            ],
+            "description": "Connexion déclarée"
+           },
+           "distance_espace_naturel": {
+            "type": "number",
+            "description": "Distance bord à bord à l'espace naturel le plus proche (m)"
+           },
+           "surface_espace_naturel": {
+            "type": "number",
+            "description": "Surface de cet espace (m²)"
+           },
+           "cloture": {
+            "enum": [
+             "aucune",
+             "permeable",
+             "etanche"
+            ],
+            "description": "Clôture de la tache"
+           }
+          },
+          "required": [
+           "identifiant"
+          ],
+          "additionalProperties": false
+         }
+        }
+       },
+       "required": [],
+       "additionalProperties": false
+      },
+      "Etat_Initial": {
+       "type": "object",
+       "description": "État initial du site",
+       "properties": {
+        "Unite_Collection": {
+         "type": "object",
+         "description": "Unités",
+         "properties": {
+          "Unite": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "description": "Unité d'habitat",
+            "properties": {
+             "identifiant": {
+              "type": "string",
+              "description": "Identifiant unique de l'unité dans le projet"
+             },
+             "identifiant_geometrique": {
+              "type": "string",
+              "description": "Identifiant de l'objet géométrique correspondant (import futur)"
+             },
+             "code_habitat": {
+              "type": "string",
+              "description": "Code de nomenclature_habitats.csv ou code EUNIS rattaché (fiche A04)"
+             },
+             "position": {
+              "enum": [
+               "sol_pleine_terre",
+               "sol_sur_dalle",
+               "hors_sol_toiture",
+               "hors_sol_facade",
+               "eau",
+               "arbre",
+               "lineaire"
+              ],
+              "description": "Position de saisie (fiche A04)"
+             },
+             "surface": {
+              "type": "number",
+              "description": "Surface ; houppier pour un arbre, longueur x largeur pour une haie (fiches A13 à A16) (m²)"
+             },
+             "epaisseur_substrat": {
+              "type": "number",
+              "description": "Épaisseur de substrat, sur dalle ou hors-sol (cm)"
+             },
+             "hauteur_facade": {
+              "type": "number",
+              "description": "Hauteur végétalisée d'une façade (m)"
+             },
+             "longueur": {
+              "type": "number",
+              "description": "Longueur d'une haie ou d'une façade (m)"
+             },
+             "largeur": {
+              "type": "number",
+              "description": "Largeur d'une haie (m)"
+             },
+             "nombre_arbres": {
+              "type": "integer",
+              "description": "Nombre d'arbres d'une unité arbre"
+             },
+             "classe_diametre": {
+              "enum": [
+               "petit",
+               "moyen",
+               "grand",
+               "tres_grand"
+              ],
+              "description": "Classe de diamètre des arbres"
+             },
+             "stade": {
+              "enum": [
+               "J",
+               "M",
+               "A"
+              ],
+              "description": "Stade d'un type ligneux"
+             },
+             "situation": {
+              "enum": [
+               "reservoir",
+               "corridor",
+               "hors_trame"
+              ],
+              "description": "Situation dans la trame verte et bleue (fiche A02)"
+             },
+             "tache": {
+              "type": "string",
+              "description": "Identifiant de tache (fiche A17)"
+             },
+             "eclairage": {
+              "enum": [
+               "L0",
+               "L1",
+               "L2"
+              ],
+              "description": "Raccourci d'éclairage L0, L1 ou L2 (fiche A53-2)"
+             },
+             "Eclairage_Horaire": {
+              "type": "object",
+              "description": "Éclairage déclaré heure par heure (fiches A51 à A53)",
+              "properties": {
+               "extinction": {
+                "type": "integer",
+                "description": "Heure d'extinction, absente si allumé toute la nuit (heure légale)"
+               },
+               "rallumage": {
+                "type": "integer",
+                "description": "Heure de rallumage du matin (heure légale)"
+               },
+               "temperature_couleur": {
+                "type": "number",
+                "description": "Température de couleur (K)"
+               },
+               "part_detection": {
+                "type": "number",
+                "description": "Part de temps allumé sous détection de présence"
+               }
+              },
+              "required": [
+               "temperature_couleur"
+              ],
+              "additionalProperties": false
+             },
+             "distance_lumiere": {
+              "type": "number",
+              "description": "Distance au point lumineux le plus proche (m)"
+             },
+             "arrose": {
+              "type": "boolean",
+              "description": "Arrosage automatique (fiche A49)"
+             },
+             "texture_sol": {
+              "enum": [
+               "sable",
+               "sable_limoneux",
+               "limon_sableux",
+               "limon",
+               "limon_silteux",
+               "silt",
+               "limon_argilo_silteux",
+               "argile_silteuse",
+               "argile"
+              ],
+              "description": "Texture du sol de l'unité, si elle diffère de celle du site (fiche A48)"
+             },
+             "profondeur_sol": {
+              "type": "number",
+              "description": "Profondeur de sol de l'unité (fiche A48) (m)"
+             },
+             "bassin_versant_impermeable": {
+              "type": "number",
+              "description": "Surface imperméable raccordée (fiche A49) (m²)"
+             },
+             "bassin_versant_permeable": {
+              "type": "number",
+              "description": "Surface perméable raccordée (fiche A49) (m²)"
+             },
+             "profondeur_mare": {
+              "type": "number",
+              "description": "Profondeur maximale d'une mare (fiche A49) (m)"
+             },
+             "fond_mare": {
+              "enum": [
+               "etanche",
+               "argile",
+               "naturel"
+              ],
+              "description": "Nature du fond d'une mare (fiche A49)"
+             },
+             "gites": {
+              "type": "boolean",
+              "description": "Gîtes de chiroptères (fiche A57)"
+             },
+             "regime_gestion": {
+              "enum": [
+               "plan",
+               "courante",
+               "abandon"
+              ],
+              "description": "Régime imposé dès la livraison (fiche A55)"
+             },
+             "regime_apres_plan": {
+              "enum": [
+               "plan",
+               "courante",
+               "abandon"
+              ],
+              "description": "Régime après le plan de gestion (fiche A55)"
+             },
+             "plan_gestion_annees": {
+              "type": "integer",
+              "description": "Durée du plan de gestion propre à l'unité (fiche A55) (an)"
+             },
+             "niveau_sonore": {
+              "type": "number",
+              "description": "Niveau sonore à l'unité (fiche A21) (dB(A))"
+             },
+             "exposition_vitrage": {
+              "type": "boolean",
+              "description": "À moins de 15 m d'une façade vitrée non traitée de plus de 10 m² (fiche A22)"
+             },
+             "alimentation_eau": {
+              "enum": [
+               "naturelle",
+               "artificielle"
+              ],
+              "description": "Alimentation d'une unité en eau (fiche A23)"
+             },
+             "statut": {
+              "enum": [
+               "conservee",
+               "creee",
+               "amelioree"
+              ],
+              "description": "Statut à l'état projet (fiches A27 à A29)"
+             },
+             "unite_liee": {
+              "type": "string",
+              "description": "Identifiant de l'unité initiale liée, pour une unité conservée ou améliorée"
+             },
+             "protection_chantier": {
+              "type": "boolean",
+              "description": "Protection prévue pendant le chantier (fiche A27)"
+             },
+             "Critere_Collection": {
+              "type": "object",
+              "description": "Réponses à la grille d'état",
+              "properties": {
+               "Critere": {
+                "type": "array",
+                "items": {
+                 "type": "object",
+                 "description": "Réponse à un critère de la grille d'état du type",
+                 "properties": {
+                  "code": {
+                   "type": "string",
+                   "description": "Code du critère dans la grille (A, B, A1, indicateur_bois_mort...)"
+                  },
+                  "reponse": {
+                   "enum": [
+                    "oui",
+                    "non",
+                    "sans_objet"
+                   ],
+                   "description": "Réponse à un critère binaire"
+                  },
+                  "note": {
+                   "type": "integer",
+                   "description": "Note d'un indicateur de la grille des boisements (note 1 à 3)"
+                  },
+                  "preuve": {
+                   "type": "string",
+                   "description": "Référence de la pièce qui justifie la réponse"
+                  }
+                 },
+                 "required": [
+                  "code"
+                 ],
+                 "additionalProperties": false
+                }
+               }
+              },
+              "required": [],
+              "additionalProperties": false
+             },
+             "Score_Declare": {
+              "type": "object",
+              "description": "Résumé de la grille quand le détail des critères n'est pas transmis (fiche A10)",
+              "properties": {
+               "satisfaits": {
+                "type": "integer",
+                "description": "Critères satisfaits"
+               },
+               "applicables": {
+                "type": "integer",
+                "description": "Critères applicables"
+               },
+               "essentiel_echoue": {
+                "type": "boolean",
+                "description": "Un critère essentiel a échoué"
+               }
+              },
+              "required": [
+               "satisfaits",
+               "applicables"
+              ],
+              "additionalProperties": false
+             },
+             "alimentation_humide": {
+              "enum": [
+               "nappe",
+               "pluie"
+              ],
+              "description": "Alimentation d'un milieu humide : nappe ou pluie (fiche A47)"
+             },
+             "Renouvellement_Collection": {
+              "type": "object",
+              "description": "Années de réfection (fiche A30)",
+              "properties": {
+               "annee": {
+                "type": "array",
+                "items": {
+                 "type": "integer",
+                 "description": "Année de réfection, de 2 à 50 (an)"
+                }
+               }
+              },
+              "required": [],
+              "additionalProperties": false
+             }
+            },
+            "required": [
+             "identifiant",
+             "code_habitat",
+             "position",
+             "surface"
+            ],
+            "additionalProperties": false
+           }
+          }
+         },
+         "required": [],
+         "additionalProperties": false
+        }
+       },
+       "required": [
+        "Unite_Collection"
+       ],
+       "additionalProperties": false
+      },
+      "Variante_Collection": {
+       "type": "object",
+       "description": "Variantes de l'état projet (fiche A41)",
+       "properties": {
+        "Variante": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "description": "Variante",
+          "properties": {
+           "index": {
+            "type": "integer",
+            "description": "Index de la variante"
+           },
+           "nom": {
+            "type": "string",
+            "description": "Nom"
+           },
+           "reference": {
+            "type": "boolean",
+            "description": "Variante de référence"
+           },
+           "Unite_Collection": {
+            "type": "object",
+            "description": "Unités de l'état projet",
+            "properties": {
+             "Unite": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "description": "Unité d'habitat",
+               "properties": {
+                "identifiant": {
+                 "type": "string",
+                 "description": "Identifiant unique de l'unité dans le projet"
+                },
+                "identifiant_geometrique": {
+                 "type": "string",
+                 "description": "Identifiant de l'objet géométrique correspondant (import futur)"
+                },
+                "code_habitat": {
+                 "type": "string",
+                 "description": "Code de nomenclature_habitats.csv ou code EUNIS rattaché (fiche A04)"
+                },
+                "position": {
+                 "enum": [
+                  "sol_pleine_terre",
+                  "sol_sur_dalle",
+                  "hors_sol_toiture",
+                  "hors_sol_facade",
+                  "eau",
+                  "arbre",
+                  "lineaire"
+                 ],
+                 "description": "Position de saisie (fiche A04)"
+                },
+                "surface": {
+                 "type": "number",
+                 "description": "Surface ; houppier pour un arbre, longueur x largeur pour une haie (fiches A13 à A16) (m²)"
+                },
+                "epaisseur_substrat": {
+                 "type": "number",
+                 "description": "Épaisseur de substrat, sur dalle ou hors-sol (cm)"
+                },
+                "hauteur_facade": {
+                 "type": "number",
+                 "description": "Hauteur végétalisée d'une façade (m)"
+                },
+                "longueur": {
+                 "type": "number",
+                 "description": "Longueur d'une haie ou d'une façade (m)"
+                },
+                "largeur": {
+                 "type": "number",
+                 "description": "Largeur d'une haie (m)"
+                },
+                "nombre_arbres": {
+                 "type": "integer",
+                 "description": "Nombre d'arbres d'une unité arbre"
+                },
+                "classe_diametre": {
+                 "enum": [
+                  "petit",
+                  "moyen",
+                  "grand",
+                  "tres_grand"
+                 ],
+                 "description": "Classe de diamètre des arbres"
+                },
+                "stade": {
+                 "enum": [
+                  "J",
+                  "M",
+                  "A"
+                 ],
+                 "description": "Stade d'un type ligneux"
+                },
+                "situation": {
+                 "enum": [
+                  "reservoir",
+                  "corridor",
+                  "hors_trame"
+                 ],
+                 "description": "Situation dans la trame verte et bleue (fiche A02)"
+                },
+                "tache": {
+                 "type": "string",
+                 "description": "Identifiant de tache (fiche A17)"
+                },
+                "eclairage": {
+                 "enum": [
+                  "L0",
+                  "L1",
+                  "L2"
+                 ],
+                 "description": "Raccourci d'éclairage L0, L1 ou L2 (fiche A53-2)"
+                },
+                "Eclairage_Horaire": {
+                 "type": "object",
+                 "description": "Éclairage déclaré heure par heure (fiches A51 à A53)",
+                 "properties": {
+                  "extinction": {
+                   "type": "integer",
+                   "description": "Heure d'extinction, absente si allumé toute la nuit (heure légale)"
+                  },
+                  "rallumage": {
+                   "type": "integer",
+                   "description": "Heure de rallumage du matin (heure légale)"
+                  },
+                  "temperature_couleur": {
+                   "type": "number",
+                   "description": "Température de couleur (K)"
+                  },
+                  "part_detection": {
+                   "type": "number",
+                   "description": "Part de temps allumé sous détection de présence"
+                  }
+                 },
+                 "required": [
+                  "temperature_couleur"
+                 ],
+                 "additionalProperties": false
+                },
+                "distance_lumiere": {
+                 "type": "number",
+                 "description": "Distance au point lumineux le plus proche (m)"
+                },
+                "arrose": {
+                 "type": "boolean",
+                 "description": "Arrosage automatique (fiche A49)"
+                },
+                "texture_sol": {
+                 "enum": [
+                  "sable",
+                  "sable_limoneux",
+                  "limon_sableux",
+                  "limon",
+                  "limon_silteux",
+                  "silt",
+                  "limon_argilo_silteux",
+                  "argile_silteuse",
+                  "argile"
+                 ],
+                 "description": "Texture du sol de l'unité, si elle diffère de celle du site (fiche A48)"
+                },
+                "profondeur_sol": {
+                 "type": "number",
+                 "description": "Profondeur de sol de l'unité (fiche A48) (m)"
+                },
+                "bassin_versant_impermeable": {
+                 "type": "number",
+                 "description": "Surface imperméable raccordée (fiche A49) (m²)"
+                },
+                "bassin_versant_permeable": {
+                 "type": "number",
+                 "description": "Surface perméable raccordée (fiche A49) (m²)"
+                },
+                "profondeur_mare": {
+                 "type": "number",
+                 "description": "Profondeur maximale d'une mare (fiche A49) (m)"
+                },
+                "fond_mare": {
+                 "enum": [
+                  "etanche",
+                  "argile",
+                  "naturel"
+                 ],
+                 "description": "Nature du fond d'une mare (fiche A49)"
+                },
+                "gites": {
+                 "type": "boolean",
+                 "description": "Gîtes de chiroptères (fiche A57)"
+                },
+                "regime_gestion": {
+                 "enum": [
+                  "plan",
+                  "courante",
+                  "abandon"
+                 ],
+                 "description": "Régime imposé dès la livraison (fiche A55)"
+                },
+                "regime_apres_plan": {
+                 "enum": [
+                  "plan",
+                  "courante",
+                  "abandon"
+                 ],
+                 "description": "Régime après le plan de gestion (fiche A55)"
+                },
+                "plan_gestion_annees": {
+                 "type": "integer",
+                 "description": "Durée du plan de gestion propre à l'unité (fiche A55) (an)"
+                },
+                "niveau_sonore": {
+                 "type": "number",
+                 "description": "Niveau sonore à l'unité (fiche A21) (dB(A))"
+                },
+                "exposition_vitrage": {
+                 "type": "boolean",
+                 "description": "À moins de 15 m d'une façade vitrée non traitée de plus de 10 m² (fiche A22)"
+                },
+                "alimentation_eau": {
+                 "enum": [
+                  "naturelle",
+                  "artificielle"
+                 ],
+                 "description": "Alimentation d'une unité en eau (fiche A23)"
+                },
+                "statut": {
+                 "enum": [
+                  "conservee",
+                  "creee",
+                  "amelioree"
+                 ],
+                 "description": "Statut à l'état projet (fiches A27 à A29)"
+                },
+                "unite_liee": {
+                 "type": "string",
+                 "description": "Identifiant de l'unité initiale liée, pour une unité conservée ou améliorée"
+                },
+                "protection_chantier": {
+                 "type": "boolean",
+                 "description": "Protection prévue pendant le chantier (fiche A27)"
+                },
+                "Critere_Collection": {
+                 "type": "object",
+                 "description": "Réponses à la grille d'état",
+                 "properties": {
+                  "Critere": {
+                   "type": "array",
+                   "items": {
+                    "type": "object",
+                    "description": "Réponse à un critère de la grille d'état du type",
+                    "properties": {
+                     "code": {
+                      "type": "string",
+                      "description": "Code du critère dans la grille (A, B, A1, indicateur_bois_mort...)"
+                     },
+                     "reponse": {
+                      "enum": [
+                       "oui",
+                       "non",
+                       "sans_objet"
+                      ],
+                      "description": "Réponse à un critère binaire"
+                     },
+                     "note": {
+                      "type": "integer",
+                      "description": "Note d'un indicateur de la grille des boisements (note 1 à 3)"
+                     },
+                     "preuve": {
+                      "type": "string",
+                      "description": "Référence de la pièce qui justifie la réponse"
+                     }
+                    },
+                    "required": [
+                     "code"
+                    ],
+                    "additionalProperties": false
+                   }
+                  }
+                 },
+                 "required": [],
+                 "additionalProperties": false
+                },
+                "Score_Declare": {
+                 "type": "object",
+                 "description": "Résumé de la grille quand le détail des critères n'est pas transmis (fiche A10)",
+                 "properties": {
+                  "satisfaits": {
+                   "type": "integer",
+                   "description": "Critères satisfaits"
+                  },
+                  "applicables": {
+                   "type": "integer",
+                   "description": "Critères applicables"
+                  },
+                  "essentiel_echoue": {
+                   "type": "boolean",
+                   "description": "Un critère essentiel a échoué"
+                  }
+                 },
+                 "required": [
+                  "satisfaits",
+                  "applicables"
+                 ],
+                 "additionalProperties": false
+                },
+                "alimentation_humide": {
+                 "enum": [
+                  "nappe",
+                  "pluie"
+                 ],
+                 "description": "Alimentation d'un milieu humide : nappe ou pluie (fiche A47)"
+                },
+                "Renouvellement_Collection": {
+                 "type": "object",
+                 "description": "Années de réfection (fiche A30)",
+                 "properties": {
+                  "annee": {
+                   "type": "array",
+                   "items": {
+                    "type": "integer",
+                    "description": "Année de réfection, de 2 à 50 (an)"
+                   }
+                  }
+                 },
+                 "required": [],
+                 "additionalProperties": false
+                }
+               },
+               "required": [
+                "identifiant",
+                "code_habitat",
+                "position",
+                "surface"
+               ],
+               "additionalProperties": false
+              }
+             }
+            },
+            "required": [],
+            "additionalProperties": false
+           },
+           "Bois_Collection": {
+            "type": "object",
+            "description": "Bois mis en œuvre (fiche A34)",
+            "properties": {
+             "Bois": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "description": "Lot de bois",
+               "properties": {
+                "regime": {
+                 "enum": [
+                  "plantation",
+                  "coupe_rase",
+                  "coupe_selective",
+                  "faible_impact"
+                 ],
+                 "description": "Régime forestier déclaré"
+                },
+                "volume": {
+                 "type": "number",
+                 "description": "Volume mis en œuvre (m³)"
+                },
+                "remplacements": {
+                 "type": "integer",
+                 "description": "Nombre de remplacements en 50 ans"
+                },
+                "justification": {
+                 "type": "string",
+                 "description": "Pièce qui justifie le régime"
+                }
+               },
+               "required": [
+                "regime",
+                "volume"
+               ],
+               "additionalProperties": false
+              }
+             }
+            },
+            "required": [],
+            "additionalProperties": false
+           },
+           "Granulats": {
+            "type": "object",
+            "description": "Granulats, sables et roches (fiche A35)",
+            "properties": {
+             "masse": {
+              "type": "number",
+              "description": "Masse mise en œuvre (t)"
+             },
+             "remplacements": {
+              "type": "integer",
+              "description": "Nombre de remplacements en 50 ans"
+             }
+            },
+            "required": [
+             "masse"
+            ],
+            "additionalProperties": false
+           },
+           "Ouvrage_Pluvial_Collection": {
+            "type": "object",
+            "description": "Ouvrages de gestion des eaux pluviales (fiche A24)",
+            "properties": {
+             "Ouvrage_Pluvial": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "description": "Ouvrage",
+               "properties": {
+                "surface_drainee": {
+                 "type": "number",
+                 "description": "Surface imperméable conduite vers l'ouvrage (m²)"
+                },
+                "infiltration_surface": {
+                 "type": "boolean",
+                 "description": "Infiltration en surface"
+                }
+               },
+               "required": [
+                "surface_drainee",
+                "infiltration_surface"
+               ],
+               "additionalProperties": false
+              }
+             }
+            },
+            "required": [],
+            "additionalProperties": false
+           },
+           "Facade_Vitree_Collection": {
+            "type": "object",
+            "description": "Façades vitrées exposées (fiche A22)",
+            "properties": {
+             "Facade_Vitree": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "description": "Façade",
+               "properties": {
+                "surface": {
+                 "type": "number",
+                 "description": "Surface vitrée exposée (m²)"
+                },
+                "traitee": {
+                 "type": "boolean",
+                 "description": "Vitrage traité contre les collisions"
+                }
+               },
+               "required": [
+                "surface",
+                "traitee"
+               ],
+               "additionalProperties": false
+              }
+             }
+            },
+            "required": [],
+            "additionalProperties": false
+           }
+          },
+          "required": [
+           "index",
+           "nom",
+           "reference",
+           "Unite_Collection"
+          ],
+          "additionalProperties": false
+         },
+         "minItems": 1
+        }
+       },
+       "required": [
+        "Variante"
+       ],
+       "additionalProperties": false
+      }
+     },
+     "required": [
+      "Projet",
+      "Parcelle",
+      "Etat_Initial",
+      "Variante_Collection"
+     ],
+     "additionalProperties": false
+    },
+    "Sortie_Projet": {
+     "type": "object",
+     "description": "Résultats (partie 1, chapitre 11)",
+     "properties": {
+      "Variante_Resultat": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "description": "Résultats d'une variante",
+        "properties": {
+         "index": {
+          "type": "integer",
+          "description": "Index de la variante"
+         },
+         "Contexte": {
+          "type": "object",
+          "description": "Sorties de l'étape E1 (fiche A02)",
+          "properties": {
+           "part_emprise": {
+            "type": "number",
+            "description": "Part d'emprise du bâti e"
+           },
+           "bnat_min": {
+            "type": "number",
+            "description": "Seuil de Bnat applicable (points)"
+           },
+           "pleine_terre_min": {
+            "type": "number",
+            "description": "Seuil de pleine terre applicable"
+           },
+           "multiplicateur_delai": {
+            "type": "number",
+            "description": "Multiplicateur de délai de la zone"
+           }
+          },
+          "required": [
+           "part_emprise",
+           "pleine_terre_min",
+           "multiplicateur_delai"
+          ],
+          "additionalProperties": false
+         },
+         "Fermeture_Collection": {
+          "type": "object",
+          "description": "Contrôle de fermeture (fiche A03)",
+          "properties": {
+           "Fermeture": {
+            "type": "array",
+            "items": {
+             "type": "object",
+             "description": "Contrôle d'un état",
+             "properties": {
+              "etat": {
+               "enum": [
+                "initial",
+                "projet"
+               ],
+               "description": "État"
+              },
+              "somme": {
+               "type": "number",
+               "description": "Somme des surfaces au sol (m²)"
+              },
+              "ecart": {
+               "type": "number",
+               "description": "Écart avec S_p (m²)"
+              },
+              "conforme": {
+               "type": "boolean",
+               "description": "Contrôle satisfait"
+              }
+             },
+             "required": [
+              "etat",
+              "somme",
+              "ecart",
+              "conforme"
+             ],
+             "additionalProperties": false
+            },
+            "minItems": 2
+           }
+          },
+          "required": [
+           "Fermeture"
+          ],
+          "additionalProperties": false
+         },
+         "Unite_Resultat_Collection": {
+          "type": "object",
+          "description": "Résultats par unité",
+          "properties": {
+           "Unite_Resultat": {
+            "type": "array",
+            "items": {
+             "type": "object",
+             "description": "Résultats d'une unité",
+             "properties": {
+              "identifiant": {
+               "type": "string",
+               "description": "Identifiant de l'unité"
+              },
+              "etat": {
+               "enum": [
+                "initial",
+                "projet"
+               ],
+               "description": "État"
+              },
+              "type": {
+               "type": "string",
+               "description": "Type OpenNAT retenu h_u"
+              },
+              "nature_surface": {
+               "type": "string",
+               "description": "Nature S01 à S12"
+              },
+              "coefficient_sol": {
+               "type": "number",
+               "description": "c_u"
+              },
+              "facteur_support": {
+               "type": "number",
+               "description": "f_sol,u"
+              },
+              "valeur_intrinseque": {
+               "type": "number",
+               "description": "v_u (m²HE/m²)"
+              },
+              "score_etat": {
+               "type": "number",
+               "description": "S_u"
+              },
+              "facteur_etat": {
+               "type": "number",
+               "description": "f_u"
+              },
+              "classe_etat": {
+               "enum": [
+                "bon",
+                "moyen",
+                "mauvais",
+                "sans_etat"
+               ],
+               "description": "cl_u"
+              },
+              "multiplicateur_situation": {
+               "type": "number",
+               "description": "m_u"
+              },
+              "facteur_taille": {
+               "type": "number",
+               "description": "k_taille"
+              },
+              "facteur_connectivite": {
+               "type": "number",
+               "description": "k_C,u"
+              },
+              "facteur_eclairage": {
+               "type": "number",
+               "description": "k_lum,u"
+              },
+              "fraction_nuit_eclairee": {
+               "type": "number",
+               "description": "x_nuit,u"
+              },
+              "facteur_nuisances": {
+               "type": "number",
+               "description": "k_N,u"
+              },
+              "facteur_eau": {
+               "type": "number",
+               "description": "k_E,u"
+              },
+              "valeur_habitat": {
+               "type": "number",
+               "description": "V^H_u (m²HE)"
+              },
+              "valeur_maturite": {
+               "type": "number",
+               "description": "V_u (m²HE)"
+              },
+              "delai": {
+               "type": "number",
+               "description": "d_u (an)"
+              },
+              "difficulte": {
+               "type": "number",
+               "description": "D_u"
+              },
+              "groupe_hydrique": {
+               "enum": [
+                "gazon",
+                "prairie",
+                "xerophile",
+                "arbustif",
+                "arbore",
+                "conifere",
+                "toiture_extensive",
+                "humide_pluie",
+                "mare"
+               ],
+               "description": "g_u (fiche A47)"
+              },
+              "reserve_utile": {
+               "type": "number",
+               "description": "RU_u (fiche A48) (mm)"
+              },
+              "Bilan_Hydrique": {
+               "type": "array",
+               "items": {
+                "type": "object",
+                "description": "Bilan d'un niveau de réchauffement (fiches A49, A50)",
+                "properties": {
+                 "niveau": {
+                  "enum": [
+                   "2_0",
+                   "2_7",
+                   "4_0"
+                  ],
+                  "description": "Année type"
+                 },
+                 "indice_stress": {
+                  "type": "number",
+                  "description": "IS_u,n (jours-équivalents)"
+                 },
+                 "indice_stress_reference": {
+                  "type": "number",
+                  "description": "IS_ref,g (jours-équivalents)"
+                 },
+                 "facteur_hydrique": {
+                  "type": "number",
+                  "description": "k_W,u,n"
+                 },
+                 "arrosage": {
+                  "type": "number",
+                  "description": "Volume d'arrosage annuel (mm)"
+                 },
+                 "assec_printemps": {
+                  "type": "boolean",
+                  "description": "Mare à sec entre mars et juin"
+                 }
+                },
+                "required": [
+                 "niveau",
+                 "facteur_hydrique"
+                ],
+                "additionalProperties": false
+               }
+              },
+              "mois_depart_maturation": {
+               "type": "integer",
+               "description": "Rang du mois de départ (fiche A58)"
+              },
+              "facteurs_hydriques": {
+               "type": "string",
+               "description": "50 valeurs annuelles k_W,u(t)"
+              },
+              "facteurs_gestion": {
+               "type": "string",
+               "description": "50 valeurs annuelles f_g,u(t)"
+              },
+              "trajectoire": {
+               "type": "string",
+               "description": "50 valeurs annuelles V_u(t) séparées par des espaces (m²HE)"
+              },
+              "valeur_integree": {
+               "type": "number",
+               "description": "Somme de la trajectoire (m²HE·an)"
+              }
+             },
+             "required": [
+              "identifiant",
+              "etat",
+              "type",
+              "facteur_support",
+              "valeur_intrinseque",
+              "facteur_etat",
+              "classe_etat",
+              "multiplicateur_situation",
+              "facteur_connectivite",
+              "facteur_nuisances",
+              "facteur_eau",
+              "valeur_habitat",
+              "valeur_maturite"
+             ],
+             "additionalProperties": false
+            }
+           }
+          },
+          "required": [],
+          "additionalProperties": false
+         },
+         "Site": {
+          "type": "object",
+          "description": "Sorties des modules S et T (fiches A08, A24, A31)",
+          "properties": {
+           "valeur_initiale": {
+            "type": "number",
+            "description": "V_0 (m²HE)"
+           },
+           "i0": {
+            "type": "number",
+            "description": "I_0 (m²HE·an)"
+           },
+           "i1": {
+            "type": "number",
+            "description": "I_1 (m²HE·an)"
+           },
+           "i0_30": {
+            "type": "number",
+            "description": "I_0,30 (m²HE·an)"
+           },
+           "i1_30": {
+            "type": "number",
+            "description": "I_1,30 (m²HE·an)"
+           },
+           "dette_maturite": {
+            "type": "number",
+            "description": "DM (m²HE·an)"
+           },
+           "supplement_destruction": {
+            "type": "number",
+            "description": "ΔI_ch (fiche A57) (m²HE·an)"
+           },
+           "arrosage_annuel": {
+            "type": "number",
+            "description": "Volume d'arrosage annuel moyen de la période (fiche A49) (m³)"
+           },
+           "rang_plantation": {
+            "type": "integer",
+            "description": "m_pl (fiche A58)"
+           },
+           "annees_periode": {
+            "type": "string",
+            "description": "Première et dernière années civiles de la période (fiche A46)"
+           },
+           "trajectoire_reference": {
+            "type": "string",
+            "description": "50 valeurs annuelles de l'état initial sous le même climat (m²HE)"
+           },
+           "trajectoire_site": {
+            "type": "string",
+            "description": "50 valeurs annuelles V_1(t) (m²HE)"
+           },
+           "pleine_terre": {
+            "type": "number",
+            "description": "PT"
+           },
+           "pleine_terre_initiale": {
+            "type": "number",
+            "description": "PT_0"
+           },
+           "impermeable_initial": {
+            "type": "number",
+            "description": "A_imp,0 (m²)"
+           },
+           "impermeable_projet": {
+            "type": "number",
+            "description": "A_imp,1 (m²)"
+           },
+           "impermeabilisation_nette": {
+            "type": "number",
+            "description": "ΔA_imp (m²)"
+           },
+           "part_pluvial_infiltre": {
+            "type": "number",
+            "description": "P_inf"
+           },
+           "surface_vitree_non_traitee": {
+            "type": "number",
+            "description": "A_vit,nt (m²)"
+           }
+          },
+          "required": [
+           "valeur_initiale",
+           "i0",
+           "i1",
+           "i0_30",
+           "i1_30",
+           "dette_maturite",
+           "supplement_destruction",
+           "arrosage_annuel",
+           "trajectoire_site",
+           "pleine_terre",
+           "pleine_terre_initiale",
+           "impermeable_initial",
+           "impermeable_projet",
+           "impermeabilisation_nette"
+          ],
+          "additionalProperties": false
+         },
+         "Materiaux": {
+          "type": "object",
+          "description": "Sorties du module G (fiches A32 à A36)",
+          "properties": {
+           "facteur_climat": {
+            "type": "number",
+            "description": "CF (m²HE/kg CO2 éq./an)"
+           },
+           "inat_climat": {
+            "type": "number",
+            "description": "Inat_clim (m²HE·an)"
+           },
+           "Inat_Climat_Phase": {
+            "type": "array",
+            "items": {
+             "type": "object",
+             "description": "Inat_clim par phase",
+             "properties": {
+              "phase": {
+               "enum": [
+                "A1-A3",
+                "A4-A5",
+                "B",
+                "C",
+                "D"
+               ],
+               "description": "Phase"
+              },
+              "valeur": {
+               "type": "number",
+               "description": "Inat_clim,p (m²HE·an)"
+              }
+             },
+             "required": [
+              "phase",
+              "valeur"
+             ],
+             "additionalProperties": false
+            }
+           },
+           "inat_bois": {
+            "type": "number",
+            "description": "Inat_bois (m²HE·an)"
+           },
+           "inat_carrieres": {
+            "type": "number",
+            "description": "Inat_carr (m²HE·an)"
+           },
+           "Pollution_Resultat": {
+            "type": "array",
+            "items": {
+             "type": "object",
+             "description": "Indicateurs de pollution",
+             "properties": {
+              "code": {
+               "type": "integer",
+               "description": "Code"
+              },
+              "valeur": {
+               "type": "number",
+               "description": "POL_i (unité de l'annexe II)"
+              }
+             },
+             "required": [
+              "code",
+              "valeur"
+             ],
+             "additionalProperties": false
+            }
+           }
+          },
+          "required": [
+           "facteur_climat",
+           "inat_climat",
+           "inat_bois",
+           "inat_carrieres"
+          ],
+          "additionalProperties": false
+         },
+         "Indicateurs": {
+          "type": "object",
+          "description": "Indicateurs de l'opération (fiches A37, A38)",
+          "properties": {
+           "cnat": {
+            "type": "number",
+            "description": "Consommation de nature sur 50 ans (fiche A37) (m²HE·an)"
+           },
+           "cnat_moyen": {
+            "type": "number",
+            "description": "Consommation moyenne annuelle (m²HE)"
+           },
+           "cnat_relatif": {
+            "type": "number",
+            "description": "Cnat / I_0"
+           },
+           "cnat_30": {
+            "type": "number",
+            "description": "Consommation sur 30 ans (m²HE·an)"
+           },
+           "inat": {
+            "type": "number",
+            "description": "Biodiversité grise (m²HE·an)"
+           },
+           "snat": {
+            "type": "number",
+            "description": "Solde de nature (m²HE·an)"
+           },
+           "bnat": {
+            "type": "number",
+            "description": "Besoin de nature de la conception (fiche A38) (points)"
+           },
+           "cbs": {
+            "type": "number",
+            "description": "Coefficient de biotope équivalent"
+           },
+           "cnat_par_m2_parcelle": {
+            "type": "number",
+            "description": "Cnat / S_p (m²HE·an/m²)"
+           },
+           "inat_par_m2_sref": {
+            "type": "number",
+            "description": "Inat / S_ref (m²HE·an/m²)"
+           }
+          },
+          "required": [
+           "cnat",
+           "cnat_moyen",
+           "cnat_30",
+           "inat",
+           "snat",
+           "bnat",
+           "cbs",
+           "cnat_par_m2_parcelle"
+          ],
+          "additionalProperties": false
+         },
+         "Incertitude": {
+          "type": "object",
+          "description": "Analyse d'incertitude (fiche A39)",
+          "properties": {
+           "tirages": {
+            "type": "integer",
+            "description": "Nombre de tirages"
+           },
+           "Intervalle": {
+            "type": "array",
+            "items": {
+             "type": "object",
+             "description": "Intervalle d'un indicateur",
+             "properties": {
+              "indicateur": {
+               "type": "string",
+               "description": "Nom de l'indicateur"
+              },
+              "p5": {
+               "type": "number",
+               "description": "Centile 5"
+              },
+              "p50": {
+               "type": "number",
+               "description": "Centile 50"
+              },
+              "p95": {
+               "type": "number",
+               "description": "Centile 95"
+              }
+             },
+             "required": [
+              "indicateur",
+              "p5",
+              "p50",
+              "p95"
+             ],
+             "additionalProperties": false
+            }
+           },
+           "Parametre_Influent": {
+            "type": "array",
+            "items": {
+             "type": "object",
+             "description": "Paramètre parmi les cinq plus influents",
+             "properties": {
+              "rang": {
+               "type": "integer",
+               "description": "Rang"
+              },
+              "table": {
+               "type": "string",
+               "description": "Table de donnees/"
+              },
+              "cle": {
+               "type": "string",
+               "description": "Clé"
+              },
+              "parametre": {
+               "type": "string",
+               "description": "Paramètre"
+              },
+              "correlation": {
+               "type": "number",
+               "description": "ρ de Spearman avec Snat"
+              }
+             },
+             "required": [
+              "rang",
+              "table",
+              "cle",
+              "parametre",
+              "correlation"
+             ],
+             "additionalProperties": false
+            }
+           }
+          },
+          "required": [
+           "tirages"
+          ],
+          "additionalProperties": false
+         },
+         "Conformite": {
+          "type": "object",
+          "description": "Conformité (fiche A40)",
+          "properties": {
+           "bnat_conforme": {
+            "type": "boolean",
+            "description": "conf_Bnat"
+           },
+           "pleine_terre_conforme": {
+            "type": "boolean",
+            "description": "conf_PT"
+           },
+           "plu_conforme": {
+            "type": "boolean",
+            "description": "conf_PLU"
+           },
+           "niveau_cnat": {
+            "type": "integer",
+            "description": "Niveau 0, 1 ou 2"
+           }
+          },
+          "required": [
+           "pleine_terre_conforme",
+           "niveau_cnat"
+          ],
+          "additionalProperties": false
+         }
+        },
+        "required": [
+         "index",
+         "Contexte",
+         "Fermeture_Collection",
+         "Unite_Resultat_Collection",
+         "Site",
+         "Materiaux",
+         "Indicateurs",
+         "Conformite"
+        ],
+        "additionalProperties": false
+       },
+       "minItems": 1
+      }
+     },
+     "required": [
+      "Variante_Resultat"
+     ],
+     "additionalProperties": false
+    },
+    "Attestation_Permis": {
+     "type": "object",
+     "description": "Attestation de prise en compte de la biodiversité au dépôt du permis de construire (fiche A40, convention C-P1)",
+     "properties": {
+      "variante": {
+       "type": "integer",
+       "description": "Index de la variante attestée"
+      },
+      "bnat": {
+       "type": "number",
+       "description": "Bnat (points)"
+      },
+      "bnat_min": {
+       "type": "number",
+       "description": "Seuil de Bnat (points)"
+      },
+      "pleine_terre": {
+       "type": "number",
+       "description": "Taux de pleine terre"
+      },
+      "pleine_terre_min": {
+       "type": "number",
+       "description": "Seuil"
+      },
+      "cbs_plu": {
+       "type": "number",
+       "description": "Coefficient de biotope du PLU"
+      },
+      "pleine_terre_plu": {
+       "type": "number",
+       "description": "Pleine terre du PLU"
+      },
+      "conforme": {
+       "type": "boolean",
+       "description": "Conclusion de conformité"
+      },
+      "mention": {
+       "type": "string",
+       "description": "Mention, notamment l'écart au minimum du PLU"
+      }
+     },
+     "required": [
+      "variante",
+      "bnat",
+      "pleine_terre",
+      "pleine_terre_min",
+      "conforme"
+     ],
+     "additionalProperties": false
+    },
+    "Attestation_Achevement": {
+     "type": "object",
+     "description": "Attestation à l'achèvement (fiche A40)",
+     "properties": {
+      "variante": {
+       "type": "integer",
+       "description": "Index de la variante réalisée"
+      },
+      "cnat": {
+       "type": "number",
+       "description": "Consommation de nature sur 50 ans (fiche A37) (m²HE·an)"
+      },
+      "cnat_moyen": {
+       "type": "number",
+       "description": "Consommation moyenne annuelle (m²HE)"
+      },
+      "cnat_relatif": {
+       "type": "number",
+       "description": "Cnat / I_0"
+      },
+      "cnat_30": {
+       "type": "number",
+       "description": "Consommation sur 30 ans (m²HE·an)"
+      },
+      "inat": {
+       "type": "number",
+       "description": "Biodiversité grise (m²HE·an)"
+      },
+      "snat": {
+       "type": "number",
+       "description": "Solde de nature (m²HE·an)"
+      },
+      "bnat": {
+       "type": "number",
+       "description": "Besoin de nature de la conception (fiche A38) (points)"
+      },
+      "cbs": {
+       "type": "number",
+       "description": "Coefficient de biotope équivalent"
+      },
+      "cnat_par_m2_parcelle": {
+       "type": "number",
+       "description": "Cnat / S_p (m²HE·an/m²)"
+      },
+      "inat_par_m2_sref": {
+       "type": "number",
+       "description": "Inat / S_ref (m²HE·an/m²)"
+      },
+      "niveau_cnat": {
+       "type": "integer",
+       "description": "Niveau atteint"
+      }
+     },
+     "required": [
+      "variante",
+      "cnat",
+      "cnat_moyen",
+      "cnat_30",
+      "inat",
+      "snat",
+      "bnat",
+      "cbs",
+      "cnat_par_m2_parcelle",
+      "niveau_cnat"
+     ],
+     "additionalProperties": false
+    },
+    "Empreinte": {
+     "type": "object",
+     "description": "Empreintes de contrôle (fiche A42)",
+     "properties": {
+      "entrees": {
+       "type": "string",
+       "description": "SHA-256 de Entree_Projet"
+      },
+      "sorties": {
+       "type": "string",
+       "description": "SHA-256 de Sortie_Projet"
+      }
+     },
+     "required": [
+      "entrees",
+      "sorties"
+     ],
+     "additionalProperties": false
+    }
+   },
+   "required": [
+    "version_methode",
+    "version_donnees",
+    "graine",
+    "date_calcul",
+    "Entree_Projet",
+    "Sortie_Projet",
+    "Attestation_Permis",
+    "Empreinte"
+   ],
+   "additionalProperties": false
+  }
+ },
+ "required": [
+  "RSNat"
+ ],
+ "additionalProperties": false
+}

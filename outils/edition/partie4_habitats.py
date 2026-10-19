@@ -154,7 +154,7 @@ def main():
             v = val[c]
             uk = n['uk_habitat']
             dist = uk_dist.get(uk, 0)
-            grille = grille_de(uk, dist, n['position'])
+            grille = n['grille_etat'] or None          # convention C-H6, colonne de la nomenclature
             out += [f'#### Fiche H{num:03d}. {c} : {n["libelle_fr"]}', '']
             # identification
             codes_eunis = [n['code_eunis_2012']] if not c.startswith('VB') else \

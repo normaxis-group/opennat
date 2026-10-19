@@ -1,0 +1,156 @@
+{
+ "format": "OpenNAT projet 1",
+ "projet": {
+  "identifiant": "cas_3",
+  "nom": "Cas 3. Bureaux sur dalle avec toiture végétalisée"
+ },
+ "contexte": {
+  "zone_biogeographique": "continentale",
+  "typologie": "tertiaire",
+  "zone_climatique": "H1a",
+  "sol": {
+   "texture": "limon",
+   "profondeur": 1.0
+  }
+ },
+ "parcelle": {
+  "surface": 4000
+ },
+ "chantier": {
+  "annee_debut": 2027,
+  "mois_debut": 9
+ },
+ "gestion": {
+  "plan_annees": 10
+ },
+ "taches": {
+  "D": {},
+  "T": {},
+  "A": {}
+ },
+ "etat_initial": [
+  {
+   "id": "I1",
+   "code": "VB.2",
+   "position": "sol_pleine_terre",
+   "surface": 3600
+  },
+  {
+   "id": "I2",
+   "code": "VB.5",
+   "position": "sol_pleine_terre",
+   "surface": 400,
+   "tache": "A",
+   "score": {
+    "satisfaits": 1,
+    "applicables": 7,
+    "essentiel_echoue": true
+   }
+  },
+  {
+   "id": "I3",
+   "code": "VB.18b",
+   "position": "arbre",
+   "surface": 326,
+   "tache": "A",
+   "stade": "M",
+   "score": {
+    "satisfaits": 2,
+    "applicables": 6,
+    "essentiel_echoue": false
+   }
+  }
+ ],
+ "options": {
+  "tirages": 0
+ },
+ "batiments": [
+  {
+   "nom": "Bâtiment",
+   "sref": 9000,
+   "emprise_au_sol": 2400,
+   "duree_chantier": 22,
+   "ges": {
+    "A1-A3": 560,
+    "B": 420,
+    "C": 45
+   }
+  }
+ ],
+ "variantes": [
+  {
+   "nom": "Projet",
+   "reference": true,
+   "unites": [
+    {
+     "id": "P1",
+     "code": "VB.1",
+     "position": "sol_pleine_terre",
+     "surface": 2400
+    },
+    {
+     "id": "P2",
+     "code": "VB.3",
+     "position": "sol_pleine_terre",
+     "surface": 400
+    },
+    {
+     "id": "P3",
+     "code": "VB.6",
+     "position": "sol_sur_dalle",
+     "surface": 800,
+     "tache": "D",
+     "epaisseur": 40,
+     "score": {
+      "satisfaits": 2,
+      "applicables": 3,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P4",
+     "code": "VB.5",
+     "position": "sol_sur_dalle",
+     "surface": 400,
+     "tache": "D",
+     "epaisseur": 30,
+     "score": {
+      "satisfaits": 3,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P5",
+     "code": "VB.13",
+     "position": "hors_sol_toiture",
+     "surface": 1200,
+     "tache": "T",
+     "epaisseur": 40,
+     "score": {
+      "satisfaits": 4,
+      "applicables": 4,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P6",
+     "code": "VB.15",
+     "position": "hors_sol_facade",
+     "surface": 300,
+     "tache": "D",
+     "score": {
+      "satisfaits": 2,
+      "applicables": 3,
+      "essentiel_echoue": false
+     }
+    }
+   ],
+   "materiaux": {
+    "granulats": {
+     "masse": 11000
+    }
+   }
+  }
+ ]
+}
