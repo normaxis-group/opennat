@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "Pour citer OpenNAT, merci d'utiliser les informations ci-dessous."
+title: "OpenNAT : méthode de calcul de la consommation de nature des projets de construction, tables et moteur libre"
+type: software
+authors:
+  - family-names: "PLANTAZ"
+    given-names: "Cédric"
+  - name: "NORMATYS"
+version: "0.2.0"
+license:
+  - AGPL-3.0-or-later
+  - CC-BY-4.0
+repository-code: "https://github.com/normaxis-group/opennat"
+abstract: >-
+  Méthode de calcul de la nature qu'un projet de construction consomme sur son site et ailleurs, en mètres carrés
+  d'habitat équivalent sur 50 ans (Cnat sur le site, Inat pour la biodiversité grise des matériaux et du chantier,
+  Snat pour le solde, Bnat pour le coefficient de biotope), avec ses tables de données sourcées, son moteur de calcul
+  et un banc de validation. Méthode en attente de validation du Biodiversity Standard Council : ses seuils et ses
+  résultats ne sont pas opposables.
+keywords:
+  - biodiversité
+  - consommation de nature
+  - biodiversité grise
+  - analyse de cycle de vie
+  - coefficient de biotope
+  - RSEE
+  - RE2020
