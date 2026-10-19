@@ -7,6 +7,11 @@
 Le serveur n'écoute que sur la machine (127.0.0.1). Pas de compte : les projets sont des fichiers JSON que
 l'utilisateur ouvre et enregistre depuis son navigateur ; les résultats s'écrivent dans le dossier de travail.
 
+Mode public (variable d'environnement OPENNAT_PUBLIC=1, version en ligne) : chaque calcul porte un identifiant
+aléatoire et non un numéro, les chemins du serveur ne sortent pas, la taille des envois, le nombre de tirages et le
+nombre de calculs simultanés sont bornés, les résultats sont effacés après CONSERVATION_HEURES, les réponses portent
+des en-têtes de sécurité, et la page dit ce que deviennent les projets envoyés.
+
 Points d'accès (JSON sauf mention) :
     GET  /                          la page de l'utilitaire
     GET  /api/referentiel           nomenclature, grilles d'état et leurs critères, énumérations, versions
@@ -29,6 +34,8 @@ import io
 import json
 import mimetypes
 import os
+import secrets
+import shutil
 import tempfile
 import threading
 import time
@@ -46,9 +53,38 @@ from . import fiche, resume
 
 STATIQUE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'statique')
 _TABLES: Tables | None = None
-_CALCULS: dict[int, dict] = {}
+_CALCULS: dict[str, dict] = {}
 _VERROU = threading.Lock()
 DOSSIER = os.path.abspath('resultats')
+
+PUBLIC = os.environ.get('OPENNAT_PUBLIC') == '1'
+TAILLE_MAX_ENVOI = int(os.environ.get('OPENNAT_TAILLE_MAX_MO', '25')) * 1024 * 1024
+TIRAGES_MAX = int(os.environ.get('OPENNAT_TIRAGES_MAX', '1000'))
+CALCULS_SIMULTANES = int(os.environ.get('OPENNAT_CALCULS_SIMULTANES', '2'))
+CONSERVATION_HEURES = float(os.environ.get('OPENNAT_CONSERVATION_HEURES', '24'))
+EN_TETES_PUBLICS = {
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY',
+    'Referrer-Policy': 'same-origin',
+    'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+    'Content-Security-Policy': "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; "
+                               "script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; "
+                               "form-action 'self'",
+}
+MENTION_PUBLIQUE = (
+    '<p class="edition">Version en ligne : les projets envoyés sont calculés sur un serveur d\'IRICE, sans compte ni '
+    'cookie, et effacés avec leurs résultats au plus tard 24 heures après le calcul. Enregistrez votre fichier projet '
+    'et vos résultats sur votre poste. Pour des projets confidentiels, installez l\'outil sur votre poste : '
+    '<a href="https://github.com/normaxis-group/opennat" target="_blank" rel="noopener">dépôt OpenNAT</a>. '
+    '<a href="https://irice-certification.com/mentions-legales" target="_blank" rel="noopener">Mentions légales</a>.</p>')
+
+
+class EnvoiTropGros(ValueError):
+    """Corps de requête au-delà de TAILLE_MAX_ENVOI."""
+
+
+class ServeurOccupe(RuntimeError):
+    """Trop de calculs en cours (mode public)."""
 
 
 def tables() -> Tables:
@@ -85,7 +121,8 @@ def referentiel() -> dict:
                 for c, n in T.nomenclature.items()]
     return dict(version_methode=VERSION_METHODE, version_moteur=VERSION_MOTEUR, version_donnees=T.empreinte,
                 habitats=habitats, grilles=grilles, enums=enums,
-                tirages_defaut=int(T.lignes[('incertitude', 'tirages_defaut')].valeur))
+                tirages_defaut=int(T.lignes[('incertitude', 'tirages_defaut')].valeur),
+                fiche_pdf=bool(fiche.soffice()), public=PUBLIC, tirages_max=TIRAGES_MAX if PUBLIC else None)
 
 
 def exemple() -> dict:
@@ -186,11 +223,27 @@ def lire_materiaux(texte: str) -> dict:
     return dict(materiaux=m, erreurs=err)
 
 
-def lancer(corps: dict) -> int:
+def lancer(corps: dict, client: str = '') -> str:
+    """Lance un calcul et rend son identifiant. « reprendre » : l'identifiant d'un calcul interrompu (hors mode public,
+    le chemin de son dossier est aussi accepté)."""
+    reprise = corps.get('reprendre')
+    if reprise:
+        if reprise in _CALCULS:
+            reprise = _CALCULS[reprise]['dossier']
+        elif PUBLIC:
+            raise KeyError(reprise)
+    tirages = corps.get('tirages')
+    if PUBLIC and tirages is not None:
+        tirages = max(0, min(int(tirages), TIRAGES_MAX))
     with _VERROU:
-        n = max(_CALCULS, default=0) + 1
+        if PUBLIC:
+            en_cours = [e for e in _CALCULS.values() if e['etat'] == 'en_cours']
+            if len(en_cours) >= CALCULS_SIMULTANES or any(e.get('client') == client for e in en_cours):
+                raise ServeurOccupe("le serveur calcule déjà pour vous ou pour d'autres : réessayez dans quelques "
+                                    "minutes, ou installez l'outil sur votre poste (voir le dépôt OpenNAT)")
+        n = secrets.token_urlsafe(12)
         etat = dict(etat='en_cours', messages=[], etapes={}, e4=None, debut=time.time(), dossier=None, erreur=None,
-                    arret=False, resultat=None)
+                    arret=False, resultat=None, client=client)
         _CALCULS[n] = etat
     p = corps['projet']
     os.makedirs(DOSSIER, exist_ok=True)
@@ -206,7 +259,7 @@ def lancer(corps: dict) -> int:
 
     def tache():
         try:
-            r = moteur.calculer(chemin, DOSSIER, corps.get('tirages'), None, corps.get('reprendre'),
+            r = moteur.calculer(chemin, DOSSIER, tirages, None, reprise,
                                 dire=lambda s: etat['messages'].append(s), suivi=suivi, arret=lambda: etat['arret'])
             etat['dossier'] = r['dossier']
             etat['resultat'] = resume.resumer(r)
@@ -226,6 +279,48 @@ def lancer(corps: dict) -> int:
                 pass
     threading.Thread(target=tache, daemon=True).start()
     return n
+
+
+def _sans_chemins(texte):
+    """Mode public : retire des messages le dossier de travail du serveur."""
+    if not PUBLIC or not isinstance(texte, str):
+        return texte
+    return texte.replace(DOSSIER + os.sep, '').replace(DOSSIER, '')
+
+
+def purger():
+    """Mode public : efface les calculs finis depuis plus de CONSERVATION_HEURES, puis les dossiers orphelins."""
+    limite = time.time() - CONSERVATION_HEURES * 3600
+    racine_ok = os.path.realpath(DOSSIER) + os.sep
+    with _VERROU:
+        vieux = [n for n, e in _CALCULS.items() if e['etat'] != 'en_cours' and (e.get('fin') or e['debut']) < limite]
+        for n in vieux:
+            d = _CALCULS.pop(n).get('dossier')
+            if d and os.path.isdir(d) and os.path.realpath(d).startswith(racine_ok):
+                shutil.rmtree(d, ignore_errors=True)
+        gardes = {os.path.realpath(e['dossier']) for e in _CALCULS.values() if e.get('dossier')}
+    if not os.path.isdir(DOSSIER):
+        return
+    for racine, dossiers, fichiers in os.walk(DOSSIER, topdown=False):
+        for x in dossiers:
+            c = os.path.realpath(os.path.join(racine, x))
+            if c in gardes or any(g.startswith(c + os.sep) for g in gardes):
+                continue
+            if os.path.getmtime(c) < limite:
+                shutil.rmtree(c, ignore_errors=True)
+        for x in fichiers:
+            c = os.path.join(racine, x)
+            if os.path.getmtime(c) < limite and os.path.realpath(racine) == os.path.realpath(DOSSIER):
+                os.unlink(c)
+
+
+def _purge_periodique():
+    while True:
+        time.sleep(600)
+        try:
+            purger()
+        except OSError:
+            pass
 
 
 def _dans(dossier: str, chemin: str) -> str:
@@ -249,6 +344,9 @@ class Gestionnaire(BaseHTTPRequestHandler):
         self.send_header('Content-Type', mime)
         self.send_header('Content-Length', str(len(corps)))
         self.send_header('Cache-Control', 'no-store')
+        if PUBLIC:
+            for k, v in EN_TETES_PUBLICS.items():
+                self.send_header(k, v)
         if nom:
             self.send_header('Content-Disposition', f'attachment; filename="{nom}"')
         self.end_headers()
@@ -259,7 +357,14 @@ class Gestionnaire(BaseHTTPRequestHandler):
 
     def _corps(self) -> bytes:
         n = int(self.headers.get('Content-Length') or 0)
+        if n > TAILLE_MAX_ENVOI:
+            raise EnvoiTropGros(f'envoi de plus de {TAILLE_MAX_ENVOI // (1024 * 1024)} Mo')
         return self.rfile.read(n) if n else b''
+
+    def _client(self) -> str:
+        """Adresse du visiteur : première adresse transmise par le proxy, sinon celle de la connexion."""
+        transmis = (self.headers.get('X-Forwarded-For') or '').split(',')[0].strip()
+        return transmis or self.client_address[0]
 
     def do_GET(self):
         u = urlparse(self.path)
@@ -275,13 +380,20 @@ class Gestionnaire(BaseHTTPRequestHandler):
                 return self._json(exemple())
             parts = ch.strip('/').split('/')
             if parts[:2] == ['api', 'calcul'] and len(parts) == 3:
-                e = _CALCULS[int(parts[2])]
-                return self._json({k: v for k, v in e.items() if k not in ('resultat', 'trace')} |
-                                  dict(duree=round((e.get('fin') or time.time()) - e['debut'], 1)))
+                e = _CALCULS[parts[2]]
+                caches = ('resultat', 'trace', 'client') + (('dossier',) if PUBLIC else ())
+                vue = {k: v for k, v in e.items() if k not in caches}
+                vue['messages'] = [_sans_chemins(m) for m in e['messages']]
+                vue['erreur'] = _sans_chemins(e['erreur'])
+                return self._json(vue | dict(duree=round((e.get('fin') or time.time()) - e['debut'], 1)))
             if parts[:2] == ['api', 'resultats']:
-                return self._json(_CALCULS[int(parts[2])]['resultat'])
+                r = _CALCULS[parts[2]]['resultat']
+                if PUBLIC and r:
+                    journal = [_sans_chemins(x) for x in r.get('journal', [])]
+                    r = {k: v for k, v in r.items() if k != 'dossier'} | dict(journal=journal)
+                return self._json(r)
             if parts[:2] == ['api', 'fichiers']:
-                d = _CALCULS[int(parts[2])]['dossier']
+                d = _CALCULS[parts[2]]['dossier']
                 liste = []
                 for racine, dossiers, fichiers in os.walk(d):
                     dossiers[:] = [x for x in dossiers if not x.startswith('.')]
@@ -290,19 +402,23 @@ class Gestionnaire(BaseHTTPRequestHandler):
                         liste.append(dict(chemin=c, taille=os.path.getsize(os.path.join(racine, f))))
                 return self._json(sorted(liste, key=lambda x: x['chemin']))
             if parts[:2] == ['api', 'fichier']:
-                d = _CALCULS[int(parts[2])]['dossier']
+                d = _CALCULS[parts[2]]['dossier']
                 c = _dans(d, parse_qs(u.query)['chemin'][0])
                 with open(c, 'rb') as f:
                     return self._envoyer(200, f.read(), 'text/plain; charset=utf-8')
             if parts[:2] == ['api', 'rsnat']:
                 n, ext = parts[2].split('.')
-                d = _CALCULS[int(n)]['dossier']
+                if ext not in ('xml', 'json'):
+                    raise KeyError(ext)
+                d = _CALCULS[n]['dossier']
                 with open(os.path.join(d, f'rsnat.{ext}'), 'rb') as f:
                     mime = 'application/xml' if ext == 'xml' else 'application/json'
                     return self._envoyer(200, f.read(), mime, f'rsnat.{ext}')
             if parts[:2] == ['api', 'fiche']:
                 n, ext = parts[2].split('.')
-                e = _CALCULS[int(n)]
+                if ext not in ('docx', 'pdf'):
+                    raise KeyError(ext)
+                e = _CALCULS[n]
                 chemin = fiche.produire(e['resultat'], e['dossier'], ext)
                 with open(chemin, 'rb') as f:
                     mime = 'application/pdf' if ext == 'pdf' else \
@@ -326,21 +442,29 @@ class Gestionnaire(BaseHTTPRequestHandler):
             if ch == '/api/materiaux':
                 return self._json(lire_materiaux(self._corps().decode('utf-8', errors='replace')))
             if ch == '/api/calcul':
-                return self._json(dict(calcul=lancer(json.loads(self._corps()))))
+                return self._json(dict(calcul=lancer(json.loads(self._corps()), self._client())))
             parts = ch.strip('/').split('/')
             if parts[:2] == ['api', 'calcul'] and parts[-1] == 'arret':
-                _CALCULS[int(parts[2])]['arret'] = True
+                _CALCULS[parts[2]]['arret'] = True
                 return self._json(dict(arret=True))
             self._json(dict(erreur='introuvable'), 404)
         except json.JSONDecodeError as x:
             self._json(dict(erreur=f'JSON illisible : {x}'), 400)
+        except EnvoiTropGros as x:
+            self._json(dict(erreur=str(x)), 413)
+        except ServeurOccupe as x:
+            self._json(dict(erreur=str(x)), 429)
+        except KeyError as x:
+            self._json(dict(erreur=f'introuvable : {x}'), 404)
         except Exception as x:
-            self._json(dict(erreur=str(x)), 400)
+            self._json(dict(erreur=_sans_chemins(str(x))), 400)
 
     def _page(self):
         """Page de l'utilitaire. Le logo OpenNAT, quand il est déposé dans statique/opennat.svg, remplace le nom écrit."""
         with open(os.path.join(STATIQUE, 'index.html'), encoding='utf-8') as f:
             html = f.read()
+        if PUBLIC:
+            html = html.replace('<!--MENTION_PUBLIQUE-->', MENTION_PUBLIQUE)
         if os.path.exists(os.path.join(STATIQUE, 'opennat.svg')):
             html = html.replace('<!--MARQUE_OPENNAT--><span class="nom-opennat">OpenNAT</span>',
                                 '<img class="logo-opennat" src="/statique/opennat.svg" alt="OpenNAT">')
@@ -378,6 +502,9 @@ def main(argv=None):
     a = ap.parse_args(argv)
     DOSSIER = os.path.abspath(a.dossier)
     tables()
+    if PUBLIC:
+        purger()
+        threading.Thread(target=_purge_periodique, daemon=True).start()
     srv = ThreadingHTTPServer((a.hote, a.port), Gestionnaire)
     url = f'http://127.0.0.1:{a.port}/'
     print(f'Utilitaire OpenNAT : {url} (résultats dans {DOSSIER}) ; Ctrl+C pour arrêter', flush=True)
