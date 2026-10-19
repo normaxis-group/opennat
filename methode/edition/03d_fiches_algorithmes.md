@@ -231,15 +231,15 @@ Sorties : dossier de résultats d'un calcul, contenant pour chaque étape un fic
 **Description mathématique**
 
 (A42-1) Dossier `resultats/<identifiant du projet>/<horodatage>/`, avec :
-- `00_entrees.json` : entrées après valeurs par défaut ;
-- `01_E1_contexte.json` à `12_E5_conformite.json` : sorties de chaque étape et module, dans l'ordre du chapitre 6 de la partie 1 ;
-- `08_T_trajectoires.csv` : une ligne par unité et par année ;
-- `11_E4_tirages.csv` : une ligne par tirage ;
+- `00_entrees.json` : entrées après reprise du RSEE et valeurs par défaut ;
+- un dossier `variante_<n>/` par variante, avec `01_E1_contexte.json`, `02_E2_pretraitement.json`, `03_S_sol.json`, `04_H_habitats.json`, `05_C_connectivite.json`, `06_N_nuisances.json`, `07_E_eau.json`, `08_W_hydrique.json`, `09_T_temps.json`, `10_G_materiaux.json`, `11_E3_agregation.json` et `13_E5_conformite.json`, dans l'ordre du chapitre 6 de la partie 1 ;
+- `variante_<n>/09_T_trajectoires.csv` : une ligne par unité et par année (valeur mensuelle moyenne, facteur hydrique, facteur de gestion, valeur), et la trajectoire de l'état initial ;
+- `12_E4_tirages.csv` : une ligne par tirage, les indicateurs de chaque variante ; `12_E4_incertitude.json` : centiles et paramètres influents ;
 - `journal.txt` : valeurs par défaut appliquées, contrôles non bloquants, durées ;
 - `rsnat.xml` et `rsnat.json` : récapitulatif standardisé ;
 - `empreinte.txt` : SHA-256 des entrées, des tables et des sorties.
 
-(A42-2) Reprise : une étape dont le fichier de sorties existe et dont les entrées ont la même empreinte n'est pas recalculée.
+(A42-2) Reprise : une étape dont le fichier de sorties existe et dont les entrées ont la même empreinte n'est pas recalculée. Le moteur applique cette règle à l'étape E4, seule étape longue : les étapes E1 à E3 et E5 se recalculent en quelques secondes ; les tirages déjà écrits sont relus et le calcul reprend au premier bloc non écrit. Une reprise est refusée si l'empreinte des entrées et des tables a changé.
 
 **Cas limites et contrôles**
 

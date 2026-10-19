@@ -1,24 +1,24 @@
-## Partie 7. Récapitulatif standardisé RSNat
+## Partie 7. Récapitulatif standardisé RSNat et fichier projet
 
-Le RSNat (nom provisoire) est au calcul OpenNAT ce que le RSEE est à l'étude RE2020 : un fichier XML qui porte les données d'entrée, les résultats et les attestations, validé par un schéma XSD publié avec la méthode. Sa structure reprend celle du RSEE : un bloc d'entrée, un bloc de sortie, et ici deux blocs d'attestation.
+Le RSNat (nom provisoire) est au calcul OpenNAT ce que le RSEE est à l'étude RE2020 : un fichier XML qui porte les données d'entrée, les résultats et les attestations, validé par un schéma XSD publié avec la méthode, accompagné de sa copie JSON validée par un schéma JSON. Sa structure reprend celle du RSEE : un bloc d'entrée, un bloc de sortie, et ici deux blocs d'attestation. Le moteur l'écrit à chaque calcul et le valide contre ses deux schémas (exigence E9).
 
 ### 7.1 Fichiers
 
 | Fichier | Contenu |
 |---|---|
-| `schemas/rsnat.xsd` | Schéma XSD, 312 éléments, 22 énumérations |
-| `schemas/exemple_annexe_C.rsnat.xml` | RSNat de l'exemple de l'annexe C de la partie 1, validé contre le schéma |
-| `outils/edition/rsnat_spec.py` | Spécification unique dont dérivent le schéma, ce dictionnaire et l'exemple |
-
-Le fichier d'exemple a été validé contre le schéma par la bibliothèque lxml le 18/10/2026.
+| `schemas/rsnat.xsd` | Schéma XSD, 322 éléments, 23 énumérations |
+| `schemas/rsnat.schema.json` | Schéma JSON du même RSNat |
+| `schemas/projet.schema.json` | Schéma du fichier projet, entrée du moteur (section 7.6) |
+| `schemas/exemple_annexe_C.rsnat.xml` et `.json` | RSNat de l'exemple de l'annexe C de la partie 1, écrit par le moteur et validé contre les deux schémas |
+| `opennat/rsnat_spec.py` | Spécification unique dont dérivent les deux schémas, ce dictionnaire et la sortie du moteur |
 
 ### 7.2 Règles d'écriture
 
 - Encodage UTF-8, séparateur décimal point, dates au format AAAA-MM-JJ.
 - Les éléments sont écrits dans l'ordre du schéma. Un élément facultatif sans valeur est omis.
-- Les valeurs sont celles du calcul aux valeurs centrales, avec la précision de la fiche A01 ; les intervalles sont dans le bloc Incertitude.
+- Les valeurs sont celles du calcul aux valeurs centrales, avec la précision de la fiche A01 : une décimale pour les valeurs en m²HE, m²HE·an, m², m³, mm et points, quatre pour les facteurs ; les intervalles sont dans le bloc Incertitude.
 - Le bloc Attestation_Permis est le seul extrait déposé sur la plateforme d'IRICE au dépôt du permis de construire ; il se lit sans le reste du fichier.
-- Le RSNat porte l'empreinte SHA-256 de son bloc d'entrée et de son bloc de sortie : la plateforme recalcule l'empreinte pour vérifier qu'aucune valeur n'a été modifiée après le calcul.
+- Le RSNat porte l'empreinte SHA-256 de son bloc d'entrée et de son bloc de sortie (forme canonique XML) : la plateforme recalcule l'empreinte pour vérifier qu'aucune valeur n'a été modifiée après le calcul.
 
 ### 7.3 Dictionnaire des données
 
@@ -226,6 +226,8 @@ Unité d'habitat.
 | unite_liee | texte |  | 0..1 | Identifiant de l'unité initiale liée, pour une unité conservée ou améliorée |  |
 | protection_chantier | booléen |  | 0..1 | Protection prévue pendant le chantier (fiche A27) |  |
 | Critere_Collection | élément composé |  | 0..1 | Réponses à la grille d'état |  |
+| Score_Declare | élément composé |  | 0..1 | Résumé de la grille quand le détail des critères n'est pas transmis (fiche A10) |  |
+| alimentation_humide | énumération : nappe, pluie |  | 0..1 | Alimentation d'un milieu humide : nappe ou pluie (fiche A47) |  |
 | Renouvellement_Collection | élément composé |  | 0..1 | Années de réfection (fiche A30) |  |
 
 #### 7.3.16 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Eclairage_Horaire`
@@ -258,7 +260,17 @@ Réponse à un critère de la grille d'état du type.
 | note | entier | note 1 à 3 | 0..1 | Note d'un indicateur de la grille des boisements |  |
 | preuve | texte |  | 0..1 | Référence de la pièce qui justifie la réponse |  |
 
-#### 7.3.19 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Renouvellement_Collection`
+#### 7.3.19 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Score_Declare`
+
+Résumé de la grille quand le détail des critères n'est pas transmis (fiche A10).
+
+| Élément | Type | Unité | Card. | Description | Origine |
+|---|---|---|---|---|---|
+| satisfaits | entier |  | 1..1 | Critères satisfaits |  |
+| applicables | entier |  | 1..1 | Critères applicables |  |
+| essentiel_echoue | booléen |  | 0..1 | Un critère essentiel a échoué |  |
+
+#### 7.3.20 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Renouvellement_Collection`
 
 Années de réfection (fiche A30).
 
@@ -266,7 +278,7 @@ Années de réfection (fiche A30).
 |---|---|---|---|---|---|
 | annee | entier | an | 0..n | Année de réfection, de 2 à 50 |  |
 
-#### 7.3.20 `RSNat/Entree_Projet/Variante_Collection`
+#### 7.3.21 `RSNat/Entree_Projet/Variante_Collection`
 
 Variantes de l'état projet (fiche A41).
 
@@ -274,7 +286,7 @@ Variantes de l'état projet (fiche A41).
 |---|---|---|---|---|---|
 | Variante | élément composé |  | 1..n | Variante |  |
 
-#### 7.3.21 `RSNat/Entree_Projet/Variante_Collection/Variante`
+#### 7.3.22 `RSNat/Entree_Projet/Variante_Collection/Variante`
 
 Variante.
 
@@ -289,7 +301,7 @@ Variante.
 | Ouvrage_Pluvial_Collection | élément composé |  | 0..1 | Ouvrages de gestion des eaux pluviales (fiche A24) |  |
 | Facade_Vitree_Collection | élément composé |  | 0..1 | Façades vitrées exposées (fiche A22) |  |
 
-#### 7.3.22 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection`
+#### 7.3.23 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection`
 
 Unités de l'état projet.
 
@@ -297,7 +309,7 @@ Unités de l'état projet.
 |---|---|---|---|---|---|
 | Unite | élément composé |  | 0..n | Unité d'habitat |  |
 
-#### 7.3.23 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite`
+#### 7.3.24 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite`
 
 Unité d'habitat.
 
@@ -338,9 +350,11 @@ Unité d'habitat.
 | unite_liee | texte |  | 0..1 | Identifiant de l'unité initiale liée, pour une unité conservée ou améliorée |  |
 | protection_chantier | booléen |  | 0..1 | Protection prévue pendant le chantier (fiche A27) |  |
 | Critere_Collection | élément composé |  | 0..1 | Réponses à la grille d'état |  |
+| Score_Declare | élément composé |  | 0..1 | Résumé de la grille quand le détail des critères n'est pas transmis (fiche A10) |  |
+| alimentation_humide | énumération : nappe, pluie |  | 0..1 | Alimentation d'un milieu humide : nappe ou pluie (fiche A47) |  |
 | Renouvellement_Collection | élément composé |  | 0..1 | Années de réfection (fiche A30) |  |
 
-#### 7.3.24 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Eclairage_Horaire`
+#### 7.3.25 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Eclairage_Horaire`
 
 Éclairage déclaré heure par heure (fiches A51 à A53).
 
@@ -351,7 +365,7 @@ Unité d'habitat.
 | temperature_couleur | nombre décimal | K | 1..1 | Température de couleur |  |
 | part_detection | nombre décimal |  | 0..1 | Part de temps allumé sous détection de présence |  |
 
-#### 7.3.25 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection`
+#### 7.3.26 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection`
 
 Réponses à la grille d'état.
 
@@ -359,7 +373,7 @@ Réponses à la grille d'état.
 |---|---|---|---|---|---|
 | Critere | élément composé |  | 0..n | Réponse à un critère de la grille d'état du type |  |
 
-#### 7.3.26 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection/Critere`
+#### 7.3.27 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection/Critere`
 
 Réponse à un critère de la grille d'état du type.
 
@@ -370,7 +384,17 @@ Réponse à un critère de la grille d'état du type.
 | note | entier | note 1 à 3 | 0..1 | Note d'un indicateur de la grille des boisements |  |
 | preuve | texte |  | 0..1 | Référence de la pièce qui justifie la réponse |  |
 
-#### 7.3.27 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Renouvellement_Collection`
+#### 7.3.28 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Score_Declare`
+
+Résumé de la grille quand le détail des critères n'est pas transmis (fiche A10).
+
+| Élément | Type | Unité | Card. | Description | Origine |
+|---|---|---|---|---|---|
+| satisfaits | entier |  | 1..1 | Critères satisfaits |  |
+| applicables | entier |  | 1..1 | Critères applicables |  |
+| essentiel_echoue | booléen |  | 0..1 | Un critère essentiel a échoué |  |
+
+#### 7.3.29 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Renouvellement_Collection`
 
 Années de réfection (fiche A30).
 
@@ -378,7 +402,7 @@ Années de réfection (fiche A30).
 |---|---|---|---|---|---|
 | annee | entier | an | 0..n | Année de réfection, de 2 à 50 |  |
 
-#### 7.3.28 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection`
+#### 7.3.30 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection`
 
 Bois mis en œuvre (fiche A34).
 
@@ -386,7 +410,7 @@ Bois mis en œuvre (fiche A34).
 |---|---|---|---|---|---|
 | Bois | élément composé |  | 0..n | Lot de bois |  |
 
-#### 7.3.29 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection/Bois`
+#### 7.3.31 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection/Bois`
 
 Lot de bois.
 
@@ -397,7 +421,7 @@ Lot de bois.
 | remplacements | entier |  | 0..1 | Nombre de remplacements en 50 ans |  |
 | justification | texte |  | 0..1 | Pièce qui justifie le régime |  |
 
-#### 7.3.30 `RSNat/Entree_Projet/Variante_Collection/Variante/Granulats`
+#### 7.3.32 `RSNat/Entree_Projet/Variante_Collection/Variante/Granulats`
 
 Granulats, sables et roches (fiche A35).
 
@@ -406,7 +430,7 @@ Granulats, sables et roches (fiche A35).
 | masse | nombre décimal | t | 1..1 | Masse mise en œuvre |  |
 | remplacements | entier |  | 0..1 | Nombre de remplacements en 50 ans |  |
 
-#### 7.3.31 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection`
+#### 7.3.33 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection`
 
 Ouvrages de gestion des eaux pluviales (fiche A24).
 
@@ -414,7 +438,7 @@ Ouvrages de gestion des eaux pluviales (fiche A24).
 |---|---|---|---|---|---|
 | Ouvrage_Pluvial | élément composé |  | 0..n | Ouvrage |  |
 
-#### 7.3.32 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection/Ouvrage_Pluvial`
+#### 7.3.34 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection/Ouvrage_Pluvial`
 
 Ouvrage.
 
@@ -423,7 +447,7 @@ Ouvrage.
 | surface_drainee | nombre décimal | m² | 1..1 | Surface imperméable conduite vers l'ouvrage |  |
 | infiltration_surface | booléen |  | 1..1 | Infiltration en surface |  |
 
-#### 7.3.33 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection`
+#### 7.3.35 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection`
 
 Façades vitrées exposées (fiche A22).
 
@@ -431,7 +455,7 @@ Façades vitrées exposées (fiche A22).
 |---|---|---|---|---|---|
 | Facade_Vitree | élément composé |  | 0..n | Façade |  |
 
-#### 7.3.34 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection/Facade_Vitree`
+#### 7.3.36 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection/Facade_Vitree`
 
 Façade.
 
@@ -440,7 +464,7 @@ Façade.
 | surface | nombre décimal | m² | 1..1 | Surface vitrée exposée |  |
 | traitee | booléen |  | 1..1 | Vitrage traité contre les collisions |  |
 
-#### 7.3.35 `RSNat/Sortie_Projet`
+#### 7.3.37 `RSNat/Sortie_Projet`
 
 Résultats (partie 1, chapitre 11).
 
@@ -448,7 +472,7 @@ Résultats (partie 1, chapitre 11).
 |---|---|---|---|---|---|
 | Variante_Resultat | élément composé |  | 1..n | Résultats d'une variante |  |
 
-#### 7.3.36 `RSNat/Sortie_Projet/Variante_Resultat`
+#### 7.3.38 `RSNat/Sortie_Projet/Variante_Resultat`
 
 Résultats d'une variante.
 
@@ -464,7 +488,7 @@ Résultats d'une variante.
 | Incertitude | élément composé |  | 0..1 | Analyse d'incertitude (fiche A39) |  |
 | Conformite | élément composé |  | 1..1 | Conformité (fiche A40) |  |
 
-#### 7.3.37 `RSNat/Sortie_Projet/Variante_Resultat/Contexte`
+#### 7.3.39 `RSNat/Sortie_Projet/Variante_Resultat/Contexte`
 
 Sorties de l'étape E1 (fiche A02).
 
@@ -475,7 +499,7 @@ Sorties de l'étape E1 (fiche A02).
 | pleine_terre_min | nombre décimal |  | 1..1 | Seuil de pleine terre applicable |  |
 | multiplicateur_delai | nombre décimal |  | 1..1 | Multiplicateur de délai de la zone |  |
 
-#### 7.3.38 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection`
+#### 7.3.40 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection`
 
 Contrôle de fermeture (fiche A03).
 
@@ -483,7 +507,7 @@ Contrôle de fermeture (fiche A03).
 |---|---|---|---|---|---|
 | Fermeture | élément composé |  | 2..2 | Contrôle d'un état |  |
 
-#### 7.3.39 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection/Fermeture`
+#### 7.3.41 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection/Fermeture`
 
 Contrôle d'un état.
 
@@ -494,7 +518,7 @@ Contrôle d'un état.
 | ecart | nombre décimal | m² | 1..1 | Écart avec S_p |  |
 | conforme | booléen |  | 1..1 | Contrôle satisfait |  |
 
-#### 7.3.40 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection`
+#### 7.3.42 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection`
 
 Résultats par unité.
 
@@ -502,7 +526,7 @@ Résultats par unité.
 |---|---|---|---|---|---|
 | Unite_Resultat | élément composé |  | 0..n | Résultats d'une unité |  |
 
-#### 7.3.41 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat`
+#### 7.3.43 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat`
 
 Résultats d'une unité.
 
@@ -538,20 +562,20 @@ Résultats d'une unité.
 | trajectoire | texte | m²HE | 0..1 | 50 valeurs annuelles V_u(t) séparées par des espaces |  |
 | valeur_integree | nombre décimal | m²HE·an | 0..1 | Somme de la trajectoire |  |
 
-#### 7.3.42 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat/Bilan_Hydrique`
+#### 7.3.44 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat/Bilan_Hydrique`
 
 Bilan d'un niveau de réchauffement (fiches A49, A50).
 
 | Élément | Type | Unité | Card. | Description | Origine |
 |---|---|---|---|---|---|
 | niveau | énumération : 2_0, 2_7, 4_0 |  | 1..1 | Année type |  |
-| indice_stress | nombre décimal | jours-équivalents | 1..1 | IS_u,n |  |
-| indice_stress_reference | nombre décimal | jours-équivalents | 1..1 | IS_ref,g |  |
+| indice_stress | nombre décimal | jours-équivalents | 0..1 | IS_u,n |  |
+| indice_stress_reference | nombre décimal | jours-équivalents | 0..1 | IS_ref,g |  |
 | facteur_hydrique | nombre décimal |  | 1..1 | k_W,u,n |  |
 | arrosage | nombre décimal | mm | 0..1 | Volume d'arrosage annuel |  |
 | assec_printemps | booléen |  | 0..1 | Mare à sec entre mars et juin |  |
 
-#### 7.3.43 `RSNat/Sortie_Projet/Variante_Resultat/Site`
+#### 7.3.45 `RSNat/Sortie_Projet/Variante_Resultat/Site`
 
 Sorties des modules S et T (fiches A08, A24, A31).
 
@@ -577,7 +601,7 @@ Sorties des modules S et T (fiches A08, A24, A31).
 | part_pluvial_infiltre | nombre décimal |  | 0..1 | P_inf |  |
 | surface_vitree_non_traitee | nombre décimal | m² | 0..1 | A_vit,nt |  |
 
-#### 7.3.44 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux`
+#### 7.3.46 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux`
 
 Sorties du module G (fiches A32 à A36).
 
@@ -590,7 +614,7 @@ Sorties du module G (fiches A32 à A36).
 | inat_carrieres | nombre décimal | m²HE·an | 1..1 | Inat_carr |  |
 | Pollution_Resultat | élément composé |  | 0..n | Indicateurs de pollution |  |
 
-#### 7.3.45 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Inat_Climat_Phase`
+#### 7.3.47 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Inat_Climat_Phase`
 
 Inat_clim par phase.
 
@@ -599,7 +623,7 @@ Inat_clim par phase.
 | phase | énumération : A1-A3, A4-A5, B, C, D |  | 1..1 | Phase |  |
 | valeur | nombre décimal | m²HE·an | 1..1 | Inat_clim,p |  |
 
-#### 7.3.46 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Pollution_Resultat`
+#### 7.3.48 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Pollution_Resultat`
 
 Indicateurs de pollution.
 
@@ -608,7 +632,7 @@ Indicateurs de pollution.
 | code | entier |  | 1..1 | Code |  |
 | valeur | nombre décimal | unité de l'annexe II | 1..1 | POL_i |  |
 
-#### 7.3.47 `RSNat/Sortie_Projet/Variante_Resultat/Indicateurs`
+#### 7.3.49 `RSNat/Sortie_Projet/Variante_Resultat/Indicateurs`
 
 Indicateurs de l'opération (fiches A37, A38).
 
@@ -625,7 +649,7 @@ Indicateurs de l'opération (fiches A37, A38).
 | cnat_par_m2_parcelle | nombre décimal | m²HE·an/m² | 1..1 | Cnat / S_p |  |
 | inat_par_m2_sref | nombre décimal | m²HE·an/m² | 0..1 | Inat / S_ref |  |
 
-#### 7.3.48 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude`
+#### 7.3.50 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude`
 
 Analyse d'incertitude (fiche A39).
 
@@ -635,7 +659,7 @@ Analyse d'incertitude (fiche A39).
 | Intervalle | élément composé |  | 0..n | Intervalle d'un indicateur |  |
 | Parametre_Influent | élément composé |  | 0..5 | Paramètre parmi les cinq plus influents |  |
 
-#### 7.3.49 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Intervalle`
+#### 7.3.51 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Intervalle`
 
 Intervalle d'un indicateur.
 
@@ -646,7 +670,7 @@ Intervalle d'un indicateur.
 | p50 | nombre décimal |  | 1..1 | Centile 50 |  |
 | p95 | nombre décimal |  | 1..1 | Centile 95 |  |
 
-#### 7.3.50 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Parametre_Influent`
+#### 7.3.52 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Parametre_Influent`
 
 Paramètre parmi les cinq plus influents.
 
@@ -658,7 +682,7 @@ Paramètre parmi les cinq plus influents.
 | parametre | texte |  | 1..1 | Paramètre |  |
 | correlation | nombre décimal |  | 1..1 | ρ de Spearman avec Snat |  |
 
-#### 7.3.51 `RSNat/Sortie_Projet/Variante_Resultat/Conformite`
+#### 7.3.53 `RSNat/Sortie_Projet/Variante_Resultat/Conformite`
 
 Conformité (fiche A40).
 
@@ -669,7 +693,7 @@ Conformité (fiche A40).
 | plu_conforme | booléen |  | 0..1 | conf_PLU |  |
 | niveau_cnat | entier |  | 1..1 | Niveau 0, 1 ou 2 |  |
 
-#### 7.3.52 `RSNat/Attestation_Permis`
+#### 7.3.54 `RSNat/Attestation_Permis`
 
 Attestation de prise en compte de la biodiversité au dépôt du permis de construire (fiche A40, convention C-P1).
 
@@ -685,7 +709,7 @@ Attestation de prise en compte de la biodiversité au dépôt du permis de const
 | conforme | booléen |  | 1..1 | Conclusion de conformité |  |
 | mention | texte |  | 0..1 | Mention, notamment l'écart au minimum du PLU |  |
 
-#### 7.3.53 `RSNat/Attestation_Achevement`
+#### 7.3.55 `RSNat/Attestation_Achevement`
 
 Attestation à l'achèvement (fiche A40).
 
@@ -704,7 +728,7 @@ Attestation à l'achèvement (fiche A40).
 | inat_par_m2_sref | nombre décimal | m²HE·an/m² | 0..1 | Inat / S_ref |  |
 | niveau_cnat | entier |  | 1..1 | Niveau atteint |  |
 
-#### 7.3.54 `RSNat/Empreinte`
+#### 7.3.56 `RSNat/Empreinte`
 
 Empreintes de contrôle (fiche A42).
 
@@ -736,21 +760,177 @@ Empreintes de contrôle (fiche A42).
 | zone_climatique | H1a, H1b, H1c, H2a, H2b, H2c, H2d, H3 |
 | texture | sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |
 | fond_mare | etanche, argile, naturel |
+| alimentation_humide | nappe, pluie |
 | regime_gestion | plan, courante, abandon |
 | niveau_rechauffement | 2_0, 2_7, 4_0 |
 | groupe_hydrique | gazon, prairie, xerophile, arbustif, arbore, conifere, toiture_extensive, humide_pluie, mare |
 
 ### 7.5 Exemple
 
-Extrait du fichier `schemas/exemple_annexe_C.rsnat.xml`, bloc Attestation_Permis :
+Extrait du fichier `schemas/exemple_annexe_C.rsnat.xml`, écrit par le moteur, blocs Indicateurs et Attestation_Permis :
 
 ```
+<Indicateurs>
+  <cnat>3217.2</cnat>
+  <cnat_moyen>64.3</cnat_moyen>
+  <cnat_relatif>0.2423</cnat_relatif>
+  <cnat_30>1988.1</cnat_30>
+  <inat>141842.9</inat>
+  <snat>-145060.0</snat>
+  <bnat>59.0</bnat>
+  <cbs>0.5900</cbs>
+  <cnat_par_m2_parcelle>1.6086</cnat_par_m2_parcelle>
+  <inat_par_m2_sref>101.3163</inat_par_m2_sref>
+</Indicateurs>
 <Attestation_Permis>
   <variante>1</variante>
   <bnat>59.0</bnat>
-  <bnat_min>45</bnat_min>
-  <pleine_terre>0.425</pleine_terre>
-  <pleine_terre_min>0.15</pleine_terre_min>
+  <bnat_min>45.0</bnat_min>
+  <pleine_terre>0.4250</pleine_terre>
+  <pleine_terre_min>0.1500</pleine_terre_min>
   <conforme>true</conforme>
 </Attestation_Permis>
 ```
+
+### 7.6 Fichier projet
+
+Le fichier projet est l'entrée du moteur : un fichier JSON, validé contre `schemas/projet.schema.json` avant tout calcul. Il porte les données du chapitre 4 de la partie 1. Quand un RSEE est indiqué (`projet.rsee`), la parcelle, les bâtiments, les indicateurs d'ACV, la zone climatique, le département et l'altitude s'en reprennent (fiche A05) ; une donnée saisie l'emporte sur celle du RSEE. Les valeurs par défaut appliquées sont écrites au journal du calcul.
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `format` | « OpenNAT projet 1 » | oui |  |
+| `projet` | objet | oui |  |
+| `projet.identifiant` | texte | oui |  |
+| `projet.nom` | texte |  |  |
+| `projet.adresse` | texte |  |  |
+| `projet.commune_insee` | texte |  |  |
+| `projet.date_etude` | texte |  |  |
+| `projet.rsee` | texte |  | Chemin d'un RSEE à reprendre (fiche A05) |
+| `contexte` | objet | oui |  |
+| `contexte.zone_biogeographique` | un de : atlantique, continentale, mediterraneenne, alpine | oui |  |
+| `contexte.typologie` | un de : logement, tertiaire, industrie, amenagement | oui |  |
+| `contexte.zone_climatique` | un de : H1a, H1b, H1c, H2a, H2b, H2c, H2d, H3 | oui |  |
+| `contexte.departement` | texte |  |  |
+| `contexte.altitude` | number ou null |  |  |
+| `contexte.sol` | objet |  |  |
+| `contexte.sol.texture` | un de : sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |  |  |
+| `contexte.sol.profondeur` | nombre |  |  |
+| `contexte.cbs_plu` | nombre |  |  |
+| `contexte.pleine_terre_plu` | nombre |  |  |
+| `contexte.k_delai_etude` | nombre |  | Étude de sensibilité des délais (cas 8c) |
+| `parcelle` | objet | oui |  |
+| `parcelle.surface` | nombre | oui |  |
+| `parcelle.emprise` | nombre |  | Emprise du bâti quand aucun bâtiment n'est décrit |
+| `parcelle.surface_vegetalisee_rsee` | nombre |  |  |
+| `parcelle.surface_impermeable_rsee` | nombre |  |  |
+| `parcelle.surface_arrosee_rsee` | nombre |  |  |
+| `chantier` | voir chantier |  |  |
+| `gestion` | voir gestion |  |  |
+| `taches` | objet |  |  |
+| `batiments` | liste |  |  |
+| `etat_initial` | liste | oui |  |
+| `variantes` | liste | oui |  |
+| `options` | objet |  |  |
+| `options.tirages` | entier |  |  |
+| `options.graine` | entier |  |  |
+| `options.bloc` | entier |  |  |
+
+#### Définition `chantier`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `annee_debut` | entier |  |  |
+| `mois_debut` | entier |  |  |
+| `duree_mois` | nombre |  |  |
+| `mois_destruction` | entier |  |  |
+
+#### Définition `gestion`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `plan_annees` | nombre |  |  |
+
+#### Définition `tache`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `connexion` | un de : forte, moyenne, faible |  |  |
+| `exterieur` | nombre |  |  |
+| `cloture` | un de : aucune, permeable, etanche |  |  |
+| `distance_espace_naturel` | nombre |  |  |
+| `surface_espace_naturel` | nombre |  |  |
+| `trame` | booléen |  |  |
+
+#### Définition `batiment`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `nom` | texte |  |  |
+| `sref` | nombre |  |  |
+| `emprise_au_sol` | nombre |  |  |
+| `duree_chantier` | nombre |  |  |
+| `ges` | objet |  |  |
+| `pollution` | objet |  |  |
+
+#### Définition `eclairage`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+|  | un de : L0, L1, L2 ou objet |  |  |
+
+#### Définition `unite`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `id` | texte | oui |  |
+| `code` | texte | oui |  |
+| `position` | un de : sol_pleine_terre, sol_sur_dalle, hors_sol_toiture, hors_sol_facade, eau, arbre, lineaire |  |  |
+| `surface` | nombre |  |  |
+| `epaisseur` | nombre |  |  |
+| `longueur` | nombre |  |  |
+| `largeur` | nombre |  |  |
+| `hauteur` | nombre |  |  |
+| `nombre_arbres` | entier |  |  |
+| `classe_diametre` | un de : petit, moyen, grand, tres_grand |  |  |
+| `stade` | un de : J, M, A, jeune, moyen, age |  |  |
+| `situation` | un de : reservoir, corridor, hors_trame |  |  |
+| `tache` | texte |  |  |
+| `criteres` | objet |  |  |
+| `notes` | objet |  |  |
+| `score` | objet |  |  |
+| `eclairage` | voir eclairage |  |  |
+| `niveau_sonore` | nombre |  |  |
+| `exposition_vitrage` | booléen |  |  |
+| `alimentation` | un de : naturelle, artificielle |  |  |
+| `alimentation_humide` | un de : nappe, pluie |  |  |
+| `statut` | un de : conservee, creee, amelioree |  |  |
+| `liee` | texte |  |  |
+| `protection` | booléen |  |  |
+| `renouvellements` | liste |  |  |
+| `arrose` | booléen |  |  |
+| `texture` | un de : sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |  |  |
+| `profondeur_sol` | nombre |  |  |
+| `bassin_versant` | nombre |  |  |
+| `bassin_versant_permeable` | nombre |  |  |
+| `profondeur` | nombre |  |  |
+| `fond` | un de : etanche, argile, naturel |  |  |
+| `gites` | booléen |  |  |
+| `gestion` | un de : plan, courante, abandon |  |  |
+| `apres_plan` | un de : courante, abandon |  |  |
+| `plan_gestion_annees` | nombre |  |  |
+
+#### Définition `variante`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `nom` | texte | oui |  |
+| `reference` | booléen |  |  |
+| `unites` | liste | oui |  |
+| `batiments` | liste |  |  |
+| `materiaux` | objet |  |  |
+| `ouvrages_pluviaux` | liste |  |  |
+| `facades_vitrees` | liste |  |  |
+| `taches` | objet |  |  |
+| `chantier` | voir chantier |  |  |
+| `gestion` | voir gestion |  |  |
+| `emprise` | nombre |  |  |

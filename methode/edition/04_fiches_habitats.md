@@ -15,7 +15,7 @@ Les valeurs de référence de chaque fiche sont calculées pour 100 m² d'habita
 | Code OpenNAT | VB.1 |
 | EUNIS 2012 | J1, J1.1, J1.2, J1.3, J1.4, J1.7, J2.1, J2.2, J2.3, J2.4 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 5 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -61,19 +61,6 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Surface scellée : valeur nulle commune à la BKompV (52.03.01) et à la métrique anglaise (u1b) ; les types BKompV 53.01 incluent leurs espaces libres et ne conviennent pas à une emprise seule.
 
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
-
 **Délais et difficultés (module T, équations T3 et T4)**
 
 | Paramètre | Valeur | Source |
@@ -85,9 +72,7 @@ Correspondance retenue : Surface scellée : valeur nulle commune à la BKompV (5
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 0 |
-| État moyen | 0 |
-| Mauvais état | 0 |
+| Sans grille (f = 1) | 0 |
 
 **Exemple de saisie dans le fichier projet (partie 7)**
 
@@ -98,40 +83,6 @@ Correspondance retenue : Surface scellée : valeur nulle commune à la BKompV (5
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -148,7 +99,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | VB.2 |
 | EUNIS 2012 | J4.2, J4.1, J4.4, J4.5, J4.7 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 2 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -170,19 +121,6 @@ Surfaces revêtues d'un matériau étanche à l'air et à l'eau, hors bâtiments
 
 Correspondance retenue : Voie ou aire scellée.
 
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
-
 **Délais et difficultés (module T, équations T3 et T4)**
 
 | Paramètre | Valeur | Source |
@@ -194,9 +132,7 @@ Correspondance retenue : Voie ou aire scellée.
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 0 |
-| État moyen | 0 |
-| Mauvais état | 0 |
+| Sans grille (f = 1) | 0 |
 
 **Exemple de saisie dans le fichier projet (partie 7)**
 
@@ -207,40 +143,6 @@ Correspondance retenue : Voie ou aire scellée.
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -257,7 +159,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | VB.3 |
 | EUNIS 2012 | J4.6 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 0 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -272,19 +174,6 @@ Surfaces minérales perméables sans végétation prévue : stabilisés, gravier
 
 Correspondance retenue : Place à revêtement gravillonné ou à liant hydraulique (wassergebundene Decke).
 
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
-
 **Délais et difficultés (module T, équations T3 et T4)**
 
 | Paramètre | Valeur | Source |
@@ -296,9 +185,7 @@ Correspondance retenue : Place à revêtement gravillonné ou à liant hydrauliq
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 16,67 |
-| État moyen | 14,59 |
-| Mauvais état | 11,67 |
+| Sans grille (f = 1) | 16,67 |
 
 **Exemple de saisie dans le fichier projet (partie 7)**
 
@@ -309,40 +196,6 @@ Correspondance retenue : Place à revêtement gravillonné ou à liant hydrauliq
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -359,7 +212,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | VB.4 |
 | EUNIS 2012 | J4.6 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 0 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -374,19 +227,6 @@ Surfaces stabilisées perméables conçues pour porter une végétation durable 
 
 Correspondance retenue : Place partiellement stabilisée (Rasengitter).
 
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
-
 **Délais et difficultés (module T, équations T3 et T4)**
 
 | Paramètre | Valeur | Source |
@@ -398,9 +238,7 @@ Correspondance retenue : Place partiellement stabilisée (Rasengitter).
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 12,5 |
-| État moyen | 10,94 |
-| Mauvais état | 8,75 |
+| Sans grille (f = 1) | 12,5 |
 
 **Exemple de saisie dans le fichier projet (partie 7)**
 
@@ -411,40 +249,6 @@ Correspondance retenue : Place partiellement stabilisée (Rasengitter).
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -1125,7 +929,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | VB.10 |
 | EUNIS 2012 | J1.6, J2.7, J6.1 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 0 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -1139,19 +943,6 @@ Sol mis à nu par un chantier, un terrassement ou une démolition, sans couvert 
 | Valeur intrinsèque | 0,125 m²HE/m² | 0,1125 à 0,1375 | code 32.11.09a, « Bauflächen und Baustelleneinrichtungsflächen », Biotoptypenwert 3 sur 24 (ligne 289 de l'extraction) |
 
 Correspondance retenue : Surfaces de chantier et d'installations de chantier.
-
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -1170,9 +961,7 @@ Correspondance retenue : Surfaces de chantier et d'installations de chantier.
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 12,5 |
-| État moyen | 10,94 |
-| Mauvais état | 8,75 |
+| Sans grille (f = 1) | 12,5 |
 
 **Trajectoire de 100 m² créés (équation T3)**
 
@@ -1193,40 +982,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -3082,7 +2837,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | VB.25 |
 | EUNIS 2012 | J4.3 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 1 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -3103,19 +2858,6 @@ Plate-forme ferroviaire en service ou non, ballast et abords immédiats.
 
 Correspondance retenue : Plate-forme ferroviaire.
 
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
-
 **Délais et difficultés (module T, équations T3 et T4)**
 
 | Paramètre | Valeur | Source |
@@ -3127,9 +2869,7 @@ Correspondance retenue : Plate-forme ferroviaire.
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 4,17 |
-| État moyen | 3,65 |
-| Mauvais état | 2,92 |
+| Sans grille (f = 1) | 4,17 |
 
 **Exemple de saisie dans le fichier projet (partie 7)**
 
@@ -3140,40 +2880,6 @@ Correspondance retenue : Plate-forme ferroviaire.
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -37427,7 +37133,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | H5.6 |
 | EUNIS 2012 | H5.6 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 0 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -37442,19 +37148,6 @@ Sol nu résultant du piétinement par l'homme ou les animaux.
 
 Correspondance retenue : Chemin non stabilisé.
 
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
-
 **Délais et difficultés (module T, équations T3 et T4)**
 
 | Paramètre | Valeur | Source |
@@ -37466,9 +37159,7 @@ Correspondance retenue : Chemin non stabilisé.
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 41,67 |
-| État moyen | 36,46 |
-| Mauvais état | 29,17 |
+| Sans grille (f = 1) | 41,67 |
 
 Posé sur dalle (convention C-S2), en bon état, 100 m² valent : moins de 15 cm de substrat 20,84 m²HE, 15 à 30 cm 25 m²HE, 30 à 80 cm 29,17 m²HE, 80 cm et plus 37,5 m²HE.
 
@@ -37481,40 +37172,6 @@ Posé sur dalle (convention C-S2), en bon état, 100 m² valent : moins de 15 cm
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 

@@ -30,6 +30,10 @@ TABLES = OrderedDict([
                        'spectral (module N, fiches A51 à A53).')),
     ('succession.csv', ('Maturation, gestion et succession', 'Courbe de Chapman-Richards, couples exploité et '
                         'abandonné de la BKompV, délais de succession (module T, fiches A54 à A56).')),
+    ('constantes.csv', ('Constantes des équations et valeurs de règle', 'Constantes de la FAO-56 et de l\'atmosphère '
+                        'type, raccourcis d\'éclairage, heure légale, jalons de la TRACC, seuils de contrôle, réglages '
+                        'de l\'analyse d\'incertitude : tout ce que le moteur lit au lieu de l\'écrire dans son code '
+                        '(exigence E2).')),
     ('chantier.csv', ('Calendrier du chantier', 'Sensibilité mensuelle des oiseaux nicheurs, des chiroptères et '
                       'des amphibiens, saison de plantation, année de début par défaut (module T, fiches A57 et '
                       'A58).')),

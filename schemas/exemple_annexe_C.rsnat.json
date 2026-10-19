@@ -1,0 +1,826 @@
+{
+ "RSNat": {
+  "version_methode": "OpenNAT 1",
+  "version_donnees": "1e8f76c435feb0332e70096dff7f082f43f3498e4c163bee84a3e6cd2aefada0",
+  "graine": 20261018,
+  "date_calcul": "2026-10-18",
+  "Entree_Projet": {
+   "Projet": {
+    "identifiant": "exemple_de_l_annexe_c",
+    "nom": "Exemple de l'annexe C",
+    "zone_biogeographique": "continentale",
+    "zone_climatique": "H1a",
+    "texture_sol": "limon",
+    "profondeur_sol": 1.0,
+    "annee_debut_chantier": 2027,
+    "mois_debut_chantier": 9,
+    "plan_gestion_annees": 10,
+    "typologie": "logement",
+    "date_etude": "2026-10-18"
+   },
+   "Parcelle": {
+    "surface": 2000.0
+   },
+   "Batiment_Collection": {
+    "Batiment": [
+     {
+      "index": 1,
+      "nom": "Bâtiment",
+      "sref": 1400.0,
+      "emprise_au_sol": 700.0,
+      "duree_chantier": 18.0,
+      "Ges_Collection": {
+       "Ges": [
+        {
+         "phase": "A1-A3",
+         "valeur": 470.0
+        },
+        {
+         "phase": "B",
+         "valeur": 400.0
+        },
+        {
+         "phase": "C",
+         "valeur": 55.0
+        },
+        {
+         "phase": "D",
+         "valeur": -40.0
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "Tache_Collection": {
+    "Tache": [
+     {
+      "identifiant": "P1"
+     },
+     {
+      "identifiant": "P2"
+     },
+     {
+      "identifiant": "P3"
+     }
+    ]
+   },
+   "Etat_Initial": {
+    "Unite_Collection": {
+     "Unite": [
+      {
+       "identifiant": "U0-1",
+       "code_habitat": "VB.8",
+       "position": "sol_pleine_terre",
+       "surface": 1200.0,
+       "tache": "P1",
+       "Score_Declare": {
+        "satisfaits": 3,
+        "applicables": 4,
+        "essentiel_echoue": true
+       }
+      },
+      {
+       "identifiant": "U0-2",
+       "code_habitat": "VB.2",
+       "position": "sol_pleine_terre",
+       "surface": 600.0
+      },
+      {
+       "identifiant": "U0-3",
+       "code_habitat": "VB.9",
+       "position": "sol_pleine_terre",
+       "surface": 200.0,
+       "tache": "P1",
+       "Score_Declare": {
+        "satisfaits": 2,
+        "applicables": 5,
+        "essentiel_echoue": false
+       }
+      },
+      {
+       "identifiant": "U0-4",
+       "code_habitat": "VB.18a",
+       "position": "arbre",
+       "surface": 100.0,
+       "stade": "M",
+       "tache": "P1",
+       "Score_Declare": {
+        "satisfaits": 5,
+        "applicables": 6,
+        "essentiel_echoue": false
+       }
+      }
+     ]
+    }
+   },
+   "Variante_Collection": {
+    "Variante": [
+     {
+      "index": 1,
+      "nom": "Projet",
+      "reference": true,
+      "Unite_Collection": {
+       "Unite": [
+        {
+         "identifiant": "U1-1",
+         "code_habitat": "VB.1",
+         "position": "sol_pleine_terre",
+         "surface": 700.0
+        },
+        {
+         "identifiant": "U1-2",
+         "code_habitat": "VB.2",
+         "position": "sol_pleine_terre",
+         "surface": 300.0
+        },
+        {
+         "identifiant": "U1-3",
+         "code_habitat": "VB.3",
+         "position": "sol_pleine_terre",
+         "surface": 150.0
+        },
+        {
+         "identifiant": "U1-4",
+         "code_habitat": "VB.26",
+         "position": "sol_pleine_terre",
+         "surface": 450.0,
+         "tache": "P2",
+         "eclairage": "L1",
+         "Score_Declare": {
+          "satisfaits": 4,
+          "applicables": 6,
+          "essentiel_echoue": false
+         }
+        },
+        {
+         "identifiant": "U1-5",
+         "code_habitat": "VB.7",
+         "position": "sol_pleine_terre",
+         "surface": 320.0,
+         "tache": "P2",
+         "Score_Declare": {
+          "satisfaits": 2,
+          "applicables": 3,
+          "essentiel_echoue": false
+         }
+        },
+        {
+         "identifiant": "U1-6",
+         "code_habitat": "FA.3",
+         "position": "lineaire",
+         "surface": 80.0,
+         "stade": "M",
+         "tache": "P2",
+         "Score_Declare": {
+          "satisfaits": 6,
+          "applicables": 8,
+          "essentiel_echoue": false
+         }
+        },
+        {
+         "identifiant": "U1-7",
+         "code_habitat": "VB.18a",
+         "position": "arbre",
+         "surface": 100.0,
+         "stade": "M",
+         "tache": "P2",
+         "statut": "conservee",
+         "unite_liee": "U0-4",
+         "protection_chantier": true,
+         "Score_Declare": {
+          "satisfaits": 5,
+          "applicables": 6,
+          "essentiel_echoue": false
+         }
+        },
+        {
+         "identifiant": "U1-8",
+         "code_habitat": "VB.12",
+         "position": "hors_sol_toiture",
+         "surface": 500.0,
+         "epaisseur_substrat": 15.0,
+         "tache": "P3",
+         "Score_Declare": {
+          "satisfaits": 4,
+          "applicables": 4,
+          "essentiel_echoue": false
+         }
+        }
+       ]
+      },
+      "Bois_Collection": {
+       "Bois": [
+        {
+         "regime": "coupe_rase",
+         "volume": 30.0,
+         "remplacements": 0
+        }
+       ]
+      },
+      "Granulats": {
+       "masse": 1800.0
+      }
+     }
+    ]
+   }
+  },
+  "Sortie_Projet": {
+   "Variante_Resultat": [
+    {
+     "index": 1,
+     "Contexte": {
+      "part_emprise": 0.35,
+      "bnat_min": 45.0,
+      "pleine_terre_min": 0.15,
+      "multiplicateur_delai": 1.0
+     },
+     "Fermeture_Collection": {
+      "Fermeture": [
+       {
+        "etat": "initial",
+        "somme": 2000.0,
+        "ecart": 0.0,
+        "conforme": true
+       },
+       {
+        "etat": "projet",
+        "somme": 2000.0,
+        "ecart": 0.0,
+        "conforme": true
+       }
+      ]
+     },
+     "Unite_Resultat_Collection": {
+      "Unite_Resultat": [
+       {
+        "identifiant": "U0-1",
+        "etat": "initial",
+        "type": "VB.8",
+        "nature_surface": "S08",
+        "coefficient_sol": 1.0,
+        "facteur_support": 1.0,
+        "valeur_intrinseque": 0.5,
+        "score_etat": 0.5,
+        "facteur_etat": 0.75,
+        "classe_etat": "mauvais",
+        "multiplicateur_situation": 1.0,
+        "facteur_taille": 0.4684,
+        "facteur_connectivite": 0.4684,
+        "facteur_eclairage": 1.0,
+        "facteur_nuisances": 1.0,
+        "facteur_eau": 1.0,
+        "valeur_habitat": 450.0,
+        "valeur_maturite": 210.8,
+        "groupe_hydrique": "prairie",
+        "reserve_utile": 130.0,
+        "Bilan_Hydrique": [
+         {
+          "niveau": "2_0",
+          "indice_stress": 2.1,
+          "indice_stress_reference": 2.1,
+          "facteur_hydrique": 1.0,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "2_7",
+          "indice_stress": 11.2,
+          "indice_stress_reference": 2.1,
+          "facteur_hydrique": 0.9838,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "4_0",
+          "indice_stress": 26.2,
+          "indice_stress_reference": 2.1,
+          "facteur_hydrique": 0.924,
+          "arrosage": 0.0
+         }
+        ],
+        "facteurs_hydriques": "1.0000 1.0000 1.0000 1.0000 0.9992 0.9984 0.9976 0.9968 0.9959 0.9951 0.9943 0.9935 0.9927 0.9919 0.9911 0.9903 0.9895 0.9887 0.9878 0.9870 0.9862 0.9854 0.9846 0.9838 0.9826 0.9814 0.9802 0.9790 0.9778 0.9766 0.9754 0.9742 0.9730 0.9718 0.9706 0.9694 0.9682 0.9670 0.9658 0.9646 0.9635 0.9623 0.9611 0.9599 0.9587 0.9575 0.9563 0.9551 0.9539 0.9527"
+       },
+       {
+        "identifiant": "U0-2",
+        "etat": "initial",
+        "type": "VB.2",
+        "nature_surface": "S01",
+        "coefficient_sol": 0.0,
+        "facteur_support": 1.0,
+        "valeur_intrinseque": 0.0,
+        "facteur_etat": 1.0,
+        "classe_etat": "sans_etat",
+        "multiplicateur_situation": 1.0,
+        "facteur_connectivite": 1.0,
+        "facteur_eclairage": 1.0,
+        "facteur_nuisances": 1.0,
+        "facteur_eau": 1.0,
+        "valeur_habitat": 0.0,
+        "valeur_maturite": 0.0,
+        "facteurs_hydriques": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000"
+       },
+       {
+        "identifiant": "U0-3",
+        "etat": "initial",
+        "type": "VB.9",
+        "nature_surface": "S08",
+        "coefficient_sol": 1.0,
+        "facteur_support": 1.0,
+        "valeur_intrinseque": 0.5,
+        "score_etat": 0.4,
+        "facteur_etat": 0.7,
+        "classe_etat": "mauvais",
+        "multiplicateur_situation": 1.0,
+        "facteur_taille": 0.4684,
+        "facteur_connectivite": 0.4684,
+        "facteur_eclairage": 1.0,
+        "facteur_nuisances": 1.0,
+        "facteur_eau": 1.0,
+        "valeur_habitat": 70.0,
+        "valeur_maturite": 32.8,
+        "groupe_hydrique": "arbustif",
+        "reserve_utile": 117.0,
+        "Bilan_Hydrique": [
+         {
+          "niveau": "2_0",
+          "indice_stress": 33.3,
+          "indice_stress_reference": 33.3,
+          "facteur_hydrique": 1.0,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "2_7",
+          "indice_stress": 37.4,
+          "indice_stress_reference": 33.3,
+          "facteur_hydrique": 1.0,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "4_0",
+          "indice_stress": 47.7,
+          "indice_stress_reference": 33.3,
+          "facteur_hydrique": 0.9433,
+          "arrosage": 0.0
+         }
+        ],
+        "facteurs_hydriques": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.9989 0.9977 0.9966 0.9955 0.9943 0.9932 0.9921 0.9909 0.9898 0.9887 0.9875 0.9864 0.9852 0.9841 0.9830 0.9818 0.9807 0.9796 0.9784 0.9773 0.9762 0.9750 0.9739 0.9728 0.9716 0.9705"
+       },
+       {
+        "identifiant": "U0-4",
+        "etat": "initial",
+        "type": "VB.18a",
+        "facteur_support": 1.0,
+        "valeur_intrinseque": 0.625,
+        "score_etat": 0.8333,
+        "facteur_etat": 0.9167,
+        "classe_etat": "moyen",
+        "multiplicateur_situation": 1.0,
+        "facteur_taille": 0.4684,
+        "facteur_connectivite": 0.4684,
+        "facteur_eclairage": 1.0,
+        "facteur_nuisances": 1.0,
+        "facteur_eau": 1.0,
+        "valeur_habitat": 57.3,
+        "valeur_maturite": 26.8,
+        "groupe_hydrique": "arbore",
+        "reserve_utile": 130.0,
+        "Bilan_Hydrique": [
+         {
+          "niveau": "2_0",
+          "indice_stress": 45.8,
+          "indice_stress_reference": 45.8,
+          "facteur_hydrique": 1.0,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "2_7",
+          "indice_stress": 48.9,
+          "indice_stress_reference": 45.8,
+          "facteur_hydrique": 1.0,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "4_0",
+          "indice_stress": 61.4,
+          "indice_stress_reference": 45.8,
+          "facteur_hydrique": 0.9154,
+          "arrosage": 0.0
+         }
+        ],
+        "facteurs_hydriques": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.9983 0.9966 0.9949 0.9932 0.9915 0.9899 0.9882 0.9865 0.9848 0.9831 0.9814 0.9797 0.9780 0.9763 0.9746 0.9729 0.9713 0.9696 0.9679 0.9662 0.9645 0.9628 0.9611 0.9594 0.9577 0.9560"
+       },
+       {
+        "identifiant": "U1-1",
+        "etat": "projet",
+        "type": "VB.1",
+        "nature_surface": "S01",
+        "coefficient_sol": 0.0,
+        "facteur_support": 1.0,
+        "valeur_intrinseque": 0.0,
+        "facteur_etat": 1.0,
+        "classe_etat": "sans_etat",
+        "multiplicateur_situation": 1.0,
+        "facteur_connectivite": 1.0,
+        "facteur_eclairage": 1.0,
+        "facteur_nuisances": 1.0,
+        "facteur_eau": 1.0,
+        "valeur_habitat": 0.0,
+        "valeur_maturite": 0.0,
+        "delai": 0.0,
+        "difficulte": 1.0,
+        "mois_depart_maturation": 18,
+        "facteurs_hydriques": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000",
+        "facteurs_gestion": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000",
+        "trajectoire": "0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0",
+        "valeur_integree": 0.0
+       },
+       {
+        "identifiant": "U1-2",
+        "etat": "projet",
+        "type": "VB.2",
+        "nature_surface": "S01",
+        "coefficient_sol": 0.0,
+        "facteur_support": 1.0,
+        "valeur_intrinseque": 0.0,
+        "facteur_etat": 1.0,
+        "classe_etat": "sans_etat",
+        "multiplicateur_situation": 1.0,
+        "facteur_connectivite": 1.0,
+        "facteur_eclairage": 1.0,
+        "facteur_nuisances": 1.0,
+        "facteur_eau": 1.0,
+        "valeur_habitat": 0.0,
+        "valeur_maturite": 0.0,
+        "delai": 0.0,
+        "difficulte": 1.0,
+        "mois_depart_maturation": 18,
+        "facteurs_hydriques": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000",
+        "facteurs_gestion": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000",
+        "trajectoire": "0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0",
+        "valeur_integree": 0.0
+       },
+       {
+        "identifiant": "U1-3",
+        "etat": "projet",
+        "type": "VB.3",
+        "nature_surface": "S02",
+        "coefficient_sol": 0.2,
+        "facteur_support": 1.0,
+        "valeur_intrinseque": 0.1667,
+        "facteur_etat": 1.0,
+        "classe_etat": "sans_etat",
+        "multiplicateur_situation": 1.0,
+        "facteur_taille": 0.35,
+        "facteur_connectivite": 0.35,
+        "facteur_eclairage": 1.0,
+        "facteur_nuisances": 1.0,
+        "facteur_eau": 1.0,
+        "valeur_habitat": 25.0,
+        "valeur_maturite": 8.8,
+        "delai": 0.0,
+        "difficulte": 1.0,
+        "mois_depart_maturation": 18,
+        "facteurs_hydriques": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000",
+        "facteurs_gestion": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000",
+        "trajectoire": "0.0 4.4 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8",
+        "valeur_integree": 424.5
+       },
+       {
+        "identifiant": "U1-4",
+        "etat": "projet",
+        "type": "VB.26",
+        "nature_surface": "S08",
+        "coefficient_sol": 1.0,
+        "facteur_support": 1.0,
+        "valeur_intrinseque": 0.625,
+        "score_etat": 0.6667,
+        "facteur_etat": 0.8333,
+        "classe_etat": "moyen",
+        "multiplicateur_situation": 1.0,
+        "facteur_taille": 0.4197,
+        "facteur_connectivite": 0.4197,
+        "facteur_eclairage": 0.916,
+        "fraction_nuit_eclairee": 0.3732,
+        "facteur_nuisances": 0.916,
+        "facteur_eau": 1.0,
+        "valeur_habitat": 234.4,
+        "valeur_maturite": 90.1,
+        "delai": 5.0,
+        "difficulte": 1.0,
+        "groupe_hydrique": "prairie",
+        "reserve_utile": 130.0,
+        "Bilan_Hydrique": [
+         {
+          "niveau": "2_0",
+          "indice_stress": 2.1,
+          "indice_stress_reference": 2.1,
+          "facteur_hydrique": 1.0,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "2_7",
+          "indice_stress": 11.2,
+          "indice_stress_reference": 2.1,
+          "facteur_hydrique": 0.9838,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "4_0",
+          "indice_stress": 26.2,
+          "indice_stress_reference": 2.1,
+          "facteur_hydrique": 0.924,
+          "arrosage": 0.0
+         }
+        ],
+        "mois_depart_maturation": 16,
+        "facteurs_hydriques": "1.0000 1.0000 1.0000 1.0000 0.9992 0.9984 0.9976 0.9968 0.9959 0.9951 0.9943 0.9935 0.9927 0.9919 0.9911 0.9903 0.9895 0.9887 0.9878 0.9870 0.9862 0.9854 0.9846 0.9838 0.9826 0.9814 0.9802 0.9790 0.9778 0.9766 0.9754 0.9742 0.9730 0.9718 0.9706 0.9694 0.9682 0.9670 0.9658 0.9646 0.9635 0.9623 0.9611 0.9599 0.9587 0.9575 0.9563 0.9551 0.9539 0.9527",
+        "facteurs_gestion": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333",
+        "trajectoire": "0.0 12.4 48.2 69.2 80.7 87.0 89.8 89.8 89.7 89.7 89.6 89.5 47.7 47.7 47.6 47.6 47.5 47.5 47.5 47.4 47.4 47.3 47.3 47.3 47.2 47.2 47.1 47.0 47.0 46.9 46.9 46.8 46.8 46.7 46.6 46.6 46.5 46.5 46.4 46.4 46.3 46.2 46.2 46.1 46.1 46.0 45.9 45.9 45.8 45.8",
+        "valeur_integree": 2614.3
+       },
+       {
+        "identifiant": "U1-5",
+        "etat": "projet",
+        "type": "VB.7",
+        "nature_surface": "S08",
+        "coefficient_sol": 1.0,
+        "facteur_support": 1.0,
+        "valeur_intrinseque": 0.4583,
+        "score_etat": 0.6667,
+        "facteur_etat": 0.8333,
+        "classe_etat": "moyen",
+        "multiplicateur_situation": 1.0,
+        "facteur_taille": 0.4197,
+        "facteur_connectivite": 0.4197,
+        "facteur_eclairage": 1.0,
+        "facteur_nuisances": 1.0,
+        "facteur_eau": 1.0,
+        "valeur_habitat": 122.2,
+        "valeur_maturite": 51.3,
+        "delai": 1.0,
+        "difficulte": 1.0,
+        "groupe_hydrique": "prairie",
+        "reserve_utile": 130.0,
+        "Bilan_Hydrique": [
+         {
+          "niveau": "2_0",
+          "indice_stress": 2.1,
+          "indice_stress_reference": 2.1,
+          "facteur_hydrique": 1.0,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "2_7",
+          "indice_stress": 11.2,
+          "indice_stress_reference": 2.1,
+          "facteur_hydrique": 0.9838,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "4_0",
+          "indice_stress": 26.2,
+          "indice_stress_reference": 2.1,
+          "facteur_hydrique": 0.924,
+          "arrosage": 0.0
+         }
+        ],
+        "mois_depart_maturation": 16,
+        "facteurs_hydriques": "1.0000 1.0000 1.0000 1.0000 0.9992 0.9984 0.9976 0.9968 0.9959 0.9951 0.9943 0.9935 0.9927 0.9919 0.9911 0.9903 0.9895 0.9887 0.9878 0.9870 0.9862 0.9854 0.9846 0.9838 0.9826 0.9814 0.9802 0.9790 0.9778 0.9766 0.9754 0.9742 0.9730 0.9718 0.9706 0.9694 0.9682 0.9670 0.9658 0.9646 0.9635 0.9623 0.9611 0.9599 0.9587 0.9575 0.9563 0.9551 0.9539 0.9527",
+        "facteurs_gestion": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000",
+        "trajectoire": "0.0 22.3 50.8 51.3 51.2 51.2 51.2 51.1 51.1 51.0 51.0 51.0 50.9 50.9 50.8 50.8 50.7 50.7 50.7 50.6 50.6 50.5 50.5 50.5 50.4 50.3 50.3 50.2 50.2 50.1 50.0 50.0 49.9 49.8 49.8 49.7 49.7 49.6 49.5 49.5 49.4 49.4 49.3 49.2 49.2 49.1 49.0 49.0 48.9 48.9",
+        "valeur_integree": 2431.9
+       },
+       {
+        "identifiant": "U1-6",
+        "etat": "projet",
+        "type": "FA.3",
+        "nature_surface": "S08",
+        "coefficient_sol": 1.0,
+        "facteur_support": 1.0,
+        "valeur_intrinseque": 0.6667,
+        "score_etat": 0.75,
+        "facteur_etat": 0.875,
+        "classe_etat": "moyen",
+        "multiplicateur_situation": 1.0,
+        "facteur_taille": 0.4197,
+        "facteur_connectivite": 0.4197,
+        "facteur_eclairage": 1.0,
+        "facteur_nuisances": 1.0,
+        "facteur_eau": 1.0,
+        "valeur_habitat": 46.7,
+        "valeur_maturite": 19.6,
+        "delai": 5.0,
+        "difficulte": 1.0,
+        "groupe_hydrique": "arbustif",
+        "reserve_utile": 117.0,
+        "Bilan_Hydrique": [
+         {
+          "niveau": "2_0",
+          "indice_stress": 33.3,
+          "indice_stress_reference": 33.3,
+          "facteur_hydrique": 1.0,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "2_7",
+          "indice_stress": 37.4,
+          "indice_stress_reference": 33.3,
+          "facteur_hydrique": 1.0,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "4_0",
+          "indice_stress": 47.7,
+          "indice_stress_reference": 33.3,
+          "facteur_hydrique": 0.9433,
+          "arrosage": 0.0
+         }
+        ],
+        "mois_depart_maturation": 16,
+        "facteurs_hydriques": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.9989 0.9977 0.9966 0.9955 0.9943 0.9932 0.9921 0.9909 0.9898 0.9887 0.9875 0.9864 0.9852 0.9841 0.9830 0.9818 0.9807 0.9796 0.9784 0.9773 0.9762 0.9750 0.9739 0.9728 0.9716 0.9705",
+        "facteurs_gestion": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500",
+        "trajectoire": "0.0 0.7 5.8 11.6 15.8 18.3 19.5 19.6 19.6 19.6 19.6 19.6 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.6 14.6 14.6 14.6 14.6 14.6 14.5 14.5 14.5 14.5 14.5 14.5 14.4 14.4 14.4 14.4 14.4 14.4 14.3 14.3 14.3 14.3 14.3 14.3",
+        "valeur_integree": 721.9
+       },
+       {
+        "identifiant": "U1-7",
+        "etat": "projet",
+        "type": "VB.18a",
+        "facteur_support": 1.0,
+        "valeur_intrinseque": 0.625,
+        "score_etat": 0.8333,
+        "facteur_etat": 0.9167,
+        "classe_etat": "moyen",
+        "multiplicateur_situation": 1.0,
+        "facteur_taille": 0.4197,
+        "facteur_connectivite": 0.4197,
+        "facteur_eclairage": 1.0,
+        "facteur_nuisances": 1.0,
+        "facteur_eau": 1.0,
+        "valeur_habitat": 57.3,
+        "valeur_maturite": 24.0,
+        "delai": 0.0,
+        "difficulte": 1.0,
+        "groupe_hydrique": "arbore",
+        "reserve_utile": 130.0,
+        "Bilan_Hydrique": [
+         {
+          "niveau": "2_0",
+          "indice_stress": 45.8,
+          "indice_stress_reference": 45.8,
+          "facteur_hydrique": 1.0,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "2_7",
+          "indice_stress": 48.9,
+          "indice_stress_reference": 45.8,
+          "facteur_hydrique": 1.0,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "4_0",
+          "indice_stress": 61.4,
+          "indice_stress_reference": 45.8,
+          "facteur_hydrique": 0.9154,
+          "arrosage": 0.0
+         }
+        ],
+        "mois_depart_maturation": 18,
+        "facteurs_hydriques": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.9983 0.9966 0.9949 0.9932 0.9915 0.9899 0.9882 0.9865 0.9848 0.9831 0.9814 0.9797 0.9780 0.9763 0.9746 0.9729 0.9713 0.9696 0.9679 0.9662 0.9645 0.9628 0.9611 0.9594 0.9577 0.9560",
+        "facteurs_gestion": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000",
+        "trajectoire": "24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 23.9 23.9 23.8 23.8 23.8 23.7 23.7 23.6 23.6 23.6 23.5 23.5 23.4 23.4 23.4 23.3 23.3 23.2 23.2 23.1 23.1 23.1 23.0 23.0",
+        "valeur_integree": 1187.9
+       },
+       {
+        "identifiant": "U1-8",
+        "etat": "projet",
+        "type": "VB.12",
+        "nature_surface": "S05",
+        "coefficient_sol": 0.6,
+        "facteur_support": 1.0,
+        "valeur_intrinseque": 0.5278,
+        "score_etat": 1.0,
+        "facteur_etat": 1.0,
+        "classe_etat": "bon",
+        "multiplicateur_situation": 1.0,
+        "facteur_taille": 0.3734,
+        "facteur_connectivite": 0.3734,
+        "facteur_eclairage": 1.0,
+        "facteur_nuisances": 1.0,
+        "facteur_eau": 1.0,
+        "valeur_habitat": 263.9,
+        "valeur_maturite": 98.5,
+        "delai": 10.0,
+        "difficulte": 0.67,
+        "groupe_hydrique": "prairie",
+        "reserve_utile": 30.0,
+        "Bilan_Hydrique": [
+         {
+          "niveau": "2_0",
+          "indice_stress": 31.6,
+          "indice_stress_reference": 2.1,
+          "facteur_hydrique": 0.9021,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "2_7",
+          "indice_stress": 35.3,
+          "indice_stress_reference": 2.1,
+          "facteur_hydrique": 0.8875,
+          "arrosage": 0.0
+         },
+         {
+          "niveau": "4_0",
+          "indice_stress": 45.7,
+          "indice_stress_reference": 2.1,
+          "facteur_hydrique": 0.8457,
+          "arrosage": 0.0
+         }
+        ],
+        "mois_depart_maturation": 16,
+        "facteurs_hydriques": "0.9021 0.9021 0.9021 0.9021 0.9014 0.9007 0.8999 0.8992 0.8985 0.8977 0.8970 0.8963 0.8955 0.8948 0.8941 0.8934 0.8926 0.8919 0.8912 0.8904 0.8897 0.8890 0.8882 0.8875 0.8867 0.8858 0.8850 0.8841 0.8833 0.8825 0.8816 0.8808 0.8800 0.8791 0.8783 0.8775 0.8766 0.8758 0.8749 0.8741 0.8733 0.8724 0.8716 0.8708 0.8699 0.8691 0.8683 0.8674 0.8666 0.8657",
+        "facteurs_gestion": "1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000",
+        "trajectoire": "0.0 4.4 18.9 30.2 38.6 44.8 49.4 52.7 55.2 57.0 58.4 59.1 59.1 59.1 59.0 59.0 58.9 58.9 58.8 58.8 58.7 58.7 58.6 58.6 58.5 58.5 58.4 58.4 58.3 58.3 58.2 58.2 58.1 58.0 58.0 57.9 57.9 57.8 57.8 57.7 57.7 57.6 57.6 57.5 57.4 57.4 57.3 57.3 57.2 57.2",
+        "valeur_integree": 2679.5
+       }
+      ]
+     },
+     "Site": {
+      "valeur_initiale": 270.4,
+      "i0": 13277.1,
+      "i1": 10059.9,
+      "i0_30": 8048.2,
+      "i1_30": 6060.0,
+      "dette_maturite": 673.1,
+      "supplement_destruction": 0.0,
+      "arrosage_annuel": 0.0,
+      "rang_plantation": 17,
+      "annees_periode": "2027 2076",
+      "trajectoire_reference": "270.4 270.4 270.4 270.4 270.2 270.0 269.9 269.7 269.5 269.4 269.2 269.0 268.8 268.7 268.5 268.3 268.2 268.0 267.8 267.7 267.5 267.3 267.1 267.0 266.6 266.3 266.0 265.6 265.3 265.0 264.6 264.3 264.0 263.6 263.3 263.0 262.6 262.3 261.9 261.6 261.3 260.9 260.6 260.3 259.9 259.6 259.3 258.9 258.6 258.3",
+      "trajectoire_site": "24.0 68.2 156.5 195.2 219.1 234.1 242.6 246.1 248.4 250.1 251.4 252.0 205.2 205.1 205.0 204.8 204.7 204.6 204.5 204.3 204.2 204.1 203.9 203.8 203.6 203.3 203.1 202.9 202.7 202.4 202.2 202.0 201.7 201.5 201.3 201.0 200.8 200.6 200.3 200.1 199.9 199.6 199.4 199.2 199.0 198.7 198.5 198.3 198.0 197.8",
+      "pleine_terre": 0.425,
+      "pleine_terre_initiale": 0.7,
+      "impermeable_initial": 600.0,
+      "impermeable_projet": 1000.0,
+      "impermeabilisation_nette": 400.0,
+      "part_pluvial_infiltre": 0.0,
+      "surface_vitree_non_traitee": 0.0
+     },
+     "Materiaux": {
+      "facteur_climat": 0.0018,
+      "inat_climat": 84748.3,
+      "Inat_Climat_Phase": [
+       {
+        "phase": "A1-A3",
+        "valeur": 59450.3
+       },
+       {
+        "phase": "B",
+        "valeur": 25298.0
+       },
+       {
+        "phase": "C",
+        "valeur": 0.0
+       },
+       {
+        "phase": "D",
+        "valeur": -0.0
+       }
+      ],
+      "inat_bois": 55555.6,
+      "inat_carrieres": 1539.0
+     },
+     "Indicateurs": {
+      "cnat": 3217.2,
+      "cnat_moyen": 64.3,
+      "cnat_relatif": 0.2423,
+      "cnat_30": 1988.1,
+      "inat": 141842.9,
+      "snat": -145060.0,
+      "bnat": 59.0,
+      "cbs": 0.59,
+      "cnat_par_m2_parcelle": 1.6086,
+      "inat_par_m2_sref": 101.3163
+     },
+     "Conformite": {
+      "bnat_conforme": true,
+      "pleine_terre_conforme": true,
+      "niveau_cnat": 0
+     }
+    }
+   ]
+  },
+  "Attestation_Permis": {
+   "variante": 1,
+   "bnat": 59.0,
+   "bnat_min": 45.0,
+   "pleine_terre": 0.425,
+   "pleine_terre_min": 0.15,
+   "conforme": true
+  },
+  "Empreinte": {
+   "entrees": "c6f6f4baa076ecc377cd2c4dd6228c31b6b9bb6332005b05ac336c1adac22bcc",
+   "sorties": "6ab2cc5834b56d25665b5dd89456b0f43cc345ba02e2ee8f2bc03c4e44b8ffb8"
+  }
+ }
+}

@@ -22,6 +22,8 @@ BASE = {'texte': 'xs:string', 'decimal': 'xs:decimal', 'entier': 'xs:integer', '
 JSON_TYPES = {'texte': 'string', 'decimal': 'number', 'entier': 'integer', 'booleen': 'boolean', 'date': 'string'}
 XSD = os.path.join(RACINE_DEPOT, 'schemas', 'rsnat.xsd')
 SCHEMA_JSON = os.path.join(RACINE_DEPOT, 'schemas', 'rsnat.schema.json')
+# fiche A01 : une décimale pour les valeurs, quatre pour les facteurs et les ratios
+UNE_DECIMALE = ('m²HE', 'm²HE·an', 'm²', 'm³', 'points', 'mm', 'jours-équivalents', 'kg CO2 éq./m² Sref')
 
 
 class ErreurRSNat(ValueError):
@@ -112,7 +114,7 @@ def _texte(noeud: F, v) -> str:
         return str(int(round(nm.scalaire(v))))
     if noeud.type == 'decimal':
         x = nm.scalaire(v)
-        d = 1 if 'm²HE' in noeud.unite or noeud.unite in ('m²', 'm³', 'points', 'mm') else 4
+        d = 1 if noeud.unite in UNE_DECIMALE else 4
         return f'{round(x, d):.{d}f}'
     return str(v)
 
@@ -124,7 +126,7 @@ def _json(noeud: F, v):
         return int(round(nm.scalaire(v)))
     if noeud.type == 'decimal':
         x = nm.scalaire(v)
-        d = 1 if 'm²HE' in noeud.unite or noeud.unite in ('m²', 'm³', 'points', 'mm') else 4
+        d = 1 if noeud.unite in UNE_DECIMALE else 4
         return round(x, d)
     return str(v)
 

@@ -237,43 +237,109 @@ def exemple():
     return etree.ElementTree(r)
 
 
+def exemple_moteur():
+    """RSNat de l'exemple de l'annexe C produit par le moteur (calcul aux valeurs centrales)."""
+    import datetime as dt
+    import sys
+    sys.path.insert(0, RACINE)
+    from opennat import chaine, projet, recapitulatif
+    from opennat.donnees import Parametres, Tables
+    T = Tables()
+    P = Parametres(T)
+    e, _ = projet.normaliser(P, projet.lire(os.path.join(RACINE, 'banc', 'cas', 'exemple_de_l_annexe_c.json')))
+    e['projet']['date_etude'] = '2026-10-18'
+    res = [chaine.calculer(P, e, v, []) for v in e['variantes']]
+    return recapitulatif.construire(e, res, {}, T.empreinte, '2026-10-18')
+
+
+def dictionnaire_projet():
+    """Dictionnaire du fichier projet, lu dans schemas/projet.schema.json."""
+    import json
+    with open(os.path.join(RACINE, 'schemas', 'projet.schema.json'), encoding='utf-8') as f:
+        sch = json.load(f)
+    lignes = []
+
+    def typ(x):
+        if '$ref' in x:
+            return 'voir ' + x['$ref'].split('/')[-1]
+        if 'enum' in x:
+            return 'un de : ' + ', '.join(str(v) for v in x['enum'])
+        if 'const' in x:
+            return f'« {x["const"]} »'
+        if 'oneOf' in x:
+            return ' ou '.join(typ(y) for y in x['oneOf'])
+        t = x.get('type', '')
+        t = ' ou '.join(t) if isinstance(t, list) else t
+        return {'object': 'objet', 'array': 'liste', 'string': 'texte', 'number': 'nombre', 'integer': 'entier',
+                'boolean': 'booléen'}.get(t, t)
+
+    def parcourir(x, chemin, requis):
+        for k, y in x.get('properties', {}).items():
+            c = f'{chemin}.{k}' if chemin else k
+            lignes.append([f'`{c}`', typ(y), 'oui' if k in requis else '', y.get('description', '')])
+            if y.get('type') == 'object' and 'properties' in y:
+                parcourir(y, c, y.get('required', []))
+    parcourir(sch, '', sch['required'])
+    out = [tableau(['Champ', 'Type', 'Obligatoire', 'Remarque'], lignes), '']
+    for nom, d in sch['$defs'].items():
+        ls = []
+        for k, y in d.get('properties', {}).items():
+            ls.append([f'`{k}`', typ(y), 'oui' if k in d.get('required', []) else '', y.get('description', '')])
+        if not ls:
+            ls = [['', typ(d), '', '']]
+        out += [f'#### Définition `{nom}`', '', tableau(['Champ', 'Type', 'Obligatoire', 'Remarque'], ls), '']
+    return out
+
+
 def main():
+    import json
+    import sys
+    sys.path.insert(0, RACINE)
+    from opennat import rsnat
+    rsnat.ecrire_schemas()
     schemas = os.path.join(RACINE, 'schemas')
-    os.makedirs(schemas, exist_ok=True)
-    xsd = construire_xsd()
     chemin_xsd = os.path.join(schemas, 'rsnat.xsd')
-    xsd.write(chemin_xsd, pretty_print=True, xml_declaration=True, encoding='UTF-8')
-    schema = etree.XMLSchema(etree.parse(chemin_xsd))
-    ex = exemple()
-    chemin_ex = os.path.join(schemas, 'exemple_annexe_C.rsnat.xml')
-    ex.write(chemin_ex, pretty_print=True, xml_declaration=True, encoding='UTF-8')
-    valide = schema.validate(ex)
-    if not valide:
-        print(schema.error_log)
+    xsd = etree.parse(chemin_xsd)
+    d = exemple_moteur()
+    el = rsnat.vers_xml(d)
+    err = rsnat.valider_xml(el)
+    doc = rsnat.vers_json(d)
+    err_j = rsnat.valider_json(doc)
+    if err or err_j:
+        print(err, err_j)
         raise SystemExit(1)
+    ex = etree.ElementTree(el)
+    ex.write(os.path.join(schemas, 'exemple_annexe_C.rsnat.xml'), pretty_print=True, xml_declaration=True,
+             encoding='UTF-8')
+    with open(os.path.join(schemas, 'exemple_annexe_C.rsnat.json'), 'w', encoding='utf-8') as f:
+        json.dump(doc, f, ensure_ascii=False, indent=1)
+    valide = True
     n_el = len(xsd.getroot().findall(f'.//{{{XS}}}element'))
-    out = ['## Partie 7. Récapitulatif standardisé RSNat', '',
+    out = ['## Partie 7. Récapitulatif standardisé RSNat et fichier projet', '',
            'Le RSNat (nom provisoire) est au calcul OpenNAT ce que le RSEE est à l\'étude RE2020 : un fichier XML qui '
            'porte les données d\'entrée, les résultats et les attestations, validé par un schéma XSD publié avec la '
-           'méthode. Sa structure reprend celle du RSEE : un bloc d\'entrée, un bloc de sortie, et ici deux blocs '
-           'd\'attestation.', '',
+           'méthode, accompagné de sa copie JSON validée par un schéma JSON. Sa structure reprend celle du RSEE : un '
+           'bloc d\'entrée, un bloc de sortie, et ici deux blocs d\'attestation. Le moteur l\'écrit à chaque calcul et '
+           'le valide contre ses deux schémas (exigence E9).', '',
            '### 7.1 Fichiers', '',
            tableau(['Fichier', 'Contenu'], [
                ['`schemas/rsnat.xsd`', f'Schéma XSD, {n_el} éléments, {len(ENUMS)} énumérations'],
-               ['`schemas/exemple_annexe_C.rsnat.xml`', 'RSNat de l\'exemple de l\'annexe C de la partie 1, '
-                                                        'validé contre le schéma'],
-               ['`outils/edition/rsnat_spec.py`', 'Spécification unique dont dérivent le schéma, ce dictionnaire et '
-                                                  'l\'exemple']]), '',
-           'Le fichier d\'exemple a été validé contre le schéma par la bibliothèque lxml le 18/10/2026.', '',
+               ['`schemas/rsnat.schema.json`', 'Schéma JSON du même RSNat'],
+               ['`schemas/projet.schema.json`', 'Schéma du fichier projet, entrée du moteur (section 7.6)'],
+               ['`schemas/exemple_annexe_C.rsnat.xml` et `.json`', 'RSNat de l\'exemple de l\'annexe C de la partie 1, '
+                                                               'écrit par le moteur et validé contre les deux schémas'],
+               ['`opennat/rsnat_spec.py`', 'Spécification unique dont dérivent les deux schémas, ce dictionnaire et la '
+                                           'sortie du moteur']]), '',
            '### 7.2 Règles d\'écriture', '',
            '- Encodage UTF-8, séparateur décimal point, dates au format AAAA-MM-JJ.',
            '- Les éléments sont écrits dans l\'ordre du schéma. Un élément facultatif sans valeur est omis.',
-           '- Les valeurs sont celles du calcul aux valeurs centrales, avec la précision de la fiche A01 ; '
-           'les intervalles sont dans le bloc Incertitude.',
+           '- Les valeurs sont celles du calcul aux valeurs centrales, avec la précision de la fiche A01 : une décimale '
+           'pour les valeurs en m²HE, m²HE·an, m², m³, mm et points, quatre pour les facteurs ; les intervalles sont '
+           'dans le bloc Incertitude.',
            '- Le bloc Attestation_Permis est le seul extrait déposé sur la plateforme d\'IRICE au dépôt du permis de '
            'construire ; il se lit sans le reste du fichier.',
-           '- Le RSNat porte l\'empreinte SHA-256 de son bloc d\'entrée et de son bloc de sortie : la plateforme '
-           'recalcule l\'empreinte pour vérifier qu\'aucune valeur n\'a été modifiée après le calcul.', '',
+           '- Le RSNat porte l\'empreinte SHA-256 de son bloc d\'entrée et de son bloc de sortie (forme canonique XML) : '
+           'la plateforme recalcule l\'empreinte pour vérifier qu\'aucune valeur n\'a été modifiée après le calcul.', '',
            '### 7.3 Dictionnaire des données', '',
            'Un tableau par élément composé, dans l\'ordre du schéma. Cardinalité : 0..1 facultatif, 1..1 '
            'obligatoire, 0..n ou 1..n répété. La colonne « Origine » donne l\'élément du RSEE dont la donnée se '
@@ -282,9 +348,18 @@ def main():
     out += ['### 7.4 Énumérations', '',
             tableau(['Énumération', 'Valeurs admises'], [[k, ', '.join(v)] for k, v in ENUMS.items()]), '',
             '### 7.5 Exemple', '',
-            'Extrait du fichier `schemas/exemple_annexe_C.rsnat.xml`, bloc Attestation_Permis :', '',
-            '```', etree.tostring(ex.getroot().find('Attestation_Permis'), pretty_print=True,
-                                  encoding='unicode').strip(), '```', '']
+            'Extrait du fichier `schemas/exemple_annexe_C.rsnat.xml`, écrit par le moteur, blocs Indicateurs et '
+            'Attestation_Permis :', '',
+            '```', etree.tostring(el.find('Sortie_Projet/Variante_Resultat/Indicateurs'), pretty_print=True,
+                                  encoding='unicode').strip(),
+            etree.tostring(el.find('Attestation_Permis'), pretty_print=True, encoding='unicode').strip(), '```', '',
+            '### 7.6 Fichier projet', '',
+            'Le fichier projet est l\'entrée du moteur : un fichier JSON, validé contre `schemas/projet.schema.json` '
+            'avant tout calcul. Il porte les données du chapitre 4 de la partie 1. Quand un RSEE est indiqué '
+            '(`projet.rsee`), la parcelle, les bâtiments, les indicateurs d\'ACV, la zone climatique, le département et '
+            'l\'altitude s\'en reprennent (fiche A05) ; une donnée saisie l\'emporte sur celle du RSEE. Les valeurs par '
+            'défaut appliquées sont écrites au journal du calcul.', '']
+    out += dictionnaire_projet()
     print(ecrire('07_rsnat.md', '\n'.join(out)), 'éléments :', n_el, 'exemple valide :', valide)
 
 

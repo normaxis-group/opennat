@@ -13,7 +13,7 @@ Méthode de calcul biodiversité **OpenNAT** et son moteur libre, qui porte le m
 |---|---|---|
 | 0 | Audit et état de l'art (`audit/`) | livré le 17/10/2026, go le 18/10/2026 |
 | 1 | Méthode OpenNAT v1 (`methode/`) et tables sourcées (`donnees/`) | version noyau livrée le 18/10/2026 ; édition complète livrée le même jour (lot 1 bis, 949 pages), complétée et dotée des modules dynamiques (lot 1 ter, `livraison_lot1ter.md`) |
-| 2 | Moteur | à venir |
+| 2 | Moteur (`opennat/`), banc de 73 cas (`banc/`), tests (`tests/`) | livré le 19/10/2026 (`livraison_lot2.md`) |
 | 3 | Utilitaire | à venir |
 | 4 | Banc de validation et documentation | à venir |
 
@@ -25,4 +25,43 @@ L'audit du lot 0 emploie encore l'ancien nom de travail « Vi-BCN » ; le nom re
 - `methode/` : texte de la méthode, conventions, bibliographie.
 - `donnees/` : tables de coefficients, une ligne par valeur avec sa source.
 - `outils/` : contrôle des tables, rapport de couverture, constructeurs des tables, carnet de calcul de référence, modules dynamiques (`climat.py` : climat horaire TRACC et ET0 ; `dynamique.py` : bilan hydrique, éclairage, maturation, gestion, chantier), génération de l'édition (`edition/`).
+- `opennat/` : le moteur, un module par module de la méthode (voir ci-dessous).
+- `schemas/` : schéma du fichier projet, schémas XSD et JSON du RSNat, exemple de l'annexe C.
+- `banc/` : les 73 cas du carnet de référence en fichiers projet, leurs résultats attendus, le comparateur.
+- `tests/` : tests du chargeur, des modules (cas élémentaires des fiches), de bout en bout, et recherche des constantes dans le code.
 - `sources/` : copies de travail des documents sources (hors dépôt).
+
+## Moteur
+
+Python 3.11 ou plus, numpy et lxml.
+
+```
+python -m opennat calcul projet.json                 # calcul complet, 1 000 tirages par défaut
+python -m opennat calcul projet.json --tirages 0     # valeurs centrales seules
+python -m opennat calcul projet.json --reprendre resultats/<projet>/<horodatage>
+python -m opennat valider projet.json                # contrôle du fichier projet
+python -m opennat controle                           # contrôle des tables de donnees/
+python -m banc.comparer                              # banc : 73 cas contre le carnet de référence
+python -m pytest                                     # tests
+```
+
+Le calcul écrit `resultats/<projet>/<horodatage>/` : entrées après valeurs par défaut, sorties de chaque étape par variante, trajectoires, tirages, journal, empreintes, `rsnat.xml` et `rsnat.json`. Un fichier projet peut citer un RSEE (`projet.rsee`) : la parcelle, les bâtiments, les indicateurs d'ACV, la zone climatique, le département et l'altitude s'en reprennent.
+
+| Module | Étape ou module de la méthode | Fiches |
+|---|---|---|
+| `donnees.py` | chargement et contrôle des tables, tirages | A01, A39 |
+| `projet.py`, `rsee.py`, `schema.py` | fichier projet, reprise du RSEE | A05 |
+| `conformite.py` | E1 contexte, E5 conformité | A02, A40 |
+| `pretraitement.py` | E2 prétraitement | A03, A04, A14 à A16 |
+| `sol.py` | S sol | A06 à A08 |
+| `habitats.py` | H habitats | A09 à A13 |
+| `connectivite.py` | C connectivité | A17 à A19 |
+| `nuisances.py` | N nuisances, éclairage horaire | A20 à A22, A51 à A53 |
+| `eau.py` | E eau, valeur à maturité | A23 à A25 |
+| `climat.py`, `hydrique.py` | W climat et bilan hydrique horaire | A43 à A50 |
+| `temps.py` | T temps, maturation, gestion, chantier | A26 à A30, A54 à A58 |
+| `materiaux.py` | G biodiversité grise | A32 à A36 |
+| `agregation.py` | E3 agrégation, Bnat | A31, A37, A38 |
+| `incertitude.py` | E4 incertitude | A39 |
+| `chaine.py`, `calcul.py` | ordre des étapes, variantes, journal, reprise | A41, A42 |
+| `rsnat.py`, `recapitulatif.py`, `rsnat_spec.py` | RSNat | partie 7 |

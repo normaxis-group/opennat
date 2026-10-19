@@ -576,7 +576,7 @@ Le plafond n'agit que pour une unité de valeur intrinsèque élevée, en bon é
 
 **Cas élémentaire**
 
-Prairie : V^H = 234,38 ; k_C = 0,4197 ; k_N = 0,9 ; k_E = 1 : V = 234,38 x 0,4197 x 0,9 = 88,53 m²HE.
+Prairie de l'annexe C : V^H = 234,38 ; k_C = 0,4197 ; k_N = 0,9160 (éclairage conforme éteint à 1 h, fiche A53) ; k_E = 1 : V = 234,38 x 0,4197 x 0,9160 = 90,10 m²HE.
 
 **Renvois**
 

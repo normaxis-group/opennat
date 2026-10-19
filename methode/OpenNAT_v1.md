@@ -519,7 +519,7 @@ Le nom RSNat (récapitulatif standardisé de l'étude nature) est provisoire.
 
 ### 11.1 Fichier
 
-Un fichier XML, validé par un schéma XSD publié avec la méthode, et sa copie JSON. Sa structure reprend celle du RSEE : un bloc `Entree_Projet` (toutes les données du chapitre 4, dont l'identifiant du RSEE source quand il existe) et un bloc `Sortie_Projet` (résultats). Il porte la version de la méthode, la version des tables de données, la graine aléatoire et une empreinte de contrôle (SHA-256) des entrées et des sorties.
+Un fichier XML, validé par un schéma XSD publié avec la méthode (`schemas/rsnat.xsd`), et sa copie JSON, validée par son schéma JSON (`schemas/rsnat.schema.json`). Le fichier projet, en entrée du moteur, a lui aussi son schéma (`schemas/projet.schema.json`). Sa structure reprend celle du RSEE : un bloc `Entree_Projet` (toutes les données du chapitre 4, dont l'identifiant du RSEE source quand il existe) et un bloc `Sortie_Projet` (résultats). Il porte la version de la méthode, la version des tables de données, la graine aléatoire et une empreinte de contrôle (SHA-256) des entrées et des sorties.
 
 ### 11.2 Contenu de `Sortie_Projet`
 
@@ -569,7 +569,8 @@ Les tables sont dans `donnees/`, une ligne par valeur, avec les colonnes `cle`, 
 | `succession.csv` | courbe de maturation, abandon, gestion courante | `outils/construire_dynamique.py`, depuis la BKompV |
 | `chantier.csv` | sensibilité mensuelle de la faune, saison de plantation | `outils/construire_dynamique.py` |
 | `materiaux.csv` | facteur climat, bois, carrières, pollution | |
-| `seuils.csv` | seuils proposés | |
+| `seuils.csv` | seuils proposés, bornes des classes d'emprise | |
+| `constantes.csv` | constantes des équations publiées (FAO-56, ISO 2533), valeurs de règle des modules dynamiques, seuils de contrôle | `outils/construire_constantes.py` |
 | `conventions.csv` | index des 70 conventions | généré depuis `methode/conventions.md` |
 
 ### Annexe B : correspondances de nomenclatures

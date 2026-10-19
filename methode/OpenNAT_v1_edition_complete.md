@@ -18,7 +18,7 @@ L'édition complète suit le plan de l'annexe III de l'arrêté du 4 août 2021 
 | 4 | Fiches habitats H001 à H191, avec les listes complètes de correspondances et d'espèces |
 | 5 | Fiches d'application F01 à F30 et leurs exemples chiffrés |
 | 6 | Protocoles de relevé des grilles d'état et liste des espèces exotiques envahissantes |
-| 7 | Récapitulatif standardisé RSNat : schéma, dictionnaire des données, exemple |
+| 7 | Récapitulatif standardisé RSNat (schémas XSD et JSON, dictionnaire des données, exemple écrit par le moteur) et fichier projet du moteur |
 | 8 | Cas de validation : les huit cas du cahier des charges, trente et un cas complémentaires et vingt-neuf cas dynamiques |
 | 9 | Conventions |
 | 10 | Bibliographie |
@@ -519,7 +519,7 @@ Le nom RSNat (récapitulatif standardisé de l'étude nature) est provisoire.
 
 #### 11.1 Fichier
 
-Un fichier XML, validé par un schéma XSD publié avec la méthode, et sa copie JSON. Sa structure reprend celle du RSEE : un bloc `Entree_Projet` (toutes les données du chapitre 4, dont l'identifiant du RSEE source quand il existe) et un bloc `Sortie_Projet` (résultats). Il porte la version de la méthode, la version des tables de données, la graine aléatoire et une empreinte de contrôle (SHA-256) des entrées et des sorties.
+Un fichier XML, validé par un schéma XSD publié avec la méthode (`schemas/rsnat.xsd`), et sa copie JSON, validée par son schéma JSON (`schemas/rsnat.schema.json`). Le fichier projet, en entrée du moteur, a lui aussi son schéma (`schemas/projet.schema.json`). Sa structure reprend celle du RSEE : un bloc `Entree_Projet` (toutes les données du chapitre 4, dont l'identifiant du RSEE source quand il existe) et un bloc `Sortie_Projet` (résultats). Il porte la version de la méthode, la version des tables de données, la graine aléatoire et une empreinte de contrôle (SHA-256) des entrées et des sorties.
 
 #### 11.2 Contenu de `Sortie_Projet`
 
@@ -569,7 +569,8 @@ Les tables sont dans `donnees/`, une ligne par valeur, avec les colonnes `cle`, 
 | `succession.csv` | courbe de maturation, abandon, gestion courante | `outils/construire_dynamique.py`, depuis la BKompV |
 | `chantier.csv` | sensibilité mensuelle de la faune, saison de plantation | `outils/construire_dynamique.py` |
 | `materiaux.csv` | facteur climat, bois, carrières, pollution | |
-| `seuils.csv` | seuils proposés | |
+| `seuils.csv` | seuils proposés, bornes des classes d'emprise | |
+| `constantes.csv` | constantes des équations publiées (FAO-56, ISO 2533), valeurs de règle des modules dynamiques, seuils de contrôle | `outils/construire_constantes.py` |
 | `conventions.csv` | index des 70 conventions | généré depuis `methode/conventions.md` |
 
 #### Annexe B : correspondances de nomenclatures (détail en parties 2 et 4)
@@ -4287,6 +4288,8 @@ Seuils de Bnat, de la pleine terre et de Cnat, en attente de validation du Biodi
 | * | pleine terre min | 0,15 | fraction de l'emprise totale du projet | 0,15 | transposée | C-E6 | Référentiel Effinature 8.1, NORMATYS (version à venir), critère SOL 01.2.5 : au moins 15 % d'espaces végétalisés en pleine terre sur l'emprise totale du projet |
 | niveau_1 | cnat max relatif | 0 | fraction de la valeur initiale intégrée | 0 | convention | C-E7 | OpenNAT, absence de perte nette sur le site |
 | niveau_2 | cnat max relatif | -0,1 | fraction de la valeur initiale intégrée | -0,1 | transposée | C-E7 | Environment Act 2021, Schedule 14, Schedule 7A inséré dans le Town and Country Planning Act 1990, paragraphe 2(3) : The relevant percentage is 10% (lu le 18/10/2026) |
+| emprise | classe 1 max | 0,37 | part d'emprise du bâti | 0,37 | transposée | C-E6 | Référentiel Effinature 8.1, NORMATYS (version à venir), critère SOL 01.2.5 : emprise jusqu'à 37 % |
+| emprise | classe 3 min | 0,5 | part d'emprise du bâti | 0,5 | transposée | C-E6 | Référentiel Effinature 8.1, NORMATYS (version à venir), critère SOL 01.2.5 : emprise de 50 % et plus |
 
 ### 2.10 Grilles d'état (`etat_criteres.csv`)
 
@@ -4764,7 +4767,84 @@ Courbe de Chapman-Richards, couples exploité et abandonné de la BKompV, délai
 | * | delai embroussaillement | 15 | an | 10 à 30 | convention | C-M2 | OpenNAT, valeur de secours |
 | * | score friche embroussaillee | 0,75 | fraction | 0,65 à 0,85 | convention | C-M2 | OpenNAT, valeur de secours |
 
-### 2.15 Calendrier du chantier (`chantier.csv`)
+### 2.15 Constantes des équations et valeurs de règle (`constantes.csv`)
+
+Constantes de la FAO-56 et de l'atmosphère type, raccourcis d'éclairage, heure légale, jalons de la TRACC, seuils de contrôle, réglages de l'analyse d'incertitude : tout ce que le moteur lit au lieu de l'écrire dans son code (exigence E2).
+
+| Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
+|---|---|---|---|---|---|---|---|
+| fao56 | albedo reference | 0,23 | sans unité | 0,23 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 38 |
+| fao56 | cn horaire | 37 | K mm s³ Mg-1 h-1 | 37 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 53 |
+| fao56 | cd horaire | 0,34 | s/m | 0,34 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 53 |
+| fao56 | coefficient rayonnement | 0,408 | mm par MJ/m² | 0,408 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 53 |
+| fao56 | saturation a | 0,6108 | kPa | 0,6108 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 11 |
+| fao56 | saturation b | 17,27 | sans unité | 17,27 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 11 |
+| fao56 | saturation c | 237,3 | °C | 237,3 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 11 |
+| fao56 | pente saturation | 4 098 | °C | 4 098 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 13 |
+| fao56 | psychrometrique | 6,650 x 10^-4 | kPa-1 °C-1 x kPa | 6,650 x 10^-4 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 8 |
+| fao56 | vent a | 4,87 | sans unité | 4,87 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 47 |
+| fao56 | vent b | 67,8 | m-1 | 67,8 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 47 |
+| fao56 | vent c | 5,42 | sans unité | 5,42 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 47 |
+| fao56 | stefan boltzmann horaire | 2,043 x 10^-10 | MJ K-4 m-2 h-1 | 2,043 x 10^-10 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | constante solaire horaire | 4,92 | MJ m-2 h-1 | 4,92 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 28 |
+| fao56 | excentricite | 0,033 | sans unité | 0,033 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 23 |
+| fao56 | rso a | 0,75 | sans unité | 0,75 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 37 |
+| fao56 | rso b | 2,000 x 10^-5 | m-1 | 2,000 x 10^-5 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 37 |
+| fao56 | rnl a | 0,34 | sans unité | 0,34 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | rnl b | 0,14 | kPa-0,5 | 0,14 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | rnl c | 1,35 | sans unité | 1,35 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | rnl d | 0,35 | sans unité | 0,35 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | rapport rs rso min | 0,3 | sans unité | 0,3 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | rapport rs rso max | 1 | sans unité | 1 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | rapport rs rso initial | 0,7 | sans unité | 0,7 | convention | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, chapitre 4, rayonnement horaire de nuit |
+| fao56 | flux sol jour | 0,1 | sans unité | 0,1 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 45 |
+| fao56 | flux sol nuit | 0,5 | sans unité | 0,5 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 46 |
+| fao56 | pression temperature reference | 293 | K | 293 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 7 |
+| fao56 | pression exposant | 5,26 | sans unité | 5,26 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 7 |
+| fao56 | decalage kelvin | 273,16 | K | 273,16 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | hauteur soleil rapport nuit | 10 | degré | 10 | convention | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, chapitre 4, rayonnement horaire de nuit : rapport Rs/Rso pris en fin d'après-midi |
+| iso2533 | gradient thermique | 0,0065 | K/m | 0,0065 | primaire | C-W1 | ISO 2533:1975, atmosphère type, gradient vertical de température de la troposphère |
+| fichiers_prospectifs | hauteur anemometre | 10 | m | 10 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), variable FF : force du vent à 10 mètres |
+| raccourci_L1 | heure extinction | 1 | heure légale | 1 | convention | C-L1 | OpenNAT, valeur de règle |
+| raccourci_L1 | temperature couleur | 3 000 | K | 3 000 | convention | C-L1 | OpenNAT, valeur de règle |
+| raccourci_L2 | temperature couleur | 4 000 | K | 4 000 | convention | C-L1 | OpenNAT, valeur de règle |
+| heure_legale | decalage ete | 2 | heure | 2 | convention | C-L2 | OpenNAT, valeur de règle |
+| heure_legale | decalage hiver | 1 | heure | 1 | convention | C-L2 | OpenNAT, valeur de règle |
+| heure_legale | premier mois ete | 4 | mois | 4 | convention | C-L2 | OpenNAT, valeur de règle |
+| heure_legale | dernier mois ete | 10 | mois | 10 | convention | C-L2 | OpenNAT, valeur de règle |
+| arrosage | heure utc | 2 | heure | 2 | convention | C-W10 | OpenNAT, valeur de règle |
+| mare | premier mois assec | 3 | mois | 3 | convention | C-W12 | OpenNAT, valeur de règle |
+| mare | dernier mois assec | 6 | mois | 6 | convention | C-W12 | OpenNAT, valeur de règle |
+| reference_hydrique | epaisseur toiture | 10 | cm | 10 | convention | C-W9 | OpenNAT, valeur de règle |
+| tracc | jalon 1 annee | 2030 | année | 2030 à 2030 | convention | C-W13 | OpenNAT, valeur de règle |
+| tracc | jalon 1 rechauffement | 2 | °C | 2 | convention | C-W13 | OpenNAT, valeur de règle |
+| tracc | jalon 2 annee | 2050 | année | 2050 à 2050 | convention | C-W13 | OpenNAT, valeur de règle |
+| tracc | jalon 2 rechauffement | 2,7 | °C | 2,7 | convention | C-W13 | OpenNAT, valeur de règle |
+| tracc | jalon 3 annee | 2100 | année | 2100 à 2100 | convention | C-W13 | OpenNAT, valeur de règle |
+| tracc | jalon 3 rechauffement | 4 | °C | 4 | convention | C-W13 | OpenNAT, valeur de règle |
+| controle | tolerance coherence rsee | 0,05 | fraction de la parcelle | 0,05 | convention | C-E3 | OpenNAT, valeur de règle |
+| controle | rapport alerte houppier | 2 | sans unité | 2 | convention | C-H5 | OpenNAT, valeur de règle |
+| controle | apport alerte ruissellement | 20 | sans unité | 20 | convention | C-W11 | OpenNAT, valeur de règle |
+| haie | largeur minimale | 1 | m | 1 | convention | C-H5 | OpenNAT, valeur de règle |
+| facade | hauteur maximale | 10 | m | 10 | convention | C-B1 | OpenNAT, valeur de règle |
+| toiture | epaisseur semi intensive | 15 | cm | 15 | convention | C-H3 | OpenNAT, valeur de règle |
+| toiture | epaisseur intensive | 30 | cm | 30 | convention | C-H3 | OpenNAT, valeur de règle |
+| substrat | epaisseur s05 | 15 | cm | 15 | convention | C-S1 | OpenNAT, valeur de règle |
+| substrat | epaisseur s06 | 30 | cm | 30 | convention | C-S1 | OpenNAT, valeur de règle |
+| substrat | epaisseur s07 | 80 | cm | 80 | convention | C-S1 | OpenNAT, valeur de règle |
+| chantier | mois debut defaut | 1 | mois | 1 | convention | C-K3 | OpenNAT, valeur de règle |
+| incertitude | tirages defaut | 1 000 | tirages | 1 000 | convention | C-I2 | OpenNAT, valeur de règle |
+| incertitude | graine defaut | 2,026 x 10^7 | sans unité | 2,026 x 10^7 | convention | C-I2 | OpenNAT, valeur de règle |
+| incertitude | centile bas | 5 | centile | 5 | convention | C-I2 | OpenNAT, valeur de règle |
+| incertitude | centile median | 50 | centile | 50 | convention | C-I2 | OpenNAT, valeur de règle |
+| incertitude | centile haut | 95 | centile | 95 | convention | C-I2 | OpenNAT, valeur de règle |
+| incertitude | nombre parametres influents | 5 | paramètres | 5 | convention | C-I2 | OpenNAT, valeur de règle |
+| incertitude | taille bloc | 100 | tirages | 100 | convention | C-I2 | OpenNAT, valeur de règle |
+| boisement | nombre indicateurs | 13 | indicateurs | 13 | convention | C-H6 | OpenNAT, valeur de règle |
+| boisement | note minimale | 1 | note | 1 | convention | C-H6 | OpenNAT, valeur de règle |
+| boisement | note maximale | 3 | note | 3 | convention | C-H6 | OpenNAT, valeur de règle |
+
+### 2.16 Calendrier du chantier (`chantier.csv`)
 
 Sensibilité mensuelle des oiseaux nicheurs, des chiroptères et des amphibiens, saison de plantation, année de début par défaut (module T, fiches A57 et A58).
 
@@ -4822,7 +4902,7 @@ Sensibilité mensuelle des oiseaux nicheurs, des chiroptères et des amphibiens,
 | * | avance plantation | 2 | mois | 0 à 4 | convention | C-K2 | OpenNAT, valeur de secours |
 | * | annee debut defaut | 2027 | année | 2027 à 2030 | convention | C-K3 | OpenNAT, valeur de secours |
 
-### 2.16 Années types horaires : synthèse mensuelle
+### 2.17 Années types horaires : synthèse mensuelle
 
 Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures : France +2 °C (2030), +2,7 °C (2050) et +4 °C (2100), tirées des fichiers climatiques prospectifs de l'ADEME, de Météo-France, du CSTB et de la DHUP (juin 2025, Licence Ouverte 2.0) et réduites dans `donnees/climat/` aux variables utilisées. Le tableau de chaque station donne, mois par mois, la température moyenne, la pluie après recalage sur la normale 1991-2020 (fiche A45) et l'évapotranspiration de référence calculée par la fiche A44, à l'altitude de la station.
 
@@ -4940,7 +5020,7 @@ Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures 
 
 Var. : variable. T : température moyenne (°C) ; P : pluie recalée (mm) ; ET0 : évapotranspiration de référence (mm). +2, +2,7, +4 : niveau de réchauffement de l'année type (°C). Mois de janvier (J) à décembre (D).
 
-### 2.17 Extraits des sources primaires utilisés
+### 2.18 Extraits des sources primaires utilisés
 
 Les deux tableaux suivants reproduisent les lignes des sources primaires effectivement appelées par la nomenclature : la liste allemande des valeurs de biotopes (texte réglementaire libre de droits) et les lignes de la métrique anglaise (Open Government Licence v3.0).
 
@@ -5200,7 +5280,7 @@ Les deux tableaux suivants reproduisent les lignes des sources primaires effecti
 | Woodland and forest - Upland birchwoods | G1.9 |
 | Woodland and forest - Wet woodland | G1.1, G1.2, G1.3, G1.4, G1.5, G1.B, G3.E, G4.1 |
 | Woodland and forest - Wood-pasture and parkland | E7.1, E7.2, E7.3 |
-### 2.18 Annexe 2 de la BKompV, liste complète
+### 2.19 Annexe 2 de la BKompV, liste complète
 
 Liste complète des types de biotopes de l'annexe 2 de la BKompV et de leur valeur sur 24, dans l'ordre du texte (extraction du 18/10/2026). Les intitulés de rubrique, sans valeur, structurent la liste. Les types appelés par la nomenclature OpenNAT sont repris plus haut.
 
@@ -6095,7 +6175,7 @@ Liste complète des types de biotopes de l'annexe 2 de la BKompV et de leur vale
 | 70.04M | – Mittlere Ausprägung | 18 | 0,75 |
 | 70.04A | – Alte Ausprägung | 21 | 0,875 |
 
-### 2.19 Métrique statutaire anglaise, onglets utilisés
+### 2.20 Métrique statutaire anglaise, onglets utilisés
 
 Reproduction des colonnes utilisées des onglets G-1, G-4 et G-5 du tableur statutaire 1.0.4 (Defra et Natural England, Open Government Licence v3.0). « Not Possible » signifie que la création ou l'amélioration n'est pas admise par la métrique pour cette classe d'état.
 
@@ -6653,7 +6733,7 @@ Arrondi : aucun résultat intermédiaire n'est arrondi. Les sorties affichées e
 
 Valeurs manquantes : une entrée obligatoire absente arrête le calcul avec un message qui nomme l'entrée et l'unité concernées. Une entrée facultative absente prend sa valeur par défaut, écrite dans le journal des calculs (fiche A42).
 
-Lecture des tables : au démarrage, le cœur de calcul charge toutes les tables de `donnees/` et refuse toute ligne sans source, sans référence précise ou dont la valeur sort de sa plage (contrôle de `outils/controle_donnees.py`). Une valeur est appelée par sa clé et son paramètre ; aucune valeur numérique de méthode n'est écrite dans le code.
+Lecture des tables : au démarrage, le cœur de calcul charge toutes les tables de `donnees/` et refuse toute ligne sans source, sans référence précise, sans type connu, dont la convention n'est pas définie ou dont la valeur sort de sa plage (chargeur `opennat/donnees.py` du moteur, et contrôle `outils/controle_donnees.py`). Une valeur est appelée par sa clé et son paramètre ; aucune valeur numérique de méthode n'est écrite dans le code : les constantes des équations publiées (FAO-56, atmosphère type) et les valeurs de règle sont elles aussi dans `donnees/constantes.csv`. Un test du moteur cherche les nombres écrits dans le code et échoue s'il en trouve un qui n'est pas une conversion d'unité ou une garde numérique.
 
 **Cas limites et contrôles**
 
@@ -7747,7 +7827,7 @@ Le plafond n'agit que pour une unité de valeur intrinsèque élevée, en bon é
 
 **Cas élémentaire**
 
-Prairie : V^H = 234,38 ; k_C = 0,4197 ; k_N = 0,9 ; k_E = 1 : V = 234,38 x 0,4197 x 0,9 = 88,53 m²HE.
+Prairie de l'annexe C : V^H = 234,38 ; k_C = 0,4197 ; k_N = 0,9160 (éclairage conforme éteint à 1 h, fiche A53) ; k_E = 1 : V = 234,38 x 0,4197 x 0,9160 = 90,10 m²HE.
 
 **Renvois**
 
@@ -8434,15 +8514,15 @@ Sorties : dossier de résultats d'un calcul, contenant pour chaque étape un fic
 **Description mathématique**
 
 (A42-1) Dossier `resultats/<identifiant du projet>/<horodatage>/`, avec :
-- `00_entrees.json` : entrées après valeurs par défaut ;
-- `01_E1_contexte.json` à `12_E5_conformite.json` : sorties de chaque étape et module, dans l'ordre du chapitre 6 de la partie 1 ;
-- `08_T_trajectoires.csv` : une ligne par unité et par année ;
-- `11_E4_tirages.csv` : une ligne par tirage ;
+- `00_entrees.json` : entrées après reprise du RSEE et valeurs par défaut ;
+- un dossier `variante_<n>/` par variante, avec `01_E1_contexte.json`, `02_E2_pretraitement.json`, `03_S_sol.json`, `04_H_habitats.json`, `05_C_connectivite.json`, `06_N_nuisances.json`, `07_E_eau.json`, `08_W_hydrique.json`, `09_T_temps.json`, `10_G_materiaux.json`, `11_E3_agregation.json` et `13_E5_conformite.json`, dans l'ordre du chapitre 6 de la partie 1 ;
+- `variante_<n>/09_T_trajectoires.csv` : une ligne par unité et par année (valeur mensuelle moyenne, facteur hydrique, facteur de gestion, valeur), et la trajectoire de l'état initial ;
+- `12_E4_tirages.csv` : une ligne par tirage, les indicateurs de chaque variante ; `12_E4_incertitude.json` : centiles et paramètres influents ;
 - `journal.txt` : valeurs par défaut appliquées, contrôles non bloquants, durées ;
 - `rsnat.xml` et `rsnat.json` : récapitulatif standardisé ;
 - `empreinte.txt` : SHA-256 des entrées, des tables et des sorties.
 
-(A42-2) Reprise : une étape dont le fichier de sorties existe et dont les entrées ont la même empreinte n'est pas recalculée.
+(A42-2) Reprise : une étape dont le fichier de sorties existe et dont les entrées ont la même empreinte n'est pas recalculée. Le moteur applique cette règle à l'étape E4, seule étape longue : les étapes E1 à E3 et E5 se recalculent en quelques secondes ; les tirages déjà écrits sont relus et le calcul reprend au premier bloc non écrit. Une reprise est refusée si l'empreinte des entrées et des tables a changé.
 
 **Cas limites et contrôles**
 
@@ -9538,7 +9618,7 @@ Les valeurs de référence de chaque fiche sont calculées pour 100 m² d'habita
 | Code OpenNAT | VB.1 |
 | EUNIS 2012 | J1, J1.1, J1.2, J1.3, J1.4, J1.7, J2.1, J2.2, J2.3, J2.4 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 5 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -9584,19 +9664,6 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Surface scellée : valeur nulle commune à la BKompV (52.03.01) et à la métrique anglaise (u1b) ; les types BKompV 53.01 incluent leurs espaces libres et ne conviennent pas à une emprise seule.
 
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
-
 **Délais et difficultés (module T, équations T3 et T4)**
 
 | Paramètre | Valeur | Source |
@@ -9608,9 +9675,7 @@ Correspondance retenue : Surface scellée : valeur nulle commune à la BKompV (5
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 0 |
-| État moyen | 0 |
-| Mauvais état | 0 |
+| Sans grille (f = 1) | 0 |
 
 **Exemple de saisie dans le fichier projet (partie 7)**
 
@@ -9621,40 +9686,6 @@ Correspondance retenue : Surface scellée : valeur nulle commune à la BKompV (5
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -9671,7 +9702,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | VB.2 |
 | EUNIS 2012 | J4.2, J4.1, J4.4, J4.5, J4.7 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 2 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -9693,19 +9724,6 @@ Surfaces revêtues d'un matériau étanche à l'air et à l'eau, hors bâtiments
 
 Correspondance retenue : Voie ou aire scellée.
 
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
-
 **Délais et difficultés (module T, équations T3 et T4)**
 
 | Paramètre | Valeur | Source |
@@ -9717,9 +9735,7 @@ Correspondance retenue : Voie ou aire scellée.
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 0 |
-| État moyen | 0 |
-| Mauvais état | 0 |
+| Sans grille (f = 1) | 0 |
 
 **Exemple de saisie dans le fichier projet (partie 7)**
 
@@ -9730,40 +9746,6 @@ Correspondance retenue : Voie ou aire scellée.
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -9780,7 +9762,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | VB.3 |
 | EUNIS 2012 | J4.6 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 0 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -9795,19 +9777,6 @@ Surfaces minérales perméables sans végétation prévue : stabilisés, gravier
 
 Correspondance retenue : Place à revêtement gravillonné ou à liant hydraulique (wassergebundene Decke).
 
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
-
 **Délais et difficultés (module T, équations T3 et T4)**
 
 | Paramètre | Valeur | Source |
@@ -9819,9 +9788,7 @@ Correspondance retenue : Place à revêtement gravillonné ou à liant hydrauliq
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 16,67 |
-| État moyen | 14,59 |
-| Mauvais état | 11,67 |
+| Sans grille (f = 1) | 16,67 |
 
 **Exemple de saisie dans le fichier projet (partie 7)**
 
@@ -9832,40 +9799,6 @@ Correspondance retenue : Place à revêtement gravillonné ou à liant hydrauliq
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -9882,7 +9815,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | VB.4 |
 | EUNIS 2012 | J4.6 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 0 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -9897,19 +9830,6 @@ Surfaces stabilisées perméables conçues pour porter une végétation durable 
 
 Correspondance retenue : Place partiellement stabilisée (Rasengitter).
 
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
-
 **Délais et difficultés (module T, équations T3 et T4)**
 
 | Paramètre | Valeur | Source |
@@ -9921,9 +9841,7 @@ Correspondance retenue : Place partiellement stabilisée (Rasengitter).
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 12,5 |
-| État moyen | 10,94 |
-| Mauvais état | 8,75 |
+| Sans grille (f = 1) | 12,5 |
 
 **Exemple de saisie dans le fichier projet (partie 7)**
 
@@ -9934,40 +9852,6 @@ Correspondance retenue : Place partiellement stabilisée (Rasengitter).
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -10534,7 +10418,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | VB.9 |
 | EUNIS 2012 | J1.5 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 0 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -10549,21 +10433,15 @@ Friche colonisée par les ligneux (plus de 50 % de couvert d'arbustes ou de jeun
 
 Correspondance retenue : Fourré des stations rudérales riches en azote.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -10637,30 +10515,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -10678,7 +10532,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | VB.10 |
 | EUNIS 2012 | J1.6, J2.7, J6.1 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 0 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -10692,19 +10546,6 @@ Sol mis à nu par un chantier, un terrassement ou une démolition, sans couvert 
 | Valeur intrinsèque | 0,125 m²HE/m² | 0,1125 à 0,1375 | code 32.11.09a, « Bauflächen und Baustelleneinrichtungsflächen », Biotoptypenwert 3 sur 24 (ligne 289 de l'extraction) |
 
 Correspondance retenue : Surfaces de chantier et d'installations de chantier.
-
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -10723,9 +10564,7 @@ Correspondance retenue : Surfaces de chantier et d'installations de chantier.
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 12,5 |
-| État moyen | 10,94 |
-| Mauvais état | 8,75 |
+| Sans grille (f = 1) | 12,5 |
 
 **Trajectoire de 100 m² créés (équation T3)**
 
@@ -10746,40 +10585,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -12635,7 +12440,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | VB.25 |
 | EUNIS 2012 | J4.3 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 1 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -12656,19 +12461,6 @@ Plate-forme ferroviaire en service ou non, ballast et abords immédiats.
 
 Correspondance retenue : Plate-forme ferroviaire.
 
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
-
 **Délais et difficultés (module T, équations T3 et T4)**
 
 | Paramètre | Valeur | Source |
@@ -12680,9 +12472,7 @@ Correspondance retenue : Plate-forme ferroviaire.
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 4,17 |
-| État moyen | 3,65 |
-| Mauvais état | 2,92 |
+| Sans grille (f = 1) | 4,17 |
 
 **Exemple de saisie dans le fichier projet (partie 7)**
 
@@ -12693,40 +12483,6 @@ Correspondance retenue : Plate-forme ferroviaire.
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -28379,7 +28135,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F3.1 |
 | EUNIS 2012 | F3.1 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 6 type(s) EUNIS 2022, 36 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -28530,21 +28286,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations fraîches.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -28618,30 +28368,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -28659,7 +28385,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F3.2 |
 | EUNIS 2012 | F3.2 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 6 type(s) EUNIS 2022, 8 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -28919,21 +28645,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -29005,30 +28725,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
     </Critere>
     <Critere>
       <code>E</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
       <reponse>oui</reponse>
     </Critere>
   </Critere_Collection>
@@ -29545,7 +29241,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F5.1 |
 | EUNIS 2012 | F5.1 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 27 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -29657,21 +29353,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -29745,30 +29435,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -29786,7 +29452,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F5.2 |
 | EUNIS 2012 | F5.2 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 18 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -29889,21 +29555,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -29977,30 +29637,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -30018,7 +29654,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F5.3 |
 | EUNIS 2012 | F5.3 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 0 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -30076,21 +29712,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -30164,30 +29794,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -30205,7 +29811,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F5.4 |
 | EUNIS 2012 | F5.4 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 1 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -30240,21 +29846,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes, genêts compris.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -30328,30 +29928,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -30369,7 +29945,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F5.5 |
 | EUNIS 2012 | F5.5 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 24 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -30652,21 +30228,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -30738,30 +30308,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
     </Critere>
     <Critere>
       <code>E</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
       <reponse>oui</reponse>
     </Critere>
   </Critere_Collection>
@@ -31219,7 +30765,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F6.8 |
 | EUNIS 2012 | F6.8 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 2 type(s) EUNIS 2022, 2 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -31290,21 +30836,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Autre fourré des stations sèches et chaudes.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -31376,30 +30916,6 @@ Difficulté de création D = 1 ; valeurs annuelles en m²HE et valeur intégrée
     </Critere>
     <Critere>
       <code>E</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
       <reponse>oui</reponse>
     </Critere>
   </Critere_Collection>
@@ -32169,7 +31685,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F9.1 |
 | EUNIS 2012 | F9.1 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 11 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -32269,21 +31785,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Fourré de saules alluvial.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -32357,30 +31867,6 @@ Difficulté de création D = 0,67 ; valeurs annuelles en m²HE et valeur intégr
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -32398,7 +31884,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F9.2 |
 | EUNIS 2012 | F9.2 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 6 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -32475,21 +31961,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Fourré de tourbière.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -32563,30 +32043,6 @@ Difficulté de création D = 0,67 ; valeurs annuelles en m²HE et valeur intégr
       <code>E</code>
       <reponse>oui</reponse>
     </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
-      <reponse>oui</reponse>
-    </Critere>
   </Critere_Collection>
 </Unite>
 ```
@@ -32604,7 +32060,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | F9.3 |
 | EUNIS 2012 | F9.3 |
 | Position de saisie | au sol |
-| Grille d'état | EL1 (landes) |
+| Grille d'état | EF1 (fourrés) |
 | Correspondances HabRef | 1 type(s) EUNIS 2022, 6 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -32697,21 +32153,15 @@ Taxons que HabRef donne comme caractéristiques, diagnostiques, dominants ou ind
 
 Correspondance retenue : Fourré de saules alluvial.
 
-**Grille d'état EL1 (module H, équations H2 et H3)**
+**Grille d'état EF1 (module H, équations H2 et H3)**
 
 | Critère | Libellé | Essentiel |
 |---|---|---|
-| A | Lande représentative de son type, espèces indicatrices vasculaires et non vasculaires régulièrement présentes | oui |
-| B | Au moins deux espèces d'arbrisseaux fréquentes, recouvrement des arbrisseaux de 25 à 75 % en plaine | oui |
-| C | Toutes les classes d'âge de la callune présentes, dont au moins 10 % de stade pionnier en plaine | non |
-| D | Sol nu non ombragé entre 1 % et 10 % | non |
-| E | Absence d'espèces végétales exotiques envahissantes | non |
-| F | Aucune trace de perturbation des zones sensibles, brûlages dirigés compris | non |
-| G | Au plus 33 % des pousses de callune récemment broutées, ou callune fleurie fréquente à l'automne | non |
-| H | Arbres et fourrés épars (ajoncs exclus) sur moins de 15 % en lande sèche de plaine, 10 % en lande humide, 20 % en montagne | non |
-| I | Ajoncs sur moins de 50 %, ajonc d'Europe sur moins de 25 % | non |
-| J | Fougère aigle sur moins de 5 % | non |
-| K | Aucun drainage, extraction, dépôt, lixiviat ni eutrophisation | non |
+| A | Fourré représentatif de son type, au moins 80 % d'essences indigènes | non |
+| B | Semis, jeunes plants, arbustes jeunes et mûrs tous présents | non |
+| C | Absence d'espèces exotiques envahissantes et espèces d'un état dégradé sur moins de 5 % du sol | non |
+| D | Lisière étagée avec fourrés épars et ourlet herbacé haut vers l'habitat voisin | non |
+| E | Clairières ou layons ménageant des lisières abritées | non |
 
 **Délais et difficultés (module T, équations T3 et T4)**
 
@@ -32783,30 +32233,6 @@ Difficulté de création D = 0,67 ; valeurs annuelles en m²HE et valeur intégr
     </Critere>
     <Critere>
       <code>E</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>H</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>I</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>J</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>K</code>
       <reponse>oui</reponse>
     </Critere>
   </Critere_Collection>
@@ -47310,7 +46736,7 @@ Bnat ne dépend pas du type d'habitat mais de la nature de surface et du support
 | Code OpenNAT | H5.6 |
 | EUNIS 2012 | H5.6 |
 | Position de saisie | au sol |
-| Grille d'état | EU1 (milieux urbains) |
+| Grille d'état | aucune (f = 1) |
 | Correspondances HabRef | 0 type(s) EUNIS 2022, 0 type(s) CORINE Biotopes, 0 habitat(s) d'intérêt communautaire |
 
 **Définition**
@@ -47325,19 +46751,6 @@ Sol nu résultant du piétinement par l'homme ou les animaux.
 
 Correspondance retenue : Chemin non stabilisé.
 
-**Grille d'état EU1 (module H, équations H2 et H3)**
-
-| Critère | Libellé | Essentiel |
-|---|---|---|
-| A | Structure de végétation variée : aucune strate ni aucun type de végétation ne dépasse 80 % de la surface | non |
-| B | Espèces favorables à la faune, notamment des plantes à fleurs nectarifères étalées sur l'année | non |
-| C | Espèces exotiques envahissantes sur moins de 5 % de la surface végétalisée (absence totale exigée pour le bon état) | oui |
-| D | Mosaïque de substrat nu et d'au moins quatre communautés pionnières (annuelles, mousses, lichens, rudérales, espèces des sols inondables, pelouse ouverte, prairie fleurie, lande, mares) | non |
-| E1 | Plantes majoritairement indigènes, les espèces exotiques présentes ne nuisant pas à l'habitat | non |
-| E2 | Végétation composée d'espèces de milieux humides ou riverains | non |
-| F | Au moins 50 % de plantes à fleurs, 70 % de la toiture en sol et végétation, eau comprise | non |
-| G | Substrat d'épaisseur variée de 8 à 15 cm, au moins 50 % à 15 cm, semé de fleurs sauvages et d'orpins, tas de sable, pierres ou bois pour le bon état | non |
-
 **Délais et difficultés (module T, équations T3 et T4)**
 
 | Paramètre | Valeur | Source |
@@ -47349,9 +46762,7 @@ Correspondance retenue : Chemin non stabilisé.
 
 | État | V, m²HE |
 |---|---|
-| Bon état | 41,67 |
-| État moyen | 36,46 |
-| Mauvais état | 29,17 |
+| Sans grille (f = 1) | 41,67 |
 
 Posé sur dalle (convention C-S2), en bon état, 100 m² valent : moins de 15 cm de substrat 20,84 m²HE, 15 à 30 cm 25 m²HE, 30 à 80 cm 29,17 m²HE, 80 cm et plus 37,5 m²HE.
 
@@ -47364,40 +46775,6 @@ Posé sur dalle (convention C-S2), en bon état, 100 m² valent : moins de 15 cm
   <position>sol_pleine_terre</position>
   <surface>100</surface>
   <statut>creee</statut>
-  <Critere_Collection>
-    <Critere>
-      <code>A</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>B</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>C</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>D</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E1</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>E2</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>F</code>
-      <reponse>oui</reponse>
-    </Critere>
-    <Critere>
-      <code>G</code>
-      <reponse>oui</reponse>
-    </Critere>
-  </Critere_Collection>
 </Unite>
 ```
 
@@ -48970,27 +48347,27 @@ Liste au 19 juillet 2022 (règlement d'exécution (UE) 2016/1141 modifié par le
 
 L'orthographe de quelques noms scientifiques de la liste source a été rectifiée (Arthurdendyus, Asclepias, Alopochen aegyptiaca, Nyctereutes procyonoides). Source : Centre de ressources espèces exotiques envahissantes, liste au 19 juillet 2022, https://especes-exotiques-envahissantes.fr/wp-content/uploads/2024/07/220719_liste_rue_eee.pdf.
 
-## Partie 7. Récapitulatif standardisé RSNat
+## Partie 7. Récapitulatif standardisé RSNat et fichier projet
 
-Le RSNat (nom provisoire) est au calcul OpenNAT ce que le RSEE est à l'étude RE2020 : un fichier XML qui porte les données d'entrée, les résultats et les attestations, validé par un schéma XSD publié avec la méthode. Sa structure reprend celle du RSEE : un bloc d'entrée, un bloc de sortie, et ici deux blocs d'attestation.
+Le RSNat (nom provisoire) est au calcul OpenNAT ce que le RSEE est à l'étude RE2020 : un fichier XML qui porte les données d'entrée, les résultats et les attestations, validé par un schéma XSD publié avec la méthode, accompagné de sa copie JSON validée par un schéma JSON. Sa structure reprend celle du RSEE : un bloc d'entrée, un bloc de sortie, et ici deux blocs d'attestation. Le moteur l'écrit à chaque calcul et le valide contre ses deux schémas (exigence E9).
 
 ### 7.1 Fichiers
 
 | Fichier | Contenu |
 |---|---|
-| `schemas/rsnat.xsd` | Schéma XSD, 312 éléments, 22 énumérations |
-| `schemas/exemple_annexe_C.rsnat.xml` | RSNat de l'exemple de l'annexe C de la partie 1, validé contre le schéma |
-| `outils/edition/rsnat_spec.py` | Spécification unique dont dérivent le schéma, ce dictionnaire et l'exemple |
-
-Le fichier d'exemple a été validé contre le schéma par la bibliothèque lxml le 18/10/2026.
+| `schemas/rsnat.xsd` | Schéma XSD, 322 éléments, 23 énumérations |
+| `schemas/rsnat.schema.json` | Schéma JSON du même RSNat |
+| `schemas/projet.schema.json` | Schéma du fichier projet, entrée du moteur (section 7.6) |
+| `schemas/exemple_annexe_C.rsnat.xml` et `.json` | RSNat de l'exemple de l'annexe C de la partie 1, écrit par le moteur et validé contre les deux schémas |
+| `opennat/rsnat_spec.py` | Spécification unique dont dérivent les deux schémas, ce dictionnaire et la sortie du moteur |
 
 ### 7.2 Règles d'écriture
 
 - Encodage UTF-8, séparateur décimal point, dates au format AAAA-MM-JJ.
 - Les éléments sont écrits dans l'ordre du schéma. Un élément facultatif sans valeur est omis.
-- Les valeurs sont celles du calcul aux valeurs centrales, avec la précision de la fiche A01 ; les intervalles sont dans le bloc Incertitude.
+- Les valeurs sont celles du calcul aux valeurs centrales, avec la précision de la fiche A01 : une décimale pour les valeurs en m²HE, m²HE·an, m², m³, mm et points, quatre pour les facteurs ; les intervalles sont dans le bloc Incertitude.
 - Le bloc Attestation_Permis est le seul extrait déposé sur la plateforme d'IRICE au dépôt du permis de construire ; il se lit sans le reste du fichier.
-- Le RSNat porte l'empreinte SHA-256 de son bloc d'entrée et de son bloc de sortie : la plateforme recalcule l'empreinte pour vérifier qu'aucune valeur n'a été modifiée après le calcul.
+- Le RSNat porte l'empreinte SHA-256 de son bloc d'entrée et de son bloc de sortie (forme canonique XML) : la plateforme recalcule l'empreinte pour vérifier qu'aucune valeur n'a été modifiée après le calcul.
 
 ### 7.3 Dictionnaire des données
 
@@ -49198,6 +48575,8 @@ Unité d'habitat.
 | unite_liee | texte |  | 0..1 | Identifiant de l'unité initiale liée, pour une unité conservée ou améliorée |  |
 | protection_chantier | booléen |  | 0..1 | Protection prévue pendant le chantier (fiche A27) |  |
 | Critere_Collection | élément composé |  | 0..1 | Réponses à la grille d'état |  |
+| Score_Declare | élément composé |  | 0..1 | Résumé de la grille quand le détail des critères n'est pas transmis (fiche A10) |  |
+| alimentation_humide | énumération : nappe, pluie |  | 0..1 | Alimentation d'un milieu humide : nappe ou pluie (fiche A47) |  |
 | Renouvellement_Collection | élément composé |  | 0..1 | Années de réfection (fiche A30) |  |
 
 #### 7.3.16 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Eclairage_Horaire`
@@ -49230,7 +48609,17 @@ Réponse à un critère de la grille d'état du type.
 | note | entier | note 1 à 3 | 0..1 | Note d'un indicateur de la grille des boisements |  |
 | preuve | texte |  | 0..1 | Référence de la pièce qui justifie la réponse |  |
 
-#### 7.3.19 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Renouvellement_Collection`
+#### 7.3.19 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Score_Declare`
+
+Résumé de la grille quand le détail des critères n'est pas transmis (fiche A10).
+
+| Élément | Type | Unité | Card. | Description | Origine |
+|---|---|---|---|---|---|
+| satisfaits | entier |  | 1..1 | Critères satisfaits |  |
+| applicables | entier |  | 1..1 | Critères applicables |  |
+| essentiel_echoue | booléen |  | 0..1 | Un critère essentiel a échoué |  |
+
+#### 7.3.20 `RSNat/Entree_Projet/Etat_Initial/Unite_Collection/Unite/Renouvellement_Collection`
 
 Années de réfection (fiche A30).
 
@@ -49238,7 +48627,7 @@ Années de réfection (fiche A30).
 |---|---|---|---|---|---|
 | annee | entier | an | 0..n | Année de réfection, de 2 à 50 |  |
 
-#### 7.3.20 `RSNat/Entree_Projet/Variante_Collection`
+#### 7.3.21 `RSNat/Entree_Projet/Variante_Collection`
 
 Variantes de l'état projet (fiche A41).
 
@@ -49246,7 +48635,7 @@ Variantes de l'état projet (fiche A41).
 |---|---|---|---|---|---|
 | Variante | élément composé |  | 1..n | Variante |  |
 
-#### 7.3.21 `RSNat/Entree_Projet/Variante_Collection/Variante`
+#### 7.3.22 `RSNat/Entree_Projet/Variante_Collection/Variante`
 
 Variante.
 
@@ -49261,7 +48650,7 @@ Variante.
 | Ouvrage_Pluvial_Collection | élément composé |  | 0..1 | Ouvrages de gestion des eaux pluviales (fiche A24) |  |
 | Facade_Vitree_Collection | élément composé |  | 0..1 | Façades vitrées exposées (fiche A22) |  |
 
-#### 7.3.22 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection`
+#### 7.3.23 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection`
 
 Unités de l'état projet.
 
@@ -49269,7 +48658,7 @@ Unités de l'état projet.
 |---|---|---|---|---|---|
 | Unite | élément composé |  | 0..n | Unité d'habitat |  |
 
-#### 7.3.23 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite`
+#### 7.3.24 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite`
 
 Unité d'habitat.
 
@@ -49310,9 +48699,11 @@ Unité d'habitat.
 | unite_liee | texte |  | 0..1 | Identifiant de l'unité initiale liée, pour une unité conservée ou améliorée |  |
 | protection_chantier | booléen |  | 0..1 | Protection prévue pendant le chantier (fiche A27) |  |
 | Critere_Collection | élément composé |  | 0..1 | Réponses à la grille d'état |  |
+| Score_Declare | élément composé |  | 0..1 | Résumé de la grille quand le détail des critères n'est pas transmis (fiche A10) |  |
+| alimentation_humide | énumération : nappe, pluie |  | 0..1 | Alimentation d'un milieu humide : nappe ou pluie (fiche A47) |  |
 | Renouvellement_Collection | élément composé |  | 0..1 | Années de réfection (fiche A30) |  |
 
-#### 7.3.24 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Eclairage_Horaire`
+#### 7.3.25 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Eclairage_Horaire`
 
 Éclairage déclaré heure par heure (fiches A51 à A53).
 
@@ -49323,7 +48714,7 @@ Unité d'habitat.
 | temperature_couleur | nombre décimal | K | 1..1 | Température de couleur |  |
 | part_detection | nombre décimal |  | 0..1 | Part de temps allumé sous détection de présence |  |
 
-#### 7.3.25 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection`
+#### 7.3.26 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection`
 
 Réponses à la grille d'état.
 
@@ -49331,7 +48722,7 @@ Réponses à la grille d'état.
 |---|---|---|---|---|---|
 | Critere | élément composé |  | 0..n | Réponse à un critère de la grille d'état du type |  |
 
-#### 7.3.26 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection/Critere`
+#### 7.3.27 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Critere_Collection/Critere`
 
 Réponse à un critère de la grille d'état du type.
 
@@ -49342,7 +48733,17 @@ Réponse à un critère de la grille d'état du type.
 | note | entier | note 1 à 3 | 0..1 | Note d'un indicateur de la grille des boisements |  |
 | preuve | texte |  | 0..1 | Référence de la pièce qui justifie la réponse |  |
 
-#### 7.3.27 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Renouvellement_Collection`
+#### 7.3.28 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Score_Declare`
+
+Résumé de la grille quand le détail des critères n'est pas transmis (fiche A10).
+
+| Élément | Type | Unité | Card. | Description | Origine |
+|---|---|---|---|---|---|
+| satisfaits | entier |  | 1..1 | Critères satisfaits |  |
+| applicables | entier |  | 1..1 | Critères applicables |  |
+| essentiel_echoue | booléen |  | 0..1 | Un critère essentiel a échoué |  |
+
+#### 7.3.29 `RSNat/Entree_Projet/Variante_Collection/Variante/Unite_Collection/Unite/Renouvellement_Collection`
 
 Années de réfection (fiche A30).
 
@@ -49350,7 +48751,7 @@ Années de réfection (fiche A30).
 |---|---|---|---|---|---|
 | annee | entier | an | 0..n | Année de réfection, de 2 à 50 |  |
 
-#### 7.3.28 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection`
+#### 7.3.30 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection`
 
 Bois mis en œuvre (fiche A34).
 
@@ -49358,7 +48759,7 @@ Bois mis en œuvre (fiche A34).
 |---|---|---|---|---|---|
 | Bois | élément composé |  | 0..n | Lot de bois |  |
 
-#### 7.3.29 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection/Bois`
+#### 7.3.31 `RSNat/Entree_Projet/Variante_Collection/Variante/Bois_Collection/Bois`
 
 Lot de bois.
 
@@ -49369,7 +48770,7 @@ Lot de bois.
 | remplacements | entier |  | 0..1 | Nombre de remplacements en 50 ans |  |
 | justification | texte |  | 0..1 | Pièce qui justifie le régime |  |
 
-#### 7.3.30 `RSNat/Entree_Projet/Variante_Collection/Variante/Granulats`
+#### 7.3.32 `RSNat/Entree_Projet/Variante_Collection/Variante/Granulats`
 
 Granulats, sables et roches (fiche A35).
 
@@ -49378,7 +48779,7 @@ Granulats, sables et roches (fiche A35).
 | masse | nombre décimal | t | 1..1 | Masse mise en œuvre |  |
 | remplacements | entier |  | 0..1 | Nombre de remplacements en 50 ans |  |
 
-#### 7.3.31 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection`
+#### 7.3.33 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection`
 
 Ouvrages de gestion des eaux pluviales (fiche A24).
 
@@ -49386,7 +48787,7 @@ Ouvrages de gestion des eaux pluviales (fiche A24).
 |---|---|---|---|---|---|
 | Ouvrage_Pluvial | élément composé |  | 0..n | Ouvrage |  |
 
-#### 7.3.32 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection/Ouvrage_Pluvial`
+#### 7.3.34 `RSNat/Entree_Projet/Variante_Collection/Variante/Ouvrage_Pluvial_Collection/Ouvrage_Pluvial`
 
 Ouvrage.
 
@@ -49395,7 +48796,7 @@ Ouvrage.
 | surface_drainee | nombre décimal | m² | 1..1 | Surface imperméable conduite vers l'ouvrage |  |
 | infiltration_surface | booléen |  | 1..1 | Infiltration en surface |  |
 
-#### 7.3.33 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection`
+#### 7.3.35 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection`
 
 Façades vitrées exposées (fiche A22).
 
@@ -49403,7 +48804,7 @@ Façades vitrées exposées (fiche A22).
 |---|---|---|---|---|---|
 | Facade_Vitree | élément composé |  | 0..n | Façade |  |
 
-#### 7.3.34 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection/Facade_Vitree`
+#### 7.3.36 `RSNat/Entree_Projet/Variante_Collection/Variante/Facade_Vitree_Collection/Facade_Vitree`
 
 Façade.
 
@@ -49412,7 +48813,7 @@ Façade.
 | surface | nombre décimal | m² | 1..1 | Surface vitrée exposée |  |
 | traitee | booléen |  | 1..1 | Vitrage traité contre les collisions |  |
 
-#### 7.3.35 `RSNat/Sortie_Projet`
+#### 7.3.37 `RSNat/Sortie_Projet`
 
 Résultats (partie 1, chapitre 11).
 
@@ -49420,7 +48821,7 @@ Résultats (partie 1, chapitre 11).
 |---|---|---|---|---|---|
 | Variante_Resultat | élément composé |  | 1..n | Résultats d'une variante |  |
 
-#### 7.3.36 `RSNat/Sortie_Projet/Variante_Resultat`
+#### 7.3.38 `RSNat/Sortie_Projet/Variante_Resultat`
 
 Résultats d'une variante.
 
@@ -49436,7 +48837,7 @@ Résultats d'une variante.
 | Incertitude | élément composé |  | 0..1 | Analyse d'incertitude (fiche A39) |  |
 | Conformite | élément composé |  | 1..1 | Conformité (fiche A40) |  |
 
-#### 7.3.37 `RSNat/Sortie_Projet/Variante_Resultat/Contexte`
+#### 7.3.39 `RSNat/Sortie_Projet/Variante_Resultat/Contexte`
 
 Sorties de l'étape E1 (fiche A02).
 
@@ -49447,7 +48848,7 @@ Sorties de l'étape E1 (fiche A02).
 | pleine_terre_min | nombre décimal |  | 1..1 | Seuil de pleine terre applicable |  |
 | multiplicateur_delai | nombre décimal |  | 1..1 | Multiplicateur de délai de la zone |  |
 
-#### 7.3.38 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection`
+#### 7.3.40 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection`
 
 Contrôle de fermeture (fiche A03).
 
@@ -49455,7 +48856,7 @@ Contrôle de fermeture (fiche A03).
 |---|---|---|---|---|---|
 | Fermeture | élément composé |  | 2..2 | Contrôle d'un état |  |
 
-#### 7.3.39 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection/Fermeture`
+#### 7.3.41 `RSNat/Sortie_Projet/Variante_Resultat/Fermeture_Collection/Fermeture`
 
 Contrôle d'un état.
 
@@ -49466,7 +48867,7 @@ Contrôle d'un état.
 | ecart | nombre décimal | m² | 1..1 | Écart avec S_p |  |
 | conforme | booléen |  | 1..1 | Contrôle satisfait |  |
 
-#### 7.3.40 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection`
+#### 7.3.42 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection`
 
 Résultats par unité.
 
@@ -49474,7 +48875,7 @@ Résultats par unité.
 |---|---|---|---|---|---|
 | Unite_Resultat | élément composé |  | 0..n | Résultats d'une unité |  |
 
-#### 7.3.41 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat`
+#### 7.3.43 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat`
 
 Résultats d'une unité.
 
@@ -49510,20 +48911,20 @@ Résultats d'une unité.
 | trajectoire | texte | m²HE | 0..1 | 50 valeurs annuelles V_u(t) séparées par des espaces |  |
 | valeur_integree | nombre décimal | m²HE·an | 0..1 | Somme de la trajectoire |  |
 
-#### 7.3.42 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat/Bilan_Hydrique`
+#### 7.3.44 `RSNat/Sortie_Projet/Variante_Resultat/Unite_Resultat_Collection/Unite_Resultat/Bilan_Hydrique`
 
 Bilan d'un niveau de réchauffement (fiches A49, A50).
 
 | Élément | Type | Unité | Card. | Description | Origine |
 |---|---|---|---|---|---|
 | niveau | énumération : 2_0, 2_7, 4_0 |  | 1..1 | Année type |  |
-| indice_stress | nombre décimal | jours-équivalents | 1..1 | IS_u,n |  |
-| indice_stress_reference | nombre décimal | jours-équivalents | 1..1 | IS_ref,g |  |
+| indice_stress | nombre décimal | jours-équivalents | 0..1 | IS_u,n |  |
+| indice_stress_reference | nombre décimal | jours-équivalents | 0..1 | IS_ref,g |  |
 | facteur_hydrique | nombre décimal |  | 1..1 | k_W,u,n |  |
 | arrosage | nombre décimal | mm | 0..1 | Volume d'arrosage annuel |  |
 | assec_printemps | booléen |  | 0..1 | Mare à sec entre mars et juin |  |
 
-#### 7.3.43 `RSNat/Sortie_Projet/Variante_Resultat/Site`
+#### 7.3.45 `RSNat/Sortie_Projet/Variante_Resultat/Site`
 
 Sorties des modules S et T (fiches A08, A24, A31).
 
@@ -49549,7 +48950,7 @@ Sorties des modules S et T (fiches A08, A24, A31).
 | part_pluvial_infiltre | nombre décimal |  | 0..1 | P_inf |  |
 | surface_vitree_non_traitee | nombre décimal | m² | 0..1 | A_vit,nt |  |
 
-#### 7.3.44 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux`
+#### 7.3.46 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux`
 
 Sorties du module G (fiches A32 à A36).
 
@@ -49562,7 +48963,7 @@ Sorties du module G (fiches A32 à A36).
 | inat_carrieres | nombre décimal | m²HE·an | 1..1 | Inat_carr |  |
 | Pollution_Resultat | élément composé |  | 0..n | Indicateurs de pollution |  |
 
-#### 7.3.45 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Inat_Climat_Phase`
+#### 7.3.47 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Inat_Climat_Phase`
 
 Inat_clim par phase.
 
@@ -49571,7 +48972,7 @@ Inat_clim par phase.
 | phase | énumération : A1-A3, A4-A5, B, C, D |  | 1..1 | Phase |  |
 | valeur | nombre décimal | m²HE·an | 1..1 | Inat_clim,p |  |
 
-#### 7.3.46 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Pollution_Resultat`
+#### 7.3.48 `RSNat/Sortie_Projet/Variante_Resultat/Materiaux/Pollution_Resultat`
 
 Indicateurs de pollution.
 
@@ -49580,7 +48981,7 @@ Indicateurs de pollution.
 | code | entier |  | 1..1 | Code |  |
 | valeur | nombre décimal | unité de l'annexe II | 1..1 | POL_i |  |
 
-#### 7.3.47 `RSNat/Sortie_Projet/Variante_Resultat/Indicateurs`
+#### 7.3.49 `RSNat/Sortie_Projet/Variante_Resultat/Indicateurs`
 
 Indicateurs de l'opération (fiches A37, A38).
 
@@ -49597,7 +48998,7 @@ Indicateurs de l'opération (fiches A37, A38).
 | cnat_par_m2_parcelle | nombre décimal | m²HE·an/m² | 1..1 | Cnat / S_p |  |
 | inat_par_m2_sref | nombre décimal | m²HE·an/m² | 0..1 | Inat / S_ref |  |
 
-#### 7.3.48 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude`
+#### 7.3.50 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude`
 
 Analyse d'incertitude (fiche A39).
 
@@ -49607,7 +49008,7 @@ Analyse d'incertitude (fiche A39).
 | Intervalle | élément composé |  | 0..n | Intervalle d'un indicateur |  |
 | Parametre_Influent | élément composé |  | 0..5 | Paramètre parmi les cinq plus influents |  |
 
-#### 7.3.49 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Intervalle`
+#### 7.3.51 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Intervalle`
 
 Intervalle d'un indicateur.
 
@@ -49618,7 +49019,7 @@ Intervalle d'un indicateur.
 | p50 | nombre décimal |  | 1..1 | Centile 50 |  |
 | p95 | nombre décimal |  | 1..1 | Centile 95 |  |
 
-#### 7.3.50 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Parametre_Influent`
+#### 7.3.52 `RSNat/Sortie_Projet/Variante_Resultat/Incertitude/Parametre_Influent`
 
 Paramètre parmi les cinq plus influents.
 
@@ -49630,7 +49031,7 @@ Paramètre parmi les cinq plus influents.
 | parametre | texte |  | 1..1 | Paramètre |  |
 | correlation | nombre décimal |  | 1..1 | ρ de Spearman avec Snat |  |
 
-#### 7.3.51 `RSNat/Sortie_Projet/Variante_Resultat/Conformite`
+#### 7.3.53 `RSNat/Sortie_Projet/Variante_Resultat/Conformite`
 
 Conformité (fiche A40).
 
@@ -49641,7 +49042,7 @@ Conformité (fiche A40).
 | plu_conforme | booléen |  | 0..1 | conf_PLU |  |
 | niveau_cnat | entier |  | 1..1 | Niveau 0, 1 ou 2 |  |
 
-#### 7.3.52 `RSNat/Attestation_Permis`
+#### 7.3.54 `RSNat/Attestation_Permis`
 
 Attestation de prise en compte de la biodiversité au dépôt du permis de construire (fiche A40, convention C-P1).
 
@@ -49657,7 +49058,7 @@ Attestation de prise en compte de la biodiversité au dépôt du permis de const
 | conforme | booléen |  | 1..1 | Conclusion de conformité |  |
 | mention | texte |  | 0..1 | Mention, notamment l'écart au minimum du PLU |  |
 
-#### 7.3.53 `RSNat/Attestation_Achevement`
+#### 7.3.55 `RSNat/Attestation_Achevement`
 
 Attestation à l'achèvement (fiche A40).
 
@@ -49676,7 +49077,7 @@ Attestation à l'achèvement (fiche A40).
 | inat_par_m2_sref | nombre décimal | m²HE·an/m² | 0..1 | Inat / S_ref |  |
 | niveau_cnat | entier |  | 1..1 | Niveau atteint |  |
 
-#### 7.3.54 `RSNat/Empreinte`
+#### 7.3.56 `RSNat/Empreinte`
 
 Empreintes de contrôle (fiche A42).
 
@@ -49708,24 +49109,180 @@ Empreintes de contrôle (fiche A42).
 | zone_climatique | H1a, H1b, H1c, H2a, H2b, H2c, H2d, H3 |
 | texture | sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |
 | fond_mare | etanche, argile, naturel |
+| alimentation_humide | nappe, pluie |
 | regime_gestion | plan, courante, abandon |
 | niveau_rechauffement | 2_0, 2_7, 4_0 |
 | groupe_hydrique | gazon, prairie, xerophile, arbustif, arbore, conifere, toiture_extensive, humide_pluie, mare |
 
 ### 7.5 Exemple
 
-Extrait du fichier `schemas/exemple_annexe_C.rsnat.xml`, bloc Attestation_Permis :
+Extrait du fichier `schemas/exemple_annexe_C.rsnat.xml`, écrit par le moteur, blocs Indicateurs et Attestation_Permis :
 
 ```
+<Indicateurs>
+  <cnat>3217.2</cnat>
+  <cnat_moyen>64.3</cnat_moyen>
+  <cnat_relatif>0.2423</cnat_relatif>
+  <cnat_30>1988.1</cnat_30>
+  <inat>141842.9</inat>
+  <snat>-145060.0</snat>
+  <bnat>59.0</bnat>
+  <cbs>0.5900</cbs>
+  <cnat_par_m2_parcelle>1.6086</cnat_par_m2_parcelle>
+  <inat_par_m2_sref>101.3163</inat_par_m2_sref>
+</Indicateurs>
 <Attestation_Permis>
   <variante>1</variante>
   <bnat>59.0</bnat>
-  <bnat_min>45</bnat_min>
-  <pleine_terre>0.425</pleine_terre>
-  <pleine_terre_min>0.15</pleine_terre_min>
+  <bnat_min>45.0</bnat_min>
+  <pleine_terre>0.4250</pleine_terre>
+  <pleine_terre_min>0.1500</pleine_terre_min>
   <conforme>true</conforme>
 </Attestation_Permis>
 ```
+
+### 7.6 Fichier projet
+
+Le fichier projet est l'entrée du moteur : un fichier JSON, validé contre `schemas/projet.schema.json` avant tout calcul. Il porte les données du chapitre 4 de la partie 1. Quand un RSEE est indiqué (`projet.rsee`), la parcelle, les bâtiments, les indicateurs d'ACV, la zone climatique, le département et l'altitude s'en reprennent (fiche A05) ; une donnée saisie l'emporte sur celle du RSEE. Les valeurs par défaut appliquées sont écrites au journal du calcul.
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `format` | « OpenNAT projet 1 » | oui |  |
+| `projet` | objet | oui |  |
+| `projet.identifiant` | texte | oui |  |
+| `projet.nom` | texte |  |  |
+| `projet.adresse` | texte |  |  |
+| `projet.commune_insee` | texte |  |  |
+| `projet.date_etude` | texte |  |  |
+| `projet.rsee` | texte |  | Chemin d'un RSEE à reprendre (fiche A05) |
+| `contexte` | objet | oui |  |
+| `contexte.zone_biogeographique` | un de : atlantique, continentale, mediterraneenne, alpine | oui |  |
+| `contexte.typologie` | un de : logement, tertiaire, industrie, amenagement | oui |  |
+| `contexte.zone_climatique` | un de : H1a, H1b, H1c, H2a, H2b, H2c, H2d, H3 | oui |  |
+| `contexte.departement` | texte |  |  |
+| `contexte.altitude` | number ou null |  |  |
+| `contexte.sol` | objet |  |  |
+| `contexte.sol.texture` | un de : sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |  |  |
+| `contexte.sol.profondeur` | nombre |  |  |
+| `contexte.cbs_plu` | nombre |  |  |
+| `contexte.pleine_terre_plu` | nombre |  |  |
+| `contexte.k_delai_etude` | nombre |  | Étude de sensibilité des délais (cas 8c) |
+| `parcelle` | objet | oui |  |
+| `parcelle.surface` | nombre | oui |  |
+| `parcelle.emprise` | nombre |  | Emprise du bâti quand aucun bâtiment n'est décrit |
+| `parcelle.surface_vegetalisee_rsee` | nombre |  |  |
+| `parcelle.surface_impermeable_rsee` | nombre |  |  |
+| `parcelle.surface_arrosee_rsee` | nombre |  |  |
+| `chantier` | voir chantier |  |  |
+| `gestion` | voir gestion |  |  |
+| `taches` | objet |  |  |
+| `batiments` | liste |  |  |
+| `etat_initial` | liste | oui |  |
+| `variantes` | liste | oui |  |
+| `options` | objet |  |  |
+| `options.tirages` | entier |  |  |
+| `options.graine` | entier |  |  |
+| `options.bloc` | entier |  |  |
+
+#### Définition `chantier`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `annee_debut` | entier |  |  |
+| `mois_debut` | entier |  |  |
+| `duree_mois` | nombre |  |  |
+| `mois_destruction` | entier |  |  |
+
+#### Définition `gestion`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `plan_annees` | nombre |  |  |
+
+#### Définition `tache`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `connexion` | un de : forte, moyenne, faible |  |  |
+| `exterieur` | nombre |  |  |
+| `cloture` | un de : aucune, permeable, etanche |  |  |
+| `distance_espace_naturel` | nombre |  |  |
+| `surface_espace_naturel` | nombre |  |  |
+| `trame` | booléen |  |  |
+
+#### Définition `batiment`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `nom` | texte |  |  |
+| `sref` | nombre |  |  |
+| `emprise_au_sol` | nombre |  |  |
+| `duree_chantier` | nombre |  |  |
+| `ges` | objet |  |  |
+| `pollution` | objet |  |  |
+
+#### Définition `eclairage`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+|  | un de : L0, L1, L2 ou objet |  |  |
+
+#### Définition `unite`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `id` | texte | oui |  |
+| `code` | texte | oui |  |
+| `position` | un de : sol_pleine_terre, sol_sur_dalle, hors_sol_toiture, hors_sol_facade, eau, arbre, lineaire |  |  |
+| `surface` | nombre |  |  |
+| `epaisseur` | nombre |  |  |
+| `longueur` | nombre |  |  |
+| `largeur` | nombre |  |  |
+| `hauteur` | nombre |  |  |
+| `nombre_arbres` | entier |  |  |
+| `classe_diametre` | un de : petit, moyen, grand, tres_grand |  |  |
+| `stade` | un de : J, M, A, jeune, moyen, age |  |  |
+| `situation` | un de : reservoir, corridor, hors_trame |  |  |
+| `tache` | texte |  |  |
+| `criteres` | objet |  |  |
+| `notes` | objet |  |  |
+| `score` | objet |  |  |
+| `eclairage` | voir eclairage |  |  |
+| `niveau_sonore` | nombre |  |  |
+| `exposition_vitrage` | booléen |  |  |
+| `alimentation` | un de : naturelle, artificielle |  |  |
+| `alimentation_humide` | un de : nappe, pluie |  |  |
+| `statut` | un de : conservee, creee, amelioree |  |  |
+| `liee` | texte |  |  |
+| `protection` | booléen |  |  |
+| `renouvellements` | liste |  |  |
+| `arrose` | booléen |  |  |
+| `texture` | un de : sable, sable_limoneux, limon_sableux, limon, limon_silteux, silt, limon_argilo_silteux, argile_silteuse, argile |  |  |
+| `profondeur_sol` | nombre |  |  |
+| `bassin_versant` | nombre |  |  |
+| `bassin_versant_permeable` | nombre |  |  |
+| `profondeur` | nombre |  |  |
+| `fond` | un de : etanche, argile, naturel |  |  |
+| `gites` | booléen |  |  |
+| `gestion` | un de : plan, courante, abandon |  |  |
+| `apres_plan` | un de : courante, abandon |  |  |
+| `plan_gestion_annees` | nombre |  |  |
+
+#### Définition `variante`
+
+| Champ | Type | Obligatoire | Remarque |
+|---|---|---|---|
+| `nom` | texte | oui |  |
+| `reference` | booléen |  |  |
+| `unites` | liste | oui |  |
+| `batiments` | liste |  |  |
+| `materiaux` | objet |  |  |
+| `ouvrages_pluviaux` | liste |  |  |
+| `facades_vitrees` | liste |  |  |
+| `taches` | objet |  |  |
+| `chantier` | voir chantier |  |  |
+| `gestion` | voir gestion |  |  |
+| `emprise` | nombre |  |  |
 
 ## Partie 8. Cas de validation
 
@@ -59527,7 +59084,7 @@ Pour les types ligneux, la BKompV distingue trois stades : jeune (J), moyen (M) 
 
 #### C-H6
 Catégorie : convention de transposition.
-Les grilles d'état sont celles des fiches d'évaluation de la métrique statutaire anglaise (juillet 2025), traduites et adaptées. Chaque type OpenNAT relève de la grille de son groupe anglais : prairies de faible valeur EP1, prairies de valeur moyenne à très haute EP2, landes EL1, haies EH1, arbres EA1, mares et plans d'eau EM1, fourrés EF1, milieux peu végétalisés ER1, milieux urbains EU1, zones humides EZ1, boisements EB1, vergers EV1. Les cultures n'ont pas de grille (f = 1). Un type relève de la grille du groupe de sa ligne anglaise : prairie de distinctivité 2 au plus, EP1 ; prairie de distinctivité 4 et plus, EP2 ; landes, EL1 ; fourrés, EF1 ; lacs et mares, EM1 ; milieux peu végétalisés, ER1 ; urbain, EU1 ; zones humides et prés salés, EZ1 ; boisements, parcs boisés et coupes, EB1 ; arbres, EA1 ; haies, EH1 ; vergers traditionnels, EV1. Le score vaut S = (nombre de critères satisfaits) / (nombre de critères applicables). L'échec d'un critère essentiel plafonne S à 0,5, ce qui transpose la règle anglaise selon laquelle cet échec interdit le bon et le moyen état. Pour les boisements, chacun des 13 indicateurs est noté de 1 à 3 selon la fiche, et S = (total - 13) / 26.
+Les grilles d'état sont celles des fiches d'évaluation de la métrique statutaire anglaise (juillet 2025), traduites et adaptées. Chaque type OpenNAT relève de la grille de son groupe anglais : prairies de faible valeur EP1, prairies de valeur moyenne à très haute EP2, landes EL1, haies EH1, arbres EA1, mares et plans d'eau EM1, fourrés EF1, milieux peu végétalisés ER1, milieux urbains EU1, zones humides EZ1, boisements EB1, vergers EV1. Les surfaces scellées, revêtues ou nues (VB.1 à VB.4, VB.10, VB.25, H5.6), les cultures et les plantations de production (I1.1 à I1.4, FB.1, FB.2, FB.4) n'ont pas de grille (f = 1). La grille de chaque type est écrite dans la colonne `grille_etat` de `donnees/nomenclature_habitats.csv`. Un type relève de la grille du groupe de sa ligne anglaise : prairie de distinctivité 2 au plus, EP1 ; prairie de distinctivité 4 et plus, EP2 ; landes, EL1 ; fourrés, EF1 ; lacs et mares, EM1 ; milieux peu végétalisés, ER1 ; urbain, EU1 ; zones humides et prés salés, EZ1 ; boisements, parcs boisés et coupes, EB1 ; arbres, EA1 ; haies, EH1 ; vergers traditionnels, EV1. Le score vaut S = (nombre de critères satisfaits) / (nombre de critères applicables). L'échec d'un critère essentiel plafonne S à 0,5, ce qui transpose la règle anglaise selon laquelle cet échec interdit le bon et le moyen état. Pour les boisements, chacun des 13 indicateurs est noté de 1 à 3 selon la fiche, et S = (total - 13) / 26.
 
 #### C-H7
 Catégorie : valeur de secours.

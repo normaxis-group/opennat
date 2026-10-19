@@ -3617,6 +3617,8 @@ Seuils de Bnat, de la pleine terre et de Cnat, en attente de validation du Biodi
 | * | pleine terre min | 0,15 | fraction de l'emprise totale du projet | 0,15 | transposée | C-E6 | Référentiel Effinature 8.1, NORMATYS (version à venir), critère SOL 01.2.5 : au moins 15 % d'espaces végétalisés en pleine terre sur l'emprise totale du projet |
 | niveau_1 | cnat max relatif | 0 | fraction de la valeur initiale intégrée | 0 | convention | C-E7 | OpenNAT, absence de perte nette sur le site |
 | niveau_2 | cnat max relatif | -0,1 | fraction de la valeur initiale intégrée | -0,1 | transposée | C-E7 | Environment Act 2021, Schedule 14, Schedule 7A inséré dans le Town and Country Planning Act 1990, paragraphe 2(3) : The relevant percentage is 10% (lu le 18/10/2026) |
+| emprise | classe 1 max | 0,37 | part d'emprise du bâti | 0,37 | transposée | C-E6 | Référentiel Effinature 8.1, NORMATYS (version à venir), critère SOL 01.2.5 : emprise jusqu'à 37 % |
+| emprise | classe 3 min | 0,5 | part d'emprise du bâti | 0,5 | transposée | C-E6 | Référentiel Effinature 8.1, NORMATYS (version à venir), critère SOL 01.2.5 : emprise de 50 % et plus |
 
 ### 2.10 Grilles d'état (`etat_criteres.csv`)
 
@@ -4094,7 +4096,84 @@ Courbe de Chapman-Richards, couples exploité et abandonné de la BKompV, délai
 | * | delai embroussaillement | 15 | an | 10 à 30 | convention | C-M2 | OpenNAT, valeur de secours |
 | * | score friche embroussaillee | 0,75 | fraction | 0,65 à 0,85 | convention | C-M2 | OpenNAT, valeur de secours |
 
-### 2.15 Calendrier du chantier (`chantier.csv`)
+### 2.15 Constantes des équations et valeurs de règle (`constantes.csv`)
+
+Constantes de la FAO-56 et de l'atmosphère type, raccourcis d'éclairage, heure légale, jalons de la TRACC, seuils de contrôle, réglages de l'analyse d'incertitude : tout ce que le moteur lit au lieu de l'écrire dans son code (exigence E2).
+
+| Clé | Paramètre | Valeur | Unité | Plage | Type | Conv. | Source et référence précise |
+|---|---|---|---|---|---|---|---|
+| fao56 | albedo reference | 0,23 | sans unité | 0,23 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 38 |
+| fao56 | cn horaire | 37 | K mm s³ Mg-1 h-1 | 37 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 53 |
+| fao56 | cd horaire | 0,34 | s/m | 0,34 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 53 |
+| fao56 | coefficient rayonnement | 0,408 | mm par MJ/m² | 0,408 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 53 |
+| fao56 | saturation a | 0,6108 | kPa | 0,6108 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 11 |
+| fao56 | saturation b | 17,27 | sans unité | 17,27 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 11 |
+| fao56 | saturation c | 237,3 | °C | 237,3 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 11 |
+| fao56 | pente saturation | 4 098 | °C | 4 098 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 13 |
+| fao56 | psychrometrique | 6,650 x 10^-4 | kPa-1 °C-1 x kPa | 6,650 x 10^-4 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 8 |
+| fao56 | vent a | 4,87 | sans unité | 4,87 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 47 |
+| fao56 | vent b | 67,8 | m-1 | 67,8 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 47 |
+| fao56 | vent c | 5,42 | sans unité | 5,42 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 47 |
+| fao56 | stefan boltzmann horaire | 2,043 x 10^-10 | MJ K-4 m-2 h-1 | 2,043 x 10^-10 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | constante solaire horaire | 4,92 | MJ m-2 h-1 | 4,92 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 28 |
+| fao56 | excentricite | 0,033 | sans unité | 0,033 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 23 |
+| fao56 | rso a | 0,75 | sans unité | 0,75 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 37 |
+| fao56 | rso b | 2,000 x 10^-5 | m-1 | 2,000 x 10^-5 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 37 |
+| fao56 | rnl a | 0,34 | sans unité | 0,34 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | rnl b | 0,14 | kPa-0,5 | 0,14 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | rnl c | 1,35 | sans unité | 1,35 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | rnl d | 0,35 | sans unité | 0,35 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | rapport rs rso min | 0,3 | sans unité | 0,3 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | rapport rs rso max | 1 | sans unité | 1 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | rapport rs rso initial | 0,7 | sans unité | 0,7 | convention | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, chapitre 4, rayonnement horaire de nuit |
+| fao56 | flux sol jour | 0,1 | sans unité | 0,1 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 45 |
+| fao56 | flux sol nuit | 0,5 | sans unité | 0,5 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 46 |
+| fao56 | pression temperature reference | 293 | K | 293 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 7 |
+| fao56 | pression exposant | 5,26 | sans unité | 5,26 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 7 |
+| fao56 | decalage kelvin | 273,16 | K | 273,16 | primaire | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, équation 39 |
+| fao56 | hauteur soleil rapport nuit | 10 | degré | 10 | convention | C-W2 | Allen R. G., Pereira L. S., Raes D., Smith M. (1998), FAO-56, Crop evapotranspiration, chapitre 4, rayonnement horaire de nuit : rapport Rs/Rso pris en fin d'après-midi |
+| iso2533 | gradient thermique | 0,0065 | K/m | 0,0065 | primaire | C-W1 | ISO 2533:1975, atmosphère type, gradient vertical de température de la troposphère |
+| fichiers_prospectifs | hauteur anemometre | 10 | m | 10 | primaire | C-W1 | ADEME, Météo-France, CSTB, DHUP, fichiers climatiques prospectifs (2025), variable FF : force du vent à 10 mètres |
+| raccourci_L1 | heure extinction | 1 | heure légale | 1 | convention | C-L1 | OpenNAT, valeur de règle |
+| raccourci_L1 | temperature couleur | 3 000 | K | 3 000 | convention | C-L1 | OpenNAT, valeur de règle |
+| raccourci_L2 | temperature couleur | 4 000 | K | 4 000 | convention | C-L1 | OpenNAT, valeur de règle |
+| heure_legale | decalage ete | 2 | heure | 2 | convention | C-L2 | OpenNAT, valeur de règle |
+| heure_legale | decalage hiver | 1 | heure | 1 | convention | C-L2 | OpenNAT, valeur de règle |
+| heure_legale | premier mois ete | 4 | mois | 4 | convention | C-L2 | OpenNAT, valeur de règle |
+| heure_legale | dernier mois ete | 10 | mois | 10 | convention | C-L2 | OpenNAT, valeur de règle |
+| arrosage | heure utc | 2 | heure | 2 | convention | C-W10 | OpenNAT, valeur de règle |
+| mare | premier mois assec | 3 | mois | 3 | convention | C-W12 | OpenNAT, valeur de règle |
+| mare | dernier mois assec | 6 | mois | 6 | convention | C-W12 | OpenNAT, valeur de règle |
+| reference_hydrique | epaisseur toiture | 10 | cm | 10 | convention | C-W9 | OpenNAT, valeur de règle |
+| tracc | jalon 1 annee | 2030 | année | 2030 à 2030 | convention | C-W13 | OpenNAT, valeur de règle |
+| tracc | jalon 1 rechauffement | 2 | °C | 2 | convention | C-W13 | OpenNAT, valeur de règle |
+| tracc | jalon 2 annee | 2050 | année | 2050 à 2050 | convention | C-W13 | OpenNAT, valeur de règle |
+| tracc | jalon 2 rechauffement | 2,7 | °C | 2,7 | convention | C-W13 | OpenNAT, valeur de règle |
+| tracc | jalon 3 annee | 2100 | année | 2100 à 2100 | convention | C-W13 | OpenNAT, valeur de règle |
+| tracc | jalon 3 rechauffement | 4 | °C | 4 | convention | C-W13 | OpenNAT, valeur de règle |
+| controle | tolerance coherence rsee | 0,05 | fraction de la parcelle | 0,05 | convention | C-E3 | OpenNAT, valeur de règle |
+| controle | rapport alerte houppier | 2 | sans unité | 2 | convention | C-H5 | OpenNAT, valeur de règle |
+| controle | apport alerte ruissellement | 20 | sans unité | 20 | convention | C-W11 | OpenNAT, valeur de règle |
+| haie | largeur minimale | 1 | m | 1 | convention | C-H5 | OpenNAT, valeur de règle |
+| facade | hauteur maximale | 10 | m | 10 | convention | C-B1 | OpenNAT, valeur de règle |
+| toiture | epaisseur semi intensive | 15 | cm | 15 | convention | C-H3 | OpenNAT, valeur de règle |
+| toiture | epaisseur intensive | 30 | cm | 30 | convention | C-H3 | OpenNAT, valeur de règle |
+| substrat | epaisseur s05 | 15 | cm | 15 | convention | C-S1 | OpenNAT, valeur de règle |
+| substrat | epaisseur s06 | 30 | cm | 30 | convention | C-S1 | OpenNAT, valeur de règle |
+| substrat | epaisseur s07 | 80 | cm | 80 | convention | C-S1 | OpenNAT, valeur de règle |
+| chantier | mois debut defaut | 1 | mois | 1 | convention | C-K3 | OpenNAT, valeur de règle |
+| incertitude | tirages defaut | 1 000 | tirages | 1 000 | convention | C-I2 | OpenNAT, valeur de règle |
+| incertitude | graine defaut | 2,026 x 10^7 | sans unité | 2,026 x 10^7 | convention | C-I2 | OpenNAT, valeur de règle |
+| incertitude | centile bas | 5 | centile | 5 | convention | C-I2 | OpenNAT, valeur de règle |
+| incertitude | centile median | 50 | centile | 50 | convention | C-I2 | OpenNAT, valeur de règle |
+| incertitude | centile haut | 95 | centile | 95 | convention | C-I2 | OpenNAT, valeur de règle |
+| incertitude | nombre parametres influents | 5 | paramètres | 5 | convention | C-I2 | OpenNAT, valeur de règle |
+| incertitude | taille bloc | 100 | tirages | 100 | convention | C-I2 | OpenNAT, valeur de règle |
+| boisement | nombre indicateurs | 13 | indicateurs | 13 | convention | C-H6 | OpenNAT, valeur de règle |
+| boisement | note minimale | 1 | note | 1 | convention | C-H6 | OpenNAT, valeur de règle |
+| boisement | note maximale | 3 | note | 3 | convention | C-H6 | OpenNAT, valeur de règle |
+
+### 2.16 Calendrier du chantier (`chantier.csv`)
 
 Sensibilité mensuelle des oiseaux nicheurs, des chiroptères et des amphibiens, saison de plantation, année de début par défaut (module T, fiches A57 et A58).
 
@@ -4152,7 +4231,7 @@ Sensibilité mensuelle des oiseaux nicheurs, des chiroptères et des amphibiens,
 | * | avance plantation | 2 | mois | 0 à 4 | convention | C-K2 | OpenNAT, valeur de secours |
 | * | annee debut defaut | 2027 | année | 2027 à 2030 | convention | C-K3 | OpenNAT, valeur de secours |
 
-### 2.16 Années types horaires : synthèse mensuelle
+### 2.17 Années types horaires : synthèse mensuelle
 
 Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures : France +2 °C (2030), +2,7 °C (2050) et +4 °C (2100), tirées des fichiers climatiques prospectifs de l'ADEME, de Météo-France, du CSTB et de la DHUP (juin 2025, Licence Ouverte 2.0) et réduites dans `donnees/climat/` aux variables utilisées. Le tableau de chaque station donne, mois par mois, la température moyenne, la pluie après recalage sur la normale 1991-2020 (fiche A45) et l'évapotranspiration de référence calculée par la fiche A44, à l'altitude de la station.
 
@@ -4270,7 +4349,7 @@ Le module W lit, pour chaque zone, trois années types horaires de 8 760 heures 
 
 Var. : variable. T : température moyenne (°C) ; P : pluie recalée (mm) ; ET0 : évapotranspiration de référence (mm). +2, +2,7, +4 : niveau de réchauffement de l'année type (°C). Mois de janvier (J) à décembre (D).
 
-### 2.17 Extraits des sources primaires utilisés
+### 2.18 Extraits des sources primaires utilisés
 
 Les deux tableaux suivants reproduisent les lignes des sources primaires effectivement appelées par la nomenclature : la liste allemande des valeurs de biotopes (texte réglementaire libre de droits) et les lignes de la métrique anglaise (Open Government Licence v3.0).
 
@@ -4530,7 +4609,7 @@ Les deux tableaux suivants reproduisent les lignes des sources primaires effecti
 | Woodland and forest - Upland birchwoods | G1.9 |
 | Woodland and forest - Wet woodland | G1.1, G1.2, G1.3, G1.4, G1.5, G1.B, G3.E, G4.1 |
 | Woodland and forest - Wood-pasture and parkland | E7.1, E7.2, E7.3 |
-### 2.18 Annexe 2 de la BKompV, liste complète
+### 2.19 Annexe 2 de la BKompV, liste complète
 
 Liste complète des types de biotopes de l'annexe 2 de la BKompV et de leur valeur sur 24, dans l'ordre du texte (extraction du 18/10/2026). Les intitulés de rubrique, sans valeur, structurent la liste. Les types appelés par la nomenclature OpenNAT sont repris plus haut.
 
@@ -5425,7 +5504,7 @@ Liste complète des types de biotopes de l'annexe 2 de la BKompV et de leur vale
 | 70.04M | – Mittlere Ausprägung | 18 | 0,75 |
 | 70.04A | – Alte Ausprägung | 21 | 0,875 |
 
-### 2.19 Métrique statutaire anglaise, onglets utilisés
+### 2.20 Métrique statutaire anglaise, onglets utilisés
 
 Reproduction des colonnes utilisées des onglets G-1, G-4 et G-5 du tableur statutaire 1.0.4 (Defra et Natural England, Open Government Licence v3.0). « Not Possible » signifie que la création ou l'amélioration n'est pas admise par la métrique pour cette classe d'état.
 

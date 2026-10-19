@@ -1,54 +1,49 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <RSNat>
   <version_methode>OpenNAT 1</version_methode>
-  <version_donnees>exemple</version_donnees>
+  <version_donnees>1e8f76c435feb0332e70096dff7f082f43f3498e4c163bee84a3e6cd2aefada0</version_donnees>
   <graine>20261018</graine>
   <date_calcul>2026-10-18</date_calcul>
   <Entree_Projet>
     <Projet>
-      <identifiant>EX-ANNEXE-C</identifiant>
-      <nom>Résidence sur friche urbaine</nom>
+      <identifiant>exemple_de_l_annexe_c</identifiant>
+      <nom>Exemple de l'annexe C</nom>
       <zone_biogeographique>continentale</zone_biogeographique>
-      <departement>78</departement>
       <zone_climatique>H1a</zone_climatique>
       <texture_sol>limon</texture_sol>
-      <profondeur_sol>1.0</profondeur_sol>
+      <profondeur_sol>1.0000</profondeur_sol>
       <annee_debut_chantier>2027</annee_debut_chantier>
       <mois_debut_chantier>9</mois_debut_chantier>
-      <mois_destruction>9</mois_destruction>
       <plan_gestion_annees>10</plan_gestion_annees>
       <typologie>logement</typologie>
       <date_etude>2026-10-18</date_etude>
     </Projet>
     <Parcelle>
-      <surface>2000</surface>
+      <surface>2000.0</surface>
     </Parcelle>
     <Batiment_Collection>
       <Batiment>
         <index>1</index>
-        <sref>1400</sref>
-        <emprise_au_sol>700</emprise_au_sol>
-        <duree_chantier>18</duree_chantier>
+        <nom>Bâtiment</nom>
+        <sref>1400.0</sref>
+        <emprise_au_sol>700.0</emprise_au_sol>
+        <duree_chantier>18.0000</duree_chantier>
         <Ges_Collection>
           <Ges>
             <phase>A1-A3</phase>
-            <valeur>350</valeur>
-          </Ges>
-          <Ges>
-            <phase>A4-A5</phase>
-            <valeur>120</valeur>
+            <valeur>470.0</valeur>
           </Ges>
           <Ges>
             <phase>B</phase>
-            <valeur>400</valeur>
+            <valeur>400.0</valeur>
           </Ges>
           <Ges>
             <phase>C</phase>
-            <valeur>55</valeur>
+            <valeur>55.0</valeur>
           </Ges>
           <Ges>
             <phase>D</phase>
-            <valeur>-40</valeur>
+            <valeur>-40.0</valeur>
           </Ges>
         </Ges_Collection>
       </Batiment>
@@ -56,18 +51,12 @@
     <Tache_Collection>
       <Tache>
         <identifiant>P1</identifiant>
-        <connexion>faible</connexion>
-        <cloture>aucune</cloture>
       </Tache>
       <Tache>
         <identifiant>P2</identifiant>
-        <connexion>faible</connexion>
-        <cloture>aucune</cloture>
       </Tache>
       <Tache>
         <identifiant>P3</identifiant>
-        <connexion>faible</connexion>
-        <cloture>aucune</cloture>
       </Tache>
     </Tache_Collection>
     <Etat_Initial>
@@ -76,196 +65,148 @@
           <identifiant>U0-1</identifiant>
           <code_habitat>VB.8</code_habitat>
           <position>sol_pleine_terre</position>
-          <surface>1200</surface>
+          <surface>1200.0</surface>
           <tache>P1</tache>
-          <Critere_Collection>
-            <Critere>
-              <code>A</code>
-              <reponse>oui</reponse>
-            </Critere>
-            <Critere>
-              <code>B</code>
-              <reponse>oui</reponse>
-            </Critere>
-            <Critere>
-              <code>C</code>
-              <reponse>non</reponse>
-            </Critere>
-            <Critere>
-              <code>D</code>
-              <reponse>oui</reponse>
-            </Critere>
-            <Critere>
-              <code>E1</code>
-              <reponse>sans_objet</reponse>
-            </Critere>
-            <Critere>
-              <code>E2</code>
-              <reponse>sans_objet</reponse>
-            </Critere>
-            <Critere>
-              <code>F</code>
-              <reponse>sans_objet</reponse>
-            </Critere>
-            <Critere>
-              <code>G</code>
-              <reponse>sans_objet</reponse>
-            </Critere>
-          </Critere_Collection>
+          <Score_Declare>
+            <satisfaits>3</satisfaits>
+            <applicables>4</applicables>
+            <essentiel_echoue>true</essentiel_echoue>
+          </Score_Declare>
         </Unite>
         <Unite>
           <identifiant>U0-2</identifiant>
           <code_habitat>VB.2</code_habitat>
           <position>sol_pleine_terre</position>
-          <surface>600</surface>
+          <surface>600.0</surface>
         </Unite>
         <Unite>
           <identifiant>U0-3</identifiant>
           <code_habitat>VB.9</code_habitat>
           <position>sol_pleine_terre</position>
-          <surface>200</surface>
+          <surface>200.0</surface>
           <tache>P1</tache>
-          <Critere_Collection>
-            <Critere>
-              <code>A</code>
-              <reponse>oui</reponse>
-            </Critere>
-            <Critere>
-              <code>B</code>
-              <reponse>non</reponse>
-            </Critere>
-            <Critere>
-              <code>C</code>
-              <reponse>oui</reponse>
-            </Critere>
-            <Critere>
-              <code>D</code>
-              <reponse>non</reponse>
-            </Critere>
-            <Critere>
-              <code>E</code>
-              <reponse>non</reponse>
-            </Critere>
-          </Critere_Collection>
+          <Score_Declare>
+            <satisfaits>2</satisfaits>
+            <applicables>5</applicables>
+            <essentiel_echoue>false</essentiel_echoue>
+          </Score_Declare>
         </Unite>
         <Unite>
           <identifiant>U0-4</identifiant>
           <code_habitat>VB.18a</code_habitat>
           <position>arbre</position>
-          <surface>100</surface>
-          <classe_diametre>moyen</classe_diametre>
+          <surface>100.0</surface>
           <stade>M</stade>
           <tache>P1</tache>
-          <Critere_Collection>
-            <Critere>
-              <code>A</code>
-              <reponse>oui</reponse>
-            </Critere>
-            <Critere>
-              <code>B</code>
-              <reponse>oui</reponse>
-            </Critere>
-            <Critere>
-              <code>C</code>
-              <reponse>non</reponse>
-            </Critere>
-            <Critere>
-              <code>D</code>
-              <reponse>oui</reponse>
-            </Critere>
-            <Critere>
-              <code>E</code>
-              <reponse>oui</reponse>
-            </Critere>
-            <Critere>
-              <code>F</code>
-              <reponse>oui</reponse>
-            </Critere>
-          </Critere_Collection>
+          <Score_Declare>
+            <satisfaits>5</satisfaits>
+            <applicables>6</applicables>
+            <essentiel_echoue>false</essentiel_echoue>
+          </Score_Declare>
         </Unite>
       </Unite_Collection>
     </Etat_Initial>
     <Variante_Collection>
       <Variante>
         <index>1</index>
-        <nom>Projet de référence</nom>
+        <nom>Projet</nom>
         <reference>true</reference>
         <Unite_Collection>
           <Unite>
             <identifiant>U1-1</identifiant>
             <code_habitat>VB.1</code_habitat>
             <position>sol_pleine_terre</position>
-            <surface>700</surface>
-            <statut>creee</statut>
+            <surface>700.0</surface>
           </Unite>
           <Unite>
             <identifiant>U1-2</identifiant>
             <code_habitat>VB.2</code_habitat>
             <position>sol_pleine_terre</position>
-            <surface>300</surface>
-            <statut>creee</statut>
+            <surface>300.0</surface>
           </Unite>
           <Unite>
             <identifiant>U1-3</identifiant>
             <code_habitat>VB.3</code_habitat>
             <position>sol_pleine_terre</position>
-            <surface>150</surface>
-            <statut>creee</statut>
+            <surface>150.0</surface>
           </Unite>
           <Unite>
             <identifiant>U1-4</identifiant>
             <code_habitat>VB.26</code_habitat>
             <position>sol_pleine_terre</position>
-            <surface>450</surface>
+            <surface>450.0</surface>
             <tache>P2</tache>
             <eclairage>L1</eclairage>
-            <statut>creee</statut>
+            <Score_Declare>
+              <satisfaits>4</satisfaits>
+              <applicables>6</applicables>
+              <essentiel_echoue>false</essentiel_echoue>
+            </Score_Declare>
           </Unite>
           <Unite>
             <identifiant>U1-5</identifiant>
             <code_habitat>VB.7</code_habitat>
             <position>sol_pleine_terre</position>
-            <surface>320</surface>
+            <surface>320.0</surface>
             <tache>P2</tache>
-            <statut>creee</statut>
+            <Score_Declare>
+              <satisfaits>2</satisfaits>
+              <applicables>3</applicables>
+              <essentiel_echoue>false</essentiel_echoue>
+            </Score_Declare>
           </Unite>
           <Unite>
             <identifiant>U1-6</identifiant>
             <code_habitat>FA.3</code_habitat>
             <position>lineaire</position>
-            <surface>80</surface>
+            <surface>80.0</surface>
             <stade>M</stade>
             <tache>P2</tache>
-            <statut>creee</statut>
+            <Score_Declare>
+              <satisfaits>6</satisfaits>
+              <applicables>8</applicables>
+              <essentiel_echoue>false</essentiel_echoue>
+            </Score_Declare>
           </Unite>
           <Unite>
             <identifiant>U1-7</identifiant>
             <code_habitat>VB.18a</code_habitat>
             <position>arbre</position>
-            <surface>100</surface>
+            <surface>100.0</surface>
             <stade>M</stade>
             <tache>P2</tache>
             <statut>conservee</statut>
+            <unite_liee>U0-4</unite_liee>
             <protection_chantier>true</protection_chantier>
+            <Score_Declare>
+              <satisfaits>5</satisfaits>
+              <applicables>6</applicables>
+              <essentiel_echoue>false</essentiel_echoue>
+            </Score_Declare>
           </Unite>
           <Unite>
             <identifiant>U1-8</identifiant>
             <code_habitat>VB.12</code_habitat>
             <position>hors_sol_toiture</position>
-            <surface>500</surface>
-            <epaisseur_substrat>15</epaisseur_substrat>
+            <surface>500.0</surface>
+            <epaisseur_substrat>15.0000</epaisseur_substrat>
             <tache>P3</tache>
-            <statut>creee</statut>
+            <Score_Declare>
+              <satisfaits>4</satisfaits>
+              <applicables>4</applicables>
+              <essentiel_echoue>false</essentiel_echoue>
+            </Score_Declare>
           </Unite>
         </Unite_Collection>
         <Bois_Collection>
           <Bois>
             <regime>coupe_rase</regime>
-            <volume>30</volume>
+            <volume>30.0</volume>
+            <remplacements>0</remplacements>
           </Bois>
         </Bois_Collection>
         <Granulats>
-          <masse>1800</masse>
+          <masse>1800.0000</masse>
         </Granulats>
       </Variante>
     </Variante_Collection>
@@ -274,26 +215,501 @@
     <Variante_Resultat>
       <index>1</index>
       <Contexte>
-        <part_emprise>0.35</part_emprise>
-        <bnat_min>45</bnat_min>
-        <pleine_terre_min>0.15</pleine_terre_min>
-        <multiplicateur_delai>1</multiplicateur_delai>
+        <part_emprise>0.3500</part_emprise>
+        <bnat_min>45.0</bnat_min>
+        <pleine_terre_min>0.1500</pleine_terre_min>
+        <multiplicateur_delai>1.0000</multiplicateur_delai>
       </Contexte>
       <Fermeture_Collection>
         <Fermeture>
           <etat>initial</etat>
-          <somme>2000</somme>
-          <ecart>0</ecart>
+          <somme>2000.0</somme>
+          <ecart>0.0</ecart>
           <conforme>true</conforme>
         </Fermeture>
         <Fermeture>
           <etat>projet</etat>
-          <somme>2000</somme>
-          <ecart>0</ecart>
+          <somme>2000.0</somme>
+          <ecart>0.0</ecart>
           <conforme>true</conforme>
         </Fermeture>
       </Fermeture_Collection>
-      <Unite_Resultat_Collection/>
+      <Unite_Resultat_Collection>
+        <Unite_Resultat>
+          <identifiant>U0-1</identifiant>
+          <etat>initial</etat>
+          <type>VB.8</type>
+          <nature_surface>S08</nature_surface>
+          <coefficient_sol>1.0000</coefficient_sol>
+          <facteur_support>1.0000</facteur_support>
+          <valeur_intrinseque>0.5000</valeur_intrinseque>
+          <score_etat>0.5000</score_etat>
+          <facteur_etat>0.7500</facteur_etat>
+          <classe_etat>mauvais</classe_etat>
+          <multiplicateur_situation>1.0000</multiplicateur_situation>
+          <facteur_taille>0.4684</facteur_taille>
+          <facteur_connectivite>0.4684</facteur_connectivite>
+          <facteur_eclairage>1.0000</facteur_eclairage>
+          <facteur_nuisances>1.0000</facteur_nuisances>
+          <facteur_eau>1.0000</facteur_eau>
+          <valeur_habitat>450.0</valeur_habitat>
+          <valeur_maturite>210.8</valeur_maturite>
+          <groupe_hydrique>prairie</groupe_hydrique>
+          <reserve_utile>130.0</reserve_utile>
+          <Bilan_Hydrique>
+            <niveau>2_0</niveau>
+            <indice_stress>2.1</indice_stress>
+            <indice_stress_reference>2.1</indice_stress_reference>
+            <facteur_hydrique>1.0000</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>2_7</niveau>
+            <indice_stress>11.2</indice_stress>
+            <indice_stress_reference>2.1</indice_stress_reference>
+            <facteur_hydrique>0.9838</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>4_0</niveau>
+            <indice_stress>26.2</indice_stress>
+            <indice_stress_reference>2.1</indice_stress_reference>
+            <facteur_hydrique>0.9240</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <facteurs_hydriques>1.0000 1.0000 1.0000 1.0000 0.9992 0.9984 0.9976 0.9968 0.9959 0.9951 0.9943 0.9935 0.9927 0.9919 0.9911 0.9903 0.9895 0.9887 0.9878 0.9870 0.9862 0.9854 0.9846 0.9838 0.9826 0.9814 0.9802 0.9790 0.9778 0.9766 0.9754 0.9742 0.9730 0.9718 0.9706 0.9694 0.9682 0.9670 0.9658 0.9646 0.9635 0.9623 0.9611 0.9599 0.9587 0.9575 0.9563 0.9551 0.9539 0.9527</facteurs_hydriques>
+        </Unite_Resultat>
+        <Unite_Resultat>
+          <identifiant>U0-2</identifiant>
+          <etat>initial</etat>
+          <type>VB.2</type>
+          <nature_surface>S01</nature_surface>
+          <coefficient_sol>0.0000</coefficient_sol>
+          <facteur_support>1.0000</facteur_support>
+          <valeur_intrinseque>0.0000</valeur_intrinseque>
+          <facteur_etat>1.0000</facteur_etat>
+          <classe_etat>sans_etat</classe_etat>
+          <multiplicateur_situation>1.0000</multiplicateur_situation>
+          <facteur_connectivite>1.0000</facteur_connectivite>
+          <facteur_eclairage>1.0000</facteur_eclairage>
+          <facteur_nuisances>1.0000</facteur_nuisances>
+          <facteur_eau>1.0000</facteur_eau>
+          <valeur_habitat>0.0</valeur_habitat>
+          <valeur_maturite>0.0</valeur_maturite>
+          <facteurs_hydriques>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000</facteurs_hydriques>
+        </Unite_Resultat>
+        <Unite_Resultat>
+          <identifiant>U0-3</identifiant>
+          <etat>initial</etat>
+          <type>VB.9</type>
+          <nature_surface>S08</nature_surface>
+          <coefficient_sol>1.0000</coefficient_sol>
+          <facteur_support>1.0000</facteur_support>
+          <valeur_intrinseque>0.5000</valeur_intrinseque>
+          <score_etat>0.4000</score_etat>
+          <facteur_etat>0.7000</facteur_etat>
+          <classe_etat>mauvais</classe_etat>
+          <multiplicateur_situation>1.0000</multiplicateur_situation>
+          <facteur_taille>0.4684</facteur_taille>
+          <facteur_connectivite>0.4684</facteur_connectivite>
+          <facteur_eclairage>1.0000</facteur_eclairage>
+          <facteur_nuisances>1.0000</facteur_nuisances>
+          <facteur_eau>1.0000</facteur_eau>
+          <valeur_habitat>70.0</valeur_habitat>
+          <valeur_maturite>32.8</valeur_maturite>
+          <groupe_hydrique>arbustif</groupe_hydrique>
+          <reserve_utile>117.0</reserve_utile>
+          <Bilan_Hydrique>
+            <niveau>2_0</niveau>
+            <indice_stress>33.3</indice_stress>
+            <indice_stress_reference>33.3</indice_stress_reference>
+            <facteur_hydrique>1.0000</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>2_7</niveau>
+            <indice_stress>37.4</indice_stress>
+            <indice_stress_reference>33.3</indice_stress_reference>
+            <facteur_hydrique>1.0000</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>4_0</niveau>
+            <indice_stress>47.7</indice_stress>
+            <indice_stress_reference>33.3</indice_stress_reference>
+            <facteur_hydrique>0.9433</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <facteurs_hydriques>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.9989 0.9977 0.9966 0.9955 0.9943 0.9932 0.9921 0.9909 0.9898 0.9887 0.9875 0.9864 0.9852 0.9841 0.9830 0.9818 0.9807 0.9796 0.9784 0.9773 0.9762 0.9750 0.9739 0.9728 0.9716 0.9705</facteurs_hydriques>
+        </Unite_Resultat>
+        <Unite_Resultat>
+          <identifiant>U0-4</identifiant>
+          <etat>initial</etat>
+          <type>VB.18a</type>
+          <facteur_support>1.0000</facteur_support>
+          <valeur_intrinseque>0.6250</valeur_intrinseque>
+          <score_etat>0.8333</score_etat>
+          <facteur_etat>0.9167</facteur_etat>
+          <classe_etat>moyen</classe_etat>
+          <multiplicateur_situation>1.0000</multiplicateur_situation>
+          <facteur_taille>0.4684</facteur_taille>
+          <facteur_connectivite>0.4684</facteur_connectivite>
+          <facteur_eclairage>1.0000</facteur_eclairage>
+          <facteur_nuisances>1.0000</facteur_nuisances>
+          <facteur_eau>1.0000</facteur_eau>
+          <valeur_habitat>57.3</valeur_habitat>
+          <valeur_maturite>26.8</valeur_maturite>
+          <groupe_hydrique>arbore</groupe_hydrique>
+          <reserve_utile>130.0</reserve_utile>
+          <Bilan_Hydrique>
+            <niveau>2_0</niveau>
+            <indice_stress>45.8</indice_stress>
+            <indice_stress_reference>45.8</indice_stress_reference>
+            <facteur_hydrique>1.0000</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>2_7</niveau>
+            <indice_stress>48.9</indice_stress>
+            <indice_stress_reference>45.8</indice_stress_reference>
+            <facteur_hydrique>1.0000</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>4_0</niveau>
+            <indice_stress>61.4</indice_stress>
+            <indice_stress_reference>45.8</indice_stress_reference>
+            <facteur_hydrique>0.9154</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <facteurs_hydriques>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.9983 0.9966 0.9949 0.9932 0.9915 0.9899 0.9882 0.9865 0.9848 0.9831 0.9814 0.9797 0.9780 0.9763 0.9746 0.9729 0.9713 0.9696 0.9679 0.9662 0.9645 0.9628 0.9611 0.9594 0.9577 0.9560</facteurs_hydriques>
+        </Unite_Resultat>
+        <Unite_Resultat>
+          <identifiant>U1-1</identifiant>
+          <etat>projet</etat>
+          <type>VB.1</type>
+          <nature_surface>S01</nature_surface>
+          <coefficient_sol>0.0000</coefficient_sol>
+          <facteur_support>1.0000</facteur_support>
+          <valeur_intrinseque>0.0000</valeur_intrinseque>
+          <facteur_etat>1.0000</facteur_etat>
+          <classe_etat>sans_etat</classe_etat>
+          <multiplicateur_situation>1.0000</multiplicateur_situation>
+          <facteur_connectivite>1.0000</facteur_connectivite>
+          <facteur_eclairage>1.0000</facteur_eclairage>
+          <facteur_nuisances>1.0000</facteur_nuisances>
+          <facteur_eau>1.0000</facteur_eau>
+          <valeur_habitat>0.0</valeur_habitat>
+          <valeur_maturite>0.0</valeur_maturite>
+          <delai>0.0000</delai>
+          <difficulte>1.0000</difficulte>
+          <mois_depart_maturation>18</mois_depart_maturation>
+          <facteurs_hydriques>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000</facteurs_hydriques>
+          <facteurs_gestion>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000</facteurs_gestion>
+          <trajectoire>0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</trajectoire>
+          <valeur_integree>0.0</valeur_integree>
+        </Unite_Resultat>
+        <Unite_Resultat>
+          <identifiant>U1-2</identifiant>
+          <etat>projet</etat>
+          <type>VB.2</type>
+          <nature_surface>S01</nature_surface>
+          <coefficient_sol>0.0000</coefficient_sol>
+          <facteur_support>1.0000</facteur_support>
+          <valeur_intrinseque>0.0000</valeur_intrinseque>
+          <facteur_etat>1.0000</facteur_etat>
+          <classe_etat>sans_etat</classe_etat>
+          <multiplicateur_situation>1.0000</multiplicateur_situation>
+          <facteur_connectivite>1.0000</facteur_connectivite>
+          <facteur_eclairage>1.0000</facteur_eclairage>
+          <facteur_nuisances>1.0000</facteur_nuisances>
+          <facteur_eau>1.0000</facteur_eau>
+          <valeur_habitat>0.0</valeur_habitat>
+          <valeur_maturite>0.0</valeur_maturite>
+          <delai>0.0000</delai>
+          <difficulte>1.0000</difficulte>
+          <mois_depart_maturation>18</mois_depart_maturation>
+          <facteurs_hydriques>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000</facteurs_hydriques>
+          <facteurs_gestion>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000</facteurs_gestion>
+          <trajectoire>0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0</trajectoire>
+          <valeur_integree>0.0</valeur_integree>
+        </Unite_Resultat>
+        <Unite_Resultat>
+          <identifiant>U1-3</identifiant>
+          <etat>projet</etat>
+          <type>VB.3</type>
+          <nature_surface>S02</nature_surface>
+          <coefficient_sol>0.2000</coefficient_sol>
+          <facteur_support>1.0000</facteur_support>
+          <valeur_intrinseque>0.1667</valeur_intrinseque>
+          <facteur_etat>1.0000</facteur_etat>
+          <classe_etat>sans_etat</classe_etat>
+          <multiplicateur_situation>1.0000</multiplicateur_situation>
+          <facteur_taille>0.3500</facteur_taille>
+          <facteur_connectivite>0.3500</facteur_connectivite>
+          <facteur_eclairage>1.0000</facteur_eclairage>
+          <facteur_nuisances>1.0000</facteur_nuisances>
+          <facteur_eau>1.0000</facteur_eau>
+          <valeur_habitat>25.0</valeur_habitat>
+          <valeur_maturite>8.8</valeur_maturite>
+          <delai>0.0000</delai>
+          <difficulte>1.0000</difficulte>
+          <mois_depart_maturation>18</mois_depart_maturation>
+          <facteurs_hydriques>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000</facteurs_hydriques>
+          <facteurs_gestion>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000</facteurs_gestion>
+          <trajectoire>0.0 4.4 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8 8.8</trajectoire>
+          <valeur_integree>424.5</valeur_integree>
+        </Unite_Resultat>
+        <Unite_Resultat>
+          <identifiant>U1-4</identifiant>
+          <etat>projet</etat>
+          <type>VB.26</type>
+          <nature_surface>S08</nature_surface>
+          <coefficient_sol>1.0000</coefficient_sol>
+          <facteur_support>1.0000</facteur_support>
+          <valeur_intrinseque>0.6250</valeur_intrinseque>
+          <score_etat>0.6667</score_etat>
+          <facteur_etat>0.8333</facteur_etat>
+          <classe_etat>moyen</classe_etat>
+          <multiplicateur_situation>1.0000</multiplicateur_situation>
+          <facteur_taille>0.4197</facteur_taille>
+          <facteur_connectivite>0.4197</facteur_connectivite>
+          <facteur_eclairage>0.9160</facteur_eclairage>
+          <fraction_nuit_eclairee>0.3732</fraction_nuit_eclairee>
+          <facteur_nuisances>0.9160</facteur_nuisances>
+          <facteur_eau>1.0000</facteur_eau>
+          <valeur_habitat>234.4</valeur_habitat>
+          <valeur_maturite>90.1</valeur_maturite>
+          <delai>5.0000</delai>
+          <difficulte>1.0000</difficulte>
+          <groupe_hydrique>prairie</groupe_hydrique>
+          <reserve_utile>130.0</reserve_utile>
+          <Bilan_Hydrique>
+            <niveau>2_0</niveau>
+            <indice_stress>2.1</indice_stress>
+            <indice_stress_reference>2.1</indice_stress_reference>
+            <facteur_hydrique>1.0000</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>2_7</niveau>
+            <indice_stress>11.2</indice_stress>
+            <indice_stress_reference>2.1</indice_stress_reference>
+            <facteur_hydrique>0.9838</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>4_0</niveau>
+            <indice_stress>26.2</indice_stress>
+            <indice_stress_reference>2.1</indice_stress_reference>
+            <facteur_hydrique>0.9240</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <mois_depart_maturation>16</mois_depart_maturation>
+          <facteurs_hydriques>1.0000 1.0000 1.0000 1.0000 0.9992 0.9984 0.9976 0.9968 0.9959 0.9951 0.9943 0.9935 0.9927 0.9919 0.9911 0.9903 0.9895 0.9887 0.9878 0.9870 0.9862 0.9854 0.9846 0.9838 0.9826 0.9814 0.9802 0.9790 0.9778 0.9766 0.9754 0.9742 0.9730 0.9718 0.9706 0.9694 0.9682 0.9670 0.9658 0.9646 0.9635 0.9623 0.9611 0.9599 0.9587 0.9575 0.9563 0.9551 0.9539 0.9527</facteurs_hydriques>
+          <facteurs_gestion>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333 0.5333</facteurs_gestion>
+          <trajectoire>0.0 12.4 48.2 69.2 80.7 87.0 89.8 89.8 89.7 89.7 89.6 89.5 47.7 47.7 47.6 47.6 47.5 47.5 47.5 47.4 47.4 47.3 47.3 47.3 47.2 47.2 47.1 47.0 47.0 46.9 46.9 46.8 46.8 46.7 46.6 46.6 46.5 46.5 46.4 46.4 46.3 46.2 46.2 46.1 46.1 46.0 45.9 45.9 45.8 45.8</trajectoire>
+          <valeur_integree>2614.3</valeur_integree>
+        </Unite_Resultat>
+        <Unite_Resultat>
+          <identifiant>U1-5</identifiant>
+          <etat>projet</etat>
+          <type>VB.7</type>
+          <nature_surface>S08</nature_surface>
+          <coefficient_sol>1.0000</coefficient_sol>
+          <facteur_support>1.0000</facteur_support>
+          <valeur_intrinseque>0.4583</valeur_intrinseque>
+          <score_etat>0.6667</score_etat>
+          <facteur_etat>0.8333</facteur_etat>
+          <classe_etat>moyen</classe_etat>
+          <multiplicateur_situation>1.0000</multiplicateur_situation>
+          <facteur_taille>0.4197</facteur_taille>
+          <facteur_connectivite>0.4197</facteur_connectivite>
+          <facteur_eclairage>1.0000</facteur_eclairage>
+          <facteur_nuisances>1.0000</facteur_nuisances>
+          <facteur_eau>1.0000</facteur_eau>
+          <valeur_habitat>122.2</valeur_habitat>
+          <valeur_maturite>51.3</valeur_maturite>
+          <delai>1.0000</delai>
+          <difficulte>1.0000</difficulte>
+          <groupe_hydrique>prairie</groupe_hydrique>
+          <reserve_utile>130.0</reserve_utile>
+          <Bilan_Hydrique>
+            <niveau>2_0</niveau>
+            <indice_stress>2.1</indice_stress>
+            <indice_stress_reference>2.1</indice_stress_reference>
+            <facteur_hydrique>1.0000</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>2_7</niveau>
+            <indice_stress>11.2</indice_stress>
+            <indice_stress_reference>2.1</indice_stress_reference>
+            <facteur_hydrique>0.9838</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>4_0</niveau>
+            <indice_stress>26.2</indice_stress>
+            <indice_stress_reference>2.1</indice_stress_reference>
+            <facteur_hydrique>0.9240</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <mois_depart_maturation>16</mois_depart_maturation>
+          <facteurs_hydriques>1.0000 1.0000 1.0000 1.0000 0.9992 0.9984 0.9976 0.9968 0.9959 0.9951 0.9943 0.9935 0.9927 0.9919 0.9911 0.9903 0.9895 0.9887 0.9878 0.9870 0.9862 0.9854 0.9846 0.9838 0.9826 0.9814 0.9802 0.9790 0.9778 0.9766 0.9754 0.9742 0.9730 0.9718 0.9706 0.9694 0.9682 0.9670 0.9658 0.9646 0.9635 0.9623 0.9611 0.9599 0.9587 0.9575 0.9563 0.9551 0.9539 0.9527</facteurs_hydriques>
+          <facteurs_gestion>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000</facteurs_gestion>
+          <trajectoire>0.0 22.3 50.8 51.3 51.2 51.2 51.2 51.1 51.1 51.0 51.0 51.0 50.9 50.9 50.8 50.8 50.7 50.7 50.7 50.6 50.6 50.5 50.5 50.5 50.4 50.3 50.3 50.2 50.2 50.1 50.0 50.0 49.9 49.8 49.8 49.7 49.7 49.6 49.5 49.5 49.4 49.4 49.3 49.2 49.2 49.1 49.0 49.0 48.9 48.9</trajectoire>
+          <valeur_integree>2431.9</valeur_integree>
+        </Unite_Resultat>
+        <Unite_Resultat>
+          <identifiant>U1-6</identifiant>
+          <etat>projet</etat>
+          <type>FA.3</type>
+          <nature_surface>S08</nature_surface>
+          <coefficient_sol>1.0000</coefficient_sol>
+          <facteur_support>1.0000</facteur_support>
+          <valeur_intrinseque>0.6667</valeur_intrinseque>
+          <score_etat>0.7500</score_etat>
+          <facteur_etat>0.8750</facteur_etat>
+          <classe_etat>moyen</classe_etat>
+          <multiplicateur_situation>1.0000</multiplicateur_situation>
+          <facteur_taille>0.4197</facteur_taille>
+          <facteur_connectivite>0.4197</facteur_connectivite>
+          <facteur_eclairage>1.0000</facteur_eclairage>
+          <facteur_nuisances>1.0000</facteur_nuisances>
+          <facteur_eau>1.0000</facteur_eau>
+          <valeur_habitat>46.7</valeur_habitat>
+          <valeur_maturite>19.6</valeur_maturite>
+          <delai>5.0000</delai>
+          <difficulte>1.0000</difficulte>
+          <groupe_hydrique>arbustif</groupe_hydrique>
+          <reserve_utile>117.0</reserve_utile>
+          <Bilan_Hydrique>
+            <niveau>2_0</niveau>
+            <indice_stress>33.3</indice_stress>
+            <indice_stress_reference>33.3</indice_stress_reference>
+            <facteur_hydrique>1.0000</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>2_7</niveau>
+            <indice_stress>37.4</indice_stress>
+            <indice_stress_reference>33.3</indice_stress_reference>
+            <facteur_hydrique>1.0000</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>4_0</niveau>
+            <indice_stress>47.7</indice_stress>
+            <indice_stress_reference>33.3</indice_stress_reference>
+            <facteur_hydrique>0.9433</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <mois_depart_maturation>16</mois_depart_maturation>
+          <facteurs_hydriques>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.9989 0.9977 0.9966 0.9955 0.9943 0.9932 0.9921 0.9909 0.9898 0.9887 0.9875 0.9864 0.9852 0.9841 0.9830 0.9818 0.9807 0.9796 0.9784 0.9773 0.9762 0.9750 0.9739 0.9728 0.9716 0.9705</facteurs_hydriques>
+          <facteurs_gestion>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500 0.7500</facteurs_gestion>
+          <trajectoire>0.0 0.7 5.8 11.6 15.8 18.3 19.5 19.6 19.6 19.6 19.6 19.6 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.7 14.6 14.6 14.6 14.6 14.6 14.6 14.5 14.5 14.5 14.5 14.5 14.5 14.4 14.4 14.4 14.4 14.4 14.4 14.3 14.3 14.3 14.3 14.3 14.3</trajectoire>
+          <valeur_integree>721.9</valeur_integree>
+        </Unite_Resultat>
+        <Unite_Resultat>
+          <identifiant>U1-7</identifiant>
+          <etat>projet</etat>
+          <type>VB.18a</type>
+          <facteur_support>1.0000</facteur_support>
+          <valeur_intrinseque>0.6250</valeur_intrinseque>
+          <score_etat>0.8333</score_etat>
+          <facteur_etat>0.9167</facteur_etat>
+          <classe_etat>moyen</classe_etat>
+          <multiplicateur_situation>1.0000</multiplicateur_situation>
+          <facteur_taille>0.4197</facteur_taille>
+          <facteur_connectivite>0.4197</facteur_connectivite>
+          <facteur_eclairage>1.0000</facteur_eclairage>
+          <facteur_nuisances>1.0000</facteur_nuisances>
+          <facteur_eau>1.0000</facteur_eau>
+          <valeur_habitat>57.3</valeur_habitat>
+          <valeur_maturite>24.0</valeur_maturite>
+          <delai>0.0000</delai>
+          <difficulte>1.0000</difficulte>
+          <groupe_hydrique>arbore</groupe_hydrique>
+          <reserve_utile>130.0</reserve_utile>
+          <Bilan_Hydrique>
+            <niveau>2_0</niveau>
+            <indice_stress>45.8</indice_stress>
+            <indice_stress_reference>45.8</indice_stress_reference>
+            <facteur_hydrique>1.0000</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>2_7</niveau>
+            <indice_stress>48.9</indice_stress>
+            <indice_stress_reference>45.8</indice_stress_reference>
+            <facteur_hydrique>1.0000</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>4_0</niveau>
+            <indice_stress>61.4</indice_stress>
+            <indice_stress_reference>45.8</indice_stress_reference>
+            <facteur_hydrique>0.9154</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <mois_depart_maturation>18</mois_depart_maturation>
+          <facteurs_hydriques>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 0.9983 0.9966 0.9949 0.9932 0.9915 0.9899 0.9882 0.9865 0.9848 0.9831 0.9814 0.9797 0.9780 0.9763 0.9746 0.9729 0.9713 0.9696 0.9679 0.9662 0.9645 0.9628 0.9611 0.9594 0.9577 0.9560</facteurs_hydriques>
+          <facteurs_gestion>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000</facteurs_gestion>
+          <trajectoire>24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 24.0 23.9 23.9 23.8 23.8 23.8 23.7 23.7 23.6 23.6 23.6 23.5 23.5 23.4 23.4 23.4 23.3 23.3 23.2 23.2 23.1 23.1 23.1 23.0 23.0</trajectoire>
+          <valeur_integree>1187.9</valeur_integree>
+        </Unite_Resultat>
+        <Unite_Resultat>
+          <identifiant>U1-8</identifiant>
+          <etat>projet</etat>
+          <type>VB.12</type>
+          <nature_surface>S05</nature_surface>
+          <coefficient_sol>0.6000</coefficient_sol>
+          <facteur_support>1.0000</facteur_support>
+          <valeur_intrinseque>0.5278</valeur_intrinseque>
+          <score_etat>1.0000</score_etat>
+          <facteur_etat>1.0000</facteur_etat>
+          <classe_etat>bon</classe_etat>
+          <multiplicateur_situation>1.0000</multiplicateur_situation>
+          <facteur_taille>0.3734</facteur_taille>
+          <facteur_connectivite>0.3734</facteur_connectivite>
+          <facteur_eclairage>1.0000</facteur_eclairage>
+          <facteur_nuisances>1.0000</facteur_nuisances>
+          <facteur_eau>1.0000</facteur_eau>
+          <valeur_habitat>263.9</valeur_habitat>
+          <valeur_maturite>98.5</valeur_maturite>
+          <delai>10.0000</delai>
+          <difficulte>0.6700</difficulte>
+          <groupe_hydrique>prairie</groupe_hydrique>
+          <reserve_utile>30.0</reserve_utile>
+          <Bilan_Hydrique>
+            <niveau>2_0</niveau>
+            <indice_stress>31.6</indice_stress>
+            <indice_stress_reference>2.1</indice_stress_reference>
+            <facteur_hydrique>0.9021</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>2_7</niveau>
+            <indice_stress>35.3</indice_stress>
+            <indice_stress_reference>2.1</indice_stress_reference>
+            <facteur_hydrique>0.8875</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <Bilan_Hydrique>
+            <niveau>4_0</niveau>
+            <indice_stress>45.7</indice_stress>
+            <indice_stress_reference>2.1</indice_stress_reference>
+            <facteur_hydrique>0.8457</facteur_hydrique>
+            <arrosage>0.0</arrosage>
+          </Bilan_Hydrique>
+          <mois_depart_maturation>16</mois_depart_maturation>
+          <facteurs_hydriques>0.9021 0.9021 0.9021 0.9021 0.9014 0.9007 0.8999 0.8992 0.8985 0.8977 0.8970 0.8963 0.8955 0.8948 0.8941 0.8934 0.8926 0.8919 0.8912 0.8904 0.8897 0.8890 0.8882 0.8875 0.8867 0.8858 0.8850 0.8841 0.8833 0.8825 0.8816 0.8808 0.8800 0.8791 0.8783 0.8775 0.8766 0.8758 0.8749 0.8741 0.8733 0.8724 0.8716 0.8708 0.8699 0.8691 0.8683 0.8674 0.8666 0.8657</facteurs_hydriques>
+          <facteurs_gestion>1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000</facteurs_gestion>
+          <trajectoire>0.0 4.4 18.9 30.2 38.6 44.8 49.4 52.7 55.2 57.0 58.4 59.1 59.1 59.1 59.0 59.0 58.9 58.9 58.8 58.8 58.7 58.7 58.6 58.6 58.5 58.5 58.4 58.4 58.3 58.3 58.2 58.2 58.1 58.0 58.0 57.9 57.9 57.8 57.8 57.7 57.7 57.6 57.6 57.5 57.4 57.4 57.3 57.3 57.2 57.2</trajectoire>
+          <valeur_integree>2679.5</valeur_integree>
+        </Unite_Resultat>
+      </Unite_Resultat_Collection>
       <Site>
         <valeur_initiale>270.4</valeur_initiale>
         <i0>13277.1</i0>
@@ -301,35 +717,53 @@
         <i0_30>8048.2</i0_30>
         <i1_30>6060.0</i1_30>
         <dette_maturite>673.1</dette_maturite>
-        <supplement_destruction>0</supplement_destruction>
+        <supplement_destruction>0.0</supplement_destruction>
         <arrosage_annuel>0.0</arrosage_annuel>
         <rang_plantation>17</rang_plantation>
         <annees_periode>2027 2076</annees_periode>
         <trajectoire_reference>270.4 270.4 270.4 270.4 270.2 270.0 269.9 269.7 269.5 269.4 269.2 269.0 268.8 268.7 268.5 268.3 268.2 268.0 267.8 267.7 267.5 267.3 267.1 267.0 266.6 266.3 266.0 265.6 265.3 265.0 264.6 264.3 264.0 263.6 263.3 263.0 262.6 262.3 261.9 261.6 261.3 260.9 260.6 260.3 259.9 259.6 259.3 258.9 258.6 258.3</trajectoire_reference>
         <trajectoire_site>24.0 68.2 156.5 195.2 219.1 234.1 242.6 246.1 248.4 250.1 251.4 252.0 205.2 205.1 205.0 204.8 204.7 204.6 204.5 204.3 204.2 204.1 203.9 203.8 203.6 203.3 203.1 202.9 202.7 202.4 202.2 202.0 201.7 201.5 201.3 201.0 200.8 200.6 200.3 200.1 199.9 199.6 199.4 199.2 199.0 198.7 198.5 198.3 198.0 197.8</trajectoire_site>
-        <pleine_terre>0.425</pleine_terre>
-        <pleine_terre_initiale>0.7</pleine_terre_initiale>
-        <impermeable_initial>600</impermeable_initial>
-        <impermeable_projet>1000</impermeable_projet>
-        <impermeabilisation_nette>400</impermeabilisation_nette>
+        <pleine_terre>0.4250</pleine_terre>
+        <pleine_terre_initiale>0.7000</pleine_terre_initiale>
+        <impermeable_initial>600.0</impermeable_initial>
+        <impermeable_projet>1000.0</impermeable_projet>
+        <impermeabilisation_nette>400.0</impermeabilisation_nette>
+        <part_pluvial_infiltre>0.0000</part_pluvial_infiltre>
+        <surface_vitree_non_traitee>0.0</surface_vitree_non_traitee>
       </Site>
       <Materiaux>
-        <facteur_climat>0.001807</facteur_climat>
+        <facteur_climat>0.0018</facteur_climat>
         <inat_climat>84748.3</inat_climat>
+        <Inat_Climat_Phase>
+          <phase>A1-A3</phase>
+          <valeur>59450.3</valeur>
+        </Inat_Climat_Phase>
+        <Inat_Climat_Phase>
+          <phase>B</phase>
+          <valeur>25298.0</valeur>
+        </Inat_Climat_Phase>
+        <Inat_Climat_Phase>
+          <phase>C</phase>
+          <valeur>0.0</valeur>
+        </Inat_Climat_Phase>
+        <Inat_Climat_Phase>
+          <phase>D</phase>
+          <valeur>-0.0</valeur>
+        </Inat_Climat_Phase>
         <inat_bois>55555.6</inat_bois>
         <inat_carrieres>1539.0</inat_carrieres>
       </Materiaux>
       <Indicateurs>
         <cnat>3217.2</cnat>
         <cnat_moyen>64.3</cnat_moyen>
-        <cnat_relatif>0.242</cnat_relatif>
+        <cnat_relatif>0.2423</cnat_relatif>
         <cnat_30>1988.1</cnat_30>
         <inat>141842.9</inat>
         <snat>-145060.0</snat>
         <bnat>59.0</bnat>
-        <cbs>0.59</cbs>
-        <cnat_par_m2_parcelle>1.609</cnat_par_m2_parcelle>
-        <inat_par_m2_sref>101.3</inat_par_m2_sref>
+        <cbs>0.5900</cbs>
+        <cnat_par_m2_parcelle>1.6086</cnat_par_m2_parcelle>
+        <inat_par_m2_sref>101.3163</inat_par_m2_sref>
       </Indicateurs>
       <Conformite>
         <bnat_conforme>true</bnat_conforme>
@@ -341,13 +775,13 @@
   <Attestation_Permis>
     <variante>1</variante>
     <bnat>59.0</bnat>
-    <bnat_min>45</bnat_min>
-    <pleine_terre>0.425</pleine_terre>
-    <pleine_terre_min>0.15</pleine_terre_min>
+    <bnat_min>45.0</bnat_min>
+    <pleine_terre>0.4250</pleine_terre>
+    <pleine_terre_min>0.1500</pleine_terre_min>
     <conforme>true</conforme>
   </Attestation_Permis>
   <Empreinte>
-    <entrees>exemple</entrees>
-    <sorties>exemple</sorties>
+    <entrees>c6f6f4baa076ecc377cd2c4dd6228c31b6b9bb6332005b05ac336c1adac22bcc</entrees>
+    <sorties>6ab2cc5834b56d25665b5dd89456b0f43cc345ba02e2ee8f2bc03c4e44b8ffb8</sorties>
   </Empreinte>
 </RSNat>

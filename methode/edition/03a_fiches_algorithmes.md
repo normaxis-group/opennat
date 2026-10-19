@@ -70,7 +70,7 @@ Arrondi : aucun résultat intermédiaire n'est arrondi. Les sorties affichées e
 
 Valeurs manquantes : une entrée obligatoire absente arrête le calcul avec un message qui nomme l'entrée et l'unité concernées. Une entrée facultative absente prend sa valeur par défaut, écrite dans le journal des calculs (fiche A42).
 
-Lecture des tables : au démarrage, le cœur de calcul charge toutes les tables de `donnees/` et refuse toute ligne sans source, sans référence précise ou dont la valeur sort de sa plage (contrôle de `outils/controle_donnees.py`). Une valeur est appelée par sa clé et son paramètre ; aucune valeur numérique de méthode n'est écrite dans le code.
+Lecture des tables : au démarrage, le cœur de calcul charge toutes les tables de `donnees/` et refuse toute ligne sans source, sans référence précise, sans type connu, dont la convention n'est pas définie ou dont la valeur sort de sa plage (chargeur `opennat/donnees.py` du moteur, et contrôle `outils/controle_donnees.py`). Une valeur est appelée par sa clé et son paramètre ; aucune valeur numérique de méthode n'est écrite dans le code : les constantes des équations publiées (FAO-56, atmosphère type) et les valeurs de règle sont elles aussi dans `donnees/constantes.csv`. Un test du moteur cherche les nombres écrits dans le code et échoue s'il en trouve un qui n'est pas une conversion d'unité ou une garde numérique.
 
 **Cas limites et contrôles**
 

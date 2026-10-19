@@ -68,7 +68,7 @@ L'édition complète suit le plan de l'annexe III de l'arrêté du 4 août 2021 
 | 4 | Fiches habitats H001 à H191, avec les listes complètes de correspondances et d'espèces |
 | 5 | Fiches d'application F01 à F30 et leurs exemples chiffrés |
 | 6 | Protocoles de relevé des grilles d'état et liste des espèces exotiques envahissantes |
-| 7 | Récapitulatif standardisé RSNat : schéma, dictionnaire des données, exemple |
+| 7 | Récapitulatif standardisé RSNat (schémas XSD et JSON, dictionnaire des données, exemple écrit par le moteur) et fichier projet du moteur |
 | 8 | Cas de validation : les huit cas du cahier des charges, trente et un cas complémentaires et vingt-neuf cas dynamiques |
 | 9 | Conventions |
 | 10 | Bibliographie |
