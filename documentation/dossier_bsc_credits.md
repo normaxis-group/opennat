@@ -4,7 +4,7 @@ NORMATYS, 24 octobre 2026. Complément au dossier de soumission de la méthode O
 
 ## Objet de la demande
 
-NORMATYS demande au conseil de valider la méthode OpenNAT Crédits, version 1, ses 18 conventions de la famille X et son volet « méthode de calcul du gain des sites France Crédits Biodiversité ». La méthode ne modifie aucun calcul d'OpenNAT 1 : elle les applique à quatre états du site (initial, projet, scénario de référence, variante d'obligations) et aux états relevés sur le terrain, puis compare leurs résultats pour mesurer un gain créditable.
+NORMATYS demande au conseil de valider la méthode OpenNAT Crédits, version 1, ses 19 conventions de la famille X et son volet « méthode de calcul du gain des sites France Crédits Biodiversité ». La méthode ne modifie aucun calcul d'OpenNAT 1 : elle les applique à quatre états du site (initial, projet, scénario de référence, variante d'obligations) et aux états relevés sur le terrain, puis compare leurs résultats pour mesurer un gain créditable.
 
 La validation de la méthode OpenNAT Crédits suppose celle d'OpenNAT 1. Les deux dossiers peuvent être instruits ensemble ; aucune émission n'aura lieu avant la validation des deux.
 
@@ -31,6 +31,7 @@ Un crédit OpenNAT vaut 1 000 m²HE·an de gain de nature, mesuré au-dessus de 
 | DC7 | Obligations et certification | C-X8 | objectifs de certification comptés comme obligations |
 | DC8 | Perte évitée | C-X5 | exclue en version 1 |
 | DC9 | Volet sites France Crédits Biodiversité | C-X16 | validé comme méthode de calcul proposée aux opérateurs, sans création de crédits OpenNAT sur ces sites |
+| DC10 | Difficulté de création dans les crédits | C-X19 | neutralisée : le risque d'échec est porté par le constat avant émission et la réserve |
 
 ### DC3. Biodiversité grise des opérations de construction
 

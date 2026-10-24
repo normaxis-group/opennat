@@ -172,6 +172,8 @@ Pour un projet sans aucune obligation, la variante d'obligations est le scénari
 
 ### 7.1 Gain à la validation
 
+Dans tous les calculs du présent chapitre, la difficulté de création ou d'amélioration d'OpenNAT 1 (convention C-T7) est neutralisée : le risque d'échec qu'elle exprime est porté par le constat avant émission et par la réserve (convention C-X19).
+
 À la validation, le moteur calcule pour chaque tirage j de 1 à n (n au moins 1 000, mêmes valeurs tirées pour les trois états) :
 
 (X1) ΔI_prev,j = I_proj,prev(0..N) - max(I_ref(0..N), I_obl(0..N))
@@ -230,7 +232,7 @@ Le relevé est fait par un écologue inscrit sur la liste du registre, qui n'a n
 - Une unité non relevée prend un score d'état nul (toutes ses réponses valent « non », règle de la partie 6) pour toutes les années depuis le relevé précédent.
 - Entre deux relevés, chaque unité garde, pour chaque année, le plus faible des deux scores relevés (convention C-X14).
 - Une unité disparue ou détruite prend la valeur du type constaté à la date du relevé, et la valeur nulle depuis le relevé précédent si la date de destruction n'est pas connue.
-- La maturation des unités créées continue de suivre la courbe de la convention C-M1, appliquée au type et à l'état relevés.
+- La maturation des unités créées continue de suivre la courbe de la convention C-M1, avec le délai de maturité de l'état prévu, qui court depuis la plantation : l'état relevé fixe la valeur visée, il ne remet pas l'horloge à zéro. Sans cette règle, un meilleur état relevé, dont le délai de maturité est plus long dans OpenNAT 1, ferait baisser la valeur des premières années.
 
 ## 9. Validation et vérification
 

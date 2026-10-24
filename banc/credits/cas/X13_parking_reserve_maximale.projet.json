@@ -1,0 +1,116 @@
+{
+ "format": "OpenNAT projet 1",
+ "projet": {
+  "identifiant": "banc_credits_X13_parking_reserve_maximale",
+  "nom": "Crédits, exemple 3 : parking désimperméabilisé"
+ },
+ "contexte": {
+  "zone_biogeographique": "mediterraneenne",
+  "typologie": "amenagement",
+  "zone_climatique": "H3",
+  "sol": {
+   "texture": "limon",
+   "profondeur": 1.0
+  }
+ },
+ "parcelle": {
+  "surface": 2000,
+  "emprise": 0
+ },
+ "chantier": {
+  "annee_debut": 2027,
+  "mois_debut": 11,
+  "duree_mois": 5
+ },
+ "gestion": {
+  "plan_annees": 50
+ },
+ "taches": {
+  "P1": {}
+ },
+ "etat_initial": [
+  {
+   "id": "U0-1",
+   "code": "VB.2",
+   "position": "sol_pleine_terre",
+   "surface": 2000
+  }
+ ],
+ "options": {
+  "tirages": 0
+ },
+ "variantes": [
+  {
+   "nom": "Projet",
+   "reference": true,
+   "unites": [
+    {
+     "id": "U1-1",
+     "code": "VB.26",
+     "position": "sol_pleine_terre",
+     "surface": 1200,
+     "tache": "P1",
+     "score": {
+      "satisfaits": 5,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "code": "VB.19",
+     "position": "eau",
+     "surface": 300,
+     "tache": "P1",
+     "score": {
+      "satisfaits": 4,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-3",
+     "code": "VB.3",
+     "position": "sol_pleine_terre",
+     "surface": 500
+    },
+    {
+     "id": "U1-4",
+     "code": "VB.18a",
+     "position": "arbre",
+     "surface": 300,
+     "tache": "P1",
+     "stade": "J",
+     "nombre_arbres": 15,
+     "score": {
+      "satisfaits": 4,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  },
+  {
+   "nom": "Obligations",
+   "unites": [
+    {
+     "id": "U2-1",
+     "code": "VB.5",
+     "position": "sol_pleine_terre",
+     "surface": 400,
+     "score": {
+      "satisfaits": 1,
+      "applicables": 4,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U2-2",
+     "code": "VB.2",
+     "position": "sol_pleine_terre",
+     "surface": 1600
+    }
+   ]
+  }
+ ]
+}

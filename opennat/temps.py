@@ -123,7 +123,11 @@ def trajectoires(P: Parametres, projet: list[dict], initial: dict, chantier: dic
         statut = u.get('statut', 'creee')
         D = P(u['code'], 'difficulte_creation' if statut == 'creee' else 'difficulte_amelioration') \
             if P.existe(u['code'], 'difficulte_creation' if statut == 'creee' else 'difficulte_amelioration') else 1.0
-        if statut == 'creee':
+        if u.get('difficulte_neutralisee'):                                                 # crédits, convention C-X19
+            D = 1.0
+        if 'delai_impose' in u:                                                             # crédits, règle 8.3
+            d, src = u['delai_impose'], 'délai de l\'état prévu (crédits, règle 8.3)'
+        elif statut == 'creee':
             d, src = delai(P, u, k_delai)
         elif statut == 'amelioree':
             u0 = initial[u['liee']]

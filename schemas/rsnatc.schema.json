@@ -1,0 +1,639 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "RSNat-C 1",
+ "type": "object",
+ "additionalProperties": false,
+ "properties": {
+  "Format": {
+   "type": "string"
+  },
+  "Nature": {
+   "type": "string"
+  },
+  "Date": {
+   "type": "string"
+  },
+  "Versions": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "Methode_Credits": {
+     "type": "string"
+    },
+    "Methode": {
+     "type": "string"
+    },
+    "Moteur": {
+     "type": "string"
+    },
+    "Tables": {
+     "type": "string"
+    },
+    "Tables_Credits": {
+     "type": "string"
+    },
+    "Graine": {
+     "type": "integer"
+    },
+    "Tirages": {
+     "type": "integer"
+    }
+   },
+   "required": [
+    "Methode_Credits",
+    "Methode",
+    "Moteur",
+    "Tables",
+    "Tables_Credits",
+    "Graine",
+    "Tirages"
+   ]
+  },
+  "Projet": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "Identifiant": {
+     "type": "string"
+    },
+    "Nom": {
+     "type": "string"
+    },
+    "Variante_Projet": {
+     "type": "string"
+    },
+    "Variante_Obligations": {
+     "type": "string"
+    },
+    "Gain_Exige": {
+     "type": "number"
+    },
+    "Taille_Credit": {
+     "type": "number"
+    }
+   },
+   "required": [
+    "Identifiant",
+    "Nom",
+    "Variante_Projet",
+    "Variante_Obligations",
+    "Gain_Exige",
+    "Taille_Credit"
+   ]
+  },
+  "Reference": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+     "Unite": {
+      "type": "string"
+     },
+     "Situation": {
+      "type": "string"
+     },
+     "Annees_Abandon": {
+      "type": "number"
+     }
+    },
+    "required": [
+     "Unite",
+     "Situation",
+     "Annees_Abandon"
+    ]
+   }
+  },
+  "Obligations": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+     "Objet": {
+      "type": "string"
+     },
+     "Source": {
+      "type": "string"
+     },
+     "Traduction": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "Objet",
+     "Source",
+     "Traduction"
+    ]
+   }
+  },
+  "Releves": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+     "Annee": {
+      "type": "integer"
+     },
+     "Annee_Periode": {
+      "type": "integer"
+     },
+     "Date": {
+      "type": "string"
+     },
+     "Ecologue": {
+      "type": "string"
+     },
+     "Unites_Relevees": {
+      "type": "integer"
+     },
+     "Unites_Non_Relevees": {
+      "type": "integer"
+     }
+    },
+    "required": [
+     "Annee",
+     "Annee_Periode",
+     "Date",
+     "Ecologue",
+     "Unites_Relevees",
+     "Unites_Non_Relevees"
+    ]
+   }
+  },
+  "Prevision": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "I_Projet": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "Centrale": {
+       "type": "number"
+      },
+      "P5": {
+       "type": "number"
+      },
+      "P10": {
+       "type": "number"
+      },
+      "P50": {
+       "type": "number"
+      },
+      "P90": {
+       "type": "number"
+      },
+      "Retenu": {
+       "type": "number"
+      }
+     },
+     "required": [
+      "Centrale",
+      "Retenu"
+     ]
+    },
+    "I_Reference": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "Centrale": {
+       "type": "number"
+      },
+      "P5": {
+       "type": "number"
+      },
+      "P10": {
+       "type": "number"
+      },
+      "P50": {
+       "type": "number"
+      },
+      "P90": {
+       "type": "number"
+      },
+      "Retenu": {
+       "type": "number"
+      }
+     },
+     "required": [
+      "Centrale",
+      "Retenu"
+     ]
+    },
+    "I_Obligations": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "Centrale": {
+       "type": "number"
+      },
+      "P5": {
+       "type": "number"
+      },
+      "P10": {
+       "type": "number"
+      },
+      "P50": {
+       "type": "number"
+      },
+      "P90": {
+       "type": "number"
+      },
+      "Retenu": {
+       "type": "number"
+      }
+     },
+     "required": [
+      "Centrale",
+      "Retenu"
+     ]
+    },
+    "Gain": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "Centrale": {
+       "type": "number"
+      },
+      "P5": {
+       "type": "number"
+      },
+      "P10": {
+       "type": "number"
+      },
+      "P50": {
+       "type": "number"
+      },
+      "P90": {
+       "type": "number"
+      },
+      "Retenu": {
+       "type": "number"
+      }
+     },
+     "required": [
+      "Centrale",
+      "Retenu"
+     ]
+    },
+    "Unites_Previsionnelles": {
+     "type": "number"
+    },
+    "Plafond": {
+     "type": "integer"
+    }
+   },
+   "required": [
+    "I_Projet",
+    "I_Reference",
+    "I_Obligations",
+    "Gain",
+    "Unites_Previsionnelles",
+    "Plafond"
+   ]
+  },
+  "Verifications": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+     "Rang": {
+      "type": "integer"
+     },
+     "Annee": {
+      "type": "integer"
+     },
+     "Annee_Periode": {
+      "type": "integer"
+     },
+     "I_Projet": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+       "Centrale": {
+        "type": "number"
+       },
+       "P5": {
+        "type": "number"
+       },
+       "P10": {
+        "type": "number"
+       },
+       "P50": {
+        "type": "number"
+       },
+       "P90": {
+        "type": "number"
+       },
+       "Retenu": {
+        "type": "number"
+       }
+      },
+      "required": [
+       "Centrale",
+       "Retenu"
+      ]
+     },
+     "I_Reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+       "Centrale": {
+        "type": "number"
+       },
+       "P5": {
+        "type": "number"
+       },
+       "P10": {
+        "type": "number"
+       },
+       "P50": {
+        "type": "number"
+       },
+       "P90": {
+        "type": "number"
+       },
+       "Retenu": {
+        "type": "number"
+       }
+      },
+      "required": [
+       "Centrale",
+       "Retenu"
+      ]
+     },
+     "I_Obligations": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+       "Centrale": {
+        "type": "number"
+       },
+       "P5": {
+        "type": "number"
+       },
+       "P10": {
+        "type": "number"
+       },
+       "P50": {
+        "type": "number"
+       },
+       "P90": {
+        "type": "number"
+       },
+       "Retenu": {
+        "type": "number"
+       }
+      },
+      "required": [
+       "Centrale",
+       "Retenu"
+      ]
+     },
+     "Gain": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+       "Centrale": {
+        "type": "number"
+       },
+       "P5": {
+        "type": "number"
+       },
+       "P10": {
+        "type": "number"
+       },
+       "P50": {
+        "type": "number"
+       },
+       "P90": {
+        "type": "number"
+       },
+       "Retenu": {
+        "type": "number"
+       }
+      },
+      "required": [
+       "Centrale",
+       "Retenu"
+      ]
+     },
+     "Credits_Emis_Cumul": {
+      "type": "integer"
+     },
+     "Emission": {
+      "type": "integer"
+     },
+     "Reserve_Cumul": {
+      "type": "number"
+     },
+     "Versement_Reserve": {
+      "type": "number"
+     },
+     "Inversion": {
+      "type": "integer"
+     }
+    },
+    "required": [
+     "Rang",
+     "Annee",
+     "Annee_Periode",
+     "I_Projet",
+     "I_Reference",
+     "I_Obligations",
+     "Gain",
+     "Credits_Emis_Cumul",
+     "Emission",
+     "Reserve_Cumul",
+     "Versement_Reserve",
+     "Inversion"
+    ]
+   }
+  },
+  "Risque": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "Facteurs": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+       "Facteur": {
+        "type": "string"
+       },
+       "Niveau": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "Facteur",
+       "Niveau"
+      ]
+     }
+    },
+    "Facteur_Hydrique": {
+     "type": "number"
+    },
+    "Note": {
+     "type": "number"
+    },
+    "Taux_Reserve": {
+     "type": "number"
+    },
+    "Eligible": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "Facteurs",
+    "Facteur_Hydrique",
+    "Note",
+    "Taux_Reserve",
+    "Eligible"
+   ]
+  },
+  "Eligibilite": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "Eligible": {
+     "type": "boolean"
+    },
+    "Indicatif": {
+     "type": "boolean"
+    },
+    "Motifs": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   },
+   "required": [
+    "Eligible",
+    "Indicatif",
+    "Motifs"
+   ]
+  },
+  "Journal": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "Signature": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "Signataire": {
+     "type": "string"
+    },
+    "Valeur": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "Signataire",
+    "Valeur"
+   ]
+  },
+  "Cout": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "Restauration": {
+     "type": "number"
+    },
+    "Validation": {
+     "type": "number"
+    },
+    "Gestion": {
+     "type": "number"
+    },
+    "Releves": {
+     "type": "number"
+    },
+    "Verifications": {
+     "type": "number"
+    },
+    "Frais_Registre": {
+     "type": "number"
+    },
+    "Garantie": {
+     "type": "number"
+    },
+    "Total": {
+     "type": "number"
+    },
+    "Par_Credit": {
+     "type": "number"
+    }
+   },
+   "required": [
+    "Restauration",
+    "Validation",
+    "Gestion",
+    "Releves",
+    "Verifications",
+    "Frais_Registre",
+    "Garantie",
+    "Total",
+    "Par_Credit"
+   ]
+  },
+  "Operation": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "Inat": {
+     "type": "number"
+    },
+    "Snat": {
+     "type": "number"
+    }
+   },
+   "required": [
+    "Inat",
+    "Snat"
+   ]
+  },
+  "Empreinte": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "Entrees": {
+     "type": "string"
+    },
+    "Sorties": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "Entrees",
+    "Sorties"
+   ]
+  }
+ },
+ "required": [
+  "Format",
+  "Nature",
+  "Date",
+  "Versions",
+  "Projet",
+  "Reference",
+  "Obligations",
+  "Releves",
+  "Prevision",
+  "Verifications",
+  "Risque",
+  "Eligibilite",
+  "Journal",
+  "Signature",
+  "Empreinte"
+ ]
+}

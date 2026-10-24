@@ -44,3 +44,10 @@ Empreinte des tables de la version 1.2.2 : `a8eafaca6188b665864b424f480fd3b19a01
 | 0.1.0 | 19/10/2026 | 2 | Moteur complet : modules E1 à E5, S, H, C, N, E, W, T, G ; incertitude par blocs avec reprise ; journal ; RSNat XML et JSON validés ; reprise du RSEE ; ligne de commande ; banc de 73 cas | f231b6e |
 | 0.1.0 | 19/10/2026 | 3 | Utilitaire de calcul (serveur local et page web) ; moteur inchangé | 4e81637 |
 | 0.2.0 | 19/10/2026 | 4 | Contrôle dimensionnel automatique (`opennat/dimensions.py`, exigence E12) appelé par `opennat controle` ; banc de non-régression (38 930 grandeurs) ; 20 tests de propriétés ; contrôle d'ordre de grandeur du module G face à l'étude Carbone 4 ; guides utilisateur et contributeur | ce lot |
+
+## Crédits (branche `credits-lot1`, non publiée)
+
+| Date | Lot | Changements |
+|---|---|---|
+| 24/10/2026 | crédits 1 | Méthode OpenNAT Crédits v1 (`methode/credits/`), conventions C-X1 à C-X18, volet sites France Crédits Biodiversité, dossier au conseil DC1 à DC9 |
+| 24/10/2026 | crédits 2 | Module `opennat/credits/`, table `donnees/credits/credits.csv` (hors empreinte des tables d'OpenNAT 1), RSNat-C et ses schémas, carnet `outils/carnet_credits.py`, banc de 20 cas ; convention C-X19 (difficulté neutralisée) et règle 8.3 précisée (délai de l'état prévu) ; DC10 |
