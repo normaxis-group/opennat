@@ -51,3 +51,4 @@ Empreinte des tables de la version 1.2.2 : `a8eafaca6188b665864b424f480fd3b19a01
 |---|---|---|
 | 24/10/2026 | crédits 1 | Méthode OpenNAT Crédits v1 (`methode/credits/`), conventions C-X1 à C-X18, volet sites France Crédits Biodiversité, dossier au conseil DC1 à DC9 |
 | 24/10/2026 | crédits 2 | Module `opennat/credits/`, table `donnees/credits/credits.csv` (hors empreinte des tables d'OpenNAT 1), RSNat-C et ses schémas, carnet `outils/carnet_credits.py`, banc de 20 cas ; convention C-X19 (difficulté neutralisée) et règle 8.3 précisée (délai de l'état prévu) ; DC10 |
+| 24/10/2026 | crédits 3 | Registre des crédits dans une application à part (`C:\laragon\www\opennat-registre`, dépôt local, commit 33e7272) : grand livre, contrôle et signature des RSNat-C, journal chaîné, file d'ancrage, consultation publique et API ; cessions désactivées ; note `livraison_credits_lot3.md` |
