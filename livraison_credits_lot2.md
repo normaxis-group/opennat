@@ -27,7 +27,7 @@ Ces exemples sont des cas d'école, pas des projets réels. Ils montrent que les
 
 ## Corrections de méthode apportées par le moteur
 
-- **Convention C-X19, nouvelle** : la difficulté de création d'OpenNAT 1 (C-T7) est neutralisée dans les crédits. Avec elle, la culture restaurée en prairie (difficulté 0,33) avait un gain prévu négatif et n'aurait jamais reçu de crédit, même réussie. Le risque d'échec est déjà porté par le constat avant émission et par la réserve. Décision DC10 ajoutée au dossier du conseil. À valider par Cédric.
+- **Convention C-X19, nouvelle** : la difficulté de création d'OpenNAT 1 (C-T7) est neutralisée dans les crédits. Avec elle, la culture restaurée en prairie (difficulté 0,33) avait un gain prévu négatif et n'aurait jamais reçu de crédit, même réussie. Le risque d'échec est déjà porté par le constat avant émission et par la réserve. Décision DC10 ajoutée au dossier du conseil. Validée par Cédric le 24/10/2026 (« Je valide la convention C-X19 : difficulté neutralisée dans les crédits. »).
 - **Règle 8.3 précisée** : l'état relevé garde le délai de maturité de l'état prévu. Le test de monotonie a montré qu'un meilleur état relevé faisait baisser le gain, parce qu'OpenNAT 1 donne un délai plus long à un milieu en bon état.
 - **Dernier relevé** : le relevé de l'année 50 après les travaux tombe au-delà de la période de crédit, qui court depuis le début des travaux ; il est rapporté à la dernière année de la période.
 - **Supplément de destruction en période sensible** : compté dans I_projet (et dans I_obligations quand il y a une variante), ce que le texte n'écrivait pas ; à ajouter au chapitre 7 à la prochaine révision.
@@ -53,4 +53,4 @@ Ces exemples sont des cas d'école, pas des projets réels. Ils montrent que les
 
 ## Suite
 
-Lot 3 (registre et plateforme) après l'avis d'avocat ; décision de Cédric sur C-X19.
+Lot 3 (registre et plateforme) après l'avis d'avocat ; C-X19 validée par Cédric le 24/10/2026, reste soumise au conseil (DC10).
