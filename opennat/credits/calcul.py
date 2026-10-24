@@ -116,6 +116,7 @@ def preparer(chemin: str, tirages: int | None = None, graine: int | None = None)
     d_mois = projet_.chantier_variante(e, v_proj, [])['duree_mois']
     decal = math.ceil(d_mois / 12 - 1e-9)
     n = int(TC('credits', 'periode_credit'))
+    calendrier = _calendrier(c.get('calendrier'), TC, n)
     releves = []
     for rl in sorted(c.get('releves', []), key=lambda x: x['annee']):
         y = decal + rl['annee']
@@ -135,7 +136,27 @@ def preparer(chemin: str, tirages: int | None = None, graine: int | None = None)
     situations = {i: dict(ref.get('unites', {}).get(i, {'situation': ref.get('defaut', 'usage_maintenu')}))
                   for i in ids0}
     return dict(c=c, T=T, TC=TC, e=e, journal=journal, v_proj=v_proj, v_obl=v_obl, gain_exige=ob.get('gain_exige'),
-                releves=releves, situations=situations, n=n, decal=decal)
+                releves=releves, situations=situations, n=n, decal=decal, calendrier=calendrier,
+                certification=c.get('certification', ''))
+
+
+def _calendrier(propre: list[int] | None, TC, n: int) -> list[int]:
+    """Calendrier des relevés : celui de la méthode, ou un calendrier propre calé sur un suivi périodique
+    (convention C-X12) : premier relevé au plus tard à l'année 3, cinq ans au plus entre deux relevés,
+    dernier relevé à la fin de la période de crédit."""
+    if not propre:
+        return TC.calendrier()
+    k = list(propre)
+    if k != sorted(set(k)):
+        raise ErreurCredits('calendrier : années strictement croissantes attendues (convention C-X12)')
+    if k[0] > 3:
+        raise ErreurCredits(f'calendrier : premier relevé à l\'année {k[0]}, au plus tard à l\'année 3 (convention C-X12)')
+    trou = max((b - a for a, b in zip(k, k[1:])), default=0)
+    if trou > 5:
+        raise ErreurCredits(f'calendrier : {trou} ans entre deux relevés, cinq au plus (convention C-X12)')
+    if k[-1] != n:
+        raise ErreurCredits(f'calendrier : dernier relevé à l\'année {k[-1]}, attendu à l\'année {n} (convention C-X12)')
+    return k
 
 
 # ---------------------------------------------------------------- calcul d'un bloc
@@ -335,7 +356,7 @@ def cout(prep: dict, plafond: int) -> dict | None:
     if not k:
         return None
     TC = prep['TC']
-    n_rel = len(TC.calendrier())
+    n_rel = len(prep['calendrier'])
     postes = dict(restauration=k.get('restauration', 0.0), validation=k.get('validation', 0.0),
                   gestion=k.get('gestion_annuelle', 0.0) * TC('credits', 'periode_credit'),
                   releves=k.get('releve', 0.0) * n_rel, verifications=k.get('verification', 0.0) * n_rel,

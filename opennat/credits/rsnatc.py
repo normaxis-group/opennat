@@ -46,7 +46,9 @@ def construire(res: dict, date: str) -> dict:
         'Projet': {'Identifiant': c.get('identifiant', e['projet']['identifiant']), 'Nom': e['projet'].get('nom', ''),
                    'Variante_Projet': prep['v_proj']['nom'],
                    'Variante_Obligations': prep['v_obl']['nom'] if prep['v_obl'] else '',
-                   'Gain_Exige': _r(prep['gain_exige'] or 0.0), 'Taille_Credit': _r(res['U'])},
+                   'Gain_Exige': _r(prep['gain_exige'] or 0.0), 'Taille_Credit': _r(res['U']),
+                   'Certification': prep['certification'],
+                   'Calendrier': ' '.join(str(a) for a in prep['calendrier'])},
         'Reference': [{'Unite': i, 'Situation': s['situation'], 'Annees_Abandon': _r(s.get('annees_abandon', 0.0))}
                       for i, s in sorted(prep['situations'].items())],
         'Obligations': [{'Objet': o['objet'], 'Source': o['source'], 'Traduction': o.get('traduction', '')}

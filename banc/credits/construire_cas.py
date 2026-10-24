@@ -64,7 +64,7 @@ def cas():
     c['releves'] = [rel(1, {'U1-1': sc(3, 7)}), rel(3, {'U1-1': sc(5, 7), 'U1-2': sc(5, 8)})]
     out.append(('X06_culture_unite_non_relevee', pc, c))
     c = copy.deepcopy(cc)
-    c['obligations'] = {'gain_exige': 40000.0, 'liste': [{'objet': 'gain exigé par une certification',
+    c['obligations'] = {'gain_exige': 40000.0, 'liste': [{'objet': 'gain exigé par une mesure compensatoire prescrite',
                                                           'source': 'exemple du banc'}]}
     out.append(('X07_culture_gain_exige', pc, c))
     p = copy.deepcopy(pc)

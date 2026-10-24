@@ -27,11 +27,12 @@ Un crédit OpenNAT vaut 1 000 m²HE·an de gain de nature, mesuré au-dessus de 
 | DC3 | Biodiversité grise des opérations de construction | C-X10 | Inat non déduit, publié avec chaque lot |
 | DC4 | Prudence statistique | C-X9 | 10e centile de la différence tirage par tirage |
 | DC5 | Réserve | C-X11 | 20 % plus 5 points par facteur élevé, plafond 40 %, réserve commune |
-| DC6 | Calendrier et interpolation | C-X12, C-X14 | années 1, 3, 5, 10, 15, 20, 30, 40, 50 ; score le plus faible entre deux relevés |
-| DC7 | Obligations et certification | C-X8 | objectifs de certification comptés comme obligations |
+| DC6 | Calendrier et interpolation | C-X12, C-X14 | années 1, 3, 5, 10, 15, 20, 30, 40, 50, ou calendrier propre calé sur une certification en exploitation (cinq ans au plus entre deux relevés) ; score le plus faible entre deux relevés |
+| DC7 | Obligations et certification | C-X8 | seules les obligations légales, réglementaires et contractuelles se déduisent ; la certification volontaire n'est pas déduite et elle est publiée avec chaque lot |
 | DC8 | Perte évitée | C-X5 | exclue en version 1 |
 | DC9 | Volet sites France Crédits Biodiversité | C-X16 | validé comme méthode de calcul proposée aux opérateurs, sans création de crédits OpenNAT sur ces sites |
 | DC10 | Difficulté de création dans les crédits | C-X19 | neutralisée : le risque d'échec est porté par le constat avant émission et la réserve |
+| DC11 | Indépendance de l'écologue | C-X13 | relevé du concepteur ou du Biodiversity Partner admis, avec visite et relevé par échantillonnage du vérificateur à chaque vérification |
 
 ### DC3. Biodiversité grise des opérations de construction
 
@@ -45,7 +46,11 @@ NORMATYS propose O2 en version 1 et O3 quand les seuils d'Inat seront fixés.
 
 ### DC7. Obligations et certification
 
-Si un projet vise une certification qui exige un niveau de gain, la part de gain exigée ne se crédite pas : la même amélioration ne doit pas servir à la fois à obtenir un certificat et à vendre des crédits. Le conseil est invité à confirmer ce choix, qui réduit l'intérêt des crédits pour les opérations certifiées Effinature au profit de l'intégrité.
+La première rédaction comptait le niveau de gain exigé par une certification comme une obligation. NORMATYS propose de ne déduire que les obligations légales, réglementaires et contractuelles. Une certification volontaire atteste un résultat ; elle n'impose rien au maître d'ouvrage, qui reste libre de la demander, et elle n'acquiert ni ne cède le gain. La déduire priverait de crédits presque toutes les opérations certifiées Effinature, qui visent justement un niveau de gain. En contrepartie, chaque lot publie la certification de l'opération : l'acheteur sait que le gain a aussi servi à l'obtenir. Les standards lus (VNF §5.9, PVN §3.7) n'excluent que les activités imposées par la loi.
+
+### DC11. Indépendance de l'écologue
+
+Dans les opérations certifiées, l'écologue qui connaît le site est souvent celui qui a conçu le projet (le Biodiversity Partner). La première rédaction l'écartait des relevés. NORMATYS propose de l'admettre et de reporter l'exigence d'indépendance sur le vérificateur, comme le font les standards : visite à chaque vérification, relevé par le vérificateur d'au moins une unité sur cinq tirées au sort parmi les plus valorisées, relevé complet par le vérificateur en cas d'écart. Le conseil est invité à dire si l'échantillon proposé suffit.
 
 ## Calendrier proposé
 

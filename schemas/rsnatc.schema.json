@@ -70,6 +70,12 @@
     },
     "Taille_Credit": {
      "type": "number"
+    },
+    "Certification": {
+     "type": "string"
+    },
+    "Calendrier": {
+     "type": "string"
     }
    },
    "required": [

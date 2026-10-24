@@ -123,10 +123,31 @@ def test_rsnatc_reproductible_et_conforme(tmp_path):
 
 def test_cout_de_revient():
     prep = {'c': {'couts': {'restauration': 100.0, 'gestion_annuelle': 2.0, 'releve': 1.0, 'verification': 3.0}},
-            'TC': TableCredits()}
+            'TC': TableCredits(), 'calendrier': TableCredits().calendrier()}
     k = calcul.cout(prep, 10)
     assert k['total'] == pytest.approx(100 + 2 * 50 + 9 * 1 + 9 * 3)
     assert k['par_credit'] == pytest.approx(k['total'] / 10)
+
+
+def test_calendrier_propre_cale_sur_une_certification(tmp_path):
+    """Convention C-X12 : calendrier propre accepté s'il commence au plus tard à l'année 3, laisse cinq ans au plus
+    entre deux relevés et finit à l'année 50 ; la certification et le calendrier sont publiés dans le RSNat-C."""
+    hve = [3] + list(range(6, 51, 3))[:-1] + [50]
+
+    def propre(c, p):
+        c['calendrier'] = hve
+        c['certification'] = 'Effinature HVE'
+    r = calcul.calculer(_variante(tmp_path, 'X05_culture_inversion.credits.json', propre), tirages=0)
+    assert r['prep']['calendrier'] == hve
+    d = rsnatc.construire(r, '2026-10-24')
+    assert d['Projet']['Certification'] == 'Effinature HVE'
+    assert d['Projet']['Calendrier'] == ' '.join(map(str, hve))
+    assert rsnatc.ecrire(d, str(tmp_path)) == {'json': [], 'xml': []}
+    for mauvais in ([5, 10, 15, 20, 25, 30, 35, 40, 45, 50], [1, 3, 10, 50], [1, 3, 5, 10, 15, 20], [3, 1, 50]):
+        def faux(c, p, k=mauvais):
+            c['calendrier'] = k
+        with pytest.raises(calcul.ErreurCredits):
+            calcul.calculer(_variante(tmp_path, 'X05_culture_inversion.credits.json', faux), tirages=0)
 
 
 def test_difficulte_neutralisee_seulement_dans_les_credits():

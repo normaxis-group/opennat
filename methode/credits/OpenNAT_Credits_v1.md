@@ -162,9 +162,10 @@ La variante d'obligations est l'état projet réduit à ce que le porteur est te
 - règles d'urbanisme : coefficient de biotope, pleine terre, espaces verts, plantations imposés par le PLU ou le permis ;
 - autorisations environnementales et mesures d'évitement, de réduction ou de compensation prescrites ;
 - obligations contractuelles : cahier des charges de cession, bail environnemental, convention de financement qui impose des aménagements ;
-- objectifs de certification : quand le projet est candidat à une certification qui exige un niveau de gain (par exemple le niveau 2 d'OpenNAT dans une certification Effinature), la part du gain que ce niveau exige.
 
 Chaque obligation exprimée en surface d'habitat ou en coefficient se traduit, unité par unité, par la plus petite configuration conforme du plan masse du projet, en gardant les types d'habitat du projet. Une obligation exprimée en niveau de gain se traduit par I_obl(0..N) = I_ref(0..N) + gain exigé. Le vérificateur contrôle la traduction de chaque obligation (convention C-X8).
+
+Le niveau de gain visé par une certification volontaire (Effinature, Effinature HVE, Biodiversity Performance Score ou autre) n'est pas une obligation et ne se déduit pas. Le porteur déclare la certification obtenue ou demandée, et chaque lot émis la publie (convention C-X8).
 
 Pour un projet sans aucune obligation, la variante d'obligations est le scénario de référence.
 
@@ -212,7 +213,7 @@ Pour une opération de construction ou d'aménagement, le gain créditable porte
 
 ### 8.1 Calendrier
 
-Le porteur fait relever le site aux années 1, 3, 5, 10, 15, 20, 30, 40 et 50 comptées depuis la fin des travaux de restauration (convention C-X12). Il peut faire relever le site à toute autre date, à ses frais. Un relevé n'est retenu pour une vérification que s'il a moins de douze mois.
+Le porteur fait relever le site aux années 1, 3, 5, 10, 15, 20, 30, 40 et 50 comptées depuis la fin des travaux de restauration (convention C-X12). Si le site fait l'objet d'un suivi périodique par ailleurs, notamment une certification Effinature HVE, le porteur peut déclarer à la validation un calendrier propre qui fait coïncider relevés et contrôles : premier relevé au plus tard à l'année 3, cinq ans au plus entre deux relevés, dernier relevé à l'année 50. Le calendrier déclaré remplace alors celui du présent alinéa. Il peut faire relever le site à toute autre date, à ses frais. Un relevé n'est retenu pour une vérification que s'il a moins de douze mois.
 
 ### 8.2 Contenu d'un relevé
 
@@ -225,7 +226,7 @@ Un relevé couvre toutes les unités d'habitat de l'état projet et comprend :
 - les espèces exotiques envahissantes observées ;
 - des photographies géolocalisées et datées, depuis des points fixes repérés au premier relevé.
 
-Le relevé est fait par un écologue inscrit sur la liste du registre, qui n'a ni conçu ni réalisé le projet et n'a aucun lien d'intérêt avec le porteur (convention C-X13).
+Le relevé est fait par un écologue inscrit sur la liste du registre, qui n'a aucun intérêt au nombre de crédits émis. Il peut avoir conçu le projet ou accompagner le porteur, notamment comme Biodiversity Partner d'une opération certifiée ; le vérificateur contrôle alors le relevé sur place à chaque vérification, par échantillonnage (9.3, convention C-X13).
 
 ### 8.3 Règles de saisie
 
@@ -258,7 +259,7 @@ Le rapport de validation conclut favorablement ou non, liste les écarts et les 
 À chaque relevé du calendrier, le vérificateur :
 
 - contrôle le relevé : qualification et indépendance de l'écologue, période, pièces, cohérence avec le relevé précédent ;
-- visite le site, au moins une fois sur deux vérifications et obligatoirement aux années 5, 20 et 50 ;
+- visite le site, au moins une fois sur deux vérifications et obligatoirement aux années 5, 20 et 50 ; à chaque vérification si l'écologue a conçu le projet ou accompagne le porteur : il relève alors lui-même au moins une unité sur cinq, et au moins deux, tirées au sort parmi celles qui portent le plus de valeur, et relève toutes les unités si l'écart dépasse une classe de la grille d'état sur plus d'une unité contrôlée (convention C-X13) ;
 - recalcule avec le moteur, à la même version de méthode et de données que la validation : (X5) à (X9) ;
 - constate une éventuelle inversion (chapitre 11) ;
 - signe le rapport de vérification et le RSNat-C constaté.
