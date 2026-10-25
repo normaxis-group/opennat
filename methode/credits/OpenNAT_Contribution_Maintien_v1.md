@@ -3,7 +3,7 @@
 Règles de la contribution de maintien : financement, par des contributeurs volontaires, de l'entretien écologique vérifié des espaces de nature d'opérations habitées. Complément de la méthode OpenNAT Crédits, version 1.
 
 Éditeur et opérateur du registre : NORMATYS.
-Version 1, 25 octobre 2026, établie après l'analyse juridique, fiscale et réglementaire du même jour. Projet soumis à la validation du Biodiversity Standard Council : ces règles ne sont pas opposables tant que le conseil ne les a pas validées.
+Version 1, 25 octobre 2026, établie après l'analyse juridique, fiscale et réglementaire du même jour. En vigueur à compter du 25 octobre 2026 par décision de l'éditeur ; conventions C-X20 à C-X23 validées par Cédric PLANTAZ le même jour. La contribution de maintien n'émet aucun crédit : elle s'applique sans attendre la validation de la méthode OpenNAT Crédits, qui reste soumise au Biodiversity Standard Council. Elle est présentée au conseil à sa prochaine réunion ; toute modification qu'il demande ouvre une nouvelle version.
 Texte sous licence CC BY 4.0.
 
 ## 1. Objet et place dans OpenNAT
@@ -18,7 +18,8 @@ La contribution de maintien n'est pas un crédit et n'en porte pas le nom. Elle 
 - **Surface entretenue** (S) : surface du site, en m², placée sous le plan de gestion écologique.
 - **Cycle** : période entre deux contrôles de la certification d'exploitation ; deux ans en Effinature HVE.
 - **Contributeur** : personne qui finance l'entretien d'un site par un contrat de contribution inscrit au registre.
-- **Bénéficiaire** : la personne qui garde et entretient le site : syndicat des copropriétaires, bailleur, foncière, collectivité.
+- **Bénéficiaire** : la personne qui garde et entretient le site : syndicat des copropriétaires, foncière, fonds immobilier, bailleur social, collectivité, établissement public, aménageur, association syndicale.
+- **Opérateur du registre** : NORMATYS, qui tient le registre OpenNAT selon ses conditions générales (NTY-CGR-2026-001).
 
 ## 3. Éligibilité d'un site
 
@@ -34,7 +35,9 @@ Un site est éligible si, à son inscription :
 
 La contribution d'un cycle est due si et seulement si la certification d'exploitation du site est maintenue à l'issue du contrôle du cycle. Le registre inscrit la décision de l'organisme certificateur et délivre l'attestation qui déclenche le paiement. Aucune vérification supplémentaire n'est faite pour la contribution, et aucun rapport distinct n'est émis : le constat est celui de la certification, rendu par l'organisme sous ses propres règles.
 
-Contrôle échoué ou non réalisé : la contribution du cycle n'est pas due ; ce qui a été versé reste acquis. Une non-conformité levée dans le délai prévu par la certification sauve le cycle.
+Contrôle échoué ou non réalisé : la contribution du cycle n'est pas due ; ce qui a été versé reste acquis. Une non-conformité levée dans le délai prévu par la certification sauve le cycle. Le contrôle a lieu sur place à chaque cycle, selon les règles de la certification d'exploitation, que la présente méthode ne modifie pas.
+
+La contribution d'un cycle est versée en une fois, dans les trente jours de l'attestation du registre.
 
 ## 5. Montant et paiement
 
@@ -54,13 +57,19 @@ Dans tous les cas, l'opérateur du registre ne reçoit, ne détient ni ne revers
 
 ## 6. Prix
 
-Le prix de la contribution est publié par l'éditeur, identique pour tous les sites d'une même catégorie, fondé sur le coût de l'entretien écologique et de son suivi, et indexé chaque année sur un indice publié des coûts d'entretien des espaces verts. Il ne se négocie pas site par site (convention C-X23). Le forfait de l'opérateur du registre est fixe par site et par an, payé par le contributeur, et ne dépend ni du prix, ni du volume, ni du résultat des contrôles.
+Le prix de la contribution est publié par l'éditeur, identique pour tous les sites, fondé sur le coût de l'entretien écologique et de son suivi, et indexé. Il ne se négocie pas site par site (convention C-X23).
+
+Prix en vigueur au 25 octobre 2026 : **P = 1,50 € HT par m² et par an**. Il est indexé chaque 1er janvier, à partir du 1er janvier 2028, sur l'indice des prix de production des services français aux entreprises françaises (BtoB), CPF 81.30, services d'aménagement paysager, publié par l'INSEE (dernière valeur annuelle connue rapportée à celle de 2026) ; si l'indice cesse d'être publié, l'indice que l'INSEE lui substitue, ou à défaut l'indice publié le plus proche.
+
+Le forfait de l'opérateur du registre est de **200 € HT par site et par an**, payé par le contributeur. Il ne dépend ni du prix, ni du volume, ni du résultat des contrôles.
 
 ## 7. Allégations
 
 Le contributeur peut déclarer :
 
-« En [année], [Contributeur] a financé l'entretien écologique de [surface] m² d'espaces végétalisés dans [nombre] résidences habitées, versé sous condition du maintien de leur certification [nom de la certification], contrôlée sur place par un organisme certificateur tiers. Cette contribution ne compense pas les impacts de [Contributeur] sur la biodiversité. Registre OpenNAT, contrat n° [numéro]. »
+« En [année], [Contributeur] a financé l'entretien écologique de [surface] m² d'espaces végétalisés sur [nombre] sites détenus et gérés par des tiers, versé sous condition du maintien de leur certification [nom de la certification], contrôlée sur place par un organisme certificateur tiers. Ces surfaces ne sont ni comptées dans son empreinte ni utilisées comme compensation de ses impacts sur la biodiversité. Registre OpenNAT, contrat n° [numéro]. »
+
+Le bénéficiaire peut déclarer : « [surface] m² d'espaces verts gérés selon le référentiel [nom de la certification], contrôlés sur site par un organisme certificateur tiers ; entretien cofinancé à hauteur de [part] % par des contributeurs tiers. »
 
 Il ne peut pas déclarer, à partir d'une contribution de maintien : qu'il compense ou neutralise un impact ; qu'il est neutre, positif, « nature positive » ou sans perte nette ; qu'il a créé, restauré ou protégé de la biodiversité ; qu'un produit ou un service a un effet favorable sur la nature ; que la contribution est un crédit biodiversité ; qu'un organisme d'accréditation l'a contrôlée ou approuvée. Le droit d'utiliser la formule cesse à l'échec d'un contrôle. Le contributeur qui fait une allégation publique publie la référence de son contrat au registre.
 
@@ -78,7 +87,16 @@ La fiche publique d'un site indique la commune, la surface entretenue, les cycle
 
 Le site sort du dispositif si la certification d'exploitation est retirée, si deux cycles de suite ne sont pas versés, ou à la fin du contrat sans renouvellement. Sa fiche reste publiée avec les cycles versés. Une reprise exige une nouvelle inscription.
 
-## Conventions proposées
+## 11. Documents d'application
+
+- Conditions générales du registre OpenNAT, NTY-CGR-2026-001, indice A du 25 octobre 2026.
+- Contrat de contribution de maintien, propriétaire privé, NTY-MOD-2026-001, indice A.
+- Propriétaire public : délibération et convention de mécénat, NTY-MOD-2026-002, indice A.
+- Copropriété : résolution, clause du règlement, information des acquéreurs, NTY-MOD-2026-003, indice A.
+
+Ces documents appliquent la présente méthode sans la modifier ; en cas d'écart, la méthode prévaut.
+
+## Conventions
 
 ### C-X20
 Catégorie : source muette.
@@ -94,4 +112,4 @@ La condition de la contribution est le maintien de la certification d'exploitati
 
 ### C-X23
 Catégorie : source muette.
-Prix publié, fondé sur le coût, identique par catégorie de site et indexé (article L112-2 du code monétaire et financier). Le cahier des charges du registre prévoit que l'éditeur et l'opérateur ne fixent pas le prix des crédits, dont la valeur se forme entre porteur et acheteur. La contribution de maintien finance un service dont le coût est connu : un prix publié, identique pour tous, écarte la négociation site par site et tout caractère spéculatif, et permet de garantir l'économie du bénéficiaire. Exception propre à la contribution, soumise à la décision de Cédric PLANTAZ et au conseil ; l'interdiction demeure pour les crédits.
+Prix publié, fondé sur le coût, identique par catégorie de site et indexé (article L112-2 du code monétaire et financier). Le cahier des charges du registre prévoit que l'éditeur et l'opérateur ne fixent pas le prix des crédits, dont la valeur se forme entre porteur et acheteur. La contribution de maintien finance un service dont le coût est connu : un prix publié, identique pour tous, écarte la négociation site par site et tout caractère spéculatif, et permet de garantir l'économie du bénéficiaire. Exception propre à la contribution, admise par décision de Cédric PLANTAZ du 25/10/2026 et présentée au conseil ; l'interdiction demeure pour les crédits.

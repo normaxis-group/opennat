@@ -24,6 +24,7 @@ Empreinte des tables de la version 1.2.2 : `a8eafaca6188b665864b424f480fd3b19a01
 | 18/10/2026 | 1 ter | Modules dynamiques : climat horaire TRACC et ET0 (A43 à A46), bilan hydrique horaire des sols, toitures et mares (A47 à A50), éclairage horaire (A51 à A53), maturation et gestion (A54 à A56), calendrier du chantier (A57, A58) ; 29 cas dynamiques ; annexe C recalculée (Cnat 3 217,2) | a1a19df, 2f9f9d2 |
 | 19/10/2026 | 2 | Fichier projet (partie 7.6) ; RSNat d'exemple écrit par le moteur | a3ac8bd |
 | 19/10/2026 | 4 | Unité du facteur de caractérisation du climat corrigée : m²HE par kg CO2 éq. et non « par kg et par an » (fiche A33, équation G3, partie 7) ; relevée par le contrôle dimensionnel ; aucun résultat ne change | ce lot |
+| 25/10/2026 | contribution de maintien | Contribution de maintien OpenNAT, version 1, en vigueur au 25/10/2026 par décision de l'éditeur (elle n'émet aucun crédit) : prix publié 1,50 € HT par m² et par an indexé sur l'indice INSEE CPF 81.30, forfait du registre 200 € HT par site et par an, versement à trente jours de l'attestation, documents d'application NTY-CGR-2026-001 et NTY-MOD-2026-001 à 003 ; conventions C-X20 à C-X23 validées par Cédric PLANTAZ | ce lot |
 
 ## Données
 
