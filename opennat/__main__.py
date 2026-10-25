@@ -8,6 +8,8 @@
     opennat schemas                  régénère les schémas du RSNat et du RSNat-C
     opennat credits fichier.json [--sortie DOSSIER] [--tirages N] [--graine G]
                                      calcule les crédits d'un projet (méthode OpenNAT Crédits) et écrit le RSNat-C
+    opennat effinature export.json --sortie DOSSIER [--periode-hve N] [--releves fiche.csv]
+                                     importe un dossier Effinature 8.1 : fichier projet, fichier crédits, fiche de relevé
 """
 from __future__ import annotations
 
@@ -35,7 +37,21 @@ def main(argv=None) -> int:
     k.add_argument('--sortie', help='dossier racine des résultats (défaut : resultats)')
     k.add_argument('--tirages', type=int, help='nombre de tirages (défaut : minimum de la convention C-X9)')
     k.add_argument('--graine', type=int, help='graine du générateur')
+    m = sp.add_parser('effinature', help='importe un export de dossier Effinature 8.1')
+    m.add_argument('export')
+    m.add_argument('--sortie', required=True, help='dossier où écrire les fichiers produits')
+    m.add_argument('--periode-hve', type=int, help='années entre deux relevés après le premier contrôle HVE')
+    m.add_argument('--releves', help='fiche de relevé remplie à reprendre dans le fichier crédits')
     a = ap.parse_args(argv)
+    if a.commande == 'effinature':
+        from . import effinature
+        try:
+            effinature.executer(a.export, a.sortie, a.periode_hve or effinature.PERIODE_HVE, a.releves,
+                                dire=lambda s: print(s, file=sys.stderr, flush=True))
+        except (effinature.ErreurImport, KeyError) as x:
+            print(f'import arrêté : {x}', file=sys.stderr)
+            return 2
+        return 0
     if a.commande == 'credits':
         from .chaine import ErreurCalcul
         from .credits import commande
