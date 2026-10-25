@@ -44,7 +44,13 @@ C = P × S × d
 
 où P est le prix de la contribution (€ HT par m² et par an), S la surface entretenue (m²) et d la durée du cycle (ans).
 
-Le contributeur paie directement, pour le compte du bénéficiaire, les factures de ses prestataires d'entretien écologique et de suivi, à hauteur de C. Le bénéficiaire ne reçoit aucune somme. L'opérateur du registre ne reçoit, ne détient ni ne reverse aucune somme pour le compte d'autrui. L'organisme certificateur n'est jamais payé par le contributeur : ses honoraires sont dus par le bénéficiaire, forfaitaires et indépendants de la contribution (convention C-X22).
+Le versement suit la nature du bénéficiaire :
+
+- syndicat des copropriétaires : le contributeur paie directement, pour le compte du syndicat, les factures de ses prestataires d'entretien écologique et de suivi, à hauteur de C ; le syndicat ne reçoit aucune somme ;
+- personne publique (collectivité, établissement public, office public de l'habitat, association syndicale autorisée) : le contributeur verse C au comptable public, sur titre de recettes émis après la décision de certification ; la contribution prend la forme d'une convention de mécénat acceptée par délibération ;
+- autre bénéficiaire (société, fonds, association syndicale libre) : le contributeur verse C au bénéficiaire, sur facture.
+
+Dans tous les cas, l'opérateur du registre ne reçoit, ne détient ni ne reverse aucune somme pour le compte d'autrui, et le bénéficiaire reste libre de choisir son organisme certificateur parmi ceux qui appliquent la certification d'exploitation et son écologue parmi ceux qui remplissent les critères de cette certification ou des critères équivalents. L'organisme certificateur n'est jamais payé par le contributeur : ses honoraires sont dus par le bénéficiaire, forfaitaires et indépendants de la contribution (convention C-X22).
 
 ## 6. Prix
 
@@ -58,11 +64,11 @@ Le contributeur peut déclarer :
 
 Il ne peut pas déclarer, à partir d'une contribution de maintien : qu'il compense ou neutralise un impact ; qu'il est neutre, positif, « nature positive » ou sans perte nette ; qu'il a créé, restauré ou protégé de la biodiversité ; qu'un produit ou un service a un effet favorable sur la nature ; que la contribution est un crédit biodiversité ; qu'un organisme d'accréditation l'a contrôlée ou approuvée. Le droit d'utiliser la formule cesse à l'échec d'un contrôle. Le contributeur qui fait une allégation publique publie la référence de son contrat au registre.
 
-Tout support du dispositif porte la mention : « Dispositif volontaire, distinct des sites naturels de compensation, de restauration et de renaturation agréés (articles L163-1 et suivants du code de l'environnement). Ne peut satisfaire une obligation de compensation. »
+Tout support du dispositif porte la mention : « Dispositif volontaire, distinct des sites naturels de compensation, de restauration et de renaturation agréés, dits sites France Crédits Biodiversité (articles L163-1 et suivants du code de l'environnement). Ne peut satisfaire une obligation de compensation. »
 
 ## 8. Double comptage
 
-Une même surface, pour une même période, ne reçoit qu'une contribution de maintien. Un site sous contribution de maintien peut porter un projet de crédits OpenNAT : les crédits rémunèrent le gain, la contribution l'entretien ; le registre publie l'une et l'autre sur la fiche du site (convention C-X21).
+Une même surface, pour une même période, ne reçoit qu'une contribution de maintien : le registre attribue chaque m² et chaque année à un seul contributeur. Le bénéficiaire rend compte de l'état et de la gestion de son site et peut indiquer la part de l'entretien cofinancée par des tiers ; le contributeur rend compte de son financement ; aucun des deux ne revendique la part de l'autre. Un site sous contribution de maintien peut porter un projet de crédits OpenNAT : les crédits rémunèrent le gain, la contribution l'entretien ; le registre publie l'une et l'autre sur la fiche du site (convention C-X21).
 
 ## 9. Registre et données
 
