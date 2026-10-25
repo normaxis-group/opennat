@@ -1,0 +1,673 @@
+{
+ "_note": "Site FICTIF du BPS (ReleveDemoSeeder) : aucune donnée d'un client.",
+ "format": "BPS export 1",
+ "source": {
+  "application": "biodiversity-performance.com",
+  "tables_opennat": {
+   "depot": "normaxis-group/opennat",
+   "commit": "c9c6f1a12f91e8e841c398e3b58182161767543d",
+   "fichiers": [
+    "donnees/nomenclature_habitats.csv",
+    "donnees/etat_criteres.csv",
+    "methode/edition/06_protocoles.md"
+   ],
+   "empreinte_sha256": "8ff5d8acb8a46e38b8fe48b1acd2ccbfa9946585510325be01665df92fd1918e"
+  }
+ },
+ "projet": {
+  "reference": "BPS-2026-0001",
+  "nom": "Immeuble de bureaux fictif du Parc des Platanes",
+  "adresse": "1 allée fictive, 13100, Aix-en-Provence",
+  "departement": "13"
+ },
+ "contexte": {
+  "zone_biogeographique": "mediterraneenne",
+  "zone_climatique": "H3",
+  "typologie": "tertiaire"
+ },
+ "parcelle": {
+  "surface": 5000,
+  "emprise": 1600
+ },
+ "reception_travaux": "2025-04-01",
+ "etat_initial": {
+  "releve": 1,
+  "date": "2024-06-14",
+  "unites": [
+   {
+    "id": "U-01",
+    "code": "VB.1",
+    "position": "sol_pleine_terre",
+    "surface": 1600
+   },
+   {
+    "id": "U-02",
+    "code": "VB.2",
+    "position": "sol_pleine_terre",
+    "surface": 1500
+   },
+   {
+    "id": "U-03",
+    "code": "VB.2",
+    "position": "sol_pleine_terre",
+    "surface": 400
+   },
+   {
+    "id": "U-04",
+    "code": "VB.5",
+    "position": "sol_pleine_terre",
+    "surface": 1300
+   },
+   {
+    "id": "U-05",
+    "code": "VB.6",
+    "position": "sol_pleine_terre",
+    "surface": 150
+   },
+   {
+    "id": "U-06",
+    "code": "VB.3",
+    "position": "sol_pleine_terre",
+    "surface": 50
+   },
+   {
+    "id": "U-07",
+    "code": "VB.18b",
+    "position": "arbre",
+    "surface": 400,
+    "nombre_arbres": 8,
+    "classe_diametre": "grand",
+    "statut": "conservee",
+    "liee": "U-07"
+   },
+   {
+    "id": "U-08",
+    "code": "VB.18a",
+    "position": "arbre",
+    "surface": 120,
+    "nombre_arbres": 4,
+    "classe_diametre": "moyen",
+    "statut": "conservee",
+    "liee": "U-08"
+   }
+  ]
+ },
+ "projet_prevu": {
+  "releve": 3,
+  "origine": "realise",
+  "date": "2025-04-03",
+  "unites": [
+   {
+    "id": "U-01",
+    "code": "VB.1",
+    "position": "sol_pleine_terre",
+    "surface": 1600
+   },
+   {
+    "id": "U-02",
+    "code": "VB.2",
+    "position": "sol_pleine_terre",
+    "surface": 900
+   },
+   {
+    "id": "U-03",
+    "code": "VB.2",
+    "position": "sol_pleine_terre",
+    "surface": 300
+   },
+   {
+    "id": "U-04",
+    "code": "VB.5",
+    "position": "sol_pleine_terre",
+    "surface": 500
+   },
+   {
+    "id": "U-05",
+    "code": "VB.6",
+    "position": "sol_pleine_terre",
+    "surface": 150
+   },
+   {
+    "id": "U-06",
+    "code": "VB.3",
+    "position": "sol_pleine_terre",
+    "surface": 50
+   },
+   {
+    "id": "U-07",
+    "code": "VB.18b",
+    "position": "arbre",
+    "surface": 400,
+    "nombre_arbres": 8,
+    "classe_diametre": "grand",
+    "statut": "conservee",
+    "liee": "U-07"
+   },
+   {
+    "id": "U-08",
+    "code": "VB.18a",
+    "position": "arbre",
+    "surface": 120,
+    "nombre_arbres": 4,
+    "classe_diametre": "moyen",
+    "statut": "conservee",
+    "liee": "U-08"
+   },
+   {
+    "id": "U-09",
+    "code": "VB.4",
+    "position": "sol_pleine_terre",
+    "surface": 600,
+    "statut": "creee"
+   },
+   {
+    "id": "U-10",
+    "code": "VB.26",
+    "position": "sol_pleine_terre",
+    "surface": 600,
+    "statut": "amelioree",
+    "liee": "U-04"
+   },
+   {
+    "id": "U-11",
+    "code": "FA.3",
+    "position": "lineaire",
+    "surface": 100,
+    "statut": "creee"
+   },
+   {
+    "id": "U-12",
+    "code": "VB.8",
+    "position": "sol_pleine_terre",
+    "surface": 100,
+    "statut": "creee"
+   },
+   {
+    "id": "U-13",
+    "code": "VB.19",
+    "position": "eau",
+    "surface": 100,
+    "statut": "creee"
+   },
+   {
+    "id": "U-14",
+    "code": "VB.12",
+    "position": "hors_sol_toiture",
+    "surface": 400,
+    "epaisseur": 20,
+    "statut": "creee"
+   },
+   {
+    "id": "U-15",
+    "code": "VB.18a",
+    "position": "arbre",
+    "surface": 100,
+    "nombre_arbres": 10,
+    "classe_diametre": "petit",
+    "stade": "J",
+    "statut": "creee"
+   }
+  ]
+ },
+ "releves": [
+  {
+   "annee": 1,
+   "date": "2025-10-02",
+   "visite": "V1_6mois",
+   "releve_par": null,
+   "qualite": "biodiversity_partner",
+   "unites": [
+    {
+     "id": "U-01",
+     "code": "VB.1",
+     "position": "sol_pleine_terre",
+     "surface": 1600
+    },
+    {
+     "id": "U-02",
+     "code": "VB.2",
+     "position": "sol_pleine_terre",
+     "surface": 900
+    },
+    {
+     "id": "U-03",
+     "code": "VB.2",
+     "position": "sol_pleine_terre",
+     "surface": 300
+    },
+    {
+     "id": "U-04",
+     "code": "VB.5",
+     "position": "sol_pleine_terre",
+     "surface": 500,
+     "criteres": {
+      "A": "oui",
+      "B": "oui",
+      "C": "oui",
+      "D": "non",
+      "E": "non",
+      "F": "non",
+      "G": "non"
+     }
+    },
+    {
+     "id": "U-05",
+     "code": "VB.6",
+     "position": "sol_pleine_terre",
+     "surface": 150,
+     "criteres": {
+      "C": "oui",
+      "A": "oui",
+      "B": "oui",
+      "D": "sans_objet",
+      "E1": "sans_objet",
+      "E2": "sans_objet",
+      "F": "sans_objet",
+      "G": "sans_objet"
+     }
+    },
+    {
+     "id": "U-06",
+     "code": "VB.3",
+     "position": "sol_pleine_terre",
+     "surface": 50
+    },
+    {
+     "id": "U-07",
+     "code": "VB.18b",
+     "position": "arbre",
+     "surface": 400,
+     "nombre_arbres": 8,
+     "classe_diametre": "grand",
+     "statut": "conservee",
+     "liee": "U-07",
+     "criteres": {
+      "A": "oui",
+      "B": "oui",
+      "C": "non",
+      "D": "non",
+      "E": "non",
+      "F": "non"
+     }
+    },
+    {
+     "id": "U-08",
+     "code": "VB.18a",
+     "position": "arbre",
+     "surface": 120,
+     "nombre_arbres": 4,
+     "classe_diametre": "moyen",
+     "statut": "conservee",
+     "liee": "U-08",
+     "criteres": {
+      "A": "oui",
+      "B": "oui",
+      "C": "non",
+      "D": "non",
+      "E": "non",
+      "F": "non"
+     }
+    },
+    {
+     "id": "U-09",
+     "code": "VB.4",
+     "position": "sol_pleine_terre",
+     "surface": 600,
+     "statut": "creee"
+    },
+    {
+     "id": "U-10",
+     "code": "VB.26",
+     "position": "sol_pleine_terre",
+     "surface": 600,
+     "statut": "amelioree",
+     "liee": "U-04",
+     "criteres": {
+      "A": "oui",
+      "F": "oui",
+      "B": "non",
+      "C": "non",
+      "D": "non",
+      "E": "non"
+     }
+    },
+    {
+     "id": "U-11",
+     "code": "FA.3",
+     "position": "lineaire",
+     "surface": 100,
+     "statut": "creee",
+     "criteres": {
+      "A1": "oui",
+      "A2": "oui",
+      "B1": "oui",
+      "B2": "oui",
+      "C1": "non",
+      "C2": "non",
+      "D1": "non",
+      "D2": "non",
+      "E1": "non",
+      "E2": "non"
+     }
+    },
+    {
+     "id": "U-12",
+     "code": "VB.8",
+     "position": "sol_pleine_terre",
+     "surface": 100,
+     "statut": "creee",
+     "criteres": {
+      "C": "oui",
+      "A": "oui",
+      "B": "oui",
+      "D": "non",
+      "E1": "sans_objet",
+      "E2": "sans_objet",
+      "F": "sans_objet",
+      "G": "sans_objet"
+     }
+    },
+    {
+     "id": "U-13",
+     "code": "VB.19",
+     "position": "eau",
+     "surface": 100,
+     "statut": "creee",
+     "criteres": {
+      "C": "oui",
+      "A": "oui",
+      "B": "oui",
+      "D": "sans_objet",
+      "E1": "non",
+      "E2": "non",
+      "F": "sans_objet",
+      "G": "sans_objet"
+     }
+    },
+    {
+     "id": "U-14",
+     "code": "VB.12",
+     "position": "hors_sol_toiture",
+     "surface": 400,
+     "epaisseur": 20,
+     "statut": "creee",
+     "criteres": {
+      "C": "oui",
+      "A": "oui",
+      "B": "oui",
+      "D": "sans_objet",
+      "E1": "sans_objet",
+      "E2": "sans_objet",
+      "F": "sans_objet",
+      "G": "non"
+     }
+    },
+    {
+     "id": "U-15",
+     "code": "VB.18a",
+     "position": "arbre",
+     "surface": 100,
+     "nombre_arbres": 10,
+     "classe_diametre": "petit",
+     "stade": "J",
+     "statut": "creee",
+     "criteres": {
+      "A": "oui",
+      "B": "oui",
+      "C": "non",
+      "D": "non",
+      "E": "non",
+      "F": "non"
+     }
+    }
+   ]
+  },
+  {
+   "annee": 2,
+   "date": "2026-04-08",
+   "visite": "V2_1an",
+   "releve_par": null,
+   "qualite": "biodiversity_partner",
+   "unites": [
+    {
+     "id": "U-01",
+     "code": "VB.1",
+     "position": "sol_pleine_terre",
+     "surface": 1600
+    },
+    {
+     "id": "U-02",
+     "code": "VB.2",
+     "position": "sol_pleine_terre",
+     "surface": 900
+    },
+    {
+     "id": "U-03",
+     "code": "VB.2",
+     "position": "sol_pleine_terre",
+     "surface": 300
+    },
+    {
+     "id": "U-04",
+     "code": "VB.5",
+     "position": "sol_pleine_terre",
+     "surface": 500,
+     "criteres": {
+      "A": "oui",
+      "B": "oui",
+      "C": "oui",
+      "D": "oui",
+      "E": "oui",
+      "F": "non",
+      "G": "non"
+     }
+    },
+    {
+     "id": "U-05",
+     "code": "VB.6",
+     "position": "sol_pleine_terre",
+     "surface": 150,
+     "criteres": {
+      "C": "oui",
+      "A": "oui",
+      "B": "oui",
+      "D": "sans_objet",
+      "E1": "sans_objet",
+      "E2": "sans_objet",
+      "F": "sans_objet",
+      "G": "sans_objet"
+     }
+    },
+    {
+     "id": "U-06",
+     "code": "VB.3",
+     "position": "sol_pleine_terre",
+     "surface": 50
+    },
+    {
+     "id": "U-07",
+     "code": "VB.18b",
+     "position": "arbre",
+     "surface": 400,
+     "nombre_arbres": 8,
+     "classe_diametre": "grand",
+     "statut": "conservee",
+     "liee": "U-07",
+     "criteres": {
+      "A": "oui",
+      "B": "oui",
+      "C": "oui",
+      "D": "oui",
+      "E": "non",
+      "F": "non"
+     }
+    },
+    {
+     "id": "U-08",
+     "code": "VB.18a",
+     "position": "arbre",
+     "surface": 120,
+     "nombre_arbres": 4,
+     "classe_diametre": "moyen",
+     "statut": "conservee",
+     "liee": "U-08",
+     "criteres": {
+      "A": "oui",
+      "B": "oui",
+      "C": "oui",
+      "D": "oui",
+      "E": "non",
+      "F": "non"
+     }
+    },
+    {
+     "id": "U-09",
+     "code": "VB.4",
+     "position": "sol_pleine_terre",
+     "surface": 600,
+     "statut": "creee"
+    },
+    {
+     "id": "U-10",
+     "code": "VB.26",
+     "position": "sol_pleine_terre",
+     "surface": 600,
+     "statut": "amelioree",
+     "liee": "U-04",
+     "criteres": {
+      "A": "oui",
+      "F": "oui",
+      "B": "oui",
+      "C": "oui",
+      "D": "non",
+      "E": "non"
+     }
+    },
+    {
+     "id": "U-11",
+     "code": "FA.3",
+     "position": "lineaire",
+     "surface": 100,
+     "statut": "creee",
+     "criteres": {
+      "A1": "oui",
+      "A2": "oui",
+      "B1": "oui",
+      "B2": "oui",
+      "C1": "oui",
+      "C2": "oui",
+      "D1": "oui",
+      "D2": "non",
+      "E1": "non",
+      "E2": "non"
+     }
+    },
+    {
+     "id": "U-12",
+     "code": "VB.8",
+     "position": "sol_pleine_terre",
+     "surface": 100,
+     "statut": "creee",
+     "criteres": {
+      "C": "oui",
+      "A": "oui",
+      "B": "oui",
+      "D": "oui",
+      "E1": "sans_objet",
+      "E2": "sans_objet",
+      "F": "sans_objet",
+      "G": "sans_objet"
+     }
+    },
+    {
+     "id": "U-13",
+     "code": "VB.19",
+     "position": "eau",
+     "surface": 100,
+     "statut": "creee",
+     "criteres": {
+      "C": "oui",
+      "A": "oui",
+      "B": "oui",
+      "D": "sans_objet",
+      "E1": "oui",
+      "E2": "oui",
+      "F": "sans_objet",
+      "G": "sans_objet"
+     }
+    },
+    {
+     "id": "U-14",
+     "code": "VB.12",
+     "position": "hors_sol_toiture",
+     "surface": 400,
+     "epaisseur": 20,
+     "statut": "creee",
+     "criteres": {
+      "C": "oui",
+      "A": "oui",
+      "B": "oui",
+      "D": "sans_objet",
+      "E1": "sans_objet",
+      "E2": "sans_objet",
+      "F": "sans_objet",
+      "G": "non"
+     }
+    },
+    {
+     "id": "U-15",
+     "code": "VB.18a",
+     "position": "arbre",
+     "surface": 100,
+     "nombre_arbres": 10,
+     "classe_diametre": "petit",
+     "stade": "J",
+     "statut": "creee",
+     "criteres": {
+      "A": "oui",
+      "B": "oui",
+      "C": "oui",
+      "D": "oui",
+      "E": "non",
+      "F": "non"
+     }
+    }
+   ]
+  }
+ ],
+ "calendrier": [
+  1,
+  2,
+  4,
+  9,
+  14,
+  19,
+  24,
+  29,
+  34,
+  39,
+  44,
+  49,
+  50
+ ],
+ "evaluation": {
+  "referentiel": "BPS_BATI",
+  "version": "1.1",
+  "phase": "LIVRAISON",
+  "score": 78.41,
+  "classe": "A",
+  "mention": "évalué, hors accréditation"
+ },
+ "surface_entretenue": 1950,
+ "risque": {
+  "maitrise_fonciere": "faible",
+  "financement_gestion": "moyen",
+  "gestionnaire": "moyen",
+  "secheresse": "moyen",
+  "incendie": "faible",
+  "inondation_erosion": "faible",
+  "pression_fonciere": "moyen",
+  "especes_exotiques": "moyen",
+  "frequentation": "moyen"
+ }
+}

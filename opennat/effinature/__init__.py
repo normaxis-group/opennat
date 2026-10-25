@@ -385,7 +385,12 @@ def executer(chemin_export: str, sortie: str, periode_hve: int = PERIODE_HVE, ch
     """Commande `opennat effinature` : écrit `<id>.projet.json`, `<id>.credits.json`, la fiche de relevé et le
     journal dans `sortie`."""
     with open(chemin_export, encoding='utf-8') as f:
-        r = importer(json.load(f), periode_hve)
+        export = json.load(f)
+    if export.get('format') == 'BPS export 1':                 # projet du BPS (bâtiment en exploitation), voir bps.py
+        from .bps import importer_bps
+        r = importer_bps(export)
+    else:
+        r = importer(export, periode_hve)
     os.makedirs(sortie, exist_ok=True)
     ident = r['identifiant']
     fichiers = {}

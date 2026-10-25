@@ -10,6 +10,7 @@
                                      calcule les crédits d'un projet (méthode OpenNAT Crédits) et écrit le RSNat-C
     opennat effinature export.json --sortie DOSSIER [--periode-hve N] [--releves fiche.csv]
                                      importe un dossier Effinature 8.1 : fichier projet, fichier crédits, fiche de relevé
+                                     ou un export du BPS (« BPS export 1 », relevé de surfaces d'un bâtiment en exploitation)
 """
 from __future__ import annotations
 
