@@ -1,0 +1,113 @@
+{
+ "format": "OpenNAT crédits 1",
+ "identifiant": "banc_credits_X02_friche_urbaine",
+ "projet": "X02_friche_urbaine.projet.json",
+ "variante_projet": "Projet",
+ "scenario_reference": {
+  "unites": {
+   "U0-1": {
+    "situation": "abandon",
+    "annees_abandon": 4,
+    "justification": "aucun entretien depuis 2023"
+   },
+   "U0-2": {
+    "situation": "mineral"
+   }
+  }
+ },
+ "releves": [
+  {
+   "annee": 1,
+   "unites": [
+    {
+     "id": "U1-1",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-3",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-4"
+    },
+    {
+     "id": "U1-5",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  },
+  {
+   "annee": 3,
+   "unites": [
+    {
+     "id": "U1-1",
+     "score": {
+      "satisfaits": 4,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "score": {
+      "satisfaits": 5,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-3",
+     "score": {
+      "satisfaits": 5,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-4"
+    },
+    {
+     "id": "U1-5",
+     "score": {
+      "satisfaits": 4,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  }
+ ],
+ "risque": {
+  "maitrise_fonciere": "faible",
+  "financement_gestion": "faible",
+  "gestionnaire": "faible",
+  "incendie": "faible",
+  "inondation_erosion": "faible",
+  "pression_fonciere": "eleve",
+  "especes_exotiques": "moyen",
+  "frequentation": "moyen"
+ },
+ "options": {
+  "tirages": 0
+ }
+}

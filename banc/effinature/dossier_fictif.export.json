@@ -1,0 +1,120 @@
+{
+ "format": "Effinature export 1",
+ "_note": "Dossier FICTIF pour l'essai de l'import : aucune donnée d'un client d'IRICE.",
+ "projet": {
+  "dossier_number": "FICTIF-001",
+  "name": "Résidence fictive des Tilleuls",
+  "referential": "Effinature 8.1",
+  "niveau_vise": "Excellence",
+  "typologie_batiment": "Logement collectif",
+  "address": "1 rue de l'Exemple",
+  "postal_code": "13100",
+  "city": "Ville fictive",
+  "departement": "13",
+  "date_livraison": "2028-06-01",
+  "surface_plancher_m2": 5400
+ },
+ "contexte": {
+  "zone_biogeographique": "mediterraneenne",
+  "zone_climatique": "H3"
+ },
+ "plu": {
+  "pleine_terre": 0.2,
+  "cbs": 0.4,
+  "source": "PLU fictif, zone UC, article 13"
+ },
+ "cbs": [
+  {
+   "etat": "projet",
+   "surface_parcelle_m2": 6000,
+   "emprise_bati_m2": 1800,
+   "surfaces": {
+    "vrd_semi_permeable": 600,
+    "pleine_terre": 2000,
+    "dalle_plus_80": 300,
+    "infiltration": 150,
+    "toiture_semi_intensive": 900,
+    "facade_vegetalisee": 120
+   }
+  }
+ ],
+ "ive_habitats": [
+  {
+   "phase": "initial",
+   "habitat_name": "Friche herbacée",
+   "surface_m2": 2500
+  },
+  {
+   "phase": "initial",
+   "habitat_name": "Pelouse rase entretenue",
+   "surface_m2": 500
+  },
+  {
+   "phase": "projet",
+   "habitat_name": "Prairie fleurie en fauche tardive",
+   "surface_m2": 1200
+  },
+  {
+   "phase": "projet",
+   "habitat_name": "Pelouse",
+   "surface_m2": 500
+  },
+  {
+   "phase": "projet",
+   "habitat_name": "Massif arbustif d'essences locales",
+   "surface_m2": 600
+  },
+  {
+   "phase": "projet",
+   "habitat_name": "Haie champêtre",
+   "surface_m2": 200
+  }
+ ],
+ "reste_initial": "VB.2",
+ "palette": [
+  {
+   "strate": "arboree",
+   "nom_scientifique": "Quercus pubescens",
+   "quantite": 15,
+   "indigenat": "local"
+  },
+  {
+   "strate": "arboree",
+   "nom_scientifique": "Celtis australis",
+   "quantite": 10,
+   "indigenat": "local"
+  },
+  {
+   "strate": "arboree",
+   "nom_scientifique": "Lagerstroemia indica",
+   "quantite": 5,
+   "indigenat": "exotique"
+  },
+  {
+   "strate": "arbustive",
+   "nom_scientifique": "Pistacia lentiscus",
+   "quantite": 120,
+   "indigenat": "local"
+  }
+ ],
+ "controles": [
+  {
+   "type": "livraison",
+   "date_visite": "2028-06-15"
+  },
+  {
+   "type": "hve",
+   "date_visite": "2030-06-20"
+  }
+ ],
+ "risque": {
+  "maitrise_fonciere": "faible",
+  "financement_gestion": "moyen",
+  "gestionnaire": "moyen",
+  "incendie": "faible",
+  "inondation_erosion": "faible",
+  "pression_fonciere": "moyen",
+  "especes_exotiques": "moyen",
+  "frequentation": "eleve"
+ }
+}

@@ -1,0 +1,75 @@
+{
+ "format": "OpenNAT projet 1",
+ "projet": {
+  "identifiant": "banc_credits_X20_culture_degradation_puis_reprise",
+  "nom": "Crédits, exemple 1 : culture restaurée en prairie de fauche"
+ },
+ "contexte": {
+  "zone_biogeographique": "continentale",
+  "typologie": "amenagement",
+  "zone_climatique": "H1b",
+  "sol": {
+   "texture": "limon",
+   "profondeur": 1.0
+  }
+ },
+ "parcelle": {
+  "surface": 10000,
+  "emprise": 0
+ },
+ "chantier": {
+  "annee_debut": 2027,
+  "mois_debut": 9,
+  "duree_mois": 6
+ },
+ "gestion": {
+  "plan_annees": 50
+ },
+ "taches": {
+  "P1": {}
+ },
+ "etat_initial": [
+  {
+   "id": "U0-1",
+   "code": "I1.1",
+   "position": "sol_pleine_terre",
+   "surface": 10000
+  }
+ ],
+ "options": {
+  "tirages": 0
+ },
+ "variantes": [
+  {
+   "nom": "Projet",
+   "reference": true,
+   "unites": [
+    {
+     "id": "U1-1",
+     "code": "E2.2",
+     "position": "sol_pleine_terre",
+     "surface": 9700,
+     "tache": "P1",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "code": "FA.3",
+     "position": "lineaire",
+     "surface": 300,
+     "tache": "P1",
+     "stade": "M",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  }
+ ]
+}

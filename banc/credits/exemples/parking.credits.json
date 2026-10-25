@@ -1,0 +1,66 @@
+{
+ "format": "OpenNAT crédits 1",
+ "identifiant": "credits_parking",
+ "projet": "parking.projet.json",
+ "variante_projet": "Projet",
+ "scenario_reference": {
+  "defaut": "mineral"
+ },
+ "obligations": {
+  "variante": "Obligations",
+  "liste": [
+   {
+    "objet": "20 % de pleine terre engazonnée",
+    "source": "règlement du PLU, zone UC, article 13 (exemple)",
+    "traduction": "400 m² de pelouse d'agrément, le reste revêtu"
+   }
+  ]
+ },
+ "releves": [
+  {
+   "annee": 1,
+   "unites": [
+    {
+     "id": "U1-1",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-3"
+    },
+    {
+     "id": "U1-4",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  }
+ ],
+ "risque": {
+  "maitrise_fonciere": "faible",
+  "financement_gestion": "moyen",
+  "gestionnaire": "faible",
+  "incendie": "faible",
+  "inondation_erosion": "moyen",
+  "pression_fonciere": "eleve",
+  "especes_exotiques": "faible",
+  "frequentation": "eleve"
+ },
+ "options": {
+  "tirages": 1000
+ }
+}

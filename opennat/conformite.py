@@ -39,8 +39,8 @@ def conformite(P: Parametres, ind: dict, bn: dict, pt: float, i0, ctx_res: dict,
     conf_pt = pt >= ctx_res['pleine_terre_min']                                           # (A40-2)
     conf_plu = None
     if ctx.get('cbs_plu') is not None or ctx.get('pleine_terre_plu') is not None:          # (A40-3)
-        conf_plu = (ctx.get('cbs_plu') is None or bn['bnat'] >= U.POINTS_PAR_UNITE * ctx['cbs_plu']) and \
-                   (ctx.get('pleine_terre_plu') is None or pt >= ctx['pleine_terre_plu'])
+        conf_plu = nm.et(ctx.get('cbs_plu') is None or bn['bnat'] >= U.POINTS_PAR_UNITE * ctx['cbs_plu'],
+                         ctx.get('pleine_terre_plu') is None or pt >= ctx['pleine_terre_plu'])
     cnat = ind['cnat']
     s2, s1 = P('niveau_2', 'cnat_max_relatif'), P('niveau_1', 'cnat_max_relatif')
     gain2 = nm.si(i0 > 0, cnat <= s2 * i0, cnat < 0)                                      # (A40-4)

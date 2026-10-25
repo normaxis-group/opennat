@@ -1,0 +1,134 @@
+{
+ "format": "OpenNAT crédits 1",
+ "identifiant": "banc_credits_X05_culture_inversion",
+ "projet": "X05_culture_inversion.projet.json",
+ "variante_projet": "Projet",
+ "scenario_reference": {
+  "defaut": "usage_maintenu",
+  "unites": {
+   "U0-1": {
+    "situation": "usage_maintenu",
+    "justification": "culture déclarée à la PAC de 2024 à 2026"
+   }
+  }
+ },
+ "obligations": {
+  "liste": []
+ },
+ "releves": [
+  {
+   "annee": 1,
+   "unites": [
+    {
+     "id": "U1-1",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  },
+  {
+   "annee": 3,
+   "unites": [
+    {
+     "id": "U1-1",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  },
+  {
+   "annee": 5,
+   "unites": [
+    {
+     "id": "U1-1",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  },
+  {
+   "annee": 10,
+   "unites": [
+    {
+     "id": "U1-1",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  },
+  {
+   "annee": 15,
+   "unites": [
+    {
+     "id": "U1-1",
+     "code": "VB.10"
+    },
+    {
+     "id": "U1-2",
+     "score": {
+      "satisfaits": 2,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  }
+ ],
+ "risque": {
+  "maitrise_fonciere": "moyen",
+  "financement_gestion": "faible",
+  "gestionnaire": "moyen",
+  "incendie": "faible",
+  "inondation_erosion": "faible",
+  "pression_fonciere": "faible",
+  "especes_exotiques": "faible",
+  "frequentation": "faible"
+ },
+ "options": {
+  "tirages": 0
+ }
+}

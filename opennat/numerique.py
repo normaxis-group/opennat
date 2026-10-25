@@ -23,6 +23,10 @@ def borne(x, a, b):
     return mini(maxi(x, a), b)
 
 
+def et(a, b):
+    return np.logical_and(a, b) if tableau(a, b) else a and b
+
+
 def si(condition, a, b):
     """a là où la condition est vraie, b ailleurs."""
     if tableau(condition, a, b):

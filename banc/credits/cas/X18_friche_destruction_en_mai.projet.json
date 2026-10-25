@@ -1,0 +1,120 @@
+{
+ "format": "OpenNAT projet 1",
+ "projet": {
+  "identifiant": "banc_credits_X18_friche_destruction_en_mai",
+  "nom": "Crédits, exemple 2 : friche urbaine renaturée"
+ },
+ "contexte": {
+  "zone_biogeographique": "continentale",
+  "typologie": "amenagement",
+  "zone_climatique": "H1b",
+  "sol": {
+   "texture": "limon",
+   "profondeur": 1.0
+  }
+ },
+ "parcelle": {
+  "surface": 3000,
+  "emprise": 0
+ },
+ "chantier": {
+  "annee_debut": 2027,
+  "mois_debut": 10,
+  "duree_mois": 4,
+  "mois_destruction": 5
+ },
+ "gestion": {
+  "plan_annees": 50
+ },
+ "taches": {
+  "P1": {}
+ },
+ "etat_initial": [
+  {
+   "id": "U0-1",
+   "code": "VB.8",
+   "position": "sol_pleine_terre",
+   "surface": 2600,
+   "tache": "P1",
+   "score": {
+    "satisfaits": 2,
+    "applicables": 6,
+    "essentiel_echoue": false
+   }
+  },
+  {
+   "id": "U0-2",
+   "code": "VB.10",
+   "position": "sol_pleine_terre",
+   "surface": 400
+  }
+ ],
+ "options": {
+  "tirages": 0
+ },
+ "variantes": [
+  {
+   "nom": "Projet",
+   "reference": true,
+   "unites": [
+    {
+     "id": "U1-1",
+     "code": "VB.26",
+     "position": "sol_pleine_terre",
+     "surface": 2300,
+     "tache": "P1",
+     "score": {
+      "satisfaits": 5,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "code": "VB.20",
+     "position": "eau",
+     "surface": 250,
+     "tache": "P1",
+     "score": {
+      "satisfaits": 5,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-3",
+     "code": "FA.3",
+     "position": "lineaire",
+     "surface": 300,
+     "tache": "P1",
+     "stade": "M",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-4",
+     "code": "VB.3",
+     "position": "sol_pleine_terre",
+     "surface": 150
+    },
+    {
+     "id": "U1-5",
+     "code": "VB.18a",
+     "position": "arbre",
+     "surface": 240,
+     "tache": "P1",
+     "stade": "J",
+     "nombre_arbres": 12,
+     "score": {
+      "satisfaits": 4,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  }
+ ]
+}

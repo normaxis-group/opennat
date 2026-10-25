@@ -1,0 +1,56 @@
+{
+ "format": "OpenNAT crédits 1",
+ "identifiant": "banc_credits_X19_parking_sans_obligation",
+ "projet": "X19_parking_sans_obligation.projet.json",
+ "variante_projet": "Projet",
+ "scenario_reference": {
+  "defaut": "mineral"
+ },
+ "releves": [
+  {
+   "annee": 1,
+   "unites": [
+    {
+     "id": "U1-1",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-3"
+    },
+    {
+     "id": "U1-4",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  }
+ ],
+ "risque": {
+  "maitrise_fonciere": "faible",
+  "financement_gestion": "moyen",
+  "gestionnaire": "faible",
+  "incendie": "faible",
+  "inondation_erosion": "moyen",
+  "pression_fonciere": "eleve",
+  "especes_exotiques": "faible",
+  "frequentation": "eleve"
+ },
+ "options": {
+  "tirages": 0
+ }
+}

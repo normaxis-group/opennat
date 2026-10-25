@@ -1,0 +1,108 @@
+{
+ "format": "OpenNAT crédits 1",
+ "identifiant": "banc_credits_X08_culture_variante_obligations",
+ "projet": "X08_culture_variante_obligations.projet.json",
+ "variante_projet": "Projet",
+ "scenario_reference": {
+  "defaut": "usage_maintenu",
+  "unites": {
+   "U0-1": {
+    "situation": "usage_maintenu",
+    "justification": "culture déclarée à la PAC de 2024 à 2026"
+   }
+  }
+ },
+ "obligations": {
+  "variante": "Obligations",
+  "liste": [
+   {
+    "objet": "3 000 m² de prairie",
+    "source": "exemple"
+   }
+  ]
+ },
+ "releves": [
+  {
+   "annee": 1,
+   "date": "2029-06-10",
+   "ecologue": "écologue A",
+   "unites": [
+    {
+     "id": "U1-1",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "score": {
+      "satisfaits": 3,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  },
+  {
+   "annee": 3,
+   "date": "2031-06-12",
+   "ecologue": "écologue A",
+   "unites": [
+    {
+     "id": "U1-1",
+     "score": {
+      "satisfaits": 5,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "score": {
+      "satisfaits": 5,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  },
+  {
+   "annee": 5,
+   "date": "2033-06-08",
+   "ecologue": "écologue B",
+   "unites": [
+    {
+     "id": "U1-1",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 7,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "U1-2",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    }
+   ]
+  }
+ ],
+ "risque": {
+  "maitrise_fonciere": "moyen",
+  "financement_gestion": "faible",
+  "gestionnaire": "moyen",
+  "incendie": "faible",
+  "inondation_erosion": "faible",
+  "pression_fonciere": "faible",
+  "especes_exotiques": "faible",
+  "frequentation": "faible"
+ },
+ "options": {
+  "tirages": 0
+ }
+}

@@ -172,7 +172,11 @@ def trajectoires(projet, initial_par_id, cas, contexte, annees):
     for u in projet:
         statut = u.get('statut', 'creee')
         D = H.get((u['code'], 'difficulte_creation' if statut == 'creee' else 'difficulte_amelioration'), 1.0)
-        if statut == 'creee':
+        if u.get('difficulte_neutralisee'):                                 # crédits, convention C-X19
+            D = 1.0
+        if 'delai_impose' in u:                                             # crédits, règle 8.3
+            d, src = u['delai_impose'], "délai de l'état prévu"
+        elif statut == 'creee':
             d, src = delai(u, u['classe'], contexte)
         elif statut == 'amelioree':
             u0 = initial_par_id[u['liee']]

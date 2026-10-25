@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="RSNatC">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Format" type="xs:string"/>
+        <xs:element name="Nature" type="xs:string"/>
+        <xs:element name="Date" type="xs:string"/>
+        <xs:element name="Versions">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Methode_Credits" type="xs:string"/>
+              <xs:element name="Methode" type="xs:string"/>
+              <xs:element name="Moteur" type="xs:string"/>
+              <xs:element name="Tables" type="xs:string"/>
+              <xs:element name="Tables_Credits" type="xs:string"/>
+              <xs:element name="Graine" type="xs:integer"/>
+              <xs:element name="Tirages" type="xs:integer"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Projet">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Identifiant" type="xs:string"/>
+              <xs:element name="Nom" type="xs:string"/>
+              <xs:element name="Variante_Projet" type="xs:string"/>
+              <xs:element name="Variante_Obligations" type="xs:string"/>
+              <xs:element name="Gain_Exige" type="xs:double"/>
+              <xs:element name="Taille_Credit" type="xs:double"/>
+              <xs:element name="Certification" minOccurs="0" type="xs:string"/>
+              <xs:element name="Calendrier" minOccurs="0" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Reference">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Unite_Reference" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Unite" type="xs:string"/>
+                    <xs:element name="Situation" type="xs:string"/>
+                    <xs:element name="Annees_Abandon" type="xs:double"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Obligations">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Obligation" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Objet" type="xs:string"/>
+                    <xs:element name="Source" type="xs:string"/>
+                    <xs:element name="Traduction" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Releves">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Releve" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Annee" type="xs:integer"/>
+                    <xs:element name="Annee_Periode" type="xs:integer"/>
+                    <xs:element name="Date" type="xs:string"/>
+                    <xs:element name="Ecologue" type="xs:string"/>
+                    <xs:element name="Unites_Relevees" type="xs:integer"/>
+                    <xs:element name="Unites_Non_Relevees" type="xs:integer"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Prevision">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="I_Projet">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Centrale" type="xs:double"/>
+                    <xs:element name="P5" minOccurs="0" type="xs:double"/>
+                    <xs:element name="P10" minOccurs="0" type="xs:double"/>
+                    <xs:element name="P50" minOccurs="0" type="xs:double"/>
+                    <xs:element name="P90" minOccurs="0" type="xs:double"/>
+                    <xs:element name="Retenu" type="xs:double"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="I_Reference">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Centrale" type="xs:double"/>
+                    <xs:element name="P5" minOccurs="0" type="xs:double"/>
+                    <xs:element name="P10" minOccurs="0" type="xs:double"/>
+                    <xs:element name="P50" minOccurs="0" type="xs:double"/>
+                    <xs:element name="P90" minOccurs="0" type="xs:double"/>
+                    <xs:element name="Retenu" type="xs:double"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="I_Obligations">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Centrale" type="xs:double"/>
+                    <xs:element name="P5" minOccurs="0" type="xs:double"/>
+                    <xs:element name="P10" minOccurs="0" type="xs:double"/>
+                    <xs:element name="P50" minOccurs="0" type="xs:double"/>
+                    <xs:element name="P90" minOccurs="0" type="xs:double"/>
+                    <xs:element name="Retenu" type="xs:double"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Gain">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Centrale" type="xs:double"/>
+                    <xs:element name="P5" minOccurs="0" type="xs:double"/>
+                    <xs:element name="P10" minOccurs="0" type="xs:double"/>
+                    <xs:element name="P50" minOccurs="0" type="xs:double"/>
+                    <xs:element name="P90" minOccurs="0" type="xs:double"/>
+                    <xs:element name="Retenu" type="xs:double"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Unites_Previsionnelles" type="xs:double"/>
+              <xs:element name="Plafond" type="xs:integer"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Verifications">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Verification" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Rang" type="xs:integer"/>
+                    <xs:element name="Annee" type="xs:integer"/>
+                    <xs:element name="Annee_Periode" type="xs:integer"/>
+                    <xs:element name="I_Projet">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Centrale" type="xs:double"/>
+                          <xs:element name="P5" minOccurs="0" type="xs:double"/>
+                          <xs:element name="P10" minOccurs="0" type="xs:double"/>
+                          <xs:element name="P50" minOccurs="0" type="xs:double"/>
+                          <xs:element name="P90" minOccurs="0" type="xs:double"/>
+                          <xs:element name="Retenu" type="xs:double"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="I_Reference">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Centrale" type="xs:double"/>
+                          <xs:element name="P5" minOccurs="0" type="xs:double"/>
+                          <xs:element name="P10" minOccurs="0" type="xs:double"/>
+                          <xs:element name="P50" minOccurs="0" type="xs:double"/>
+                          <xs:element name="P90" minOccurs="0" type="xs:double"/>
+                          <xs:element name="Retenu" type="xs:double"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="I_Obligations">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Centrale" type="xs:double"/>
+                          <xs:element name="P5" minOccurs="0" type="xs:double"/>
+                          <xs:element name="P10" minOccurs="0" type="xs:double"/>
+                          <xs:element name="P50" minOccurs="0" type="xs:double"/>
+                          <xs:element name="P90" minOccurs="0" type="xs:double"/>
+                          <xs:element name="Retenu" type="xs:double"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Gain">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Centrale" type="xs:double"/>
+                          <xs:element name="P5" minOccurs="0" type="xs:double"/>
+                          <xs:element name="P10" minOccurs="0" type="xs:double"/>
+                          <xs:element name="P50" minOccurs="0" type="xs:double"/>
+                          <xs:element name="P90" minOccurs="0" type="xs:double"/>
+                          <xs:element name="Retenu" type="xs:double"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Credits_Emis_Cumul" type="xs:integer"/>
+                    <xs:element name="Emission" type="xs:integer"/>
+                    <xs:element name="Reserve_Cumul" type="xs:double"/>
+                    <xs:element name="Versement_Reserve" type="xs:double"/>
+                    <xs:element name="Inversion" type="xs:integer"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Risque">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Facteurs">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Facteur_Risque" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Facteur" type="xs:string"/>
+                          <xs:element name="Niveau" type="xs:string"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Facteur_Hydrique" type="xs:double"/>
+              <xs:element name="Note" type="xs:double"/>
+              <xs:element name="Taux_Reserve" type="xs:double"/>
+              <xs:element name="Eligible" type="xs:boolean"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Eligibilite">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Eligible" type="xs:boolean"/>
+              <xs:element name="Indicatif" type="xs:boolean"/>
+              <xs:element name="Motifs">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Motif" minOccurs="0" maxOccurs="unbounded" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Journal">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Ligne" minOccurs="0" maxOccurs="unbounded" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Signature">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Signataire" type="xs:string"/>
+              <xs:element name="Valeur" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Cout" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Restauration" type="xs:double"/>
+              <xs:element name="Validation" type="xs:double"/>
+              <xs:element name="Gestion" type="xs:double"/>
+              <xs:element name="Releves" type="xs:double"/>
+              <xs:element name="Verifications" type="xs:double"/>
+              <xs:element name="Frais_Registre" type="xs:double"/>
+              <xs:element name="Garantie" type="xs:double"/>
+              <xs:element name="Total" type="xs:double"/>
+              <xs:element name="Par_Credit" type="xs:double"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Operation" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Inat" type="xs:double"/>
+              <xs:element name="Snat" type="xs:double"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Empreinte">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Entrees" type="xs:string"/>
+              <xs:element name="Sorties" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

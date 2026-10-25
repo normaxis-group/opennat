@@ -1,0 +1,578 @@
+{
+ "X01_culture_prairie.credits.json": {
+  "g_prev": 161519.77700264298,
+  "i_prev": 251392.90857983884,
+  "i_ref": 89873.13157719586,
+  "facteur_hydrique": 1.0,
+  "taux": 0.2,
+  "up": 129.22,
+  "plafond": 129,
+  "verifications": [
+   {
+    "gain": -2431.3690702418426,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -2267.269616040887,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": 744.1122333143048,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.15,
+    "inversion": 0
+   }
+  ]
+ },
+ "X02_friche_urbaine.credits.json": {
+  "g_prev": 14141.494028031688,
+  "i_prev": 42981.28486295823,
+  "i_ref": 28839.79083492654,
+  "facteur_hydrique": 1.0,
+  "taux": 0.25,
+  "up": 10.61,
+  "plafond": 10,
+  "verifications": [
+   {
+    "gain": -255.55688480014828,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": 143.1917603866516,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.04,
+    "inversion": 0
+   }
+  ]
+ },
+ "X03_parking_obligations.credits.json": {
+  "g_prev": 19925.849474368217,
+  "i_prev": 21388.03082829615,
+  "i_ref": 0.0,
+  "facteur_hydrique": 1.0,
+  "taux": 0.30000000000000004,
+  "up": 13.95,
+  "plafond": 13,
+  "verifications": [
+   {
+    "gain": 249.05911324214122,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.07,
+    "inversion": 0
+   }
+  ]
+ },
+ "X04_culture_calendrier_complet_plafond.credits.json": {
+  "g_prev": 161519.77700264298,
+  "i_prev": 251392.90857983884,
+  "i_ref": 89873.13157719586,
+  "facteur_hydrique": 1.0,
+  "taux": 0.2,
+  "up": 129.22,
+  "plafond": 129,
+  "verifications": [
+   {
+    "gain": -2078.911454954638,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -786.6066330492049,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": 2775.0369963056946,
+    "emis": 2,
+    "emission": 2,
+    "reserve": 0.56,
+    "inversion": 0
+   },
+   {
+    "gain": 17138.641362976767,
+    "emis": 13,
+    "emission": 11,
+    "reserve": 3.43,
+    "inversion": 0
+   },
+   {
+    "gain": 35125.78207168854,
+    "emis": 28,
+    "emission": 15,
+    "reserve": 7.03,
+    "inversion": 0
+   },
+   {
+    "gain": 53823.80041047829,
+    "emis": 43,
+    "emission": 15,
+    "reserve": 10.76,
+    "inversion": 0
+   },
+   {
+    "gain": 91159.80622298986,
+    "emis": 72,
+    "emission": 29,
+    "reserve": 18.23,
+    "inversion": 0
+   },
+   {
+    "gain": 128287.84796723035,
+    "emis": 102,
+    "emission": 30,
+    "reserve": 25.66,
+    "inversion": 0
+   },
+   {
+    "gain": 161519.77700264286,
+    "emis": 129,
+    "emission": 27,
+    "reserve": 32.25,
+    "inversion": 0
+   }
+  ]
+ },
+ "X05_culture_inversion.credits.json": {
+  "g_prev": 161519.77700264298,
+  "i_prev": 251392.90857983884,
+  "i_ref": 89873.13157719586,
+  "facteur_hydrique": 1.0,
+  "taux": 0.2,
+  "up": 129.22,
+  "plafond": 129,
+  "verifications": [
+   {
+    "gain": -2078.911454954638,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -786.6066330492049,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": 2775.0369963056946,
+    "emis": 2,
+    "emission": 2,
+    "reserve": 0.56,
+    "inversion": 0
+   },
+   {
+    "gain": 17138.641362976767,
+    "emis": 13,
+    "emission": 11,
+    "reserve": 3.43,
+    "inversion": 0
+   },
+   {
+    "gain": 12942.974071531862,
+    "emis": 13,
+    "emission": 0,
+    "reserve": 3.43,
+    "inversion": 3
+   }
+  ]
+ },
+ "X06_culture_unite_non_relevee.credits.json": {
+  "g_prev": 161519.77700264298,
+  "i_prev": 251392.90857983884,
+  "i_ref": 89873.13157719586,
+  "facteur_hydrique": 1.0,
+  "taux": 0.2,
+  "up": 129.22,
+  "plafond": 129,
+  "verifications": [
+   {
+    "gain": -2440.272413527402,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -2314.0043517676595,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   }
+  ]
+ },
+ "X07_culture_gain_exige.credits.json": {
+  "g_prev": 121519.77700264298,
+  "i_prev": 251392.90857983884,
+  "i_ref": 89873.13157719586,
+  "facteur_hydrique": 1.0,
+  "taux": 0.2,
+  "up": 97.22,
+  "plafond": 97,
+  "verifications": [
+   {
+    "gain": -4031.3690702418426,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -5467.269616040887,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -4055.887766685695,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   }
+  ]
+ },
+ "X08_culture_variante_obligations.credits.json": {
+  "g_prev": 141565.5732849876,
+  "i_prev": 251392.90857983884,
+  "i_ref": 89873.13157719586,
+  "facteur_hydrique": 1.0,
+  "taux": 0.2,
+  "up": 113.25,
+  "plafond": 113,
+  "verifications": [
+   {
+    "gain": -2431.3690702418426,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -2267.269616040887,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": 553.5351397724316,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.11,
+    "inversion": 0
+   }
+  ]
+ },
+ "X09_friche_usage_maintenu.credits.json": {
+  "g_prev": 18927.22211486185,
+  "i_prev": 42981.28486295823,
+  "i_ref": 24054.06274809638,
+  "facteur_hydrique": 1.0,
+  "taux": 0.25,
+  "up": 14.2,
+  "plafond": 14,
+  "verifications": [
+   {
+    "gain": -410.91470095680233,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -167.5238719266565,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   }
+  ]
+ },
+ "X10_friche_abandon_recent.credits.json": {
+  "g_prev": 14878.28079687043,
+  "i_prev": 42981.28486295823,
+  "i_ref": 28103.0040660878,
+  "facteur_hydrique": 1.0,
+  "taux": 0.25,
+  "up": 11.16,
+  "plafond": 11,
+  "verifications": [
+   {
+    "gain": -410.91470095680233,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -12.166055770002458,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   }
+  ]
+ },
+ "X11_friche_abandon_ancien.credits.json": {
+  "g_prev": 11688.096419294347,
+  "i_prev": 42981.28486295823,
+  "i_ref": 31293.188443663883,
+  "facteur_hydrique": 1.0,
+  "taux": 0.25,
+  "up": 8.77,
+  "plafond": 8,
+  "verifications": [
+   {
+    "gain": -701.6291772978465,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -748.9528246087448,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   }
+  ]
+ },
+ "X12_parking_risque_redhibitoire.credits.json": {
+  "g_prev": 19925.849474368217,
+  "i_prev": 21388.03082829615,
+  "i_ref": 0.0,
+  "facteur_hydrique": 1.0,
+  "taux": 0.30000000000000004,
+  "up": 13.95,
+  "plafond": 13,
+  "verifications": [
+   {
+    "gain": 249.05911324214122,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.07,
+    "inversion": 0
+   }
+  ]
+ },
+ "X13_parking_reserve_maximale.credits.json": {
+  "g_prev": 19925.849474368217,
+  "i_prev": 21388.03082829615,
+  "i_ref": 0.0,
+  "facteur_hydrique": 1.0,
+  "taux": 0.4,
+  "up": 11.96,
+  "plafond": 11,
+  "verifications": [
+   {
+    "gain": 249.05911324214122,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.1,
+    "inversion": 0
+   }
+  ]
+ },
+ "X14_parking_risque_excessif.credits.json": {
+  "g_prev": 19925.849474368217,
+  "i_prev": 21388.03082829615,
+  "i_ref": 0.0,
+  "facteur_hydrique": 1.0,
+  "taux": 0.4,
+  "up": 11.96,
+  "plafond": 11,
+  "verifications": [
+   {
+    "gain": 249.05911324214122,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.1,
+    "inversion": 0
+   }
+  ]
+ },
+ "X15_culture_releve_hors_calendrier.credits.json": {
+  "g_prev": 161519.77700264298,
+  "i_prev": 251392.90857983884,
+  "i_ref": 89873.13157719586,
+  "facteur_hydrique": 1.0,
+  "taux": 0.2,
+  "up": 129.22,
+  "plafond": 129,
+  "verifications": [
+   {
+    "gain": -2431.3690702418426,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -2615.8361525249734,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -2052.679186513378,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   }
+  ]
+ },
+ "X16_culture_previsionnel.credits.json": {
+  "g_prev": 161519.77700264298,
+  "i_prev": 251392.90857983884,
+  "i_ref": 89873.13157719586,
+  "facteur_hydrique": 1.0,
+  "taux": 0.2,
+  "up": 129.22,
+  "plafond": 129,
+  "verifications": []
+ },
+ "X17_culture_mediterraneenne.credits.json": {
+  "g_prev": 161711.1288133168,
+  "i_prev": 251667.24588989464,
+  "i_ref": 89956.11707657784,
+  "facteur_hydrique": 1.0,
+  "taux": 0.2,
+  "up": 129.37,
+  "plafond": 129,
+  "verifications": [
+   {
+    "gain": -2431.3690702418426,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -2267.269616040887,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": 744.1122333143048,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.15,
+    "inversion": 0
+   }
+  ]
+ },
+ "X18_friche_destruction_en_mai.credits.json": {
+  "g_prev": 13676.350865886016,
+  "i_prev": 42516.14170081256,
+  "i_ref": 28839.79083492654,
+  "facteur_hydrique": 1.0,
+  "taux": 0.25,
+  "up": 10.26,
+  "plafond": 10,
+  "verifications": [
+   {
+    "gain": -720.7000469458189,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -321.95140175901906,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   }
+  ]
+ },
+ "X19_parking_sans_obligation.credits.json": {
+  "g_prev": 21388.03082829615,
+  "i_prev": 21388.03082829615,
+  "i_ref": 0.0,
+  "facteur_hydrique": 1.0,
+  "taux": 0.30000000000000004,
+  "up": 14.97,
+  "plafond": 14,
+  "verifications": [
+   {
+    "gain": 293.764170253202,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.09,
+    "inversion": 0
+   }
+  ]
+ },
+ "X20_culture_degradation_puis_reprise.credits.json": {
+  "g_prev": 161519.77700264298,
+  "i_prev": 251392.90857983884,
+  "i_ref": 89873.13157719586,
+  "facteur_hydrique": 1.0,
+  "taux": 0.2,
+  "up": 129.22,
+  "plafond": 129,
+  "verifications": [
+   {
+    "gain": -2078.911454954638,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": -786.6066330492049,
+    "emis": 0,
+    "emission": 0,
+    "reserve": 0.0,
+    "inversion": 0
+   },
+   {
+    "gain": 2775.0369963056946,
+    "emis": 2,
+    "emission": 2,
+    "reserve": 0.56,
+    "inversion": 0
+   },
+   {
+    "gain": 11887.49848204348,
+    "emis": 9,
+    "emission": 7,
+    "reserve": 2.38,
+    "inversion": 0
+   },
+   {
+    "gain": 23787.29561550488,
+    "emis": 19,
+    "emission": 10,
+    "reserve": 4.76,
+    "inversion": 0
+   }
+  ]
+ }
+}

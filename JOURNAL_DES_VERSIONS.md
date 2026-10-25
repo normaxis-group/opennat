@@ -24,6 +24,7 @@ Empreinte des tables de la version 1.2.2 : `a8eafaca6188b665864b424f480fd3b19a01
 | 18/10/2026 | 1 ter | Modules dynamiques : climat horaire TRACC et ET0 (A43 à A46), bilan hydrique horaire des sols, toitures et mares (A47 à A50), éclairage horaire (A51 à A53), maturation et gestion (A54 à A56), calendrier du chantier (A57, A58) ; 29 cas dynamiques ; annexe C recalculée (Cnat 3 217,2) | a1a19df, 2f9f9d2 |
 | 19/10/2026 | 2 | Fichier projet (partie 7.6) ; RSNat d'exemple écrit par le moteur | a3ac8bd |
 | 19/10/2026 | 4 | Unité du facteur de caractérisation du climat corrigée : m²HE par kg CO2 éq. et non « par kg et par an » (fiche A33, équation G3, partie 7) ; relevée par le contrôle dimensionnel ; aucun résultat ne change | ce lot |
+| 25/10/2026 | contribution de maintien | Contribution de maintien OpenNAT, version 1, en vigueur au 25/10/2026 par décision de l'éditeur (elle n'émet aucun crédit) : prix publié 1,50 € HT par m² et par an indexé sur l'indice INSEE CPF 81.30, forfait du registre 200 € HT par site et par an, versement à trente jours de l'attestation, documents d'application NTY-CGR-2026-001 et NTY-MOD-2026-001 à 003 ; conventions C-X20 à C-X23 validées par Cédric PLANTAZ | ce lot |
 
 ## Données
 
@@ -44,3 +45,13 @@ Empreinte des tables de la version 1.2.2 : `a8eafaca6188b665864b424f480fd3b19a01
 | 0.1.0 | 19/10/2026 | 2 | Moteur complet : modules E1 à E5, S, H, C, N, E, W, T, G ; incertitude par blocs avec reprise ; journal ; RSNat XML et JSON validés ; reprise du RSEE ; ligne de commande ; banc de 73 cas | f231b6e |
 | 0.1.0 | 19/10/2026 | 3 | Utilitaire de calcul (serveur local et page web) ; moteur inchangé | 4e81637 |
 | 0.2.0 | 19/10/2026 | 4 | Contrôle dimensionnel automatique (`opennat/dimensions.py`, exigence E12) appelé par `opennat controle` ; banc de non-régression (38 930 grandeurs) ; 20 tests de propriétés ; contrôle d'ordre de grandeur du module G face à l'étude Carbone 4 ; guides utilisateur et contributeur | ce lot |
+
+## Crédits (branche `credits-lot1`, non publiée)
+
+| Date | Lot | Changements |
+|---|---|---|
+| 24/10/2026 | crédits 1 | Méthode OpenNAT Crédits v1 (`methode/credits/`), conventions C-X1 à C-X18, volet sites France Crédits Biodiversité, dossier au conseil DC1 à DC9 |
+| 24/10/2026 | crédits 2 | Module `opennat/credits/`, table `donnees/credits/credits.csv` (hors empreinte des tables d'OpenNAT 1), RSNat-C et ses schémas, carnet `outils/carnet_credits.py`, banc de 20 cas ; convention C-X19 (difficulté neutralisée) et règle 8.3 précisée (délai de l'état prévu) ; DC10 |
+| 24/10/2026 | crédits 3 | Registre des crédits dans une application à part (`C:\laragon\www\opennat-registre`, dépôt local, commit 33e7272) : grand livre, contrôle et signature des RSNat-C, journal chaîné, file d'ancrage, consultation publique et API ; cessions désactivées ; note `livraison_credits_lot3.md` |
+| 24/10/2026 | crédits 4 | Contrats de la phase 1 (AncrageOpenNAT, RegistreOpenNAT, 239 lignes), service de chaîne, rapprochement et blocage du registre (R9), redéploiement (R18), dossier d audit ; dossier contrats/ de l application du registre, commits 0ee6a10 et suivant ; note livraison_credits_lot4.md |
+| 24/10/2026 | crédits 5 | Ajustements A, B et C retenus par Cédric PLANTAZ pour l'option crédits des certifications d'IRICE : certification volontaire non déduite des obligations et publiée avec chaque lot (C-X8, DC7) ; relevé du Biodiversity Partner admis avec visite et échantillon du vérificateur (C-X13, DC11) ; calendrier propre calé sur un suivi périodique, cinq ans au plus entre deux relevés (C-X12, DC6) ; champs `certification` et `calendrier` du fichier crédits, publiés dans le RSNat-C |

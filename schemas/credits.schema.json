@@ -1,0 +1,93 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "Fichier crédits OpenNAT (méthode OpenNAT Crédits 1)",
+ "type": "object",
+ "required": ["format", "projet", "variante_projet", "scenario_reference"],
+ "additionalProperties": false,
+ "properties": {
+  "format": {"const": "OpenNAT crédits 1"},
+  "identifiant": {"type": "string", "minLength": 1},
+  "projet": {"type": "string", "minLength": 1},
+  "variante_projet": {"type": "string", "minLength": 1},
+  "scenario_reference": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "defaut": {"$ref": "#/$defs/situation"},
+    "unites": {"type": "object", "additionalProperties": {"$ref": "#/$defs/reference_unite"}}
+   }
+  },
+  "obligations": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "variante": {"type": "string", "minLength": 1},
+    "gain_exige": {"type": "number", "minimum": 0},
+    "liste": {"type": "array", "items": {"$ref": "#/$defs/obligation"}}
+   }
+  },
+  "certification": {"type": "string"},
+  "calendrier": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 1}},
+  "releves": {"type": "array", "items": {"$ref": "#/$defs/releve"}},
+  "risque": {
+   "type": "object",
+   "additionalProperties": {"enum": ["faible", "moyen", "eleve", "redhibitoire"]}
+  },
+  "couts": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "restauration": {"type": "number", "minimum": 0},
+    "gestion_annuelle": {"type": "number", "minimum": 0},
+    "releve": {"type": "number", "minimum": 0},
+    "verification": {"type": "number", "minimum": 0},
+    "validation": {"type": "number", "minimum": 0},
+    "frais_registre": {"type": "number", "minimum": 0},
+    "garantie": {"type": "number", "minimum": 0}
+   }
+  },
+  "options": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "tirages": {"type": "integer", "minimum": 0},
+    "graine": {"type": "integer", "minimum": 0},
+    "bloc": {"type": "integer", "minimum": 1}
+   }
+  }
+ },
+ "$defs": {
+  "situation": {"enum": ["usage_maintenu", "abandon", "ligneux", "mineral"]},
+  "reference_unite": {
+   "type": "object",
+   "required": ["situation"],
+   "additionalProperties": false,
+   "properties": {
+    "situation": {"$ref": "#/$defs/situation"},
+    "annees_abandon": {"type": "number", "minimum": 0},
+    "justification": {"type": "string"}
+   }
+  },
+  "obligation": {
+   "type": "object",
+   "required": ["objet", "source"],
+   "additionalProperties": false,
+   "properties": {
+    "objet": {"type": "string", "minLength": 1},
+    "source": {"type": "string", "minLength": 1},
+    "traduction": {"type": "string"}
+   }
+  },
+  "releve": {
+   "type": "object",
+   "required": ["annee", "unites"],
+   "additionalProperties": false,
+   "properties": {
+    "annee": {"type": "integer", "minimum": 1},
+    "date": {"type": "string"},
+    "ecologue": {"type": "string"},
+    "unites": {"type": "array", "items": {"type": "object", "required": ["id"]}}
+   }
+  }
+ }
+}
