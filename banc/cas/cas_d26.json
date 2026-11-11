@@ -1,0 +1,114 @@
+{
+ "format": "OpenNAT projet 1",
+ "projet": {
+  "identifiant": "cas_d26",
+  "nom": "Cas D26. Cas 6 en zone H3, mare raccordée à 3 000 m² de prairie"
+ },
+ "contexte": {
+  "zone_biogeographique": "mediterraneenne",
+  "typologie": "amenagement",
+  "zone_climatique": "H3",
+  "sol": {
+   "texture": "limon",
+   "profondeur": 1.0
+  }
+ },
+ "parcelle": {
+  "surface": 5000,
+  "emprise": 0
+ },
+ "chantier": {
+  "annee_debut": 2027,
+  "mois_debut": 9,
+  "duree_mois": 6
+ },
+ "gestion": {
+  "plan_annees": 10
+ },
+ "taches": {
+  "N": {
+   "connexion": "moyenne"
+  }
+ },
+ "etat_initial": [
+  {
+   "id": "I1",
+   "code": "I1.1",
+   "position": "sol_pleine_terre",
+   "surface": 5000
+  }
+ ],
+ "options": {
+  "tirages": 0
+ },
+ "variantes": [
+  {
+   "nom": "Projet",
+   "reference": true,
+   "unites": [
+    {
+     "id": "P1",
+     "code": "VB.20",
+     "position": "eau",
+     "surface": 300,
+     "tache": "N",
+     "bassin_versant_permeable": 3000,
+     "score": {
+      "satisfaits": 7,
+      "applicables": 9,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P2",
+     "code": "FA.3",
+     "position": "lineaire",
+     "surface": 600,
+     "tache": "N",
+     "stade": "M",
+     "score": {
+      "satisfaits": 6,
+      "applicables": 8,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P3",
+     "code": "VB.26",
+     "position": "sol_pleine_terre",
+     "surface": 3000,
+     "tache": "N",
+     "score": {
+      "satisfaits": 4,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P4",
+     "code": "G1.A",
+     "position": "sol_pleine_terre",
+     "surface": 800,
+     "tache": "N",
+     "stade": "M",
+     "score": {
+      "satisfaits": 4,
+      "applicables": 6,
+      "essentiel_echoue": false
+     }
+    },
+    {
+     "id": "P5",
+     "code": "VB.3",
+     "position": "sol_pleine_terre",
+     "surface": 300
+    }
+   ],
+   "materiaux": {
+    "granulats": {
+     "masse": 200
+    }
+   }
+  }
+ ]
+}

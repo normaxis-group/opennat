@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://normatys.org/opennat/projet.schema.json",
+  "title": "Fichier projet OpenNAT",
+  "description": "Données d'entrée d'un calcul OpenNAT (partie 1, chapitre 4 ; fiches A01 à A58). Les surfaces sont en m², les épaisseurs en cm, les durées de chantier en mois.",
+  "type": "object",
+  "required": ["format", "projet", "contexte", "parcelle", "etat_initial", "variantes"],
+  "additionalProperties": false,
+  "properties": {
+    "format": {"const": "OpenNAT projet 1"},
+    "projet": {
+      "type": "object", "required": ["identifiant"], "additionalProperties": false,
+      "properties": {
+        "identifiant": {"type": "string", "minLength": 1},
+        "nom": {"type": "string"},
+        "adresse": {"type": "string"},
+        "commune_insee": {"type": "string"},
+        "date_etude": {"type": "string"},
+        "rsee": {"type": "string", "description": "Chemin d'un RSEE à reprendre (fiche A05)"}
+      }
+    },
+    "contexte": {
+      "type": "object", "required": ["zone_biogeographique", "typologie", "zone_climatique"], "additionalProperties": false,
+      "properties": {
+        "zone_biogeographique": {"enum": ["atlantique", "continentale", "mediterraneenne", "alpine"]},
+        "typologie": {"enum": ["logement", "tertiaire", "industrie", "amenagement"]},
+        "zone_climatique": {"enum": ["H1a", "H1b", "H1c", "H2a", "H2b", "H2c", "H2d", "H3"]},
+        "departement": {"type": "string"},
+        "altitude": {"type": ["number", "null"], "minimum": -10, "maximum": 4000},
+        "sol": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "texture": {"enum": ["sable", "sable_limoneux", "limon_sableux", "limon", "limon_silteux", "silt", "limon_argilo_silteux", "argile_silteuse", "argile"]},
+            "profondeur": {"type": "number", "exclusiveMinimum": 0, "maximum": 10}
+          }
+        },
+        "cbs_plu": {"type": "number", "minimum": 0, "maximum": 1},
+        "pleine_terre_plu": {"type": "number", "minimum": 0, "maximum": 1},
+        "k_delai_etude": {"type": "number", "exclusiveMinimum": 0, "description": "Étude de sensibilité des délais (cas 8c)"}
+      }
+    },
+    "parcelle": {
+      "type": "object", "required": ["surface"], "additionalProperties": false,
+      "properties": {
+        "surface": {"type": "number", "exclusiveMinimum": 0},
+        "emprise": {"type": "number", "minimum": 0, "description": "Emprise du bâti quand aucun bâtiment n'est décrit"},
+        "surface_vegetalisee_rsee": {"type": "number", "minimum": 0},
+        "surface_impermeable_rsee": {"type": "number", "minimum": 0},
+        "surface_arrosee_rsee": {"type": "number", "minimum": 0}
+      }
+    },
+    "chantier": {"$ref": "#/$defs/chantier"},
+    "gestion": {"$ref": "#/$defs/gestion"},
+    "taches": {"type": "object", "additionalProperties": {"$ref": "#/$defs/tache"}},
+    "batiments": {"type": "array", "items": {"$ref": "#/$defs/batiment"}},
+    "etat_initial": {"type": "array", "items": {"$ref": "#/$defs/unite"}},
+    "variantes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/variante"}},
+    "options": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "tirages": {"type": "integer", "minimum": 0},
+        "graine": {"type": "integer", "minimum": 0},
+        "bloc": {"type": "integer", "minimum": 1}
+      }
+    }
+  },
+  "$defs": {
+    "chantier": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "annee_debut": {"type": "integer", "minimum": 2000, "maximum": 2100},
+        "mois_debut": {"type": "integer", "minimum": 1, "maximum": 12},
+        "duree_mois": {"type": "number", "minimum": 0, "maximum": 240},
+        "mois_destruction": {"type": "integer", "minimum": 1, "maximum": 12}
+      }
+    },
+    "gestion": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"plan_annees": {"type": "number", "minimum": 0}}
+    },
+    "tache": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "connexion": {"enum": ["forte", "moyenne", "faible"]},
+        "exterieur": {"type": "number", "minimum": 0},
+        "cloture": {"enum": ["aucune", "permeable", "etanche"]},
+        "distance_espace_naturel": {"type": "number", "minimum": 0},
+        "surface_espace_naturel": {"type": "number", "minimum": 0},
+        "trame": {"type": "boolean"}
+      }
+    },
+    "batiment": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "nom": {"type": "string"},
+        "sref": {"type": "number", "minimum": 0},
+        "emprise_au_sol": {"type": "number", "minimum": 0},
+        "duree_chantier": {"type": "number", "minimum": 0},
+        "ges": {"type": "object", "additionalProperties": false,
+                "properties": {"A1-A3": {"type": "number"}, "A4-A5": {"type": "number"}, "B": {"type": "number"}, "C": {"type": "number"}, "D": {"type": "number"}}},
+        "pollution": {"type": "object", "additionalProperties": {"type": "object", "additionalProperties": {"type": "number"}}}
+      }
+    },
+    "eclairage": {
+      "oneOf": [
+        {"enum": ["L0", "L1", "L2"]},
+        {"type": "object", "required": ["cct"], "additionalProperties": false,
+         "properties": {
+           "extinction": {"type": ["integer", "null"], "minimum": 0, "maximum": 23},
+           "rallumage": {"type": ["integer", "null"], "minimum": 0, "maximum": 23},
+           "cct": {"type": "number", "minimum": 1000, "maximum": 10000},
+           "distance": {"type": "number", "minimum": 0},
+           "taux_detection": {"type": "number", "minimum": 0, "maximum": 1}
+         }}
+      ]
+    },
+    "unite": {
+      "type": "object", "required": ["id", "code"], "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "code": {"type": "string", "minLength": 2},
+        "position": {"enum": ["sol_pleine_terre", "sol_sur_dalle", "hors_sol_toiture", "hors_sol_facade", "eau", "arbre", "lineaire"]},
+        "surface": {"type": "number", "minimum": 0},
+        "epaisseur": {"type": "number", "minimum": 0, "maximum": 300},
+        "longueur": {"type": "number", "minimum": 0},
+        "largeur": {"type": "number", "minimum": 0},
+        "hauteur": {"type": "number", "minimum": 0},
+        "nombre_arbres": {"type": "integer", "minimum": 1},
+        "classe_diametre": {"enum": ["petit", "moyen", "grand", "tres_grand"]},
+        "stade": {"enum": ["J", "M", "A", "jeune", "moyen", "age"]},
+        "situation": {"enum": ["reservoir", "corridor", "hors_trame"]},
+        "tache": {"type": "string"},
+        "criteres": {"type": "object", "additionalProperties": {"enum": ["oui", "non", "sans_objet"]}},
+        "notes": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 1, "maximum": 3}},
+        "score": {"type": "object", "required": ["satisfaits", "applicables"], "additionalProperties": false,
+                  "properties": {"satisfaits": {"type": "integer", "minimum": 0}, "applicables": {"type": "integer", "minimum": 0}, "essentiel_echoue": {"type": "boolean"}}},
+        "eclairage": {"$ref": "#/$defs/eclairage"},
+        "niveau_sonore": {"type": "number", "minimum": 0},
+        "exposition_vitrage": {"type": "boolean"},
+        "alimentation": {"enum": ["naturelle", "artificielle"]},
+        "alimentation_humide": {"enum": ["nappe", "pluie"]},
+        "statut": {"enum": ["conservee", "creee", "amelioree"]},
+        "liee": {"type": "string"},
+        "protection": {"type": "boolean"},
+        "renouvellements": {"type": "array", "items": {"type": "integer", "minimum": 1, "maximum": 50}},
+        "arrose": {"type": "boolean"},
+        "texture": {"enum": ["sable", "sable_limoneux", "limon_sableux", "limon", "limon_silteux", "silt", "limon_argilo_silteux", "argile_silteuse", "argile"]},
+        "profondeur_sol": {"type": "number", "exclusiveMinimum": 0},
+        "bassin_versant": {"type": "number", "minimum": 0},
+        "bassin_versant_permeable": {"type": "number", "minimum": 0},
+        "profondeur": {"type": "number", "exclusiveMinimum": 0},
+        "fond": {"enum": ["etanche", "argile", "naturel"]},
+        "gites": {"type": "boolean"},
+        "gestion": {"enum": ["plan", "courante", "abandon"]},
+        "apres_plan": {"enum": ["courante", "abandon"]},
+        "plan_gestion_annees": {"type": "number", "minimum": 0}
+      }
+    },
+    "variante": {
+      "type": "object", "required": ["nom", "unites"], "additionalProperties": false,
+      "properties": {
+        "nom": {"type": "string"},
+        "reference": {"type": "boolean"},
+        "unites": {"type": "array", "items": {"$ref": "#/$defs/unite"}},
+        "batiments": {"type": "array", "items": {"$ref": "#/$defs/batiment"}},
+        "materiaux": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "bois": {"type": "array", "items": {"type": "object", "required": ["volume"], "additionalProperties": false,
+                     "properties": {"regime": {"enum": ["plantation", "coupe_rase", "coupe_selective", "faible_impact"]}, "volume": {"type": "number", "minimum": 0}, "remplacements": {"type": "integer", "minimum": 0}, "justification": {"type": "string"}}}},
+            "granulats": {"type": "object", "required": ["masse"], "additionalProperties": false,
+                          "properties": {"masse": {"type": "number", "minimum": 0}, "remplacements": {"type": "integer", "minimum": 0}}}
+          }
+        },
+        "ouvrages_pluviaux": {"type": "array", "items": {"type": "object", "required": ["surface_drainee"], "additionalProperties": false,
+                              "properties": {"surface_drainee": {"type": "number", "minimum": 0}, "infiltration_surface": {"type": "boolean"}}}},
+        "facades_vitrees": {"type": "array", "items": {"type": "object", "required": ["surface"], "additionalProperties": false,
+                            "properties": {"surface": {"type": "number", "minimum": 0}, "traitee": {"type": "boolean"}}}},
+        "taches": {"type": "object", "additionalProperties": {"$ref": "#/$defs/tache"}},
+        "chantier": {"$ref": "#/$defs/chantier"},
+        "gestion": {"$ref": "#/$defs/gestion"},
+        "emprise": {"type": "number", "minimum": 0}
+      }
+    }
+  }
+}

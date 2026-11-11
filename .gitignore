@@ -1,0 +1,9 @@
+# copies de travail des sources : leur licence propre s'applique, jamais redistribuées
+sources/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# dossiers de résultats des calculs
+resultats/
+.claude/
